@@ -24,7 +24,7 @@
                             <th class="dt-head-center"></th>
                         </tr>
                         <tr>
-                            <th class="dt-head-center">BRANCH NAME</th>
+                            <th class="dt-head-center">BRANCH NAME</th> 
                             <th class="dt-head-center">MALL GROUP</th>
                             <th class="dt-head-center">CITY</th>
                             <th class="dt-head-center">STORE AREA</th>
