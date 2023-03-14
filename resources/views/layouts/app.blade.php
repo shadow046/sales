@@ -3,7 +3,7 @@
 <head>
     @php //Version Control
         $version = \Illuminate\Support\Str::random(50);
-        $sweetalert_version = '@11.7.1';
+        $sweetalert_version = '@11.7.3';
         $bootstrap_version = '@5.2.3';
         $datatables_version = '1.13.1';
         $jquery_version = '3.6.3';
