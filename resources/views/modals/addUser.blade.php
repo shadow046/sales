@@ -53,7 +53,7 @@
                         <label for="company" class="formlabel form-label">COMPANY</label>
                     </div>
                 </div>
-                <div class="mb-4 classArea" style="display: none;">
+                <div class="mb-3 classArea" style="display: none;">
                     <div style="height: 10px;">&nbsp;</div>
                     <div class="f-outline">
                         <select class="forminput form-control form-select requiredField" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
@@ -64,34 +64,21 @@
                         <label for="area" class="formlabel form-label">Store Area</label>
                     </div>
                 </div>
-                {{-- <div class="mb-3 classCompany" style="display: none;">
-                    <div class="f-outline mb-3">
-                        <select class="forminput form-control form-select requiredField" id="company" name="company">
-                            <option value="" selected disabled>SELECT COMPANY</option>
-                            @foreach($companies as $company)
-                                <option value="{{$company->id}}">{{$company->company_name}}</option>
-                            @endforeach
-                        </select>
-                        <label for="company" class="formlabel form-label">COMPANY</label>
+                <div class="mb-2 classStore" style="display: none;">
+                    <div class="form-check mb-4">
+                        <input type="checkbox" class="form-check-input" id="branchAll" name="branchAll" value="0">
+                        <label class="form-check-label text-default" for="branchAll">ALL BRANCHES (<span class="branchCount">0</span>)</label>
                     </div>
-
-                    <div class="f-outline mb-3">
-                        <select id="province_user" name="province_user" class="forminput form-control form-select requiredField" style="color: black">
-                            <option selected disabled>SELECT PROVINCE</option>
-                            @foreach ($provinces as $province)
-                                <option class="province_user" value="{{ $province->provCode }}">{{ mb_strtoupper($province->provDesc) }}</option>
-                            @endforeach
-                        </select>
-                        <label for="province_user" class="formlabels form-label">PROVINCE
+                    <div class="hideStore">
+                        <div style="height: 10px;">&nbsp;</div>
+                        <div class="f-outline">
+                            <select class="forminput form-control form-select requiredField" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
+                            </select>
+                            <label for="store" class="formlabel form-label">Store Branches</label>
+                        </div>
                     </div>
-
-                    <div class="f-outline mb-3" style="display: none;" id="city_div">
-                        <select id="city_user" name="city_user" multiple class="forminput form-control form-select requiredField" style="color: black;" disabled>
-                        </select>
-                        <label for="city_user" class="formlabels form-label">BRANCH
-                    </div>
-                </div> --}}
-                <div style="zoom: 85%;">
+                </div>
+                <div class="mt-4" style="zoom: 85%;">
                     <button type="button" id="btnClear" class="btn btn-outline-danger" onclick="$('#name').focus();"><i class="fas fa-eraser"></i> CLEAR</button>
                     <button type="button" id="btnSave" class="btn btn-primary float-end bp btnRequired"><i class="fas fa-save"></i> SAVE</button>
                 </div>

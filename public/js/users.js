@@ -16,7 +16,7 @@ $(document).ready(function(){
         },
         columnDefs: [
             {
-                "targets": [6],
+                "targets": [7],
                 "visible": false,
                 "searchable": true
             },
@@ -25,7 +25,7 @@ $(document).ready(function(){
             { data: 'user_name' },
             { data: 'user_email' },
             { data: 'role_name' },
-            { 
+            {
                 data: 'branch_name',
                 "render": function(data, type, row, meta){
                     if(row.branch == '0' && row.company == '0'){
@@ -48,7 +48,7 @@ $(document).ready(function(){
                     }
                 }
             },
-            { 
+            {
                 data: 'area_name',
                 "render": function(data, type, row, meta){
                     if(row.area_name.split("|").length == 1){
@@ -58,7 +58,26 @@ $(document).ready(function(){
                         var start = '• ';
                     }
                     return `<div style="white-space:normal;">${start} ${row.area_name.split("|").join("<br/> • ")}</div>`;
-                
+                }
+            },
+            {
+                data: 'store_name',
+                "render": function(data, type, row, meta){
+                    if(row.store_name == 'N/A'){
+                        return 'N/A';
+                    }
+                    else if(row.store_name == 'ALL BRANCHES'){
+                        return 'ALL BRANCHES';
+                    }
+                    else{
+                        if(row.store_name.split("|").length == 1){
+                            var start = '';
+                        }
+                        else{
+                            var start = '• ';
+                        }
+                        return `<div style="white-space:normal;">${start} ${row.store_name.split("|").join("<br/> • ")}</div>`;
+                    }
                 }
             },
             {
@@ -153,8 +172,9 @@ $(document).ready(function(){
         $('#role1').change();
         $('#branch1').val(data.branch);
         $('#branch2').val(data.branch);
-        $('#area2').val(data.area);
         $('#company2').val(data.company);
+        $('#area2').val(data.area);
+        $('#store2').val(data.store);
         $('#branch1').chosen();
         $('#branch1').trigger('chosen:updated');
         $('#branch1_chosen').css({'width': '100%', 'margin-bottom': '-22px'});
@@ -177,19 +197,38 @@ $(document).ready(function(){
                 $(this).prop("selected",false);
             }
         });
-        
+
         setTimeout(() => {
             $('#company1').chosen();
             $('#company1').trigger('chosen:updated');
             $('#company1_chosen').css({'width': '100%', 'margin-top': '-15px'});
             $('label[for="company1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
             $('#company1').change();
-            
+
             $('#area1').chosen();
             $('#area1').trigger('chosen:updated');
             $('#area1_chosen').css({'width': '100%', 'margin-top': '-15px'});
             $('label[for="area1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
             $('#area1').change();
+
+            setTimeout(() => {
+                if(data.store != 'X' && data.store != '0'){
+                    $("#store1").children("option").each(function(){
+                        if($.inArray($(this).val(),(data.store).split('|')) !== -1){
+                            $(this).prop("selected",true);
+                        }
+                        else{
+                            $(this).prop("selected",false);
+                        }
+                    });
+                    setTimeout(() => {
+                        $('#store1').chosen();
+                        $('#store1').trigger('chosen:updated');
+                        $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                        $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                    }, current_timeout);
+                }
+            }, current_timeout);
         }, current_timeout);
 
         $('#updateUser').modal('show');
@@ -219,6 +258,7 @@ function btnAddUser(){
     $('#area_chosen').css({'width': '100%', 'margin-top': '-15px'});
     $('#area_chosen').addClass('requiredField requiredInput redBorder');
     $('label[for="area"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    $('#area').change();
 }
 
 $('#btnClear').on('click', function(){
@@ -301,6 +341,138 @@ setInterval(() => {
     }
 }, 0);
 
+$(document).on('change', '#company', function(){
+    if(!$('#company option:selected').length || !$('#area option:selected').length){
+        $('.classStore').hide();
+        $('#store').find('option').remove();
+        $('#store').chosen();
+        $('#store').trigger('chosen:updated');
+        $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+        $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    }
+    $('#area').change();
+});
+
+var branchCount;
+$(document).on('change', '#area', function(){
+    branchCount = 0;
+    if(!$('#company option:selected').length || !$('#area option:selected').length){
+        $('.classStore').hide();
+        $('#store').find('option').remove();
+        $('#store').chosen();
+        $('#store').trigger('chosen:updated');
+        $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+        $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    }
+    else{
+        var storesOption = " ";
+        $.ajax({
+            url:"/users/stores",
+            type:"get",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{
+                company_id: $('#company').val(),
+                area_id: $('#area').val(),
+            },
+            success:function(data){
+                var stores = $.map(data, function(value, index) {
+                    return [value];
+                });
+                stores.forEach(value => {
+                    storesOption+='<option value="'+value.id+'">'+value.branch_code+': '+value.branch_name+'</option>';
+                    branchCount++;
+                });
+                $('.branchCount').html(branchCount);
+                $('#store').find('option').remove().end().append(storesOption);
+                $('#store').chosen();
+                $('#store').trigger('chosen:updated');
+                $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                $('.classStore').show();
+            }
+        });
+    }
+});
+
+$(document).on('change', '#branchAll', function(){
+    if($('#branchAll').is(':visible')){
+        if($('#branchAll').is(':checked')){
+            $('.hideStore').hide();
+        }
+        else{
+            $('.hideStore').show();
+        }
+    }
+    $('#store').find('option').remove();
+    $('#store').chosen();
+    $('#store').trigger('chosen:updated');
+    $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+    $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    $('#area').change();
+});
+
+var branchCount1;
+$(document).on('change', '#area1', function(){
+    branchCount1 = 0;
+    if(!$('#company1 option:selected').length || !$('#area1 option:selected').length){
+        $('.classStore').hide();
+        $('#store1').find('option').remove();
+        $('#store1').chosen();
+        $('#store1').trigger('chosen:updated');
+        $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
+        $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    }
+    else{
+        var storesOption = " ";
+        $.ajax({
+            url:"/users/stores",
+            type:"get",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{
+                company_id: $('#company1').val(),
+                area_id: $('#area1').val(),
+            },
+            success:function(data){
+                var stores = $.map(data, function(value, index) {
+                    return [value];
+                });
+                stores.forEach(value => {
+                    storesOption+='<option value="'+value.id+'">'+value.branch_code+': '+value.branch_name+'</option>';
+                    branchCount1++;
+                });
+                $('.branchCount1').html(branchCount1);
+                $('#store1').find('option').remove().end().append(storesOption);
+                $('#store1').chosen();
+                $('#store1').trigger('chosen:updated');
+                $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                $('.classStore').show();
+            }
+        });
+    }
+});
+
+$(document).on('change', '#branchAll1', function(){
+    if($('#branchAll1').is(':visible')){
+        if($('#branchAll1').is(':checked')){
+            $('.hideStore1').hide();
+        }
+        else{
+            $('.hideStore1').show();
+        }
+    }
+    $('#store1').find('option').remove();
+    $('#store1').chosen();
+    $('#store1').trigger('chosen:updated');
+    $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
+    $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    $('#area1').change();
+});
+
 $('#btnSave').on('click', function(){
     var warntext = '';
     var emailv1 = true;
@@ -311,6 +483,7 @@ $('#btnSave').on('click', function(){
     var role = $('#role').val();
     if($('#branch_chosen').is(':visible')){
         var branch = $('#branch').val();
+        var store = '0';
     }
     else{
         var branch = '0';
@@ -323,13 +496,15 @@ $('#btnSave').on('click', function(){
     }
     if($('#area_chosen').is(':visible')){
         var area = $('#area').val();
+        var store = $('#store').val();
     }
     else{
         var area = '0';
+        var store = 'X';
     }
     $('#loading').show();
     setTimeout(function(){
-        if(!name || !email || !role || !branch || !company || !area){
+        if(!name || !email || !role || !branch || !company || !area || !store){
             $('#loading').hide();
             Swal.fire('REQUIRED','Please fill up all required fields!','error');
             return false;
@@ -339,32 +514,32 @@ $('#btnSave').on('click', function(){
             Swal.fire("INVALID EMAIL", "Enter a valid email address format!", "error");
             return false;
         }
-        if(emailProvider(email)){
-            $.ajax({
-                headers:{
-                    Authorization: "Bearer " + current_key
-                },
-                async: false,
-                type: 'GET',
-                url: 'https://isitarealemail.com/api/email/validate?email='+email,
-                success: function(data){
-                    if(data.status == 'invalid'){
-                        emailv1 = false;
-                    }
-                    else{
-                        emailv1 = true;
-                    }
-                }
-            });
-            $('#loading').hide();
-            if(emailv1 == false){
-                Swal.fire('NON-EXISTENT EMAIL','User Email Address does not exist!','error');
-                return false;
-            }
-        }
-        else{
-            warntext = ' <br><strong style="color: red;">WARNING: Email Address cannot be verified by the system! CONTINUE?</strong>';
-        }
+        // if(emailProvider(email)){
+        //     $.ajax({
+        //         headers:{
+        //             Authorization: "Bearer " + current_key
+        //         },
+        //         async: false,
+        //         type: 'GET',
+        //         url: 'https://isitarealemail.com/api/email/validate?email='+email,
+        //         success: function(data){
+        //             if(data.status == 'invalid'){
+        //                 emailv1 = false;
+        //             }
+        //             else{
+        //                 emailv1 = true;
+        //             }
+        //         }
+        //     });
+        //     $('#loading').hide();
+        //     if(emailv1 == false){
+        //         Swal.fire('NON-EXISTENT EMAIL','User Email Address does not exist!','error');
+        //         return false;
+        //     }
+        // }
+        // else{
+        //     warntext = ' <br><strong style="color: red;">WARNING: Email Address cannot be verified by the system! CONTINUE?</strong>';
+        // }
         $('#loading').hide();
         $.ajax({
             url: "/users/validate/save",
@@ -378,7 +553,8 @@ $('#btnSave').on('click', function(){
                 role: role,
                 branch: branch,
                 company: company,
-                area: area
+                area: area,
+                store: store
             },
             success: function(data){
                 if(data.result == 'true'){
@@ -407,7 +583,8 @@ $('#btnSave').on('click', function(){
                                     role: role,
                                     branch: branch,
                                     company: company,
-                                    area: area
+                                    area: area,
+                                    store: store
                                 },
                                 success: function(data){
                                     if(data == 'true'){
@@ -462,6 +639,22 @@ $('#btnReset').on('click', function(){
     $('#area1').val($('#area2').val().split("|"));
     $('#area1').chosen();
     $('#area1').trigger('chosen:updated');
+    setTimeout(() => {
+        if($('#store2').val() != 'X' && $('#store2').val() != '0'){
+            $("#store1").children("option").each(function(){
+                if($.inArray($(this).val(),($('#store2').val()).split('|')) !== -1){
+                    $(this).prop("selected",true);
+                }
+                else{
+                    $(this).prop("selected",false);
+                }
+            });
+            setTimeout(() => {
+                $('#store1').chosen();
+                $('#store1').trigger('chosen:updated');
+            }, current_timeout);
+        }
+    }, current_timeout);
 });
 
 $('#btnUpdate').on('click', function(){
@@ -478,8 +671,10 @@ $('#btnUpdate').on('click', function(){
     var branch2 = $('#branch2').val();
     var company2 = $('#company2').val();
     var area2 = $('#area2').val();
+    var store2 = $('#store2').val();
     if($('#branch1_chosen').is(':visible')){
         var branch1 = $('#branch1').val();
+        var store1 = '0';
     }
     else{
         var branch1 = '0';
@@ -492,13 +687,15 @@ $('#btnUpdate').on('click', function(){
     }
     if($('#area1_chosen').is(':visible')){
         var area1 = $('#area1').val();
+        var store1 = $('#store1').val();
     }
     else{
         var area1 = '0';
+        var store1 = 'X';
     }
     $('#loading').show();
     setTimeout(function(){
-        if(!name1 || !email1|| !role1 || !branch1  || !company1 || !area1){
+        if(!name1 || !email1|| !role1 || !branch1  || !company1 || !area1 || !store1){
             $('#loading').hide();
             Swal.fire('REQUIRED','Please fill up all required fields!','error');
             return false;
@@ -534,32 +731,32 @@ $('#btnUpdate').on('click', function(){
             Swal.fire("INVALID EMAIL", "Enter a valid email address format!", "error");
             return false;
         }
-        if(emailProvider(email1)){
-            $.ajax({
-                headers:{
-                    Authorization: "Bearer " + current_key
-                },
-                async: false,
-                type: 'GET',
-                url: 'https://isitarealemail.com/api/email/validate?email='+email1,
-                success: function(data){
-                    if(data.status == 'invalid'){
-                        emailv2 = false;
-                    }
-                    else{
-                        emailv2 = true;
-                    }
-                }
-            });
-            $('#loading').hide();
-            if(emailv2 == false){
-                Swal.fire('NON-EXISTENT EMAIL','User Email Address does not exist!','error');
-                return false;
-            }
-        }
-        else{
-            warntext = ' <br><strong style="color: red;">WARNING: Email Address cannot be verified by the system! CONTINUE?</strong>';
-        }
+        // if(emailProvider(email1)){
+        //     $.ajax({
+        //         headers:{
+        //             Authorization: "Bearer " + current_key
+        //         },
+        //         async: false,
+        //         type: 'GET',
+        //         url: 'https://isitarealemail.com/api/email/validate?email='+email1,
+        //         success: function(data){
+        //             if(data.status == 'invalid'){
+        //                 emailv2 = false;
+        //             }
+        //             else{
+        //                 emailv2 = true;
+        //             }
+        //         }
+        //     });
+        //     $('#loading').hide();
+        //     if(emailv2 == false){
+        //         Swal.fire('NON-EXISTENT EMAIL','User Email Address does not exist!','error');
+        //         return false;
+        //     }
+        // }
+        // else{
+        //     warntext = ' <br><strong style="color: red;">WARNING: Email Address cannot be verified by the system! CONTINUE?</strong>';
+        // }
         $('#loading').hide();
         $.ajax({
             url: "/users/validate/update",
@@ -580,7 +777,9 @@ $('#btnUpdate').on('click', function(){
                 company1: company1,
                 company2: company2,
                 area1: area1,
-                area2: area2
+                area2: area2,
+                store1: store1,
+                store2: store2
             },
             success: function(data){
                 if(data == 'true'){
@@ -614,7 +813,9 @@ $('#btnUpdate').on('click', function(){
                                     company1: company1,
                                     company2: company2,
                                     area1: area1,
-                                    area2: area2
+                                    area2: area2,
+                                    store1: store1,
+                                    store2: store2
                                 },
                                 success: function(data){
                                     if(data == 'true'){
@@ -722,7 +923,7 @@ setInterval(() => {
         if($("#company1").val().length > 0){
             $('#company1_chosen').removeClass('redBorder');
             $('.classNamecompany1_chosen').remove();
-        } 
+        }
         else{
             if($('.classNamecompany1_chosen:visible').length == 0){
                 $('#company1_chosen').addClass('redBorder');
@@ -730,7 +931,7 @@ setInterval(() => {
             }
         }
     }
-    
+
     if($('#area1_chosen').is(':visible')){
         if ($("#area1").val().length > 0) {
             $('#area1_chosen').removeClass('requiredField requiredInput redBorder');
@@ -757,7 +958,7 @@ $(document).on('change','#company',function(){
         }
     }
 });
-    
+
 $(document).on('change','#area',function(){
     if($('#area_chosen').is(':visible')){
         if ($("#area").val().length > 0) {

@@ -283,6 +283,7 @@ Route::controller(UserController::class)->group(function(){
     Route::any('/users/update', 'users_update');
     Route::any('/users/status', 'users_status');
     Route::get('/users/permissions', 'users_permissions');
+    Route::get('/users/stores', 'users_stores');
     Route::any('/change/validate', 'change_validate');
     Route::any('/change/password', 'change_password');
 });

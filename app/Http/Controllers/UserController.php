@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\HasPermission;
 use App\Models\Company;
+use App\Models\Store;
 use App\Models\StoreArea;
 use App\Models\Province;
 use App\Models\City;
@@ -38,7 +39,7 @@ class UserController extends Controller
 
     public function users_data(){
         $list = User::query()->selectRaw('users.id AS user_id, users.name AS user_name, users.email AS user_email,
-        UPPER(roles.name) AS role_name, roles.id AS role, company.company_name AS branch_name, company.id AS branch, users.area AS area, users.status AS user_status,
+        UPPER(roles.name) AS role_name, roles.id AS role, company.company_name AS branch_name, company.id AS branch, users.area AS area, users.store AS store, users.status AS user_status,
         users.company AS company')
             ->join('roles', 'roles.id', 'users.userlevel')
             ->join('company', 'company.id', 'users.branch')
@@ -77,8 +78,29 @@ class UserController extends Controller
             }
             return $user_row;
         })
+        ->addColumn('store_name', function(User $list){
+            if($list->store == 'X'){
+                return 'N/A';
+            }
+            else if($list->store == '0'){
+                return 'ALL BRANCHES';
+            }
+            else{
+                $user_row = '';
+                $array = explode("|", $list->store);
+                foreach($array as $value){
+                    $user = Store::where('id', $value)->first();
+                    if($user_row != ''){
+                        $user_row = $user_row.'|'.$user->branch_code.': '.$user->branch_name;
+                    }
+                    else{
+                        $user_row = $user->branch_code.': '.$user->branch_name;
+                    }
+                }
+                return $user_row;
+            }
+        })
         ->make(true);
-        
     }
 
     public function users_reload(){
@@ -127,6 +149,12 @@ class UserController extends Controller
         $users->branch = $request->branch;
         $users->company = $request->company == '0' ? '0' : implode("|", $request->company);
         $users->area = $request->area == '0' ? '0' : implode("|", $request->area);
+        if($request->store == 'X'){
+            $users->store = 'X';
+        }
+        else{
+            $users->store = $request->store == '0' ? '0' : implode("|", $request->store);
+        }
         $users->status = 'ACTIVE';
         $sql = $users->save();
         $id = $users->id;
@@ -181,6 +209,12 @@ class UserController extends Controller
         $users->branch = $request->branch1;
         $users->company = $request->company1 == '0' ? '0' : implode("|", $request->company1);
         $users->area = $request->area1 == '0' ? '0' : implode("|", $request->area1);
+        if($request->store1 == 'X'){
+            $users->store = 'X';
+        }
+        else{
+            $users->store = $request->store1 == '0' ? '0' : implode("|", $request->store1);
+        }
         $sql = $users->save();
         $users->syncRoles($request->role1);
 
@@ -250,7 +284,7 @@ class UserController extends Controller
                 else{
                     $company = NULL;
                 }
-                
+
                 if(($request->area1) != (explode('|', $request->area2))){
                     $area1_array = array();
                     $list1 = StoreArea::all();
@@ -321,6 +355,16 @@ class UserController extends Controller
 
     public function users_permissions(Request $request){
         return HasPermission::select('permission_id')->where('role_id', $request->role_id)->get();
+    }
+
+    public function users_stores(Request $request)
+    {
+        $stores = Store::query()
+            ->whereIn('company_name', $request->company_id)
+            ->whereIn('store_area', $request->area_id)
+            ->orderBy('branch_code', 'asc')
+            ->get();
+        return response()->json($stores);
     }
 
     public function change_validate(Request $request){

@@ -13,6 +13,7 @@
             <input type="hidden" name="branch2" id="branch2">
             <input type="hidden" name="company2" id="company2">
             <input type="hidden" name="area2" id="area2">
+            <input type="hidden" name="store2" id="store2">
             <div class="mb-4">
                 <div class="f-outline">
                     <input class="forminput form-control requiredField bg-white text-uppercase" type="search" id="name1" name="name1" placeholder=" ">
@@ -59,7 +60,7 @@
                     <label for="company1" class="formlabel form-label">Company</label>
                 </div>
             </div>
-            <div class="mb-4 classArea" style="display: none;">
+            <div class="mb-3 classArea" style="display: none;">
                 <div style="height: 10px;">&nbsp;</div>
                 <div class="f-outline">
                     <select class="forminput form-control form-select requiredField" id="area1" name="area1" multiple data-placeholder="SELECT STORE AREA">
@@ -70,7 +71,21 @@
                     <label for="area1" class="formlabel form-label">Store Area</label>
                 </div>
             </div>
-            <div style="zoom: 85%;">
+            <div class="mb-2 classStore" style="display: none;">
+                <div class="form-check mb-4">
+                    <input type="checkbox" class="form-check-input" id="branchAll1" name="branchAll1" value="0">
+                    <label class="form-check-label text-default" for="branchAll1">ALL BRANCHES (<span class="branchCount1">0</span>)</label>
+                </div>
+                <div class="hideStore1">
+                    <div style="height: 10px;">&nbsp;</div>
+                    <div class="f-outline">
+                        <select class="forminput form-control form-select requiredField" id="store1" name="store1" multiple data-placeholder="SELECT STORE BRANCHES">
+                        </select>
+                        <label for="store1" class="formlabel form-label">Store Branches</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4" style="zoom: 85%;">
                 <button id="btnReset" type="button" class="btn btn-outline-danger" onclick="$('#name1').focus();"><i class="fas fa-eraser"></i> RESET</button>
                 <button type="button" id="btnUpdate" class="btn btn-primary bp float-end btnRequired"><i class="fas fa-save"></i> UPDATE</button>
             </div>
