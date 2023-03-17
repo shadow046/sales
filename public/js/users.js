@@ -159,7 +159,7 @@ $(document).ready(function(){
         });
     });
 
-    $('#userTable tbody').on('click', 'tr td:not(:nth-child(6))', function(){
+    $('#userTable tbody').on('click', 'tr td:not(:nth-child(7))', function(){
         if(!table.data().any()){ return false; }
         var data = table.row(this).data();
         $('#id1').val(data.user_id);
@@ -227,6 +227,10 @@ $(document).ready(function(){
                         $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
                         $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
                     }, current_timeout);
+                }
+                if(data.store == '0'){
+                    $('#branchAll1').prop('checked', true);
+                    $('#branchAll1').change();
                 }
             }, current_timeout);
         }, current_timeout);
@@ -356,6 +360,7 @@ $(document).on('change', '#company', function(){
 var branchCount;
 $(document).on('change', '#area', function(){
     branchCount = 0;
+    $('.branchCount').html('0');
     if(!$('#company option:selected').length || !$('#area option:selected').length){
         $('.classStore').hide();
         $('#store').find('option').remove();
@@ -416,6 +421,7 @@ $(document).on('change', '#branchAll', function(){
 var branchCount1;
 $(document).on('change', '#area1', function(){
     branchCount1 = 0;
+    $('.branchCount1').html('0');
     if(!$('#company1 option:selected').length || !$('#area1 option:selected').length){
         $('.classStore').hide();
         $('#store1').find('option').remove();
@@ -501,6 +507,9 @@ $('#btnSave').on('click', function(){
     else{
         var area = '0';
         var store = 'X';
+    }
+    if($('#branchAll').is(':visible') && $('#branchAll').is(':checked')){
+        var store = '0';
     }
     $('#loading').show();
     setTimeout(function(){
@@ -621,7 +630,7 @@ $('#btnSave').on('click', function(){
                 alert(data.responseText);
             }
         });
-    }, 1000);
+    }, 0);
 });
 
 $('#btnReset').on('click', function(){
@@ -653,6 +662,10 @@ $('#btnReset').on('click', function(){
                 $('#store1').chosen();
                 $('#store1').trigger('chosen:updated');
             }, current_timeout);
+        }
+        if($('#store2').val() == '0'){
+            $('#branchAll1').prop('checked', true);
+            $('#branchAll1').change();
         }
     }, current_timeout);
 });
@@ -693,6 +706,9 @@ $('#btnUpdate').on('click', function(){
         var area1 = '0';
         var store1 = 'X';
     }
+    if($('#branchAll1').is(':visible') && $('#branchAll1').is(':checked')){
+        var store1 = '0';
+    }
     $('#loading').show();
     setTimeout(function(){
         if(!name1 || !email1|| !role1 || !branch1  || !company1 || !area1 || !store1){
@@ -719,7 +735,7 @@ $('#btnUpdate').on('click', function(){
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
                 }
-                else if(role1 == '4' && JSON.stringify(company1) === JSON.stringify(company2.split('|')) && JSON.stringify(area1) === JSON.stringify(area2.split('|'))){
+                else if(role1 == '4' && JSON.stringify(company1) === JSON.stringify(company2.split('|')) && JSON.stringify(area1) === JSON.stringify(area2.split('|')) && JSON.stringify(store1) === JSON.stringify(store2.split('|'))){
                     $('#loading').hide();
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
@@ -850,7 +866,7 @@ $('#btnUpdate').on('click', function(){
                 alert(data.responseText);
             }
         });
-    }, 1000);
+    }, 0);
 });
 
 var permissions=[];
