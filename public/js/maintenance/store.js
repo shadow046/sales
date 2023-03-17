@@ -422,13 +422,13 @@ $(document).on('click','table.storeTable tbody tr td',function(){
     if(!current_permissions.includes('3')){
         $('#storeModal').find('input').prop('disabled', true);
         $('#storeModal').find('select').prop('disabled', true);
-        $('#province').prop('disabled', true); 
+        $('#province').prop('disabled', true);
         setInterval(() => {
             if($('#province').prop('disabled') == true){
-                $('#city').prop('disabled', true);   
+                $('#city').prop('disabled', true);
             }
             else{
-                $('#city').prop('disabled', false);   
+                $('#city').prop('disabled', false);
             }
         }, 0);
         $('.notUpdate').hide();
@@ -570,7 +570,7 @@ $(document).on('click','table.storeTable tbody tr td',function(){
                     { data: 'contact_person', name:'contact_person'}
                 ]
             });
-    
+
             $('table.storePosInformation_orig').dataTable().fnDestroy();
             $('table.storePosInformation_orig').DataTable({
                 columnDefs: [
@@ -664,7 +664,7 @@ $(document).on('click','table.storeTable tbody tr td',function(){
                     { data: 'contact_person', name:'contact_person'}
                 ]
             });
-    
+
             $('table.storePosInformation_orig').dataTable().fnDestroy();
             $('table.storePosInformation_orig').DataTable({
                 columnDefs: [
@@ -1245,12 +1245,12 @@ $('#addStoreBtn').on('click', function(){
 
     $('#serving_store').chosen();
     $('#serving_store_chosen').css('width','100%');
-    
+
     $('#serving_store').val('').trigger('chosen:updated');
     $('#setup').val('').trigger('chosen:updated');
 
     $('.req').hide();
-    
+
     // $("#serving_store").change(function(){
     //     var selectedValues = $(this).val();
     //     alert("Selected values: " + selectedValues.join(", "));

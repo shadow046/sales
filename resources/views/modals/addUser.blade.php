@@ -64,7 +64,7 @@
                         <label for="area" class="formlabel form-label">Store Area</label>
                     </div>
                 </div>
-                <div class="mb-2 classStore" style="display: none;">
+                <div class="mb-2 classStore" style="display: none;" id="idStore">
                     <div class="form-check mb-4">
                         <input type="checkbox" class="form-check-input" id="branchAll" name="branchAll" value="0">
                         <label class="form-check-label text-default" for="branchAll">ALL BRANCHES (<span class="branchCount">0</span>)</label>

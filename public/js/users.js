@@ -958,6 +958,24 @@ setInterval(() => {
                 $('#area1_chosen').after('<span class="classNamearea1_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
             }
         }
+
+        var store1_values = $('#store1').val();
+        if(store1_values && store1_values.length > 0){
+            $('#store1_chosen').removeClass('requiredField requiredInput redBorder');
+            $('.classNamestore1_chosen').remove();
+        } else {
+            $('#store1_chosen').addClass('requiredField requiredInput redBorder');
+        }
+    }
+
+    if($('#area_chosen').is(":visible")){
+        var store_values = $('#store').val();
+        if(store_values && store_values.length > 0){
+            $('#store_chosen').removeClass('requiredField requiredInput redBorder');
+            $('.classNamestore_chosen').remove();
+        } else {
+            $('#store_chosen').addClass('requiredField requiredInput redBorder');
+        }
     }
 }, 0);
 
