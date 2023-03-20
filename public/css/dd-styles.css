@@ -51,6 +51,7 @@ hr{
 }
 .nav-item, .nav-link{
     color: white !important;
+    border-radius: 10px !important;
 }
 .nav-item:hover, .nav-link:hover{
     background-color: white;
