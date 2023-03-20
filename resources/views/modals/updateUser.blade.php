@@ -60,7 +60,7 @@
                     <label for="company1" class="formlabel form-label">Company</label>
                 </div>
             </div>
-            <div class="mb-3 classArea" style="display: none;">
+            <div class="mb-4 classArea" style="display: none;">
                 <div style="height: 10px;">&nbsp;</div>
                 <div class="f-outline">
                     <select class="forminput form-control form-select requiredField" id="area1" name="area1" multiple data-placeholder="SELECT STORE AREA">
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="mb-2 classStore" style="display: none;">
-                <div class="form-check mb-4">
+                <div class="form-check mb-4 d-none">
                     <input type="checkbox" class="form-check-input" id="branchAll1" name="branchAll1" value="0">
                     <label class="form-check-label text-default" for="branchAll1">ALL BRANCHES (<span class="branchCount1">0</span>)</label>
                 </div>

@@ -89,12 +89,23 @@ class UserController extends Controller
                 $user_row = '';
                 $array = explode("|", $list->store);
                 foreach($array as $value){
-                    $user = Store::where('id', $value)->first();
-                    if($user_row != ''){
-                        $user_row = $user_row.'|'.$user->branch_code.': '.$user->branch_name;
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        if($user_row != ''){
+                            $user_row = $user_row.'|'.$user->branch_code.': '.$user->branch_name;
+                        }
+                        else{
+                            $user_row = $user->branch_code.': '.$user->branch_name;
+                        }
                     }
                     else{
-                        $user_row = $user->branch_code.': '.$user->branch_name;
+                        $user = StoreArea::where('id', substr($value, 0, -2))->first();
+                        if($user_row != ''){
+                            $user_row = $user_row.'|'.$user->store_area.' (ALL BRANCHES)';
+                        }
+                        else{
+                            $user_row = $user->store_area.' (ALL BRANCHES)';
+                        }
                     }
                 }
                 return $user_row;
@@ -359,9 +370,15 @@ class UserController extends Controller
 
     public function users_stores(Request $request)
     {
+        if($request->area_all){
+            $areas = array_diff($request->area_id, $request->area_all);
+        }
+        else{
+            $areas = $request->area_id;
+        }
         $stores = Store::query()
             ->whereIn('company_name', $request->company_id)
-            ->whereIn('store_area', $request->area_id)
+            ->whereIn('store_area', $areas)
             ->orderBy('branch_code', 'asc')
             ->get();
         return response()->json($stores);

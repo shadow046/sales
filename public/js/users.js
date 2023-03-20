@@ -227,6 +227,7 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(7))', function(){
                     $('#store1').trigger('chosen:updated');
                     $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
                     $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                    $('#store1').change();
                     $('.hideStore1').show();
                 }, current_timeout);
             }
@@ -263,6 +264,7 @@ function btnAddUser(){
     $('#area_chosen').addClass('requiredField requiredInput redBorder');
     $('label[for="area"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
     $('#area').change();
+    $('#store').change();
 }
 
 $('#btnClear').on('click', function(){
@@ -357,6 +359,8 @@ $(document).on('change', '#company', function(){
     $('#area').change();
 });
 
+var area_all = [];
+var stores_list = [];
 $(document).on('change', '#area', function(){
     if(!$('#company option:selected').length || !$('#area option:selected').length){
         $('.classStore').hide();
@@ -377,11 +381,18 @@ $(document).on('change', '#area', function(){
             data:{
                 company_id: $('#company').val(),
                 area_id: $('#area').val(),
+                area_all: area_all
             },
             success:function(data){
                 var stores = $.map(data, function(value, index) {
                     return [value];
                 });
+                const selectedOptions = $('#area option:selected').map(function(){
+                    return { value: this.value, text: this.text };
+                }).get();
+                for(let i = 0; i < selectedOptions.length; i++){
+                    storesOption+='<option value="'+selectedOptions[i].value+'-0'+'">'+selectedOptions[i].text+' (ALL BRANCHES)</option>';
+                }
                 stores.forEach(value => {
                     storesOption+='<option value="'+value.id+'">'+value.branch_code+': '+value.branch_name+'</option>';
                 });
@@ -392,9 +403,36 @@ $(document).on('change', '#area', function(){
                 $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
                 $('.branchCount').html(stores.length);
                 $('.classStore').show();
+
+                if(stores_list.length > 0){
+                    $("#store").children("option").each(function(){
+                        if($.inArray($(this).val(), stores_list) !== -1){
+                            $(this).prop("selected",true);
+                        }
+                        else{
+                            $(this).prop("selected",false);
+                        }
+                    });
+                    $('#store').chosen();
+                    $('#store').trigger('chosen:updated');
+                    $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                    $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                }
             }
         });
     }
+});
+
+$(document).on('change', '#store', function(){
+    area_all = [];
+    stores_list = [];
+    $.each($(this).val(), function(index, value){
+        if(value.includes('-0')){
+            area_all.push(value.substring(0, value.length - 2));
+        }
+        stores_list.push(value);
+    });
+    $('#area').change();
 });
 
 $(document).on('change', '#branchAll', function(){
@@ -419,6 +457,8 @@ $(document).on('change', '#company1', function(){
     $('#area1').change();
 });
 
+var area1_all = [];
+var stores1_list = [];
 $(document).on('change', '#area1', function(){
     if(!$('#company1 option:selected').length || !$('#area1 option:selected').length){
         $('.classStore').hide();
@@ -439,11 +479,18 @@ $(document).on('change', '#area1', function(){
             data:{
                 company_id: $('#company1').val(),
                 area_id: $('#area1').val(),
+                area_all: area1_all
             },
             success:function(data){
                 var stores = $.map(data, function(value, index) {
                     return [value];
                 });
+                const selectedOptions = $('#area1 option:selected').map(function(){
+                    return { value: this.value, text: this.text };
+                }).get();
+                for(let i = 0; i < selectedOptions.length; i++){
+                    storesOption+='<option value="'+selectedOptions[i].value+'-0'+'">'+selectedOptions[i].text+' (ALL BRANCHES)</option>';
+                }
                 stores.forEach(value => {
                     storesOption+='<option value="'+value.id+'">'+value.branch_code+': '+value.branch_name+'</option>';
                 });
@@ -454,9 +501,36 @@ $(document).on('change', '#area1', function(){
                 $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
                 $('.branchCount1').html(stores.length);
                 $('.classStore').show();
+
+                if(stores1_list.length > 0){
+                    $("#store1").children("option").each(function(){
+                        if($.inArray($(this).val(), stores1_list) !== -1){
+                            $(this).prop("selected",true);
+                        }
+                        else{
+                            $(this).prop("selected",false);
+                        }
+                    });
+                    $('#store1').chosen();
+                    $('#store1').trigger('chosen:updated');
+                    $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                    $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                }
             }
         });
     }
+});
+
+$(document).on('change', '#store1', function(){
+    area1_all = [];
+    stores1_list = [];
+    $.each($(this).val(), function(index, value){
+        if(value.includes('-0')){
+            area1_all.push(value.substring(0, value.length - 2));
+        }
+        stores1_list.push(value);
+    });
+    $('#area1').change();
 });
 
 $(document).on('change', '#branchAll1', function(){
@@ -617,7 +691,6 @@ $('#btnSave').on('click', function(){
                 if(data.status == 401){
                     window.location.href = '/users';
                 }
-                alert(data.responseText);
             }
         });
     }, 0);
@@ -854,7 +927,6 @@ $('#btnUpdate').on('click', function(){
                 if(data.status == 401){
                     window.location.href = '/users';
                 }
-                alert(data.responseText);
             }
         });
     }, 0);
