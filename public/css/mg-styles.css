@@ -47,7 +47,7 @@ hr{
 }
 .nav-item, .nav-link{
     color: #850708 !important;
-    border-radius: 10px !important;
+    border-radius: 0.375rem !important;
 }
 .navactive{
     background-color: #850708;
