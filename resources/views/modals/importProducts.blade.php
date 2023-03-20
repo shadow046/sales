@@ -17,7 +17,7 @@
                     <br>
                     <button type="reset" id="btnDetach" class="btn btn-primary bp">RESET</button>
                     <button type="button" id="btnUpload" class="btn btn-primary bp float-end">UPLOAD</button>
-                    <a href="/templates/import_product_23030201.xlsx" class="btn btn-primary bp float-end mr-1">DOWNLOAD TEMPLATE</a>
+                    <a href="/templates/import_product_23030602.xlsx" class="btn btn-primary bp float-end mr-1">DOWNLOAD TEMPLATE</a>
                     <input type="submit" id="btnSubmit" class="btn btn-primary bp float-end d-none"/>
                 </form>
             </div>
