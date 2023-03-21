@@ -1727,6 +1727,14 @@ setInterval(() => {
         } else {
             $('#store_chosen').addClass('requiredField requiredInput redBorder');
         }
+
+    var setup_values = $('#setup').val();
+    if(setup_values && setup_values.length > 0){
+        $('#setup_chosen').removeClass('requiredField requiredInput redBorder');
+        $('.classNamesetup_chosen').remove();
+    } else {
+        $('#setup_chosen').addClass('requiredField requiredInput redBorder');
+    }
 }, 0);
 
 $(document).on('change','#setup',function(){
