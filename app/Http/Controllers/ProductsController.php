@@ -434,12 +434,17 @@ class ProductsController extends Controller
                         $pos_setup = implode(',', $pos_setup_array);
                     }
 
-                    $store_setup = array();
-                    $setup_array = array_map('trim', explode(',', $value['setup']));
-                    $setup_list = Setup::where('setup_status', 'ACTIVE')->get();
-                    foreach($setup_list as $key => $val){
-                        if(in_array($val['setup'], $setup_array)){
-                            array_push($store_setup, $val['id']);
+                    if(!$value['setup']){
+                        $store_setup = '';
+                    }
+                    else{
+                        $store_setup = array();
+                        $setup_array = array_map('trim', explode(',', $value['setup']));
+                        $setup_list = Setup::where('setup_status', 'ACTIVE')->get();
+                        foreach($setup_list as $key => $val){
+                            if(in_array($val['setup'], $setup_array)){
+                                array_push($store_setup, $val['id']);
+                            }
                         }
                     }
 
