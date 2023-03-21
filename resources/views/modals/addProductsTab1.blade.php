@@ -1,7 +1,7 @@
 <div id="page1" class="tab-pane active" style="border-radius:0px;margin-bottom:-20px;">
     <hr>
     <div class="row">
-        <div class="col-2 ml-3 p-0 border border-dark text-center">
+        <div class="col-2 ml-3 p-0 border border-dark text-center" style="height:146px !important;">
             <input type="hidden" id="filename">
             <input type="hidden" id="filename_delete">
             <img id="product_image_preview" class="text-center" style="display: none;line-height:145px;height:145px;width:145px;margin-right:-8px;" title="VIEW IMAGE" data-bs-target="#modal_product_image_preview" data-bs-toggle="modal" onclick="modal_product_image_preview(this)">
@@ -41,7 +41,7 @@
                     <label for="long_desc" class="formlabels form-label">Long Description
                 </div>
             </div>
-            <div class="col-12 row" >
+            <div class="col-12 row mb-4">
                 <div class="col-md-4 f-outline">
                     <input type="search" style="color: black" name="sku" id="sku" class="forminput form-control text-uppercase" placeholder=" " autocomplete="off" >
                     <p id="duplicate_sku" class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
@@ -59,6 +59,36 @@
                         @endforeach
                     </select>
                     <label for="setup" class="formlabel form-label" style="margin-left: 15px;">STORE SETUP</label>
+                </div>
+            </div>
+
+            <div class="col-12 row mt-1">
+                <div class="col-md-4 f-outline">
+                    <div class="f-outline">
+                        <select class="forminput form-control form-select" id="company" name="company" multiple data-placeholder="SELECT COMPANY">
+                            @foreach($companies as $company)
+                                <option value="{{$company->id}}">{{$company->company_name}}</option>
+                            @endforeach
+                        </select>
+                        <label for="company" class="formlabel form-label">COMPANY</label>
+                    </div>
+                </div>
+                <div class="col-md-4 f-outline">
+                    <div class="f-outline">
+                        <select class="forminput form-control form-select" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
+                            @foreach($areas as $area)
+                                <option value="{{$area->id}}">{{$area->store_area}}</option>
+                            @endforeach
+                        </select>
+                        <label for="area" class="formlabel form-label">Store Area</label>
+                    </div>
+                </div>
+                <div class="col-md-4 f-outline">
+                    <div class="f-outline">
+                        <select class="forminput form-control form-select" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
+                        </select>
+                        <label for="store" class="formlabel form-label">Store Branches</label>
+                    </div>
                 </div>
             </div>
         </div>

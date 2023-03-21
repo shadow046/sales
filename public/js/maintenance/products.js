@@ -5,6 +5,19 @@ $('.addBtn').on('click',function(){
     $('#set_meal_table_orig_div').hide();
     $('#setup').chosen();
     $('#setup_chosen').css('width','100%');
+    $('#setup_chosen').addClass('requiredField requiredInput redBorder');
+    $('#company').chosen();
+    $('#company').val('').trigger('chosen:updated');
+    $('#company_chosen').css({'width': '100%', 'margin-top': '-15px'});
+    $('#company_chosen').addClass('requiredField requiredInput redBorder');
+    $('label[for="company"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    $('#area').chosen();
+    $('#area').val('').trigger('chosen:updated');
+    $('#area_chosen').css({'width': '100%', 'margin-top': '-15px'});
+    $('#area_chosen').addClass('requiredField requiredInput redBorder');
+    $('label[for="area"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    $('#area').change();
+    $('#store').change();
 
     if(!current_permissions.includes('3')){
         $('#productsModal').find('input').prop('disabled', false);
@@ -44,7 +57,7 @@ $(document).ready(function(){
         },
         columnDefs: [
             {
-                "targets": [2,4,5,7,8,9,10,11,12,13,14,15,17],
+                "targets": [2,4,5,6,7,8,10,11,12,13,14,15,16,17,18,20],
                 "visible": false,
                 "searchable": true
             },
@@ -53,10 +66,64 @@ $(document).ready(function(){
         columns: [
             { data: 'category_name', name: 'category_name'},
             { data: 'item_code', name: 'item_code'},
-            { data: 'intro_date', name: 'intro_date'},
+            {
+                data: 'intro_date', name: 'intro_date',
+                "render":function(data,type,row){
+                    return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
+                }
+            },
             { data: 'short_desc', name: 'short_desc'},
             { data: 'long_desc', name: 'long_desc'},
             { data: 'setup_name', name: 'setup_name'},
+            {
+                data: 'branch_name',
+                "render": function(data, type, row, meta){
+                    if((row.company).includes('|')){
+                        if(row.company_name.split("|").length == 1){
+                            var start = '';
+                        }
+                        else{
+                            var start = '• ';
+                        }
+                        return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
+                    }
+                    else{
+                        return row.company_name;
+                    }
+                }
+            },
+            {
+                data: 'area_name',
+                "render": function(data, type, row, meta){
+                    if(row.area_name.split("|").length == 1){
+                        var start = '';
+                    }
+                    else{
+                        var start = '• ';
+                    }
+                    return `<div style="white-space:normal;">${start} ${row.area_name.split("|").join("<br/> • ")}</div>`;
+                }
+            },
+            {
+                data: 'store_name',
+                "render": function(data, type, row, meta){
+                    if(row.store_name == 'N/A'){
+                        return 'N/A';
+                    }
+                    else if(row.store_name == 'ALL BRANCHES'){
+                        return 'ALL BRANCHES';
+                    }
+                    else{
+                        if(row.store_name.split("|").length == 1){
+                            var start = '';
+                        }
+                        else{
+                            var start = '• ';
+                        }
+                        return `<div style="white-space:normal;">${start} ${row.store_name.split("|").join("<br/> • ")}</div>`;
+                    }
+                }
+            },
             {
                 data: 'dine_in', name: 'dine_in',
                 "render": function(data, type, row, meta){
@@ -172,7 +239,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=17; i++){
+            for(var i=0; i<=20; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }
@@ -279,6 +346,10 @@ $('.saveBtn').on('click',function(){
     var sku = $('#sku').val();
     var modifier_code = $('#modifier_code').val();
     var setup = $('#setup').val();
+    var company = $('#company').val();
+    console.log(company);
+    var area = $('#area').val();
+    var store = $('#store').val();
     var dine_in = $('#dine_in').val();
     var take_out = $('#take_out').val();
     var pick_up = $('#pick_up').val();
@@ -391,6 +462,9 @@ $('.saveBtn').on('click',function(){
                         sku:sku,
                         modifier_code:modifier_code,
                         setup:setup,
+                        company: company,
+                        area: area,
+                        store: store,
                         dine_in:dine_in,
                         take_out:take_out,
                         pick_up:pick_up,
@@ -522,6 +596,9 @@ $('.saveBtn').on('click',function(){
                         sku:sku,
                         modifier_code:modifier_code,
                         setup:setup,
+                        company: company,
+                        area: area,
+                        store: store,
                         dine_in:dine_in,
                         take_out:take_out,
                         pick_up:pick_up,
@@ -591,7 +668,7 @@ $('.saveBtn').on('click',function(){
                                     },
                                 });
                             });
-                            
+
                             // $('#promoProductCombination_orig').DataTable().destroy();
                             // var promoProductCombination_data = $('#promoProductCombination_orig').DataTable().rows().data();
                             // $.each(promoProductCombination_data, function(key, value){
@@ -662,7 +739,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             //         $(this).click();
             //     });
             // }
-    
+
             if(!current_permissions.includes('3')){
                 $('#productsModal').find('input').prop('disabled', true);
                 $('#productsModal').find('select').prop('disabled', true);
@@ -671,9 +748,9 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             $('.tab1').click();
             $('.validation').hide();
             $('.forminput').removeClass('redBorder');
-    
+
             var data = table.row(this).data();
-    
+
             if(current_permissions.includes('5')){
                 $('#tabContent').addClass('mt-8');
             }
@@ -686,7 +763,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             if(data.status == 'INACTIVE'){
                 $('#status').html('<label class="switch"><input type="checkbox" class="tglStatus" id="'+ data.id +'" tgl_item_code="'+data.item_code+'" tgl_short_desc="'+data.short_desc+'"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>');
             }
-    
+
             if(!data.product_image){
                 $('#filename').val('');
                 $('#product_image_preview').attr('src','');
@@ -697,9 +774,9 @@ $(document).on('click','table.productsTable tbody tr td',function(){
                 $('#product_image_preview').prop('src',window.location.origin+'/storage/product_images/'+data.product_image);//Returns base URL/to get the current url (window.location.origin)
                 $('#product_image_preview').show();
             }
-    
+
             $('#filename_delete').val('');
-    
+
             $('#product_id').val(data.id);
             $('#item_code').val(data.item_code);
             $('#category').val(data.category);
@@ -792,7 +869,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
                     }
                 });
             }, current_timeout);
-    
+
             var setup_array = data.setup.split()[0].split(',');
             $("#setup").children("option").each(function(){
                 if(setup_array.includes($(this).val().toString())){
@@ -802,12 +879,62 @@ $(document).on('click','table.productsTable tbody tr td',function(){
                     $(this).prop("selected",false);
                 }
             });
-            
+
             setTimeout(() => {
                 $('#setup').change();
                 $('#setup').chosen();
                 $('#setup').trigger('chosen:updated');
                 $('#setup_chosen').css('width','100%');
+            }, current_timeout);
+
+            $("#company").children("option").each(function(){
+                if($.inArray($(this).val(),(data.company).split('|')) !== -1){
+                    $(this).prop("selected",true);
+                }
+                else{
+                    $(this).prop("selected",false);
+                }
+            });
+
+            $("#area").children("option").each(function(){
+                if($.inArray($(this).val(),(data.area).split('|')) !== -1){
+                    $(this).prop("selected",true);
+                }
+                else{
+                    $(this).prop("selected",false);
+                }
+            });
+
+            setTimeout(() => {
+                $('#company').chosen();
+                $('#company').trigger('chosen:updated');
+                $('#company_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                $('label[for="company"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                $('#company').change();
+
+                $('#area').chosen();
+                $('#area').trigger('chosen:updated');
+                $('#area_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                $('label[for="area"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                $('#area').change();
+
+                setTimeout(() => {
+                    $("#store").children("option").each(function(){
+                        if($.inArray($(this).val(),(data.store).split('|')) !== -1){
+                            $(this).prop("selected",true);
+                        }
+                        else{
+                            $(this).prop("selected",false);
+                        }
+                    });
+                    setTimeout(() => {
+                        $('#store').chosen();
+                        $('#store').trigger('chosen:updated');
+                        $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                        $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                        $('#store').change();
+                    }, current_timeout);
+                }, current_timeout);
             }, current_timeout);
 
             //trclick table
@@ -902,7 +1029,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             //         { data: 'long_description', name:'long_description'},
             //         { data: 'dine_in', name:'dine_in'},
             //         { data: 'qty', name:'qty'},
-            //         { 
+            //         {
             //             data: 'promo_item_status',
             //             "render":function(data,type,row){
             //                 if(row.promo_item_status == 'INACTIVE'){
@@ -917,7 +1044,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             //                 return(`<center><input type='checkbox' class='checkbox cbx' style='zoom:180%;' value="${row.product_id}"></center>`);
             //             }
             //         },
-            //         { 
+            //         {
             //             data: 'product_id',
             //             "render":function(data,type,row){
             //                 return '0';
@@ -1475,3 +1602,142 @@ setInterval(() => {
         }
     }
 }, 0);
+
+$(document).on('change', '#company', function(){
+    if(!$('#company option:selected').length || !$('#area option:selected').length){
+        $('.classStore').hide();
+        $('#store').find('option').remove();
+        $('#store').chosen();
+        $('#store').trigger('chosen:updated');
+        $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+        $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    }
+    $('#area').change();
+});
+
+var area_all = [];
+var stores_list = [];
+$(document).on('change', '#area', function(){
+    if(!$('#company option:selected').length || !$('#area option:selected').length){
+        $('.classStore').hide();
+        $('#store').find('option').remove();
+        $('#store').chosen();
+        $('#store').trigger('chosen:updated');
+        $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+        $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+    }
+    else{
+        var storesOption = " ";
+        $.ajax({
+            url:"/users/stores",
+            type:"get",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{
+                company_id: $('#company').val(),
+                area_id: $('#area').val(),
+                area_all: area_all
+            },
+            success:function(data){
+                var stores = $.map(data, function(value, index) {
+                    return [value];
+                });
+                const selectedOptions = $('#area option:selected').map(function(){
+                    return { value: this.value, text: this.text };
+                }).get();
+                for(let i = 0; i < selectedOptions.length; i++){
+                    storesOption+='<option value="'+selectedOptions[i].value+'-0'+'">'+selectedOptions[i].text+' (ALL BRANCHES)</option>';
+                }
+                stores.forEach(value => {
+                    storesOption+='<option value="'+value.id+'">'+value.branch_code+': '+value.branch_name+'</option>';
+                });
+                $('#store').find('option').remove().end().append(storesOption);
+                $('#store').chosen();
+                $('#store').trigger('chosen:updated');
+                $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                $('.branchCount').html(stores.length);
+                $('.classStore').show();
+
+                if(stores_list.length > 0){
+                    $("#store").children("option").each(function(){
+                        if($.inArray($(this).val(), stores_list) !== -1){
+                            $(this).prop("selected",true);
+                        }
+                        else{
+                            $(this).prop("selected",false);
+                        }
+                    });
+                    $('#store').chosen();
+                    $('#store').trigger('chosen:updated');
+                    $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                    $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                }
+            }
+        });
+    }
+});
+
+$(document).on('change', '#store', function(){
+    area_all = [];
+    stores_list = [];
+    $.each($(this).val(), function(index, value){
+        if(value.includes('-0')){
+            area_all.push(value.substring(0, value.length - 2));
+        }
+        stores_list.push(value);
+    });
+    $('#area').change();
+});
+
+$(document).on('change','#company',function(){
+    if($('#company_chosen').is(':visible')){
+        if ($("#company").val().length > 0) {
+            $('#company_chosen').removeClass('requiredField requiredInput redBorder');
+            $('.classNamecompany_chosen').remove();
+        } else {
+            if($('.classNamecompany_chosen:visible').length == 0){
+                $('#company_chosen').addClass('requiredField requiredInput redBorder');
+                $('#company_chosen').after('<span class="classNamecompany_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
+            }
+        }
+    }
+});
+
+$(document).on('change','#area',function(){
+    if($('#area_chosen').is(':visible')){
+        if ($("#area").val().length > 0) {
+            $('#area_chosen').removeClass('requiredField requiredInput redBorder');
+            $('.classNamearea_chosen').remove();
+        } else {
+            if($('.classNamearea_chosen:visible').length == 0){
+                $('#area_chosen').addClass('requiredField requiredInput redBorder');
+                $('#area_chosen').after('<span class="classNamearea_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
+            }
+        }
+    }
+});
+
+setInterval(() => {
+    var store_values = $('#store').val();
+        if(store_values && store_values.length > 0){
+            $('#store_chosen').removeClass('requiredField requiredInput redBorder');
+            $('.classNamestore_chosen').remove();
+        } else {
+            $('#store_chosen').addClass('requiredField requiredInput redBorder');
+        }
+}, 0);
+
+$(document).on('change','#setup',function(){
+    if($('#setup_chosen').is(':visible')){
+        if ($("#setup").val().length > 0) {
+            $('#setup_chosen').removeClass('requiredField requiredInput redBorder');
+            $('.classNamesetup_chosen').remove();
+        } else {
+            if($('.classNamesetup_chosen:visible').length == 0){
+                $('#setup_chosen').addClass('requiredField requiredInput redBorder');
+            }
+        }
+    }
+});

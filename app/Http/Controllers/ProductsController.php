@@ -16,6 +16,9 @@ use App\Models\Category;
 use App\Models\SalesType;
 use App\Models\Setup;
 use App\Models\PromoProductCombination;
+use App\Models\Company;
+use App\Models\StoreArea;
+use App\Models\Store;
 
 
 class ProductsController extends Controller
@@ -32,12 +35,14 @@ class ProductsController extends Controller
         $product_categories = Category::select('id', 'category')->where('id','!=','0')->where('category_status','!=','DELETED')->get()->sortBy('category');
         $sales_types = SalesType::select('id','sales_type')->where('id','!=','0')->where('sales_type_status','!=','DELETED')->get()->sortBy('sales_type');
         $setups = Setup::select('id', 'setup')->where('id','!=','0')->where('setup_status','!=','DELETED')->get()->sortBy('setup');
-        return view('pages.products', compact('products','categories','product_categories','sales_types','setups'));
+        $companies = Company::select('id','company_name')->where('id','!=','0')->get();
+        $areas = StoreArea::where('id', '!=', '0')->get()->sortBy('store_area');
+        return view('pages.products', compact('products','categories','product_categories','sales_types','setups','companies','areas'));
     }
 
     public function products_data()
     {
-        $products = Product::selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, status, product_image, product_update_status')
+        $products = Product::selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, company, area, store, status, product_image, product_update_status')
             ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type, pos_setup, max_modifier, seq, kitchen_printer')
             ->selectRaw('promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
@@ -63,6 +68,59 @@ class ProductsController extends Controller
                 return $setup_row;
             }
         })
+        ->addColumn('company_name', function(Product $products){
+            $user_row = '';
+            $array = explode("|", $products->company);
+            foreach($array as $value){
+                $user = Company::where('id', $value)->first();
+                if($user_row != ''){
+                    $user_row = $user_row.'|'.$user->company_name;
+                }
+                else{
+                    $user_row = $user->company_name;
+                }
+            }
+            return $user_row;
+        })
+        ->addColumn('area_name', function(Product $products){
+            $user_row = '';
+            $array = explode("|", $products->area);
+            foreach($array as $value){
+                $user = StoreArea::where('id', $value)->first();
+                if($user_row != ''){
+                    $user_row = $user_row.'|'.$user->store_area;
+                }
+                else{
+                    $user_row = $user->store_area;
+                }
+            }
+            return $user_row;
+        })
+        ->addColumn('store_name', function(Product $products){
+            $user_row = '';
+            $array = explode("|", $products->store);
+            foreach($array as $value){
+                if(!str_contains($value, '-0')){
+                    $user = Store::where('id', $value)->first();
+                    if($user_row != ''){
+                        $user_row = $user_row.'|'.$user->branch_code.': '.$user->branch_name;
+                    }
+                    else{
+                        $user_row = $user->branch_code.': '.$user->branch_name;
+                    }
+                }
+                else{
+                    $user = StoreArea::where('id', substr($value, 0, -2))->first();
+                    if($user_row != ''){
+                        $user_row = $user_row.'|'.$user->store_area.' (ALL BRANCHES)';
+                    }
+                    else{
+                        $user_row = $user->store_area.' (ALL BRANCHES)';
+                    }
+                }
+            }
+            return $user_row;
+        })
         ->make(true);
     }
 
@@ -74,7 +132,7 @@ class ProductsController extends Controller
         return $data_update;
     }
 
-    public function products_status(Request $request){ 
+    public function products_status(Request $request){
         if($request->status == 'ACTIVE'){
             $status1 = 'ACTIVE';
             $status2 = 'INACTIVE';
@@ -128,6 +186,9 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
+        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
+        $product->store = $request->store == '0' ? '0' : implode("|", $request->store);
         $product->seq = $request->seq;
         $product->kitchen_printer = $request->kitchen_printer;
         // Page 2
@@ -213,6 +274,9 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
+        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
+        $product->store = $request->store == '0' ? '0' : implode("|", $request->store);
         $product->seq = $request->seq;
         $product->kitchen_printer = $request->kitchen_printer;
         // Page 2
@@ -302,7 +366,7 @@ class ProductsController extends Controller
             $userlogs->user_id = auth()->user()->id;
             $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates for processing.";
             $userlogs->save();
-            
+
             return 'true';
         }
         else{

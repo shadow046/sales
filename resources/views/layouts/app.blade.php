@@ -109,6 +109,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2{{$sweetalert_version}}/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="{{asset('js/inc/chosen.jquery.js')}}"></script>
+    <script src="{{asset('js/inc/moment.js')}}"></script>
+    <script src="{{asset('js/inc/datetime.js')}}"></script>
     <script src={{asset('/js/sales/function.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 </body>
 </html>

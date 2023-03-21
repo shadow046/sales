@@ -57,7 +57,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-6" data-column="6" disabled/> DINE-IN PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-6" data-column="6" /> COMPANY
                 </label>
             </div>
         </div>
@@ -66,7 +66,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-7" data-column="7"/> TAKE-OUT PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-7" data-column="7" /> STORE AREA
                 </label>
             </div>
         </div>
@@ -75,7 +75,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8"/> PICK-UP PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8" /> STORE BRANCH
                 </label>
             </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-9" data-column="9"/> DELIVERY PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-9" data-column="9" disabled/> DINE-IN PRICE
                 </label>
             </div>
         </div>
@@ -93,7 +93,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-10" data-column="10"/> BULK ORDER PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-10" data-column="10"/> TAKE-OUT PRICE
                 </label>
             </div>
         </div>
@@ -102,7 +102,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-11" data-column="11"/> FDS PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-11" data-column="11"/> PICK-UP PRICE
                 </label>
             </div>
         </div>
@@ -111,7 +111,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-12" data-column="12"/> DRIVE-THRU PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-12" data-column="12"/> DELIVERY PRICE
                 </label>
             </div>
         </div>
@@ -120,7 +120,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-13" data-column="13"/> ADD MEAL TYPE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-13" data-column="13"/> BULK ORDER PRICE
                 </label>
             </div>
         </div>
@@ -129,7 +129,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-14" data-column="14"/> SKU
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-14" data-column="14"/> FDS PRICE
                 </label>
             </div>
         </div>
@@ -138,7 +138,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-15" data-column="15" /> SI / MODIFIER CODE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-15" data-column="15"/> DRIVE-THRU PRICE
                 </label>
             </div>
         </div>
@@ -147,7 +147,34 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-16" data-column="16" disabled/> STATUS
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-16" data-column="16"/> ADD MEAL TYPE
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-17" data-column="17"/> SKU
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-18" data-column="18" /> SI / MODIFIER CODE
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-19" data-column="19" disabled/> STATUS
                 </label>
             </div>
         </div>

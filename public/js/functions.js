@@ -748,3 +748,13 @@ function accessibility(id){
         window.location.href = '/';
     }
 }
+
+function formatDate(dateString){
+    const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+    const date = new Date(dateString);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const formattedDate = month + " " + day + ", " + year;
+    return formattedDate;
+}
