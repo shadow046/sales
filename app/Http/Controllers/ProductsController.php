@@ -69,57 +69,72 @@ class ProductsController extends Controller
             }
         })
         ->addColumn('company_name', function(Product $products){
-            $user_row = '';
-            $array = explode("|", $products->company);
-            foreach($array as $value){
-                $user = Company::where('id', $value)->first();
-                if($user_row != ''){
-                    $user_row = $user_row.'|'.$user->company_name;
-                }
-                else{
-                    $user_row = $user->company_name;
-                }
+            if(!$products->company){
+                return 'NONE';
             }
-            return $user_row;
+            else{
+                $user_row = '';
+                $array = explode("|", $products->company);
+                foreach($array as $value){
+                    $user = Company::where('id', $value)->first();
+                    if($user_row != ''){
+                        $user_row = $user_row.'|'.$user->company_name;
+                    }
+                    else{
+                        $user_row = $user->company_name;
+                    }
+                }
+                return $user_row;
+            }
         })
         ->addColumn('area_name', function(Product $products){
-            $user_row = '';
-            $array = explode("|", $products->area);
-            foreach($array as $value){
-                $user = StoreArea::where('id', $value)->first();
-                if($user_row != ''){
-                    $user_row = $user_row.'|'.$user->store_area;
-                }
-                else{
-                    $user_row = $user->store_area;
-                }
+            if(!$products->area){
+                return 'NONE';
             }
-            return $user_row;
+            else{
+                $user_row = '';
+                $array = explode("|", $products->area);
+                foreach($array as $value){
+                    $user = StoreArea::where('id', $value)->first();
+                    if($user_row != ''){
+                        $user_row = $user_row.'|'.$user->store_area;
+                    }
+                    else{
+                        $user_row = $user->store_area;
+                    }
+                }
+                return $user_row;
+            }
         })
         ->addColumn('store_name', function(Product $products){
-            $user_row = '';
-            $array = explode("|", $products->store);
-            foreach($array as $value){
-                if(!str_contains($value, '-0')){
-                    $user = Store::where('id', $value)->first();
-                    if($user_row != ''){
-                        $user_row = $user_row.'|'.$user->branch_code.': '.$user->branch_name;
-                    }
-                    else{
-                        $user_row = $user->branch_code.': '.$user->branch_name;
-                    }
-                }
-                else{
-                    $user = StoreArea::where('id', substr($value, 0, -2))->first();
-                    if($user_row != ''){
-                        $user_row = $user_row.'|'.$user->store_area.' (ALL BRANCHES)';
-                    }
-                    else{
-                        $user_row = $user->store_area.' (ALL BRANCHES)';
-                    }
-                }
+            if(!$products->store){
+                return 'NONE';
             }
-            return $user_row;
+            else{
+                $user_row = '';
+                $array = explode("|", $products->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        if($user_row != ''){
+                            $user_row = $user_row.'|'.$user->branch_code.': '.$user->branch_name;
+                        }
+                        else{
+                            $user_row = $user->branch_code.': '.$user->branch_name;
+                        }
+                    }
+                    else{
+                        $user = StoreArea::where('id', substr($value, 0, -2))->first();
+                        if($user_row != ''){
+                            $user_row = $user_row.'|'.$user->store_area.' (ALL BRANCHES)';
+                        }
+                        else{
+                            $user_row = $user->store_area.' (ALL BRANCHES)';
+                        }
+                    }
+                }
+                return $user_row;
+            }
         })
         ->make(true);
     }
@@ -448,6 +463,34 @@ class ProductsController extends Controller
                         }
                     }
 
+                    $stores = array();
+                    $store_array = array_map('trim', explode(',', $value['branch_codes']));
+                    $store_list = Store::where('status', 'ACTIVE')->get();
+                    foreach($store_list as $key => $val){
+                        if(in_array($val['branch_code'], $store_array)){
+                            array_push($stores, $val['id']);
+                        }
+                    }
+
+                    if(count($stores)){
+                        $companies = array();
+                        $areas = array();
+                        foreach($stores as $store){
+                            $company_id = Store::where('id', $store)->first()->company_name;
+                            if(!in_array($company_id, $companies)){
+                                array_push($companies, $company_id);
+                            }
+                            $area_id = Store::where('id', $store)->first()->store_area;
+                            if(!in_array($area_id, $areas)){
+                                array_push($areas, $area_id);
+                            }
+                        }
+                    }
+                    else{
+                        $companies = '';
+                        $areas = '';
+                    }
+
                     $item_code = strtoupper(trim($value['item_code']));
                     if(Product::where('item_code', $item_code)->first()){
                         $product = Product::where('item_code', $item_code)->first();
@@ -459,6 +502,9 @@ class ProductsController extends Controller
                         $product->sku = strtoupper($value['sku']);
                         $product->modifier_code = $value['si_modifier_code'];
                         $product->setup = $store_setup ? implode(',', $store_setup) : '';
+                        $product->company = $companies ? implode('|', $companies) : '';
+                        $product->area = $areas ? implode('|', $areas) : '';
+                        $product->store = $stores ? implode('|', $stores) : '';
                         $product->status = 'ACTIVE';
                         $product->dine_in = str_replace(',', '', number_format($value['dine_in'], 2));
                         $product->take_out = str_replace(',', '', number_format($value['take_out'], 2));
@@ -490,6 +536,9 @@ class ProductsController extends Controller
                         $product->sku = strtoupper($value['sku']);
                         $product->modifier_code = $value['si_modifier_code'];
                         $product->setup = $store_setup ? implode(',', $store_setup) : '';
+                        $product->company = $companies ? implode('|', $companies) : '';
+                        $product->area = $areas ? implode('|', $areas) : '';
+                        $product->store = $stores ? implode('|', $stores) : '';
                         $product->status = 'ACTIVE';
                         $product->dine_in = str_replace(',', '', number_format($value['dine_in'], 2));
                         $product->take_out = str_replace(',', '', number_format($value['take_out'], 2));
