@@ -162,6 +162,8 @@ $(document).ready(function(){
 
 $(document).on('click', '#userTable tbody tr td:not(:nth-child(7))', function(){
     if(!table.data().any()){ return false; }
+    area1_all = [];
+    stores1_list = [];
     var data = table.row(this).data();
     $('#id1').val(data.user_id);
     $('#name1').val(data.user_name);
@@ -241,6 +243,8 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(7))', function(){
 });
 
 function btnAddUser(){
+    area_all = [];
+    stores_list = [];
     $('.req').hide();
     $('#name').val('');
     $('#email').val('');

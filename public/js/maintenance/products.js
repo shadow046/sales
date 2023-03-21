@@ -1,4 +1,6 @@
 $('.addBtn').on('click',function(){
+    area_all = [];
+    stores_list = [];
     promo_id = [];
     suspend_id = [];
     $('#set_meal_div').hide();
@@ -733,6 +735,8 @@ $(document).on('click','table.productsTable tbody tr td',function(){
     setTimeout(() => {
         if($(this).text() != 'ACTIVEINACTIVE'){
             $('.req').hide();
+            area_all = [];
+            stores_list = [];
             promo_id = [];
             suspend_id = [];
             // if($(".btn-delete").length > 0){
