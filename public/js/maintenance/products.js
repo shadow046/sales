@@ -6,6 +6,7 @@ $('.addBtn').on('click',function(){
     $('#setup').chosen();
     $('#setup_chosen').css('width','100%');
     $('#setup_chosen').addClass('requiredField requiredInput redBorder');
+    $('#setup').val('').trigger('chosen:updated');
     $('#company').chosen();
     $('#company').val('').trigger('chosen:updated');
     $('#company_chosen').css({'width': '100%', 'margin-top': '-15px'});
