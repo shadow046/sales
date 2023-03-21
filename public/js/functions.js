@@ -430,6 +430,10 @@ $(document).on('focusout', '.requiredField', function(){
         if($('.'+alertName+':visible').length == 0){
             $(this).after('<span class="'+alertName+' req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
         }
+        else if($('.'+alertName+':visible').length > 1){
+            alertName = 'className'+$(this).attr('id');
+            $('.'+alertName).remove();
+        }
     }
     else{
         alertName = 'className'+$(this).attr('id');

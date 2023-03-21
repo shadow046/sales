@@ -60,7 +60,7 @@ $(document).ready(function(){
         },
         columnDefs: [
             {
-                "targets": [2,4,5,6,7,8,10,11,12,13,14,15,16,17,18,20],
+                "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,19],
                 "visible": false,
                 "searchable": true
             },
@@ -78,23 +78,23 @@ $(document).ready(function(){
             { data: 'short_desc', name: 'short_desc'},
             { data: 'long_desc', name: 'long_desc'},
             { data: 'setup_name', name: 'setup_name'},
-            {
-                data: 'branch_name',
-                "render": function(data, type, row, meta){
-                    if((row.company).includes('|')){
-                        if(row.company_name.split("|").length == 1){
-                            var start = '';
-                        }
-                        else{
-                            var start = '• ';
-                        }
-                        return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
-                    }
-                    else{
-                        return row.company_name;
-                    }
-                }
-            },
+            // {
+            //     data: 'branch_name',
+            //     "render": function(data, type, row, meta){
+            //         if((row.company).includes('|')){
+            //             if(row.company_name.split("|").length == 1){
+            //                 var start = '';
+            //             }
+            //             else{
+            //                 var start = '• ';
+            //             }
+            //             return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
+            //         }
+            //         else{
+            //             return row.company_name;
+            //         }
+            //     }
+            // },
             {
                 data: 'area_name',
                 "render": function(data, type, row, meta){
@@ -242,7 +242,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=20; i++){
+            for(var i=0; i<=19; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }
@@ -349,8 +349,7 @@ $('.saveBtn').on('click',function(){
     var sku = $('#sku').val();
     var modifier_code = $('#modifier_code').val();
     var setup = $('#setup').val();
-    var company = $('#company').val();
-    console.log(company);
+    // var company = $('#company').val();
     var area = $('#area').val();
     var store = $('#store').val();
     var dine_in = $('#dine_in').val();
@@ -465,7 +464,7 @@ $('.saveBtn').on('click',function(){
                         sku:sku,
                         modifier_code:modifier_code,
                         setup:setup,
-                        company: company,
+                        // company: company,
                         area: area,
                         store: store,
                         dine_in:dine_in,
@@ -599,7 +598,7 @@ $('.saveBtn').on('click',function(){
                         sku:sku,
                         modifier_code:modifier_code,
                         setup:setup,
-                        company: company,
+                        // company: company,
                         area: area,
                         store: store,
                         dine_in:dine_in,
@@ -1608,22 +1607,23 @@ setInterval(() => {
     }
 }, 0);
 
-$(document).on('change', '#company', function(){
-    if(!$('#company option:selected').length || !$('#area option:selected').length){
-        $('.classStore').hide();
-        $('#store').find('option').remove();
-        $('#store').chosen();
-        $('#store').trigger('chosen:updated');
-        $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
-        $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
-    }
-    $('#area').change();
-});
+// $(document).on('change', '#company', function(){
+//     if(!$('#company option:selected').length || !$('#area option:selected').length){
+//         $('.classStore').hide();
+//         $('#store').find('option').remove();
+//         $('#store').chosen();
+//         $('#store').trigger('chosen:updated');
+//         $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+//         $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+//     }
+//     $('#area').change();
+// });
 
 var area_all = [];
 var stores_list = [];
 $(document).on('change', '#area', function(){
-    if(!$('#company option:selected').length || !$('#area option:selected').length){
+    // if(!$('#company option:selected').length || !$('#area option:selected').length){
+    if(!$('#area option:selected').length){
         $('.classStore').hide();
         $('#store').find('option').remove();
         $('#store').chosen();
@@ -1640,7 +1640,8 @@ $(document).on('change', '#area', function(){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data:{
-                company_id: $('#company').val(),
+                // company_id: $('#company').val(),
+                company_id: [],
                 area_id: $('#area').val(),
                 area_all: area_all
             },
@@ -1696,19 +1697,18 @@ $(document).on('change', '#store', function(){
     $('#area').change();
 });
 
-$(document).on('change','#company',function(){
-    if($('#company_chosen').is(':visible')){
-        if ($("#company").val().length > 0) {
-            $('#company_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamecompany_chosen').remove();
-        } else {
-            if($('.classNamecompany_chosen:visible').length == 0){
-                $('#company_chosen').addClass('requiredField requiredInput redBorder');
-                $('#company_chosen').after('<span class="classNamecompany_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-            }
-        }
-    }
-});
+// $(document).on('change','#company',function(){
+//     if($('#company_chosen').is(':visible')){
+//         if ($("#company").val().length > 0) {
+//             $('#company_chosen').removeClass('requiredField requiredInput redBorder');
+//             $('.classNamecompany_chosen').remove();
+//         } else {
+//             if($('.classNamecompany_chosen:visible').length == 0){
+//                 $('#company_chosen').addClass('requiredField requiredInput redBorder');
+//             }
+//         }
+//     }
+// });
 
 $(document).on('change','#area',function(){
     if($('#area_chosen').is(':visible')){
@@ -1718,7 +1718,6 @@ $(document).on('change','#area',function(){
         } else {
             if($('.classNamearea_chosen:visible').length == 0){
                 $('#area_chosen').addClass('requiredField requiredInput redBorder');
-                $('#area_chosen').after('<span class="classNamearea_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
             }
         }
     }

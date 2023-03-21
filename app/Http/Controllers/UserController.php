@@ -376,11 +376,21 @@ class UserController extends Controller
         else{
             $areas = $request->area_id;
         }
-        $stores = Store::query()
-            ->whereIn('company_name', $request->company_id)
-            ->whereIn('store_area', $areas)
-            ->orderBy('branch_code', 'asc')
-            ->get();
+
+        if(!$request->company_id){
+            $stores = Store::query()
+                ->whereIn('store_area', $areas)
+                ->orderBy('branch_code', 'asc')
+                ->get();
+        }
+        else{
+            $stores = Store::query()
+                ->whereIn('company_name', $request->company_id)
+                ->whereIn('store_area', $areas)
+                ->orderBy('branch_code', 'asc')
+                ->get();
+        }
+
         return response()->json($stores);
     }
 

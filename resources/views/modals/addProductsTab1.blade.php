@@ -63,7 +63,7 @@
             </div>
 
             <div class="col-12 row mt-1">
-                <div class="col-md-4 f-outline">
+                {{-- <div class="col-md-4 f-outline">
                     <div class="f-outline">
                         <select class="forminput form-control form-select" id="company" name="company" multiple data-placeholder="SELECT COMPANY">
                             @foreach($companies as $company)
@@ -72,8 +72,8 @@
                         </select>
                         <label for="company" class="formlabel form-label">COMPANY</label>
                     </div>
-                </div>
-                <div class="col-md-4 f-outline">
+                </div> --}}
+                <div class="col-md-6 f-outline">
                     <div class="f-outline">
                         <select class="forminput form-control form-select" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
                             @foreach($areas as $area)
@@ -83,7 +83,7 @@
                         <label for="area" class="formlabel form-label">Store Area</label>
                     </div>
                 </div>
-                <div class="col-md-4 f-outline">
+                <div class="col-md-6 f-outline">
                     <div class="f-outline">
                         <select class="forminput form-control form-select" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
                         </select>

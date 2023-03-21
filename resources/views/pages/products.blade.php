@@ -85,17 +85,14 @@
                     <input type="search" class="form-control filter-input" data-column="17" style="border:1px solid #808080"/>
                 </td>
                 <td>
-                    <input type="search" class="form-control filter-input" data-column="18" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <select class="form-control filter-select form-select" data-column="20" style="border:1px solid #808080">
+                    <select class="form-control filter-select form-select" data-column="19" style="border:1px solid #808080">
                         <option value="" selected></option>
                         <option value="ACTIVE" style="font-weight: bold; color: #2ab934;">ACTIVE</option>
                         <option value="INACTIVE" style="font-weight: bold; color: #ca2222;">INACTIVE</option>
                     </select>
                 </td>
                 <td>
-                    <input type="search" class="form-control filter-input" data-column="20" style="border:1px solid #808080"/>
+                    <input type="search" class="form-control filter-input" data-column="19" style="border:1px solid #808080"/>
                 </td>
             </tr>
             <tr>
@@ -105,7 +102,7 @@
                 <th>SHORT DESCRIPTION</th>
                 <th>LONG DESCRIPTION</th>
                 <th>STORE SETUP</th>
-                <th>COMPANY</th>
+                {{-- <th>COMPANY</th> --}}
                 <th>STORE AREA</th>
                 <th>STORE BRANCH</th>
                 <th>DINE-IN PRICE</th>

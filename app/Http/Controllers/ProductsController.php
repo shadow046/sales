@@ -35,14 +35,14 @@ class ProductsController extends Controller
         $product_categories = Category::select('id', 'category')->where('id','!=','0')->where('category_status','!=','DELETED')->get()->sortBy('category');
         $sales_types = SalesType::select('id','sales_type')->where('id','!=','0')->where('sales_type_status','!=','DELETED')->get()->sortBy('sales_type');
         $setups = Setup::select('id', 'setup')->where('id','!=','0')->where('setup_status','!=','DELETED')->get()->sortBy('setup');
-        $companies = Company::select('id','company_name')->where('id','!=','0')->get();
+        // $companies = Company::select('id','company_name')->where('id','!=','0')->get();
         $areas = StoreArea::where('id', '!=', '0')->get()->sortBy('store_area');
-        return view('pages.products', compact('products','categories','product_categories','sales_types','setups','companies','areas'));
+        return view('pages.products', compact('products','categories','product_categories','sales_types','setups','areas'));
     }
 
     public function products_data()
     {
-        $products = Product::selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, company, area, store, status, product_image, product_update_status')
+        $products = Product::selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, area, store, status, product_image, product_update_status')
             ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type, pos_setup, max_modifier, seq, kitchen_printer')
             ->selectRaw('promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
@@ -68,25 +68,25 @@ class ProductsController extends Controller
                 return $setup_row;
             }
         })
-        ->addColumn('company_name', function(Product $products){
-            if(!$products->company){
-                return 'NONE';
-            }
-            else{
-                $user_row = '';
-                $array = explode("|", $products->company);
-                foreach($array as $value){
-                    $user = Company::where('id', $value)->first();
-                    if($user_row != ''){
-                        $user_row = $user_row.'|'.$user->company_name;
-                    }
-                    else{
-                        $user_row = $user->company_name;
-                    }
-                }
-                return $user_row;
-            }
-        })
+        // ->addColumn('company_name', function(Product $products){
+        //     if(!$products->company){
+        //         return 'NONE';
+        //     }
+        //     else{
+        //         $user_row = '';
+        //         $array = explode("|", $products->company);
+        //         foreach($array as $value){
+        //             $user = Company::where('id', $value)->first();
+        //             if($user_row != ''){
+        //                 $user_row = $user_row.'|'.$user->company_name;
+        //             }
+        //             else{
+        //                 $user_row = $user->company_name;
+        //             }
+        //         }
+        //         return $user_row;
+        //     }
+        // })
         ->addColumn('area_name', function(Product $products){
             if(!$products->area){
                 return 'NONE';
@@ -201,7 +201,7 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
-        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        // $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
         $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
         $product->store = $request->store == '0' ? '0' : implode("|", $request->store);
         $product->seq = $request->seq;
@@ -289,7 +289,7 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
-        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        // $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
         $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
         $product->store = $request->store == '0' ? '0' : implode("|", $request->store);
         $product->seq = $request->seq;
@@ -473,13 +473,13 @@ class ProductsController extends Controller
                     }
 
                     if(count($stores)){
-                        $companies = array();
+                        // $companies = array();
                         $areas = array();
                         foreach($stores as $store){
-                            $company_id = Store::where('id', $store)->first()->company_name;
-                            if(!in_array($company_id, $companies)){
-                                array_push($companies, $company_id);
-                            }
+                            // $company_id = Store::where('id', $store)->first()->company_name;
+                            // if(!in_array($company_id, $companies)){
+                            //     array_push($companies, $company_id);
+                            // }
                             $area_id = Store::where('id', $store)->first()->store_area;
                             if(!in_array($area_id, $areas)){
                                 array_push($areas, $area_id);
@@ -487,7 +487,7 @@ class ProductsController extends Controller
                         }
                     }
                     else{
-                        $companies = '';
+                        // $companies = '';
                         $areas = '';
                     }
 
@@ -502,7 +502,7 @@ class ProductsController extends Controller
                         $product->sku = strtoupper($value['sku']);
                         $product->modifier_code = $value['si_modifier_code'];
                         $product->setup = $store_setup ? implode(',', $store_setup) : '';
-                        $product->company = $companies ? implode('|', $companies) : '';
+                        // $product->company = $companies ? implode('|', $companies) : '';
                         $product->area = $areas ? implode('|', $areas) : '';
                         $product->store = $stores ? implode('|', $stores) : '';
                         $product->status = 'ACTIVE';
@@ -536,7 +536,7 @@ class ProductsController extends Controller
                         $product->sku = strtoupper($value['sku']);
                         $product->modifier_code = $value['si_modifier_code'];
                         $product->setup = $store_setup ? implode(',', $store_setup) : '';
-                        $product->company = $companies ? implode('|', $companies) : '';
+                        // $product->company = $companies ? implode('|', $companies) : '';
                         $product->area = $areas ? implode('|', $areas) : '';
                         $product->store = $stores ? implode('|', $stores) : '';
                         $product->status = 'ACTIVE';
