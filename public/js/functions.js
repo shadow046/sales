@@ -99,7 +99,7 @@ $(document).ready(function(){
     else{
         $('.maintenance_tab').hide();
     }
-    
+
     $('#maintenance').popover({
         html: true,
         sanitize: false
@@ -441,6 +441,20 @@ $(document).on('focusout', '.requiredField', function(){
     }
 });
 
+$(document).on('blur', '.priceField', function(){
+    var inputValue = $(this).val();
+    if(inputValue.indexOf('.') === -1){
+        $(this).val(inputValue + '.00');
+    }
+});
+
+$(document).on('focusout', '.priceField', function(){
+    if(!$(this).val() || $(this).val() < 0 || $.isNumeric($(this).val()) == false){
+        $(this).val($(this).attr('min'));
+        $(this).blur();
+    }
+});
+
 $(document).on('change', '#province', function(){
     var citiesOption = " ";
     $('#region').val('');
@@ -642,7 +656,7 @@ $(document).ready(function(){
             $('#pass1').attr('type', 'search');
             $('#pass2').attr('type', 'search');
             $('#pass3').attr('type', 'search');
-        } 
+        }
         else{
             $('#show_password_text').text('SHOW PASSWORD');
             $('#show_password_eye').addClass('fa-eye').removeClass('fa-eye-slash');
