@@ -87,7 +87,7 @@
                         <label for="telephone" class="formlabels form-label">TELEPHONE</label>
                     </div>
                     <div class="col-md-2 f-outline">
-                        <input type="search" style="color: black" name="mobile" id="mobile" class="forminput form-control numberOnly" placeholder=" " autocomplete="off" maxlength="11">
+                        <input type="search" style="color: black" name="mobile" id="mobile" class="forminput form-control numberOnly" placeholder=" " autocomplete="off">
                         <p id="duplicate_mobile" class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                         <label for="mobile" class="formlabels form-label">MOBILE</label>
                     </div>

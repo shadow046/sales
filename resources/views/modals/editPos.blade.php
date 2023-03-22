@@ -8,11 +8,11 @@
         <div class="modal-body" style="background-color: white; color: black;">
             <input type="hidden" id="posStore_id"/>
             <input type="hidden" id="posPos_id"/>
-            <div class="requiredNote alert alert-primary p-2" role="alert" style="margin-top: -5px; display: none;">
+            <div class="requiredNote requiredNote2 alert alert-primary p-2" role="alert" style="margin-top: -5px; display: none;">
                 <i class='fa fa-exclamation-triangle'></i>
                 <b>NOTE:</b> Please fill up all required fields.
             </div>
-            <div class="changesNote alert alert-warning p-2" role="alert" style="margin-top: -5px; display: none;">
+            <div class="changesNote changesNote2 alert alert-warning p-2" role="alert" style="margin-top: -5px; display: none;">
                 <i class='fa fa-exclamation-triangle'></i>
                 <b>WARNING:</b> Cannot proceed. No changes found.
             </div>
@@ -41,13 +41,13 @@
             </div>
             <div class="mb-3">
                 <div class="f-outline">
-                    <input class="forminput form-control requiredField bg-white" type="search" id="posPtu" name="posPtu" placeholder=" ">
+                    <input class="forminput form-control bg-white" type="search" id="posPtu" name="posPtu" placeholder=" ">
                     <label for="posPtu" class="formlabel form-label">PTU No.</label>
                 </div>
             </div>
             <div class="mb-3">
                 <div class="f-outline">
-                    <input class="forminput form-control requiredField bg-white" type="date" id="posDateIssued" name="posDateIssued" placeholder=" ">
+                    <input class="forminput form-control bg-white" type="date" id="posDateIssued" name="posDateIssued" placeholder=" ">
                     <label for="posDateIssued" class="formlabel form-label">Date Issued</label>
                 </div>
             </div>

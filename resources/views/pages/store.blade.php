@@ -110,6 +110,7 @@
 <input type="hidden" name="store_id" id="store_id" class="modal_id">
 @include('modals.addStore')
 @include('modals.importStore')
+@include('modals.editContact')
 @include('modals.editPos')
 <script src={{asset('js/maintenance/store.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

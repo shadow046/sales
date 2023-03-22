@@ -71,7 +71,7 @@
                 </div>
                 <div class="row pt-3">
                     <div class="col-md f-outline">
-                        <select id="province" name="province" class="forminput form-control form-select requiredField" style="color: black">
+                        <select id="province" name="province" class="forminput form-control form-select" style="color: black">
                             <option selected disabled>SELECT PROVINCE</option>
                             @foreach ($provinces as $province)
                                 <option class="province" value="{{ $province->provCode }}">{{ mb_strtoupper($province->provDesc) }}</option>
@@ -80,13 +80,13 @@
                         <label for="province" class="formlabels form-label">PROVINCE
                     </div>
                     <div class="col-md f-outline">
-                        <select id="city" name="city" class="forminput form-control form-select requiredField" style="color: black" disabled>
+                        <select id="city" name="city" class="forminput form-control form-select" style="color: black" disabled>
                             <option selected disabled>SELECT CITY/MUNICIPALITY</option>
                         </select>
                         <label for="city" class="formlabels form-label">CITY/MUNICIPALITY
                     </div>
                     <div class="col-md f-outline">
-                        <input id="region" name="region" type="text" class="forminput form-control requiredField" placeholder="AUTOFILL" autocomplete="off" disabled>
+                        <input id="region" name="region" type="text" class="forminput form-control" placeholder="AUTOFILL" autocomplete="off" disabled>
                         <label for="region" class="formlabels form-label">REGION
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                         <label for="telephone" class="formlabels form-label">TELEPHONE
                     </div>
                     <div class="col-md-2 f-outline">
-                        <input id="mobile" name="mobile" type="search" class="forminput form-control numberOnly" placeholder=" " autocomplete="off" maxlength="11">
+                        <input id="mobile" name="mobile" type="search" class="forminput form-control numberOnly" placeholder=" " autocomplete="off">
                         <p id="duplicate_mobile" class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                         <label for="mobile" class="formlabels form-label">MOBILE
                     </div>

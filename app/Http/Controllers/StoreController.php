@@ -465,7 +465,7 @@ class StoreController extends Controller
         else{
             $sub_group = NULL;
         }
-        
+
         if($request->network !=  $network_orig){
             $network_orig = NetworkSetup::where('id', $network_orig)->first()->network_setup;
             $network_new = NetworkSetup::where('id', $request->network)->first()->network_setup;
@@ -481,7 +481,7 @@ class StoreController extends Controller
         else{
             $contact_person = NULL;
         }
-        
+
         $store = Store::find($request->id);
         $store->branch_code = strtoupper($request->branch_code);
         $store->company_name = $request->company_name;
@@ -534,7 +534,7 @@ class StoreController extends Controller
         $storePosInformation->serial = strtoupper($request->serial);
         $storePosInformation->min = strtoupper($request->min);
         $storePosInformation->ptu = strtoupper($request->ptu);
-        $storePosInformation->date_issued = $request->date_issued;
+        $storePosInformation->date_issued = $request->date_issued ? $request->date_issued : 'YYYY-MM-DD';
         $storePosInformation->save();
     }
 
@@ -575,6 +575,28 @@ class StoreController extends Controller
         }
     }
 
+    public function editStoreContactDetails(Request $request){
+        $storeContactDetails = StoreContactDetails::find($request->contact_id);
+        $storeContactDetails->position = strtoupper($request->position);
+        $storeContactDetails->contact_person = strtoupper($request->contact_person);
+        $storeContactDetails->email = strtolower($request->email);
+        $storeContactDetails->telephone = $request->telephone;
+        $storeContactDetails->mobile = $request->mobile;
+        $sql = $storeContactDetails->save();
+
+        if(!$sql){
+            return 'false';
+        }
+        else{
+            $userlogs = new UserLogs;
+            $userlogs->user_id = auth()->user()->id;
+            $userlogs->activity = "UPDATED STORE CONTACT DETAILS: User successfully updated details of $storeContactDetails->contact_person.";
+            $userlogs->save();
+
+            return 'true';
+        }
+    }
+
     public function editStorePosInformation(Request $request){
         $sql = StorePosInformation::where('id',$request->pos_id)->update([
             'store_id' => $request->store_id,
@@ -582,7 +604,7 @@ class StoreController extends Controller
             'serial' => strtoupper($request->serial),
             'min' => $request->min,
             'ptu' => $request->ptu,
-            'date_issued' => $request->date_issued,
+            'date_issued' => $request->date_issued ? $request->date_issued : 'YYYY-MM-DD',
             'status' => $request->status,
             'remarks' => strtoupper($request->remarks)
         ]);
@@ -624,8 +646,18 @@ class StoreController extends Controller
                 $ptu = NULL;
             }
             if($request->date_issued_orig != $request->date_issued){
-                $date_issued1 = Carbon::parse($request->date_issued_orig)->format('M. d, Y');
-                $date_issued2 = Carbon::parse($request->date_issued)->format('M. d, Y');
+                if($request->date_issued_orig == 'YYYY-MM-DD' || !$request->date_issued_orig){
+                    $date_issued1 = 'YYYY-MM-DD';
+                }
+                else{
+                    $date_issued1 = Carbon::parse($request->date_issued_orig)->format('M. d, Y');
+                }
+                if($request->date_issued == 'YYYY-MM-DD' || !$request->date_issued){
+                    $date_issued2 = 'YYYY-MM-DD';
+                }
+                else{
+                    $date_issued2 = Carbon::parse($request->date_issued)->format('M. d, Y');
+                }
                 $date_issued = "【Date Issued: FROM '$date_issued1' TO '$date_issued2'】";
             }
             else{
@@ -665,38 +697,38 @@ class StoreController extends Controller
         $failed_rows = [];
         $row_num = 2;
         foreach($data[0] as $key => $value){
-            if(!$value['company_name'] && 
-                !$value['branch_code'] && 
-                !$value['branch_name'] && 
-                !$value['address'] && 
-                !$value['store_area'] && 
-                !$value['type'] && 
-                !$value['setup'] && 
-                !$value['group'] && 
-                !$value['network_setup'] && 
-                !$value['contact_person'] && 
-                !$value['position'] && 
-                !$value['email'] && 
+            if(!$value['company_name'] &&
+                !$value['branch_code'] &&
+                !$value['branch_name'] &&
+                !$value['address'] &&
+                !$value['store_area'] &&
+                !$value['type'] &&
+                !$value['setup'] &&
+                !$value['group'] &&
+                !$value['network_setup'] &&
+                !$value['contact_person'] &&
+                !$value['position'] &&
+                !$value['email'] &&
                 !$value['mobile'] &&
                 !$value['pos_model'] &&
                 !$value['serial'] &&
                 !$value['min']
-                ){   
+                ){
                 echo(null);
             }
-            else if(!$value['company_name'] || 
-                !$value['branch_code'] || 
-                !$value['branch_name'] || 
-                !$value['address'] || 
-                !$value['store_area'] || 
-                !$value['type'] || 
-                !$value['setup'] || 
-                !$value['group'] || 
-                !$value['network_setup'] || 
+            else if(!$value['company_name'] ||
+                !$value['branch_code'] ||
+                !$value['branch_name'] ||
+                !$value['address'] ||
+                !$value['store_area'] ||
+                !$value['type'] ||
+                !$value['setup'] ||
+                !$value['group'] ||
+                !$value['network_setup'] ||
                 !$value['pos_model'] ||
                 !$value['serial'] ||
                 !$value['min']
-                ){   
+                ){
                 array_push($failed_rows, '【Row: '.$row_num.' => Error: Fill Required Fields!】');
             }
             else{
@@ -708,7 +740,7 @@ class StoreController extends Controller
                     $network_setup = NetworkSetup::where('network_setup', strtoupper(trim($value['network_setup'])))->first()->id;
                     $store_area = StoreArea::where('store_area', strtoupper(trim($value['store_area'])))->first()->id;
                     $company_name = Company::where('company_name', strtoupper(trim($value['company_name'])))->first()->id;
-                    
+
                     $store_setup = array();
                     $setup_array = array_map('trim', explode(',', strtoupper($value['setup'])));
                     $setup_list = Setup::where('setup_status', 'ACTIVE')->get();
@@ -717,7 +749,7 @@ class StoreController extends Controller
                             array_push($store_setup, $val['id']);
                         }
                     }
-                    
+
                     $delivery_channel = array();
                     $delivery_array = array_map('trim', explode(',', strtoupper($value['delivery_channel'])));
                     $delivery_list = DeliveryServingStore::where('delivery_serving_store_status', 'ACTIVE')->get();
@@ -726,7 +758,7 @@ class StoreController extends Controller
                             array_push($delivery_channel, $val['id']);
                         }
                     }
-    
+
                     $store = new Store;
                     $store->company_name = $company_name;
                     $store->tin = strtoupper($value['tin']);
@@ -742,7 +774,7 @@ class StoreController extends Controller
                     $store->serving_store = count($delivery_channel) != 0 ? implode(',', $delivery_channel) : '0';
                     $sql = $store->save();
                     $id = $store->id;
-    
+
                     if(!$sql){
                         array_push($failed_rows, '【Row: '.$row_num.', Error: Save Failed!】');
                     }
@@ -762,7 +794,7 @@ class StoreController extends Controller
                                 $error_log++;
                             }
                         }
-    
+
                         if(!strstr($value['pos_model'], ',') && !strstr($value['serial'], ',') && !strstr($value['min'], ',') && !strstr($value['ptu'], ',')){
                             $model = Pos::where('model', strtoupper(trim($value['pos_model'])))->first()->id;
                             if($model){
@@ -901,7 +933,7 @@ class StoreController extends Controller
                                 }
                             }
                         }
-    
+
                         if($error_log == 0){
                             $userlogs = new UserLogs;
                             $userlogs->user_id = auth()->user()->id;

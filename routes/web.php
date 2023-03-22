@@ -226,6 +226,7 @@ Route::controller(StoreController::class)->group(function(){
     Route::any('/mobile/checkDuplicate', 'checkDuplicate');
     Route::any('/ptu/checkDuplicate_Pos', 'checkDuplicate_Pos');
     Route::any('/min/checkDuplicate_Pos', 'checkDuplicate_Pos');
+    Route::any('/editStoreContactDetails', 'editStoreContactDetails');
     Route::any('/editStorePosInformation', 'editStorePosInformation');
 });
 

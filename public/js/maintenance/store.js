@@ -537,7 +537,7 @@ $(document).on('click','table.storeTable tbody tr td',function(){
                 columnDefs: [
                     {
                         "render": function(data, type, row, meta){
-                                return '<button class="btn btn-danger btndelContact" id="'+ meta.row +'"><i class="fa-solid fa-trash-can"></i> DELETE </button>';
+                                return `<center><button type="button" title="EDIT" class="btn btn-success btneditContact" contact_id="${row.id}" contact_person="${row.contact_person}" position="${row.position}" email="${row.email}" telephone="${row.telephone}" mobile="${row.mobile}"><i class="fa-solid fa-pen-to-square"></i></button><button class="btn btn-danger btndelContact ml-2" title="DELETE" id="${meta.row}"><i class="fa-solid fa-trash-can"></i></button></center>`;
                         },
                         "defaultContent": '',
                         "data": null,
@@ -581,7 +581,7 @@ $(document).on('click','table.storeTable tbody tr td',function(){
                     },
                     {
                         "render": function(data, type, row, meta){
-                                return `<button type="button" class="btn btn-success btneditPos" pos_id="${row.id}"  store_id="${row.store_id}"  model_id="${row.model}" serial="${row.serial}" min="${row.min}" ptu="${row.ptu}" date_issued="${row.date_issued}" status="${row.status}" remarks="${row.remarks}"><i class="fa-solid fa-pen-to-square"></i> EDIT </button>`;
+                                return `<center><button type="button" title="EDIT" class="btn btn-success btneditPos" pos_id="${row.id}"  store_id="${row.store_id}"  model_id="${row.model}" serial="${row.serial}" min="${row.min}" ptu="${row.ptu}" date_issued="${row.date_issued}" status="${row.status}" remarks="${row.remarks}"><i class="fa-solid fa-pen-to-square"></i></button></center>`;
                         },
                         "defaultContent": '',
                         "data": null,
@@ -735,6 +735,7 @@ var status_orig;
 var remarks_orig;
 
 $(document).on('click', '.btneditPos',function(){
+    $('.req').hide();
     store_id_orig = $(this).attr('store_id');
     pos_id_orig = $(this).attr('pos_id');
     model_id_orig = $(this).attr('model_id');
@@ -758,6 +759,20 @@ $(document).on('click', '.btneditPos',function(){
 });
 
 setInterval(() => {
+    if($('#editContactModal').is(':visible')){
+        if(
+            $('#contact_person_edit').val() == contact_person_orig &&
+            $('#position_edit').val() == position_orig &&
+            $('#email_edit').val() == email_orig &&
+            $('#telephone_edit').val() == telephone_orig &&
+            $('#mobile_edit').val() == mobile_orig
+        ){
+            $('.changesNote1').show();
+        }
+        else{
+            $('.changesNote1').hide();
+        }
+    }
     if($('#editPosModal').is(':visible')){
         if($('#posStatus').val() == 'TRANSFERRED'){
             $('.divPosRemarks').show();
@@ -777,13 +792,73 @@ setInterval(() => {
             $('#posStatus').val() == status_orig &&
             $('#posRemarks').val() == remarks_orig
         ){
-            $('.changesNote').show();
+            $('.changesNote2').show();
         }
         else{
-            $('.changesNote').hide();
+            $('.changesNote2').hide();
         }
     }
 }, 0);
+
+$('#btnUpdateContact').on('click',function(){
+    var contact = $('#contact_id').val();
+    var contact_person = $('#contact_person_edit').val();
+    var position = $('#position_edit').val();
+    var email = $('#email_edit').val();
+    var telephone = $('#telephone_edit').val();
+    var mobile = $('#mobile_edit').val();
+
+    Swal.fire({
+        title: 'Do you want to update?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((edit) => {
+        if (edit.isConfirmed) {
+            $('#loading').show();
+            $.ajax({
+                type: 'POST',
+                url: '/editStoreContactDetails',
+                async: false,
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{
+                    contact_id: contact,
+                    contact_person_orig: contact_person_orig,
+                    position_orig: position_orig,
+                    email_orig: email_orig,
+                    telephone_orig: telephone_orig,
+                    mobile_orig: mobile_orig,
+                    contact_person: contact_person,
+                    position: position,
+                    email: email,
+                    telephone: telephone,
+                    mobile: mobile
+                },
+                success:function(data){
+                    if(data == 'true'){
+                        $('#loading').hide();
+                        Swal.fire('UPDATE SUCCESS','','success');
+                        $('table.storeContactDetails_orig').DataTable().ajax.reload();
+                        $('#editContactModal').modal('hide');
+                    }
+                    else{
+                        $('#loading').hide();
+                        Swal.fire('UPDATE FAILED','','error');
+                    }
+                }
+            });
+        }
+    })
+});
 
 $('#btnUpdatePosModel').on('click',function(){
     var store_id = $('#posStore_id').val();
@@ -1002,12 +1077,36 @@ $('.updateBtn').on('click',function(){
     });
 });
 
+var contact_person_orig;
+var position_orig;
+var email_orig;
+var telephone_orig;
+var mobile_orig;
+
+$(document).on('click', '.btneditContact', function(e){
+    e.preventDefault();
+    $('.req').hide();
+    contact_person_orig = $(this).attr('contact_person');
+    position_orig = $(this).attr('position');
+    email_orig = $(this).attr('email');
+    telephone_orig = $(this).attr('telephone');
+    mobile_orig = $(this).attr('mobile');
+    $('#contact_id').val($(this).attr('contact_id'));
+    $('#contact_person_edit').val(contact_person_orig);
+    $('#position_edit').val(position_orig);
+    $('#email_edit').val(email_orig);
+    $('#telephone_edit').val(telephone_orig);
+    $('#mobile_edit').val(mobile_orig);
+
+    $('#editContactModal').modal('show');
+});
+
 $(document).on('click', '.btndelContact', function(e){
     e.preventDefault();
     var id = $(this).attr("id");
     var data = $('table.storeContactDetails_orig').DataTable().row(id).data();
     contact_id.push(data.id);
-    $(this).parent().parent().remove();
+    $(this).parent().parent().parent().remove();
     contact_person_change = 'CHANGED';
 });
 
