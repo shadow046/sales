@@ -788,7 +788,7 @@ setInterval(() => {
             $('#posSerial').val() == serial_orig &&
             $('#posMin').val() == min_orig &&
             $('#posPtu').val() == ptu_orig &&
-            $('#posDateIssued').val() == date_issued_orig &&
+            ($('#posDateIssued').val() == date_issued_orig || (!$('#posDateIssued').val() && date_issued_orig == 'YYYY-MM-DD')) &&
             $('#posStatus').val() == status_orig &&
             $('#posRemarks').val() == remarks_orig
         ){

@@ -169,11 +169,11 @@
                         <label for="contact_person" class="formlabels form-label">CONTACT PERSON
                     </div>
                     <div class="col-md-2 f-outline">
-                        <input id="position" name="position" type="search" class="forminput form-control stringOnly" placeholder=" " autocomplete="off" >
+                        <input id="position" name="position" type="search" class="forminput form-control text-uppercase stringOnly" placeholder=" " autocomplete="off" >
                         <label for="position" class="formlabels form-label">POSITION
                     </div>
                     <div class="col-md-2 f-outline">
-                        <input id="email" name="email" type="search" class="forminput form-control spacebar" placeholder=" " autocomplete="off" >
+                        <input id="email" name="email" type="search" class="forminput form-control text-lowercase spacebar" placeholder=" " autocomplete="off" >
                         <p id="duplicate_email" class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                         <label for="email" class="formlabels form-label">EMAIL-ADDRESS
                     </div>

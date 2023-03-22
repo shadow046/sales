@@ -17,23 +17,23 @@
             </div>
             <div class="f-outline mb-3">
                 <input id="contact_person_edit" name="contact_person_edit" type="search" class="forminput form-control text-uppercase requiredField stringOnly" placeholder=" " autocomplete="off" >
-                <label for="contact_person_edit" class="formlabels form-label">CONTACT PERSON
+                <label for="contact_person_edit" class="formlabel form-label">CONTACT PERSON
             </div>
             <div class="f-outline mb-3">
-                <input id="position_edit" name="position_edit" type="search" class="forminput form-control requiredField stringOnly" placeholder=" " autocomplete="off" >
-                <label for="position_edit" class="formlabels form-label">POSITION
+                <input id="position_edit" name="position_edit" type="search" class="forminput form-control text-uppercase requiredField stringOnly" placeholder=" " autocomplete="off" >
+                <label for="position_edit" class="formlabel form-label">POSITION
             </div>
             <div class="f-outline mb-3">
-                <input id="email_edit" name="email_edit" type="search" class="forminput form-control requiredField spacebar" placeholder=" " autocomplete="off" >
-                <label for="email_edit" class="formlabels form-label">EMAIL-ADDRESS
+                <input id="email_edit" name="email_edit" type="search" class="forminput form-control text-lowercase requiredField spacebar" placeholder=" " autocomplete="off" >
+                <label for="email_edit" class="formlabel form-label">EMAIL-ADDRESS
             </div>
             <div class="f-outline mb-3">
                 <input id="telephone_edit" name="telephone_edit" type="search" class="forminput form-control" placeholder=" " autocomplete="off" >
-                <label for="telephone_edit" class="formlabels form-label">TELEPHONE
+                <label for="telephone_edit" class="formlabel form-label">TELEPHONE
             </div>
             <div class="f-outline mb-3">
                 <input id="mobile_edit" name="mobile_edit" type="search" class="forminput form-control requiredField numberOnly" placeholder=" " autocomplete="off">
-                <label for="mobile_edit" class="formlabels form-label">MOBILE
+                <label for="mobile_edit" class="formlabel form-label">MOBILE
             </div>
             <div style="zoom: 85%;">
                 <button type="button" id="btnUpdateContact" class="btn btn-primary float-end bp btnRequired"><i class="fas fa-save"></i> UPDATE</button>

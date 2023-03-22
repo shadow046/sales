@@ -15,7 +15,6 @@
                     <b>NOTE:</b> Please fill up all required fields to proceed.
                 </div>
                 <hr>
-                
                 <div class="row pt-1">
                     <div class="col-md f-outline">
                         <input type="search" style="color: black" name="company_code" id="company_code" class="forminput form-control requiredField text-uppercase" placeholder=" " autocomplete="off" onkeyup="alpha_numeric(this)">
@@ -73,11 +72,11 @@
                         <label for="person" class="formlabels form-label">CONTACT PERSON</label>
                     </div>
                     <div class="col-md-2 f-outline">
-                        <input type="search" style="color: black" name="position" id="position" class="forminput form-control stringOnly" placeholder=" " autocomplete="off" >
+                        <input type="search" style="color: black" name="position" id="position" class="forminput form-control text-uppercase stringOnly" placeholder=" " autocomplete="off" >
                         <label for="position" class="formlabels form-label">POSITION</label>
                     </div>
                     <div class="col-md-2 f-outline">
-                        <input type="search" style="color: black" name="email_address" id="email_address" class="forminput form-control" placeholder=" " autocomplete="off" >
+                        <input type="search" style="color: black" name="email_address" id="email_address" class="forminput form-control text-lowercase" placeholder=" " autocomplete="off" >
                         <p id="duplicate_email_address" class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                         <label for="email_address" class="formlabels form-label">EMAIL-ADDRESS</label>
                     </div>
