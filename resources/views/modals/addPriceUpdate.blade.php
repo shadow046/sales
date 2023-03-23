@@ -5,14 +5,13 @@
                 <h5 class="modal-title w-100 text-center">PRICE UPDATE DETAILS</h5>
                 <button type="button" class="btn-close btn-close-white close btnClose" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <div class="alert alert-primary requiredNote p-2 mt-2" role="alert" style="display: none;">
+            <div class="modal-body mb-2">
+                <div class="alert alert-primary requiredNote p-2 mb-4" role="alert" style="display: none;">
                     <i class='fa fa-exclamation-triangle'></i>
                     <b>NOTE:</b> Please fill up all required fields to proceed.
                 </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-12 f-outline mb-3">
+                <div class="row mb-3">
+                    <div class="col-md-8 f-outline">
                         <select id="product" name="product" class="forminput form-control form-select requiredField" style="color: black">
                             <option value="" selected disabled>Select Product</option>
                             @foreach($products as $product)
@@ -21,9 +20,7 @@
                         </select>
                         <label for="product" class="formlabels form-label">PRODUCT CODE / DESCRIPTION
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6 f-outline">
+                    <div class="col-md-4 f-outline">
                         <input type="date" name="effdate" id="effdate" class="forminput form-control inputFields requiredField" min="{{date('Y-m-d')}}" placeholder=" ">
                         <label for="effdate" class="formlabels form-label">EFFECTIVITY DATE</label>
                     </div>

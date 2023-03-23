@@ -8,8 +8,8 @@ $('.addBtn').on('click', function(){
     $('#product').val('');
     $('#product').chosen();
     $('#product').trigger('chosen:updated');
-    $('#product_chosen').css({'width': '100%', 'margin-bottom': '-22px'});
-    $('label[for="product"]').css({'margin-top': '-18px', 'margin-right': '-20px'});
+    $('#product_chosen').css({'width':'100%','margin-bottom':'-40px'});
+    $('label[for="product"]').css({'margin-top': '0px', 'margin-right': '-20px'});
 });
 
 var table;
@@ -82,6 +82,12 @@ $(document).ready(function(){
                 data: 'upa8', name:'upa8',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa8).toFixed(2))}</span>`;
+                },
+            },
+            {
+                data: 'upa9', name:'upa9',
+                "render":function(data,type,row){
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa9).toFixed(2))}</span>`;
                 },
             },
             {
@@ -281,6 +287,7 @@ $('#priceUpdateTable tbody').on('click', 'tr td:not(:nth-child(12))', function()
         $('#priceUpdateModal').find('input').prop('disabled', true);
         $('#priceUpdateModal').find('select').prop('disabled', true);
     }
+    if(!table.data().any()){ return false; }
     var data = table.row(this).data();
 
     $('.saveBtn').hide();
@@ -302,8 +309,8 @@ $('#priceUpdateTable tbody').on('click', 'tr td:not(:nth-child(12))', function()
 
     $('#product').chosen();
     $('#product').trigger('chosen:updated');
-    $('#product_chosen').css({'width': '100%', 'margin-bottom': '-22px'});
-    $('label[for="product"]').css({'margin-top': '-18px', 'margin-right': '-20px'});
+    $('#product_chosen').css({'width':'100%','margin-bottom':'-40px'});
+    $('label[for="product"]').css({'margin-top': '0px', 'margin-right': '-20px'});
 
     $('#priceUpdateModal').modal('show');
 });
