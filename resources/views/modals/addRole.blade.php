@@ -23,16 +23,16 @@
                             @endforeach
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input assignment" id="radio1" name="optradio" value="" checked>NO COMPANY/AREA assignment in user accounts.
-                            <label class="form-check-label" for="radio1"></label>
+                            <input type="radio" class="form-check-input assignment" id="radio1" name="optradio" value="" checked>
+                            <label class="form-check-label" for="radio1">NO COMPANY/AREA assignment in user accounts.</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input assignment" id="radio2" name="optradio" value="7">COMPANY and AREA assignment in user accounts.
-                            <label class="form-check-label" for="radio2"></label>
+                            <input type="radio" class="form-check-input assignment" id="radio2" name="optradio" value="7">
+                            <label class="form-check-label" for="radio2">COMPANY and AREA assignment in user accounts.</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input assignment" id="radio3" name="optradio" value="28">COMPANY ONLY assignment in user accounts.
-                            <label class="form-check-label" for="radio3"></label>
+                            <input type="radio" class="form-check-input assignment" id="radio3" name="optradio" value="28">
+                            <label class="form-check-label" for="radio3">COMPANY ONLY assignment in user accounts.</label>
                         </div>
                     </div>
                 </div>

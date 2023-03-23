@@ -730,348 +730,341 @@ $('.saveBtn').on('click',function(){
 
 var promo_id = [];
 $(document).on('click','table.productsTable tbody tr td',function(){
-    $('#loading').show();
-    setTimeout(() => {
-        if($(this).text() != 'ACTIVEINACTIVE'){
-            $('.req').hide();
-            area_all = [];
-            stores_list = [];
-            promo_id = [];
-            suspend_id = [];
-            // if($(".btn-delete").length > 0){
-            //     $('.btn-delete').each(function(){
-            //         $(this).click();
-            //     });
-            // }
+    if($(this).text() != 'ACTIVEINACTIVE'){
+        $('#loading').show();
+        $('.req').hide();
+        area_all = [];
+        stores_list = [];
+        promo_id = [];
+        suspend_id = [];
 
-            if(!current_permissions.includes('3')){
-                $('#productsModal').find('input').prop('disabled', true);
-                $('#productsModal').find('select').prop('disabled', true);
-                $('#productsModal').find('textarea').prop('disabled', true);
-            }
-            $('.tab1').click();
-            $('.validation').hide();
-            $('.forminput').removeClass('redBorder');
-
-            var data = table.row(this).data();
-
-            if(current_permissions.includes('5')){
-                $('#tabContent').addClass('mt-8');
-            }
-            else{
-                $('#tabContent').removeClass('mt-8');
-            }
-            if(data.status == 'ACTIVE'){
-                $('#status').html('<label class="switch"><input type="checkbox" class="tglStatus" id="'+ data.id +'" tgl_item_code="'+data.item_code+'" tgl_short_desc="'+data.short_desc+'" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>');
-            }
-            if(data.status == 'INACTIVE'){
-                $('#status').html('<label class="switch"><input type="checkbox" class="tglStatus" id="'+ data.id +'" tgl_item_code="'+data.item_code+'" tgl_short_desc="'+data.short_desc+'"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>');
-            }
-
-            if(!data.product_image){
-                $('#filename').val('');
-                $('#product_image_preview').attr('src','');
-                $('#product_image_preview').hide();
-            }
-            else{
-                $('#filename').val(data.product_image);
-                $('#product_image_preview').prop('src',window.location.origin+'/storage/product_images/'+data.product_image);//Returns base URL/to get the current url (window.location.origin)
-                $('#product_image_preview').show();
-            }
-
-            $('#filename_delete').val('');
-
-            $('#product_id').val(data.id);
-            $('#item_code').val(data.item_code);
-            $('#category').val(data.category);
-            $('#category').change();
-            $('#intro_date').val(data.intro_date);
-            $('#short_desc').val(data.short_desc);
-            $('#long_desc').val(data.long_desc);
-            $('#sku').val(data.sku);
-            $('#modifier_code').val(data.modifier_code);
-            $('#dine_in').val(parseFloat(data.dine_in).toFixed(2));
-            $('#take_out').val(parseFloat(data.take_out).toFixed(2));
-            $('#pick_up').val(parseFloat(data.pick_up).toFixed(2));
-            $('#delivery').val(parseFloat(data.delivery).toFixed(2));
-            $('#bulk_order').val(parseFloat(data.bulk_order).toFixed(2));
-            $('#fds').val(parseFloat(data.fds).toFixed(2));
-            $('#drive_thru').val(parseFloat(data.drive_thru).toFixed(2));
-            $('#meal_type').val(parseFloat(data.meal_type).toFixed(2));
-            $('#max_modifier').val(data.max_modifier);
-            $('#seq').val(data.seq);
-            $('#kitchen_printer').val(data.kitchen_printer);
-            $('#promo_start').val(data.promo_start);
-            $('#promo_end').val(data.promo_end);
-            $('#promo_price').val(parseFloat(data.promo_price).toFixed(2));
-            $('#promo_item_not_allow').val(data.promo_item_not_allow);
-            $('#sales_type').val(data.sales_type);
-            $('#start_date').val(data.start_date);
-            $('#start_time').val(data.start_time);
-            $('#end_date').val(data.end_date);
-            $('#end_time').val(data.end_time);
-            $('#dine_sml').val(parseFloat(data.dine_sml).toFixed(2));
-            $('#dine_med').val(parseFloat(data.dine_med).toFixed(2));
-            $('#dine_large').val(parseFloat(data.dine_large).toFixed(2));
-            $('#dine_xl').val(parseFloat(data.dine_xl).toFixed(2));
-            $('#dine_zero').val(parseFloat(data.dine_zero).toFixed(2));
-            $('#takeout_sml').val(parseFloat(data.takeout_sml).toFixed(2));
-            $('#takeout_med').val(parseFloat(data.takeout_med).toFixed(2));
-            $('#takeout_large').val(parseFloat(data.takeout_large).toFixed(2));
-            $('#takeout_xl').val(parseFloat(data.takeout_xl).toFixed(2));
-            $('#takeout_zero').val(parseFloat(data.takeout_zero).toFixed(2));
-            $('#pickup_sml').val(parseFloat(data.pickup_sml).toFixed(2));
-            $('#pickup_med').val(parseFloat(data.pickup_med).toFixed(2));
-            $('#pickup_large').val(parseFloat(data.pickup_large).toFixed(2));
-            $('#pickup_xl').val(parseFloat(data.pickup_xl).toFixed(2));
-            $('#pickup_zero').val(parseFloat(data.pickup_zero).toFixed(2));
-            $('#delivery_sml').val(parseFloat(data.delivery_sml).toFixed(2));
-            $('#delivery_med').val(parseFloat(data.delivery_med).toFixed(2));
-            $('#delivery_large').val(parseFloat(data.delivery_large).toFixed(2));
-            $('#delivery_xl').val(parseFloat(data.delivery_xl).toFixed(2));
-            $('#delivery_zero').val(parseFloat(data.delivery_zero).toFixed(2));
-            if(data.days_available == 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'){
-                $('#daily').prop('checked', true);
-                setTimeout(() => {
-                    $('#daily').change();
-                }, current_timeout);
-            }
-            else{
-                $('#daily').prop('checked', false);
-                $('.days_available').prop('checked', false);
-                $('.days_available').prop('disabled', false);
-                setTimeout(() => {
-                    $('.days_available').each(function(){
-                        if(data.days_available.includes($(this).val())){
-                            $(this).prop('checked', true);
-                        }
-                        else{
-                            $(this).prop('checked', false);
-                        }
-                    });
-                }, current_timeout);
-            }
-            $('.pos_setup').prop('checked', false);
-            setTimeout(() => {
-                $('.pos_setup').each(function(){
-                    if(data.pos_setup.includes($(this).val())){
-                        $(this).prop('checked', true);
-                    }
-                    else{
-                        $(this).prop('checked', false);
-                    }
-                });
-            }, current_timeout);
-            $('.promo_setup').prop('checked', false);
-            setTimeout(() => {
-                $('.promo_setup').each(function(){
-                    if(data.promo_setup.includes($(this).val())){
-                        $(this).prop('checked', true);
-                    }
-                    else{
-                        $(this).prop('checked', false);
-                    }
-                });
-            }, current_timeout);
-
-            var setup_array = data.setup.split()[0].split(',');
-            $("#setup").children("option").each(function(){
-                if(setup_array.includes($(this).val().toString())){
-                    $(this).prop("selected",true);
-                }
-                else{
-                    $(this).prop("selected",false);
-                }
-            });
-
-            setTimeout(() => {
-                $('#setup').change();
-                $('#setup').chosen();
-                $('#setup').trigger('chosen:updated');
-                $('#setup_chosen').css('width','100%');
-            }, current_timeout);
-
-            $("#company").children("option").each(function(){
-                if($.inArray($(this).val(),(data.company).split('|')) !== -1){
-                    $(this).prop("selected",true);
-                }
-                else{
-                    $(this).prop("selected",false);
-                }
-            });
-
-            $("#area").children("option").each(function(){
-                if($.inArray($(this).val(),(data.area).split('|')) !== -1){
-                    $(this).prop("selected",true);
-                }
-                else{
-                    $(this).prop("selected",false);
-                }
-            });
-
-            setTimeout(() => {
-                $('#company').chosen();
-                $('#company').trigger('chosen:updated');
-                $('#company_chosen').css({'width': '100%', 'margin-top': '-15px'});
-                $('label[for="company"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
-                $('#company').change();
-
-                $('#area').chosen();
-                $('#area').trigger('chosen:updated');
-                $('#area_chosen').css({'width': '100%', 'margin-top': '-15px'});
-                $('label[for="area"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
-                $('#area').change();
-
-                setTimeout(() => {
-                    $("#store").children("option").each(function(){
-                        if($.inArray($(this).val(),(data.store).split('|')) !== -1){
-                            $(this).prop("selected",true);
-                        }
-                        else{
-                            $(this).prop("selected",false);
-                        }
-                    });
-                    setTimeout(() => {
-                        $('#store').chosen();
-                        $('#store').trigger('chosen:updated');
-                        $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
-                        $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
-                        $('#store').change();
-                    }, current_timeout);
-                }, current_timeout);
-            }, current_timeout);
-
-            //trclick table
-            $('#promoProductCombination_tbody').empty();
-            if($('#category').val() == '0'){
-                $.ajax({
-                    url: '/promo_product_combination/data',
-                    async: false,
-                    data:{
-                        id: data.id
-                    },
-                    success: function(data){
-                        var array = $.map(data, function(value, index){
-                            return [value];
-                        });
-                        array.forEach(value => {
-                            if(value.promo_item_status == 'INACTIVE'){
-                                suspend_id.push(value.product_id);
-                            }
-                            else{
-                                var index = suspend_id.indexOf(value.product_id);
-                                if(index !== -1){
-                                    suspend_id.splice(index, 1);
-                                }
-                            }
-                            html = "<tr class='promoProductCombination_tr'>"+
-                                        "<td class='td_1 d-none'>" + value.product_id + "</td>" +
-                                        "<td>" + value.category_name + "</td>" +
-                                        "<td>" + value.item_code +': '+ value.short_description + "</td>" +
-                                        "<td class='text-right'>" +  formatNumber(parseFloat(value.dine_in).toFixed(2)) + "</td>" +
-                                        "<td class='text-right td_2'>" + value.qty + "</td>" +
-                                        "<td class='text-right td_Amount'>" +  formatNumber((parseFloat(value.dine_in) * parseFloat(value.qty)).toFixed(2)) + "</td>" +
-                                        "<td> <center><input type='checkbox' class='checkbox cbx' style='zoom:180%;' value="+ value.product_id +"></center> </td>" +
-                                        "<td> <center><button type='button' class='btn btn-danger btn-delete btn_promo center' title='DELETE'><i class='fas fa-trash-alt'></i></button></center> </td>" +
-                                    "</tr>";
-                            $("#promoProductCombination_tbody").append(html);
-                        });
-                        $('.cbx').each(function() {
-                            var va = parseInt($.trim($(this).val()));
-                            if(suspend_id.includes(va.toString())){
-                                $(this).prop('checked',true);
-                            }
-                            else{
-                                $(this).prop('checked',false);
-                            }
-                        });
-                    }
-                });
-                var td_totalAmount = 0;
-                $(".td_Amount").each(function(){
-                    td_totalAmount += parseFloat($(this).html().replace(/,/g,''));
-                });
-                $('.td_totalAmount').html(formatNumber(td_totalAmount.toFixed(2)));
-            }
-            // $('#promoProductCombination_orig').dataTable().fnDestroy();
-            // $('#promoProductCombination_orig').DataTable({
-            //     columnDefs: [
-            //         {
-            //             "render": function(data, type, row, meta){
-            //                     return '<center><button type="button" class="btn btn-danger btndelItem" id="'+ meta.row +'"><i class="fa-solid fa-trash-can"></i> DELETE </button></center>';
-            //             },
-            //             "defaultContent": '',
-            //             "data": null,
-            //             "targets": [7]
-            //         },
-            //         {
-            //             "targets": [0,6],
-            //             "visible": false,
-            //             "searchable": false
-            //         },
-            //     ],
-            //     searching: false,
-            //     paging: false,
-            //     ordering: false,
-            //     info: false,
-            //     autoWidth: false,
-            //     language:{
-            //         emptyTable: "No data available in table",
-            //         processing: "Loading...",
-            //     },
-            //     serverSide: true,
-            //     ajax: {
-            //         url: '/promo_product_combination/data',
-            //         async: false,
-            //         data:{
-            //             id: data.id,
-            //         }
-            //     },
-            //     columns: [
-            //         { data: 'product_id', name:'product_id'},
-            //         { data: 'item_code', name:'item_code'},
-            //         { data: 'long_description', name:'long_description'},
-            //         { data: 'dine_in', name:'dine_in'},
-            //         { data: 'qty', name:'qty'},
-            //         {
-            //             data: 'promo_item_status',
-            //             "render":function(data,type,row){
-            //                 if(row.promo_item_status == 'INACTIVE'){
-            //                     suspend_id.push(row.product_id);
-            //                 }
-            //                 else{
-            //                     var index = suspend_id.indexOf(row.product_id);
-            //                     if(index !== -1){
-            //                         suspend_id.splice(index, 1);
-            //                     }
-            //                 }
-            //                 return(`<center><input type='checkbox' class='checkbox cbx' style='zoom:180%;' value="${row.product_id}"></center>`);
-            //             }
-            //         },
-            //         {
-            //             data: 'product_id',
-            //             "render":function(data,type,row){
-            //                 return '0';
-            //             }
-            //         }
-            //     ],
-            //     initComplete: function(){
-            //         $('.cbx').each(function() {
-            //             var va = parseInt($.trim($(this).val()));
-            //             if(suspend_id.includes(va.toString())){
-            //                 $(this).prop('checked',true);
-            //             }
-            //             else{
-            //                 $(this).prop('checked',false);
-            //             }
-            //         });
-            //         $('#loading').hide();
-            //     }
-            // });
-            $('#loading').hide();
-            $('#productsModal').modal('show');
+        if(!current_permissions.includes('3')){
+            $('#productsModal').find('input').prop('disabled', true);
+            $('#productsModal').find('select').prop('disabled', true);
+            $('#productsModal').find('textarea').prop('disabled', true);
         }
-    }, current_timeout);
+        $('.tab1').click();
+        $('.validation').hide();
+        $('.forminput').removeClass('redBorder');
+
+        var data = table.row(this).data();
+
+        if(current_permissions.includes('5')){
+            $('#tabContent').addClass('mt-8');
+        }
+        else{
+            $('#tabContent').removeClass('mt-8');
+        }
+        if(data.status == 'ACTIVE'){
+            $('#status').html('<label class="switch"><input type="checkbox" class="tglStatus" id="'+ data.id +'" tgl_item_code="'+data.item_code+'" tgl_short_desc="'+data.short_desc+'" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>');
+        }
+        if(data.status == 'INACTIVE'){
+            $('#status').html('<label class="switch"><input type="checkbox" class="tglStatus" id="'+ data.id +'" tgl_item_code="'+data.item_code+'" tgl_short_desc="'+data.short_desc+'"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>');
+        }
+
+        if(!data.product_image){
+            $('#filename').val('');
+            $('#product_image_preview').attr('src','');
+            $('#product_image_preview').hide();
+        }
+        else{
+            $('#filename').val(data.product_image);
+            $('#product_image_preview').prop('src',window.location.origin+'/storage/product_images/'+data.product_image);//Returns base URL/to get the current url (window.location.origin)
+            $('#product_image_preview').show();
+        }
+
+        $('#filename_delete').val('');
+
+        $('#product_id').val(data.id);
+        $('#item_code').val(data.item_code);
+        $('#category').val(data.category);
+        $('#category').change();
+        $('#intro_date').val(data.intro_date);
+        $('#short_desc').val(data.short_desc);
+        $('#long_desc').val(data.long_desc);
+        $('#sku').val(data.sku);
+        $('#modifier_code').val(data.modifier_code);
+        $('#dine_in').val(parseFloat(data.dine_in).toFixed(2));
+        $('#take_out').val(parseFloat(data.take_out).toFixed(2));
+        $('#pick_up').val(parseFloat(data.pick_up).toFixed(2));
+        $('#delivery').val(parseFloat(data.delivery).toFixed(2));
+        $('#bulk_order').val(parseFloat(data.bulk_order).toFixed(2));
+        $('#fds').val(parseFloat(data.fds).toFixed(2));
+        $('#drive_thru').val(parseFloat(data.drive_thru).toFixed(2));
+        $('#meal_type').val(parseFloat(data.meal_type).toFixed(2));
+        $('#max_modifier').val(data.max_modifier);
+        $('#seq').val(data.seq);
+        $('#kitchen_printer').val(data.kitchen_printer);
+        $('#promo_start').val(data.promo_start);
+        $('#promo_end').val(data.promo_end);
+        $('#promo_price').val(parseFloat(data.promo_price).toFixed(2));
+        $('#promo_item_not_allow').val(data.promo_item_not_allow);
+        $('#sales_type').val(data.sales_type);
+        $('#start_date').val(data.start_date);
+        $('#start_time').val(data.start_time);
+        $('#end_date').val(data.end_date);
+        $('#end_time').val(data.end_time);
+        $('#dine_sml').val(parseFloat(data.dine_sml).toFixed(2));
+        $('#dine_med').val(parseFloat(data.dine_med).toFixed(2));
+        $('#dine_large').val(parseFloat(data.dine_large).toFixed(2));
+        $('#dine_xl').val(parseFloat(data.dine_xl).toFixed(2));
+        $('#dine_zero').val(parseFloat(data.dine_zero).toFixed(2));
+        $('#takeout_sml').val(parseFloat(data.takeout_sml).toFixed(2));
+        $('#takeout_med').val(parseFloat(data.takeout_med).toFixed(2));
+        $('#takeout_large').val(parseFloat(data.takeout_large).toFixed(2));
+        $('#takeout_xl').val(parseFloat(data.takeout_xl).toFixed(2));
+        $('#takeout_zero').val(parseFloat(data.takeout_zero).toFixed(2));
+        $('#pickup_sml').val(parseFloat(data.pickup_sml).toFixed(2));
+        $('#pickup_med').val(parseFloat(data.pickup_med).toFixed(2));
+        $('#pickup_large').val(parseFloat(data.pickup_large).toFixed(2));
+        $('#pickup_xl').val(parseFloat(data.pickup_xl).toFixed(2));
+        $('#pickup_zero').val(parseFloat(data.pickup_zero).toFixed(2));
+        $('#delivery_sml').val(parseFloat(data.delivery_sml).toFixed(2));
+        $('#delivery_med').val(parseFloat(data.delivery_med).toFixed(2));
+        $('#delivery_large').val(parseFloat(data.delivery_large).toFixed(2));
+        $('#delivery_xl').val(parseFloat(data.delivery_xl).toFixed(2));
+        $('#delivery_zero').val(parseFloat(data.delivery_zero).toFixed(2));
+        if(data.days_available == 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'){
+            $('#daily').prop('checked', true);
+            setTimeout(() => {
+                $('#daily').change();
+            }, current_timeout);
+        }
+        else{
+            $('#daily').prop('checked', false);
+            $('.days_available').prop('checked', false);
+            $('.days_available').prop('disabled', false);
+            setTimeout(() => {
+                $('.days_available').each(function(){
+                    if(data.days_available.includes($(this).val())){
+                        $(this).prop('checked', true);
+                    }
+                    else{
+                        $(this).prop('checked', false);
+                    }
+                });
+            }, current_timeout);
+        }
+        $('.pos_setup').prop('checked', false);
+        setTimeout(() => {
+            $('.pos_setup').each(function(){
+                if(data.pos_setup.includes($(this).val())){
+                    $(this).prop('checked', true);
+                }
+                else{
+                    $(this).prop('checked', false);
+                }
+            });
+        }, current_timeout);
+        $('.promo_setup').prop('checked', false);
+        setTimeout(() => {
+            $('.promo_setup').each(function(){
+                if(data.promo_setup.includes($(this).val())){
+                    $(this).prop('checked', true);
+                }
+                else{
+                    $(this).prop('checked', false);
+                }
+            });
+        }, current_timeout);
+
+        var setup_array = data.setup.split()[0].split(',');
+        $("#setup").children("option").each(function(){
+            if(setup_array.includes($(this).val().toString())){
+                $(this).prop("selected",true);
+            }
+            else{
+                $(this).prop("selected",false);
+            }
+        });
+
+        setTimeout(() => {
+            $('#setup').change();
+            $('#setup').chosen();
+            $('#setup').trigger('chosen:updated');
+            $('#setup_chosen').css('width','100%');
+        }, current_timeout);
+
+        $("#company").children("option").each(function(){
+            if($.inArray($(this).val(),(data.company).split('|')) !== -1){
+                $(this).prop("selected",true);
+            }
+            else{
+                $(this).prop("selected",false);
+            }
+        });
+
+        $("#area").children("option").each(function(){
+            if($.inArray($(this).val(),(data.area).split('|')) !== -1){
+                $(this).prop("selected",true);
+            }
+            else{
+                $(this).prop("selected",false);
+            }
+        });
+
+        setTimeout(() => {
+            $('#company').chosen();
+            $('#company').trigger('chosen:updated');
+            $('#company_chosen').css({'width': '100%', 'margin-top': '-15px'});
+            $('label[for="company"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+            $('#company').change();
+
+            $('#area').chosen();
+            $('#area').trigger('chosen:updated');
+            $('#area_chosen').css({'width': '100%', 'margin-top': '-15px'});
+            $('label[for="area"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+            $('#area').change();
+
+            setTimeout(() => {
+                $("#store").children("option").each(function(){
+                    if($.inArray($(this).val(),(data.store).split('|')) !== -1){
+                        $(this).prop("selected",true);
+                    }
+                    else{
+                        $(this).prop("selected",false);
+                    }
+                });
+                setTimeout(() => {
+                    $('#store').chosen();
+                    $('#store').trigger('chosen:updated');
+                    $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+                    $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
+                    $('#store').change();
+                }, current_timeout);
+            }, current_timeout);
+        }, current_timeout);
+
+        //trclick table
+        $('#promoProductCombination_tbody').empty();
+        if($('#category').val() == '0'){
+            $.ajax({
+                url: '/promo_product_combination/data',
+                async: false,
+                data:{
+                    id: data.id
+                },
+                success: function(data){
+                    var array = $.map(data, function(value, index){
+                        return [value];
+                    });
+                    array.forEach(value => {
+                        if(value.promo_item_status == 'INACTIVE'){
+                            suspend_id.push(value.product_id);
+                        }
+                        else{
+                            var index = suspend_id.indexOf(value.product_id);
+                            if(index !== -1){
+                                suspend_id.splice(index, 1);
+                            }
+                        }
+                        html = "<tr class='promoProductCombination_tr'>"+
+                                    "<td class='td_1 d-none'>" + value.product_id + "</td>" +
+                                    "<td>" + value.category_name + "</td>" +
+                                    "<td>" + value.item_code +': '+ value.short_description + "</td>" +
+                                    "<td class='text-right'>" +  formatNumber(parseFloat(value.dine_in).toFixed(2)) + "</td>" +
+                                    "<td class='text-right td_2'>" + value.qty + "</td>" +
+                                    "<td class='text-right td_Amount'>" +  formatNumber((parseFloat(value.dine_in) * parseFloat(value.qty)).toFixed(2)) + "</td>" +
+                                    "<td> <center><input type='checkbox' class='checkbox cbx' style='zoom:180%;' value="+ value.product_id +"></center> </td>" +
+                                    "<td> <center><button type='button' class='btn btn-danger btn-delete btn_promo center' title='DELETE'><i class='fas fa-trash-alt'></i></button></center> </td>" +
+                                "</tr>";
+                        $("#promoProductCombination_tbody").append(html);
+                    });
+                    $('.cbx').each(function() {
+                        var va = parseInt($.trim($(this).val()));
+                        if(suspend_id.includes(va.toString())){
+                            $(this).prop('checked',true);
+                        }
+                        else{
+                            $(this).prop('checked',false);
+                        }
+                    });
+                }
+            });
+            var td_totalAmount = 0;
+            $(".td_Amount").each(function(){
+                td_totalAmount += parseFloat($(this).html().replace(/,/g,''));
+            });
+            $('.td_totalAmount').html(formatNumber(td_totalAmount.toFixed(2)));
+        }
+        // $('#promoProductCombination_orig').dataTable().fnDestroy();
+        // $('#promoProductCombination_orig').DataTable({
+        //     columnDefs: [
+        //         {
+        //             "render": function(data, type, row, meta){
+        //                     return '<center><button type="button" class="btn btn-danger btndelItem" id="'+ meta.row +'"><i class="fa-solid fa-trash-can"></i> DELETE </button></center>';
+        //             },
+        //             "defaultContent": '',
+        //             "data": null,
+        //             "targets": [7]
+        //         },
+        //         {
+        //             "targets": [0,6],
+        //             "visible": false,
+        //             "searchable": false
+        //         },
+        //     ],
+        //     searching: false,
+        //     paging: false,
+        //     ordering: false,
+        //     info: false,
+        //     autoWidth: false,
+        //     language:{
+        //         emptyTable: "No data available in table",
+        //         processing: "Loading...",
+        //     },
+        //     serverSide: true,
+        //     ajax: {
+        //         url: '/promo_product_combination/data',
+        //         async: false,
+        //         data:{
+        //             id: data.id,
+        //         }
+        //     },
+        //     columns: [
+        //         { data: 'product_id', name:'product_id'},
+        //         { data: 'item_code', name:'item_code'},
+        //         { data: 'long_description', name:'long_description'},
+        //         { data: 'dine_in', name:'dine_in'},
+        //         { data: 'qty', name:'qty'},
+        //         {
+        //             data: 'promo_item_status',
+        //             "render":function(data,type,row){
+        //                 if(row.promo_item_status == 'INACTIVE'){
+        //                     suspend_id.push(row.product_id);
+        //                 }
+        //                 else{
+        //                     var index = suspend_id.indexOf(row.product_id);
+        //                     if(index !== -1){
+        //                         suspend_id.splice(index, 1);
+        //                     }
+        //                 }
+        //                 return(`<center><input type='checkbox' class='checkbox cbx' style='zoom:180%;' value="${row.product_id}"></center>`);
+        //             }
+        //         },
+        //         {
+        //             data: 'product_id',
+        //             "render":function(data,type,row){
+        //                 return '0';
+        //             }
+        //         }
+        //     ],
+        //     initComplete: function(){
+        //         $('.cbx').each(function() {
+        //             var va = parseInt($.trim($(this).val()));
+        //             if(suspend_id.includes(va.toString())){
+        //                 $(this).prop('checked',true);
+        //             }
+        //             else{
+        //                 $(this).prop('checked',false);
+        //             }
+        //         });
+        //         $('#loading').hide();
+        //     }
+        // });
+        $('#loading').hide();
+        $('#productsModal').modal('show');
+    }
 });
 
 setInterval(() => {
