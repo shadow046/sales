@@ -189,43 +189,51 @@
     <hr>
     <h4>PRICING</h4>
     <hr>
-    <div class="row">
-        <div class="col-md-3 f-outline">
+    <div class="row mb-3">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="dine_in" id="dine_in" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="dine_in" class="formlabels form-label">DINE-IN
         </div>
-        <div class="col-md-3 f-outline">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="take_out" id="take_out" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="take_out" class="formlabels form-label">TAKE-OUT
         </div>
-        <div class="col-md-3 f-outline">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="pick_up" id="pick_up" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="pick_up" class="formlabels form-label">PICK-UP
         </div>
-        <div class="col-md-3 f-outline">
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="delivery" id="delivery" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="delivery" class="formlabels form-label">DELIVERY
         </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-3 f-outline">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="bulk_order" id="bulk_order" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="bulk_order" class="formlabels form-label">BULK ORDER
         </div>
-        <div class="col-md-3 f-outline">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="fds" id="fds" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="fds" class="formlabels form-label">FDS
         </div>
-        <div class="col-md-3 f-outline">
+    </div>
+
+    <div class="row">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="drive_thru" id="drive_thru" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="drive_thru" class="formlabels form-label">DRIVE-THRU
         </div>
-        <div class="col-md-3 f-outline">
+        <div class="col-md f-outline">
             <input type="number" value="0.00" style="color: black" name="meal_type" id="meal_type" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
             <label for="meal_type" class="formlabels form-label">ADD MEAL TYPE
         </div>
+        <div class="col-md f-outline">
+            <input type="number" value="0.00" style="color: black" name="airport" id="airport" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
+            <label for="airport" class="formlabels form-label">AIRPORT
+        </div>
     </div>
+
     <hr>
     <h4>POS SETUP</h4>
     <hr>

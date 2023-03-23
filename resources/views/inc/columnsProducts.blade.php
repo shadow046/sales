@@ -156,7 +156,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-16" data-column="16"/> SKU
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-16" data-column="16"/> AIRPORT
                 </label>
             </div>
         </div>
@@ -165,7 +165,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-17" data-column="17" /> SI / MODIFIER CODE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-17" data-column="17"/> SKU
                 </label>
             </div>
         </div>
@@ -174,7 +174,16 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-18" data-column="18" disabled/> STATUS
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-18" data-column="18" /> SI / MODIFIER CODE
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-19" data-column="19" disabled/> STATUS
                 </label>
             </div>
         </div>

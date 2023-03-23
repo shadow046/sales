@@ -1,5 +1,5 @@
 <div id="priceUpdateModal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-m">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-default">
                 <h5 class="modal-title w-100 text-center">PRICE UPDATE DETAILS</h5>
@@ -22,50 +22,52 @@
                         <label for="product" class="formlabels form-label">PRODUCT CODE / DESCRIPTION
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 f-outline mb-3">
+                <div class="row mb-3">
+                    <div class="col-md-6 f-outline">
                         <input type="date" name="effdate" id="effdate" class="forminput form-control inputFields requiredField" min="{{date('Y-m-d')}}" placeholder=" ">
                         <label for="effdate" class="formlabels form-label">EFFECTIVITY DATE</label>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 f-outline mb-3">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa1" id="upa1" class="forminput form-control inputFields decimalNumber requiredField" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa1" class="formlabels form-label">DINE-IN PRICE</label>
                     </div>
-                    <div class="col-md-6 f-outline mb-3">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa2" id="upa2" class="forminput form-control inputFields decimalNumber requiredField" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa2" class="formlabels form-label">TAKE-OUT PRICE</label>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 f-outline mb-3">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa3" id="upa3" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa3" class="formlabels form-label">PICK-UP PRICE</label>
                     </div>
-                    <div class="col-md-6 f-outline mb-3">
+                </div>
+                <div class="row">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa4" id="upa4" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa4" class="formlabels form-label">DELIVERY PRICE</label>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 f-outline mb-3">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa5" id="upa5" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa5" class="formlabels form-label">BULK ORDER</label>
                     </div>
-                    <div class="col-md-6 f-outline mb-3">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa6" id="upa6" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa6" class="formlabels form-label">FDS PRICE</label>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 f-outline mb-3">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa7" id="upa7" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa7" class="formlabels form-label">DRIVE-THRU PRICE</label>
                     </div>
-                    <div class="col-md-6 f-outline mb-3">
+                    <div class="col f-outline mb-3">
                         <input type="number" name="upa8" id="upa8" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa8" class="formlabels form-label">ADD. MEAL TYPE</label>
+                    </div>
+                    <div class="col f-outline mb-3">
+                        <input type="number" name="upa9" id="upa9" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
+                        <label for="upa9" class="formlabels form-label">AIRPORT</label>
                     </div>
                 </div>
             </div>

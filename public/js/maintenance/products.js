@@ -60,7 +60,7 @@ $(document).ready(function(){
         },
         columnDefs: [
             {
-                "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,19],
+                "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,20],
                 "visible": false,
                 "searchable": true
             },
@@ -181,6 +181,13 @@ $(document).ready(function(){
 
                 }
             },
+            {
+                data: 'airport', name: 'airport',
+                "render": function(data, type, row, meta){
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.airport).toFixed(2))}</span>`;
+
+                }
+            },
             { data: 'sku', name: 'sku'},
             { data: 'modifier_code', name: 'modifier_code'},
             {
@@ -242,7 +249,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=19; i++){
+            for(var i=0; i<=20; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }
@@ -360,6 +367,7 @@ $('.saveBtn').on('click',function(){
     var fds = $('#fds').val();
     var drive_thru = $('#drive_thru').val();
     var meal_type = $('#meal_type').val();
+    var airport = $('#airport').val();
     var max_modifier = $('#max_modifier').val();
     var seq = $('#seq').val();
     var kitchen_printer = $('#kitchen_printer').val();
@@ -464,7 +472,6 @@ $('.saveBtn').on('click',function(){
                         sku:sku,
                         modifier_code:modifier_code,
                         setup:setup,
-                        // company: company,
                         area: area,
                         store: store,
                         dine_in:dine_in,
@@ -475,6 +482,7 @@ $('.saveBtn').on('click',function(){
                         fds:fds,
                         drive_thru:drive_thru,
                         meal_type:meal_type,
+                        airport:airport,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -598,7 +606,6 @@ $('.saveBtn').on('click',function(){
                         sku:sku,
                         modifier_code:modifier_code,
                         setup:setup,
-                        // company: company,
                         area: area,
                         store: store,
                         dine_in:dine_in,
@@ -609,6 +616,7 @@ $('.saveBtn').on('click',function(){
                         fds:fds,
                         drive_thru:drive_thru,
                         meal_type:meal_type,
+                        airport:airport,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -1757,6 +1765,7 @@ $(document).on('blur','#dine_in',function(){
         $('#fds').val(dine_in);
         $('#drive_thru').val(dine_in);
         $('#meal_type').val(dine_in);
+        $('#airport').val(dine_in);
 
         $('#take_out').blur();
         $('#pick_up').blur();
@@ -1765,5 +1774,6 @@ $(document).on('blur','#dine_in',function(){
         $('#fds').blur();
         $('#drive_thru').blur();
         $('#meal_type').blur();
+        $('#airport').blur();
     }
 });

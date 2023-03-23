@@ -43,7 +43,7 @@ class ProductsController extends Controller
     public function products_data()
     {
         $products = Product::selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, area, store, status, product_image, product_update_status')
-            ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type, pos_setup, max_modifier, seq, kitchen_printer')
+            ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type, airport, pos_setup, max_modifier, seq, kitchen_printer')
             ->selectRaw('promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
             ->join('category','category.id','products.category')
@@ -198,6 +198,7 @@ class ProductsController extends Controller
         $product->fds = $request->fds;
         $product->drive_thru = $request->drive_thru;
         $product->meal_type = $request->meal_type;
+        $product->airport = $request->airport;
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
@@ -286,6 +287,7 @@ class ProductsController extends Controller
         $product->fds = $request->fds;
         $product->drive_thru = $request->drive_thru;
         $product->meal_type = $request->meal_type;
+        $product->airport = $request->airport;
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';

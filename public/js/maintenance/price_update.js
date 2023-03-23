@@ -30,67 +30,67 @@ $(document).ready(function(){
         columns: [
             { data: 'fcode', name:'fcode'},
             { data: 'desc1', name:'desc1'},
-            { 
+            {
                 data: 'effdate', name:'effdate',
                 "render":function(data,type,row){
                     return "<span class='d-none'>"+row.effdate+"</span>"+moment(row.effdate).format('LL');
                 },
             },
-            { 
+            {
                 data: 'upa1', name:'upa1',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa1).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'upa2', name:'upa2',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa2).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'upa3', name:'upa3',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa3).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'upa4', name:'upa4',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa4).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'upa5', name:'upa5',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa5).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'upa6', name:'upa6',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa6).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'upa7', name:'upa7',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa7).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'upa8', name:'upa8',
                 "render":function(data,type,row){
                     return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa8).toFixed(2))}</span>`;
                 },
             },
-            { 
+            {
                 data: 'recid', name:'recid',
                 "render":function(data,type,row){
                     return '<center><button class="btn btn-danger deleteBtn" id="'+row.recid+'"><i class="fa-solid fa-trash-can"></i></button></center>';
                 },
             },
-           
+
         ],
         order: [],
         initComplete: function(){
@@ -124,6 +124,7 @@ $(document).on('change','#product', function(){
             $('#upa6').val(data.fds);
             $('#upa7').val(data.drive_thru);
             $('#upa8').val(data.meal_type);
+            $('#upa9').val(data.airport);
             $('#upa1').attr('price', data.dine_in);
             $('#upa2').attr('price', data.take_out);
             $('#upa3').attr('price', data.pick_up);
@@ -132,6 +133,7 @@ $(document).on('change','#product', function(){
             $('#upa6').attr('price', data.fds);
             $('#upa7').attr('price', data.drive_thru);
             $('#upa8').attr('price', data.meal_type);
+            $('#upa9').attr('price', data.airport);
         }
     });
 });
@@ -185,6 +187,7 @@ $('.saveBtn').on('click', function(){
     var upa6 = $('#upa6').val();
     var upa7 = $('#upa7').val();
     var upa8 = $('#upa8').val();
+    var upa9 = $('#upa9').val();
     if(
         parseFloat(upa1) == parseFloat($('#upa1').attr('price')) &&
         parseFloat(upa2) == parseFloat($('#upa2').attr('price')) &&
@@ -193,7 +196,8 @@ $('.saveBtn').on('click', function(){
         parseFloat(upa5) == parseFloat($('#upa5').attr('price')) &&
         parseFloat(upa6) == parseFloat($('#upa6').attr('price')) &&
         parseFloat(upa7) == parseFloat($('#upa7').attr('price')) &&
-        parseFloat(upa8) == parseFloat($('#upa8').attr('price'))
+        parseFloat(upa8) == parseFloat($('#upa8').attr('price')) &&
+        parseFloat(upa9) == parseFloat($('#upa9').attr('price'))
     ){
         Swal.fire('NO CHANGES FOUND', '', 'error');
         return false;
@@ -231,6 +235,7 @@ $('.saveBtn').on('click', function(){
                     upa6: upa6,
                     upa7: upa7,
                     upa8: upa8,
+                    upa9: upa9
                 },
                 success:function(data){
                     if(data == 'true'){
@@ -292,6 +297,7 @@ $('#priceUpdateTable tbody').on('click', 'tr td:not(:nth-child(12))', function()
     $('#upa6').val(data.upa6);
     $('#upa7').val(data.upa7);
     $('#upa8').val(data.upa8);
+    $('#upa9').val(data.upa9);
     $('.decimalNumber').attr('price', '0.00');
 
     $('#product').chosen();
@@ -314,6 +320,7 @@ $('.updateBtn').on('click', function(){
     var upa6 = $('#upa6').val();
     var upa7 = $('#upa7').val();
     var upa8 = $('#upa8').val();
+    var upa9 = $('#upa9').val();
     Swal.fire({
         title: 'Do you want to update?',
         allowOutsideClick: false,
@@ -347,7 +354,8 @@ $('.updateBtn').on('click', function(){
                     upa5: upa5,
                     upa6: upa6,
                     upa7: upa7,
-                    upa8: upa8
+                    upa8: upa8,
+                    upa9: upa9
                 },
                 success:function(data){
                     if(data == 'true'){
@@ -510,6 +518,7 @@ $(document).on('blur','#upa1',function(){
         $('#upa6').val(dine_in);
         $('#upa7').val(dine_in);
         $('#upa8').val(dine_in);
+        $('#upa9').val(dine_in);
 
         $('#upa2').blur();
         $('#upa3').blur();
@@ -518,5 +527,6 @@ $(document).on('blur','#upa1',function(){
         $('#upa6').blur();
         $('#upa7').blur();
         $('#upa8').blur();
+        $('#upa9').blur();
     }
 });
