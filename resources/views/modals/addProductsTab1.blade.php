@@ -87,7 +87,7 @@
                     <div class="f-outline">
                         <select class="forminput form-control form-select" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
                         </select>
-                        <label for="store" class="formlabel form-label">Store Branches</label>
+                        <label for="store" class="formlabel form-label">Store Branches (<span id="store_count">0</span>)</label>
                     </div>
                 </div>
             </div>

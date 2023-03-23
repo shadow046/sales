@@ -383,6 +383,7 @@ $(document).on('change', '#area', function(){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data:{
+                setup_id: [],
                 company_id: $('#company').val(),
                 area_id: $('#area').val(),
                 area_all: area_all
@@ -422,6 +423,7 @@ $(document).on('change', '#area', function(){
                     $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
                     $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
                 }
+                $('#store_count').html(stores.length);
             }
         });
     }
@@ -520,6 +522,7 @@ $(document).on('change', '#area1', function(){
                     $('#store1_chosen').css({'width': '100%', 'margin-top': '-15px'});
                     $('label[for="store1"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
                 }
+                $('#store1_count').html(stores.length);
             }
         });
     }

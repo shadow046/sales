@@ -376,21 +376,34 @@ class UserController extends Controller
             $areas = $request->area_id;
         }
 
-        if(!$request->company_id){
-            $stores = Store::query()
-                ->whereIn('store_area', $areas)
-                ->orderBy('branch_code', 'asc')
-                ->get();
-        }
-        else{
+        if(!$request->setup_id){
             $stores = Store::query()
                 ->whereIn('company_name', $request->company_id)
                 ->whereIn('store_area', $areas)
                 ->orderBy('branch_code', 'asc')
                 ->get();
+            return response()->json($stores);
         }
-
-        return response()->json($stores);
+        else{
+            $list = array();
+            $stores = Store::query()
+                ->whereIn('store_area', $areas)
+                ->orderBy('branch_code', 'asc')
+                ->get();
+            foreach($stores as $store){
+                $setup_array = explode(',',$store->setup);
+                $x = 0;
+                foreach($request->setup_id as $setup_id){
+                    if($x == 0){
+                        if(in_array($setup_id, $setup_array)){
+                            array_push($list, $store);
+                            $x++;
+                        }
+                    }
+                }
+            }
+            return response()->json($list);
+        }
     }
 
     public function change_validate(Request $request){
