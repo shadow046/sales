@@ -241,15 +241,15 @@
                     <label for="set_meal_item"> SET MEAL ITEM</label><br>
                 </div>
                 <div class="container-fluid">
-                    <input type="checkbox" id="allow_discount" class="pos_setup" value="Allow Discount"/>
+                    <input type="checkbox" id="allow_discount" class="pos_setup" value="Allow Discount" checked/>
                     <label for="allow_discount"> ALLOW DISCOUNT</label><br>
                 </div>
                 <div class="container-fluid">
-                    <input type="checkbox" id="item_vatable" class="pos_setup" value="Item Vatable"/>
+                    <input type="checkbox" id="item_vatable" class="pos_setup" value="Item Vatable" checked/>
                     <label for="item_vatable"> ITEM VATABLE</label><br>
                 </div>
                 <div class="container-fluid">
-                    <input type="checkbox" id="allow_less_vat" class="pos_setup" value="Allow Less Vat"/>
+                    <input type="checkbox" id="allow_less_vat" class="pos_setup" value="Allow Less Vat" checked/>
                     <label for="allow_less_vat"> ALLOW LESS VAT</label><br>
                 </div>
                 <div class="container-fluid">
@@ -264,23 +264,44 @@
                     <input type="checkbox" id="show_on_kiosk" class="pos_setup" value="Show On Kiosk"/>
                     <label for="show_on_kiosk"> SHOW ON KIOSK</label><br>
                 </div>
+                <div class="container-fluid">
+                    <input type="checkbox" id="needs_manager_authorization" class="promo_setup" value="Needs Manager Authorization"/>
+                    <label for="needs_manager_authorization"> NEEDS MANAGER AUTHORIZATION</label><br>
+                </div>
                 <br>
                 <br>
                 <br>
             </div>
     </form>
         <div class="col-md-6">
-            <div class="col-md-4 f-outline">
-                <input type="number" style="color: black" min="0" name="max_modifier" id="max_modifier" class="forminput form-control text-center numberOnly" placeholder=" " value="0" autocomplete="off" >
+            <div class="col-md-7 mb-3 f-outline">
+                <select id="sales_type" name="sales_type" class="forminput form-control form-select" style="color: black">
+                    <option value="" selected disabled>Select Sales Type</option>
+                    @foreach($sales_types as $sales_type)
+                        <option value="{{$sales_type->id}}">{{$sales_type->sales_type}}</option>
+                    @endforeach
+                </select>
+                <label for="sales_type" class="formlabels form-label">SALES TYPE <span class="span_sales_type"></span></label>
+            </div>
+            <div class="col-md-7 f-outline">
+                <input type="number" style="color: black" min="0" name="max_modifier" id="max_modifier" class="forminput form-control numberOnly" placeholder=" " value="0" autocomplete="off" >
                 <label for="max_modifier" class="formlabels form-label">MAX MODIFIER
             </div><br>
             <div class="col-md-7 f-outline">
-                <input type="search" style="color: black" name="seq" id="seq" class="forminput form-control" placeholder="" autocomplete="off" >
+                <input type="search" style="color: black" name="seq" id="seq" class="forminput form-control" placeholder="" autocomplete="off" value="999999999">
                 <label for="seq" class="formlabels form-label">SEQ
             </div><br>
-             <div class="col-md-7 f-outline">
-                <input type="search" style="color: black" name="kitchen_printer" id="kitchen_printer" class="forminput form-control" placeholder="" autocomplete="off" >
+            <div class="col-md-7 f-outline mb-3">
+                <input type="search" style="color: black" name="kitchen_printer" id="kitchen_printer" class="forminput form-control" placeholder="" autocomplete="off" value="0">
                 <label for="kitchen_printer" class="formlabels form-label">KITCHEN PRINTER
+            </div>
+            <div class="col-md-7">
+                <input type="checkbox" id="item_for_free" class="promo_setup" value="Item for Free"/>
+                <label for="item_for_free"> ITEM FOR FREE</label><br>
+            </div>
+            <div class="col-md-7">
+                <input type="checkbox" id="not_subject_to_%" class="promo_setup" value="Not Subject to %"/>
+                <label for="not_subject_to_%"> NOT SUBJECT TO %</label><br>
             </div>
         </div>
     </div>

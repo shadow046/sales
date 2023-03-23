@@ -499,3 +499,24 @@ $(document).on('click', '.btnSendUpdate', function(){
 $('.decimalNumber').on('focusout', function(){
     !$(this).val() ? $(this).val('0.00') : $(this).val(parseFloat($(this).val()).toFixed(2))
 });
+
+$(document).on('blur','#upa1',function(){
+    var dine_in = parseFloat($(this).val());
+    if(dine_in > 0){
+        $('#upa2').val(dine_in);
+        $('#upa3').val(dine_in);
+        $('#upa4').val(dine_in);
+        $('#upa5').val(dine_in);
+        $('#upa6').val(dine_in);
+        $('#upa7').val(dine_in);
+        $('#upa8').val(dine_in);
+
+        $('#upa2').blur();
+        $('#upa3').blur();
+        $('#upa4').blur();
+        $('#upa5').blur();
+        $('#upa6').blur();
+        $('#upa7').blur();
+        $('#upa8').blur();
+    }
+});

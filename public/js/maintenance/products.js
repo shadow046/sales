@@ -1753,3 +1753,24 @@ $(document).on('change','#setup',function(){
         }
     }
 });
+
+$(document).on('blur','#dine_in',function(){
+    var dine_in = parseFloat($(this).val());
+    if(dine_in > 0){
+        $('#take_out').val(dine_in);
+        $('#pick_up').val(dine_in);
+        $('#delivery').val(dine_in);
+        $('#bulk_order').val(dine_in);
+        $('#fds').val(dine_in);
+        $('#drive_thru').val(dine_in);
+        $('#meal_type').val(dine_in);
+
+        $('#take_out').blur();
+        $('#pick_up').blur();
+        $('#delivery').blur();
+        $('#bulk_order').blur();
+        $('#fds').blur();
+        $('#drive_thru').blur();
+        $('#meal_type').blur();
+    }
+});
