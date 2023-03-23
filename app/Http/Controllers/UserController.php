@@ -29,12 +29,11 @@ class UserController extends Controller
     }
 
     public function users(Request $request){
-        $role = Role::select()->where('status', '!=', 'DELETED')->get()->sortBy('name');
-        $areas = StoreArea::where('id', '!=', '0')->get()->sortBy('store_area');
+        $role = Role::select()->where('status', 'ACTIVE')->get()->sortBy('name');
+        $areas = StoreArea::where('id', '!=', '0')->where('store_area_status', 'ACTIVE')->get()->sortBy('store_area');
         $branches = Company::where('id', '!=', '0')->get()->sortBy('company_name');
         $companies = Company::select('id','company_name')->where('id','!=','0')->get();
-        $provinces = Province::orderBy('provDesc', 'asc')->get();
-        return view('pages/users', compact('role','areas','branches','companies','provinces'));
+        return view('pages/users', compact('role','areas','branches','companies'));
     }
 
     public function users_data(){
