@@ -800,6 +800,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('#fds').val(parseFloat(data.fds).toFixed(2));
         $('#drive_thru').val(parseFloat(data.drive_thru).toFixed(2));
         $('#meal_type').val(parseFloat(data.meal_type).toFixed(2));
+        $('#airport').val(parseFloat(data.airport).toFixed(2));
         $('#max_modifier').val(data.max_modifier);
         $('#seq').val(data.seq);
         $('#kitchen_printer').val(data.kitchen_printer);

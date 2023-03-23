@@ -401,10 +401,10 @@ class ProductsController extends Controller
         $failed_rows = [];
         $row_num = 2;
         foreach($data[0] as $key => $value){
-            if(!$value['item_code'] && !$value['category'] && !$value['short_description'] && !$value['long_description'] && !$value['dine_in'] && !$value['take_out'] && !$value['pick_up'] && !$value['delivery'] && !$value['bulk_order'] && !$value['fds'] && !$value['drive_thru'] && !$value['add_meal_type']){
+            if(!$value['item_code'] && !$value['category'] && !$value['short_description'] && !$value['long_description'] && !$value['dine_in'] && !$value['take_out'] && !$value['pick_up'] && !$value['delivery'] && !$value['bulk_order'] && !$value['fds'] && !$value['drive_thru'] && !$value['add_meal_type'] && !$value['airport']){
                 echo(null);
             }
-            else if(!$value['item_code'] || !$value['category'] || !$value['short_description'] || !$value['long_description'] || !$value['dine_in'] || !$value['take_out'] || !$value['pick_up'] || !$value['delivery'] || !$value['bulk_order'] || !$value['fds'] || !$value['drive_thru'] || !$value['add_meal_type']){
+            else if(!$value['item_code'] || !$value['category'] || !$value['short_description'] || !$value['long_description'] || !$value['dine_in'] || !$value['take_out'] || !$value['pick_up'] || !$value['delivery'] || !$value['bulk_order'] || !$value['fds'] || !$value['drive_thru'] || !$value['add_meal_type'] || !$value['airport']){
                 array_push($failed_rows, '[Row: '.$row_num.' => Error: Fill Required Fields!]');
             }
             else{
@@ -516,6 +516,7 @@ class ProductsController extends Controller
                         $product->fds = str_replace(',', '', number_format($value['fds'], 2));
                         $product->drive_thru = str_replace(',', '', number_format($value['drive_thru'], 2));
                         $product->meal_type = str_replace(',', '', number_format($value['add_meal_type'], 2));
+                        $product->airport = str_replace(',', '', number_format($value['airport'], 2));
                         $product->pos_setup = $pos_setup;
                         $sql = $product->save();
                         if(!$sql){
@@ -550,6 +551,7 @@ class ProductsController extends Controller
                         $product->fds = str_replace(',', '', number_format($value['fds'], 2));
                         $product->drive_thru = str_replace(',', '', number_format($value['drive_thru'], 2));
                         $product->meal_type = str_replace(',', '', number_format($value['add_meal_type'], 2));
+                        $product->airport = str_replace(',', '', number_format($value['airport'], 2));
                         $product->pos_setup = $pos_setup;
                         $sql = $product->save();
                         if(!$sql){
