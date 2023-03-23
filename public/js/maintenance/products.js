@@ -9,6 +9,7 @@ $('.addBtn').on('click',function(){
     $('#setup_chosen').css('width','100%');
     $('#setup_chosen').addClass('requiredField requiredInput redBorder');
     $('#setup').val('').trigger('chosen:updated');
+    $('.classArea').hide();
     $('#company').chosen();
     $('#company').val('').trigger('chosen:updated');
     $('#company_chosen').css({'width': '100%', 'margin-top': '-15px'});
@@ -1746,10 +1747,13 @@ setInterval(() => {
 
 $(document).on('change','#setup',function(){
     if($('#setup_chosen').is(':visible')){
-        if ($("#setup").val().length > 0) {
+        if($("#setup").val().length > 0){
+            $('.classArea').show();
             $('#setup_chosen').removeClass('requiredField requiredInput redBorder');
             $('.classNamesetup_chosen').remove();
-        } else {
+        }
+        else{
+            $('.classArea').hide();
             if($('.classNamesetup_chosen:visible').length == 0){
                 $('#setup_chosen').addClass('requiredField requiredInput redBorder');
             }

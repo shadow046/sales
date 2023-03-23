@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="col-12 row mt-1">
+            <div class="col-12 row mt-1 classArea" style="display: none;">
                 {{-- <div class="col-md-4 f-outline">
                     <div class="f-outline">
                         <select class="forminput form-control form-select" id="company" name="company" multiple data-placeholder="SELECT COMPANY">
