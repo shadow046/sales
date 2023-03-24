@@ -947,7 +947,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
 
         //trclick table
         $('#promoProductCombination_tbody').empty();
-        if($('#category').val() == '0'){
+        if($('#category').val() == '0' || $('#category option:selected').text() == 'DONUTS'){
             $.ajax({
                 url: '/promo_product_combination/data',
                 async: false,
@@ -1748,12 +1748,10 @@ setInterval(() => {
 $(document).on('change','#setup',function(){
     if($('#setup_chosen').is(':visible')){
         if($("#setup").val().length > 0){
-            $('.classArea').show();
             $('#setup_chosen').removeClass('requiredField requiredInput redBorder');
             $('.classNamesetup_chosen').remove();
         }
         else{
-            $('.classArea').hide();
             if($('.classNamesetup_chosen:visible').length == 0){
                 $('#setup_chosen').addClass('requiredField requiredInput redBorder');
             }
@@ -1761,6 +1759,15 @@ $(document).on('change','#setup',function(){
         $('#area').change();
     }
 });
+
+setInterval(() => {
+    if($('#setup_chosen').is(':visible') && $("#setup").val().length > 0 && $('.classArea').is(':hidden')){
+        $('.classArea').show();
+    }
+    else if($('#setup_chosen').is(':visible') && $("#setup").val().length == 0 && $('.classArea').is(':visible')){
+        $('.classArea').hide();
+    }
+}, 0);
 
 $(document).on('blur','#dine_in',function(){
     var dine_in = parseFloat($(this).val());
