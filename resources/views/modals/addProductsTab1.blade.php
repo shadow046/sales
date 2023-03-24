@@ -97,7 +97,7 @@
     <div class="row mt-2" id="set_meal_div" style="display:none;">
         <div class="col">
             <hr>
-            <h4>SET MEAL - PRODUCT COMBINATIONS</h4>
+            <h4>PRODUCT COMPOSITION</h4>
             <hr>
             <div class="row pt-3">
                 <div class="col-md-2 f-outline">

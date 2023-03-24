@@ -1473,7 +1473,7 @@ $(document).on('change', '.checkbox', function() {
 });
 
 $(document).on('change','#category',function(){
-    if($(this).val() == '0'){
+    if($(this).val() == '0' || $('#category option:selected').text() == 'DONUTS'){
         $('#short_description').chosen();
         $('#short_description').trigger('chosen:updated');
         $('#short_description_chosen').css('width','100%');
