@@ -1006,8 +1006,8 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('#fds').val(parseFloat(data.fds).toFixed(2));
         $('#drive_thru').val(parseFloat(data.drive_thru).toFixed(2));
         $('#meal_type').val(parseFloat(data.meal_type).toFixed(2));
-        $('#dine_in_airport_airport').val(parseFloat(data.dine_in_airport).toFixed(2));
-        $('#take_out_airport_airport').val(parseFloat(data.take_out_airport).toFixed(2));
+        $('#dine_in_airport').val(parseFloat(data.dine_in_airport).toFixed(2));
+        $('#take_out_airport').val(parseFloat(data.take_out_airport).toFixed(2));
         $('#pick_up_airport').val(parseFloat(data.pick_up_airport).toFixed(2));
         $('#delivery_airport').val(parseFloat(data.delivery_airport).toFixed(2));
         $('#bulk_order_airport').val(parseFloat(data.bulk_order_airport).toFixed(2));

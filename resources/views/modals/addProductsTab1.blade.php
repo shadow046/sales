@@ -321,7 +321,7 @@
                     <label for="show_on_kiosk"> SHOW ON KIOSK</label><br>
                 </div>
                 <div class="container-fluid">
-                    <input type="checkbox" id="needs_manager_authorization" class="promo_setup" value="Needs Manager Authorization"/>
+                    <input type="checkbox" id="needs_manager_authorization" class="pos_setup" value="Needs Manager Authorization"/>
                     <label for="needs_manager_authorization"> NEEDS MANAGER AUTHORIZATION</label><br>
                 </div>
                 <br>
