@@ -10,6 +10,7 @@ $('.addBtn').on('click', function(){
     $('#product').trigger('chosen:updated');
     $('#product_chosen').css({'width':'100%','margin-bottom':'-40px'});
     $('label[for="product"]').css({'margin-top': '0px', 'margin-right': '-20px'});
+    $('#tab_regular').click();
 });
 
 var table;
@@ -39,49 +40,49 @@ $(document).ready(function(){
             {
                 data: 'upa1', name:'upa1',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa1).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa1).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa1_airport).toFixed(2))}</span>`;
                 },
             },
             {
                 data: 'upa2', name:'upa2',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa2).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa2).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa2_airport).toFixed(2))}</span>`;
                 },
             },
             {
                 data: 'upa3', name:'upa3',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa3).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa3).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa3_airport).toFixed(2))}</span>`;
                 },
             },
             {
                 data: 'upa4', name:'upa4',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa4).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa4).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa4_airport).toFixed(2))}</span>`;
                 },
             },
             {
                 data: 'upa5', name:'upa5',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa5).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa5).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa5_airport).toFixed(2))}</span>`;
                 },
             },
             {
                 data: 'upa6', name:'upa6',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa6).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa6).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa6_airport).toFixed(2))}</span>`;
                 },
             },
             {
                 data: 'upa7', name:'upa7',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa7).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa7).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa7_airport).toFixed(2))}</span>`;
                 },
             },
             {
                 data: 'upa8', name:'upa8',
                 "render":function(data,type,row){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.upa8).toFixed(2))}</span>`;
+                    return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.upa8).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.upa8_airport).toFixed(2))}</span>`;
                 },
             },
             {
@@ -185,6 +186,14 @@ $('.saveBtn').on('click', function(){
     var upa6 = $('#upa6').val();
     var upa7 = $('#upa7').val();
     var upa8 = $('#upa8').val();
+    var upa1_airport = $('#upa1_airport').val();
+    var upa2_airport = $('#upa2_airport').val();
+    var upa3_airport = $('#upa3_airport').val();
+    var upa4_airport = $('#upa4_airport').val();
+    var upa5_airport = $('#upa5_airport').val();
+    var upa6_airport = $('#upa6_airport').val();
+    var upa7_airport = $('#upa7_airport').val();
+    var upa8_airport = $('#upa8_airport').val();
     if(
         parseFloat(upa1) == parseFloat($('#upa1').attr('price')) &&
         parseFloat(upa2) == parseFloat($('#upa2').attr('price')) &&
@@ -193,7 +202,15 @@ $('.saveBtn').on('click', function(){
         parseFloat(upa5) == parseFloat($('#upa5').attr('price')) &&
         parseFloat(upa6) == parseFloat($('#upa6').attr('price')) &&
         parseFloat(upa7) == parseFloat($('#upa7').attr('price')) &&
-        parseFloat(upa8) == parseFloat($('#upa8').attr('price'))
+        parseFloat(upa8) == parseFloat($('#upa8').attr('price')) &&
+        parseFloat(upa1_airport) == parseFloat($('#upa1_airport').attr('price')) &&
+        parseFloat(upa2_airport) == parseFloat($('#upa2_airport').attr('price')) &&
+        parseFloat(upa3_airport) == parseFloat($('#upa3_airport').attr('price')) &&
+        parseFloat(upa4_airport) == parseFloat($('#upa4_airport').attr('price')) &&
+        parseFloat(upa5_airport) == parseFloat($('#upa5_airport').attr('price')) &&
+        parseFloat(upa6_airport) == parseFloat($('#upa6_airport').attr('price')) &&
+        parseFloat(upa7_airport) == parseFloat($('#upa7_airport').attr('price')) &&
+        parseFloat(upa8_airport) == parseFloat($('#upa8_airport').attr('price'))
     ){
         Swal.fire('NO CHANGES FOUND', '', 'error');
         return false;
@@ -230,7 +247,15 @@ $('.saveBtn').on('click', function(){
                     upa5: upa5,
                     upa6: upa6,
                     upa7: upa7,
-                    upa8: upa8
+                    upa8: upa8,
+                    upa1_airport: upa1_airport,
+                    upa2_airport: upa2_airport,
+                    upa3_airport: upa3_airport,
+                    upa4_airport: upa4_airport,
+                    upa5_airport: upa5_airport,
+                    upa6_airport: upa6_airport,
+                    upa7_airport: upa7_airport,
+                    upa8_airport: upa8_airport
                 },
                 success:function(data){
                     if(data == 'true'){
@@ -279,6 +304,7 @@ $('#priceUpdateTable tbody').on('click', 'tr td:not(:nth-child(12))', function()
     if(!table.data().any()){ return false; }
     var data = table.row(this).data();
 
+    $('#tab_regular').click();
     $('.saveBtn').hide();
     $('.updateBtn').show();
 
@@ -293,6 +319,14 @@ $('#priceUpdateTable tbody').on('click', 'tr td:not(:nth-child(12))', function()
     $('#upa6').val(data.upa6);
     $('#upa7').val(data.upa7);
     $('#upa8').val(data.upa8);
+    $('#upa1_airport').val(data.upa1_airport);
+    $('#upa2_airport').val(data.upa2_airport);
+    $('#upa3_airport').val(data.upa3_airport);
+    $('#upa4_airport').val(data.upa4_airport);
+    $('#upa5_airport').val(data.upa5_airport);
+    $('#upa6_airport').val(data.upa6_airport);
+    $('#upa7_airport').val(data.upa7_airport);
+    $('#upa8_airport').val(data.upa8_airport);
     $('.decimalNumber').attr('price', '0.00');
 
     $('#product').chosen();
@@ -315,6 +349,14 @@ $('.updateBtn').on('click', function(){
     var upa6 = $('#upa6').val();
     var upa7 = $('#upa7').val();
     var upa8 = $('#upa8').val();
+    var upa1_airport = $('#upa1_airport').val();
+    var upa2_airport = $('#upa2_airport').val();
+    var upa3_airport = $('#upa3_airport').val();
+    var upa4_airport = $('#upa4_airport').val();
+    var upa5_airport = $('#upa5_airport').val();
+    var upa6_airport = $('#upa6_airport').val();
+    var upa7_airport = $('#upa7_airport').val();
+    var upa8_airport = $('#upa8_airport').val();
     Swal.fire({
         title: 'Do you want to update?',
         allowOutsideClick: false,
@@ -348,7 +390,15 @@ $('.updateBtn').on('click', function(){
                     upa5: upa5,
                     upa6: upa6,
                     upa7: upa7,
-                    upa8: upa8
+                    upa8: upa8,
+                    upa1_airport: upa1_airport,
+                    upa2_airport: upa2_airport,
+                    upa3_airport: upa3_airport,
+                    upa4_airport: upa4_airport,
+                    upa5_airport: upa5_airport,
+                    upa6_airport: upa6_airport,
+                    upa7_airport: upa7_airport,
+                    upa8_airport: upa8_airport
                 },
                 success:function(data){
                     if(data == 'true'){
@@ -502,22 +552,118 @@ $('.decimalNumber').on('focusout', function(){
 });
 
 $(document).on('blur','#upa1',function(){
-    var dine_in = parseFloat($(this).val());
-    if(dine_in > 0){
-        $('#upa2').val(dine_in);
-        $('#upa3').val(dine_in);
-        $('#upa4').val(dine_in);
-        $('#upa5').val(dine_in);
-        $('#upa6').val(dine_in);
-        $('#upa7').val(dine_in);
-        $('#upa8').val(dine_in);
+    Swal.fire({
+        title: 'Autofill other fields with same price?',
+        width: 600,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Autofill',
+        denyButtonText: 'Manual',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if (save.isConfirmed){
+            var dine_in = parseFloat($(this).val());
+            if(dine_in > 0){
+                $('#upa2').val(dine_in);
+                $('#upa3').val(dine_in);
+                $('#upa4').val(dine_in);
+                $('#upa5').val(dine_in);
+                $('#upa6').val(dine_in);
+                $('#upa7').val(dine_in);
+                $('#upa8').val(dine_in);
 
-        $('#upa2').blur();
-        $('#upa3').blur();
-        $('#upa4').blur();
-        $('#upa5').blur();
-        $('#upa6').blur();
-        $('#upa7').blur();
-        $('#upa8').blur();
-    }
+                $('#upa2').blur();
+                $('#upa3').blur();
+                $('#upa4').blur();
+                $('#upa5').blur();
+                $('#upa6').blur();
+                $('#upa7').blur();
+                $('#upa8').blur();
+            }
+        }
+    });
 });
+
+$(document).on('blur','#upa1_airport',function(){
+    Swal.fire({
+        title: 'Autofill other fields with same price?',
+        width: 600,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Autofill',
+        denyButtonText: 'Manual',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if (save.isConfirmed){
+            var dine_in_airport = parseFloat($(this).val());
+            if(dine_in_airport > 0){
+                $('#upa2_airport').val(dine_in_airport);
+                $('#upa3_airport').val(dine_in_airport);
+                $('#upa4_airport').val(dine_in_airport);
+                $('#upa5_airport').val(dine_in_airport);
+                $('#upa6_airport').val(dine_in_airport);
+                $('#upa7_airport').val(dine_in_airport);
+                $('#upa8_airport').val(dine_in_airport);
+
+                $('#upa2_airport').blur();
+                $('#upa3_airport').blur();
+                $('#upa4_airport').blur();
+                $('#upa5_airport').blur();
+                $('#upa6_airport').blur();
+                $('#upa7_airport').blur();
+                $('#upa8_airport').blur();
+            }
+        }
+    });
+});
+
+$('#tab_regular').on('click',function(){
+    $(this).blur();
+    $('#tab_airport').addClass('bg-sub-light');
+    $('#tab_airport').removeClass('bg-sub active');
+    $('#tab_regular').removeClass('bg-sub-light');
+    $('#tab_regular').addClass('bg-sub active');
+    $('#tab_regular').attr('aria-selected', true);
+    $('#tab_airport').attr('aria-selected', false);
+    $('#page_regular').addClass('active');
+    $('#page_regular').addClass('show');
+    $('#page_airport').removeClass('active');
+    $('#page_airport').removeClass('show');
+    $('#page_regular').show();
+    $('#page_airport').hide();
+});
+
+$('#tab_airport').on('click',function(){
+    $(this).blur();
+    $('#tab_regular').addClass('bg-sub-light');
+    $('#tab_regular').removeClass('bg-sub active');
+    $('#tab_airport').removeClass('bg-sub-light');
+    $('#tab_airport').addClass('bg-sub active');
+    $('#tab_airport').attr('aria-selected', true);
+    $('#tab_regular').attr('aria-selected', false);
+    $('#page_airport').addClass('active');
+    $('#page_airport').addClass('show');
+    $('#page_regular').removeClass('active');
+    $('#page_regular').removeClass('show');
+    $('#page_airport').show();
+    $('#page_regular').hide();
+});
+
+setInterval(() => {
+    if($('#priceUpdateModal').is(':visible') && (!$('#product').val() || !$('#effdate').val())){
+        $('#divPriceUpdate').hide();
+    }
+    else{
+        $('#divPriceUpdate').show();
+    }
+}, 0);

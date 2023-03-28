@@ -59,6 +59,14 @@ class PriceUpdateController extends Controller
         $priceUpdate->upa6 = $request->upa6;
         $priceUpdate->upa7 = $request->upa7;
         $priceUpdate->upa8 = $request->upa8;
+        $priceUpdate->upa1_airport = $request->upa1_airport;
+        $priceUpdate->upa2_airport = $request->upa2_airport;
+        $priceUpdate->upa3_airport = $request->upa3_airport;
+        $priceUpdate->upa4_airport = $request->upa4_airport;
+        $priceUpdate->upa5_airport = $request->upa5_airport;
+        $priceUpdate->upa6_airport = $request->upa6_airport;
+        $priceUpdate->upa7_airport = $request->upa7_airport;
+        $priceUpdate->upa8_airport = $request->upa8_airport;
         $sql = $priceUpdate->save();
 
         if($sql){
@@ -70,6 +78,14 @@ class PriceUpdateController extends Controller
             $upa6_orig = Product::where('item_code', $request->fcode)->first()->fds;
             $upa7_orig = Product::where('item_code', $request->fcode)->first()->drive_thru;
             $upa8_orig = Product::where('item_code', $request->fcode)->first()->meal_type;
+            $upa1_airport_orig = Product::where('item_code', $request->fcode)->first()->dine_in_airport;
+            $upa2_airport_orig = Product::where('item_code', $request->fcode)->first()->take_out_airport;
+            $upa3_airport_orig = Product::where('item_code', $request->fcode)->first()->pick_up_airport;
+            $upa4_airport_orig = Product::where('item_code', $request->fcode)->first()->delivery_airport;
+            $upa5_airport_orig = Product::where('item_code', $request->fcode)->first()->bulk_order_airport;
+            $upa6_airport_orig = Product::where('item_code', $request->fcode)->first()->fds_airport;
+            $upa7_airport_orig = Product::where('item_code', $request->fcode)->first()->drive_thru_airport;
+            $upa8_airport_orig = Product::where('item_code', $request->fcode)->first()->meal_type_airport;
 
             if($upa1_orig !=  $request->upa1){
                 $upa1_1 = number_format($upa1_orig, 2);
@@ -136,10 +152,75 @@ class PriceUpdateController extends Controller
                 $upa8 = NULL;
             }
 
+            if($upa1_airport_orig !=  $request->upa1_airport){
+                $upa1_airport_1 = number_format($upa1_airport_orig, 2);
+                $upa1_airport_2 = number_format($request->upa1_airport, 2);
+                $upa1_airport = "【Dine-In Price: FROM '$upa1_airport_1' TO '$upa1_airport_2'】";
+            }
+            else{
+                $upa1_airport = NULL;
+            }
+            if($upa2_airport_orig !=  $request->upa2_airport){
+                $upa2_airport_1 = number_format($upa2_airport_orig, 2);
+                $upa2_airport_2 = number_format($request->upa2_airport, 2);
+                $upa2_airport = "【Take-Out Price: FROM '$upa2_airport_1' TO '$upa2_airport_2'】";
+            }
+            else{
+                $upa2_airport = NULL;
+            }
+            if($upa3_airport_orig !=  $request->upa3_airport){
+                $upa3_airport_1 = number_format($upa3_airport_orig, 2);
+                $upa3_airport_2 = number_format($request->upa3_airport, 2);
+                $upa3_airport = "【Pick-Up Price: FROM '$upa3_airport_1' TO '$upa3_airport_2'】";
+            }
+            else{
+                $upa3_airport = NULL;
+            }
+            if($upa4_airport_orig !=  $request->upa4_airport){
+                $upa4_airport_1 = number_format($upa4_airport_orig, 2);
+                $upa4_airport_2 = number_format($request->upa4_airport, 2);
+                $upa4_airport = "【Delivery Price: FROM '$upa4_airport_1' TO '$upa4_airport_2'】";
+            }
+            else{
+                $upa4_airport = NULL;
+            }
+            if($upa5_airport_orig !=  $request->upa5_airport){
+                $upa5_airport_1 = number_format($upa5_airport_orig, 2);
+                $upa5_airport_2 = number_format($request->upa5_airport, 2);
+                $upa5_airport = "【Bulk Order: FROM '$upa5_airport_1' TO '$upa5_airport_2'】";
+            }
+            else{
+                $upa5_airport = NULL;
+            }
+            if($upa6_airport_orig !=  $request->upa6_airport){
+                $upa6_airport_1 = number_format($upa6_airport_orig, 2);
+                $upa6_airport_2 = number_format($request->upa6_airport, 2);
+                $upa6_airport = "【PDS Price: FROM '$upa6_airport_1' TO '$upa6_airport_2'】";
+            }
+            else{
+                $upa6_airport = NULL;
+            }
+            if($upa7_airport_orig !=  $request->upa7_airport){
+                $upa7_airport_1 = number_format($upa7_airport_orig, 2);
+                $upa7_airport_2 = number_format($request->upa7_airport, 2);
+                $upa7_airport = "【Drive-Thru Price: FROM '$upa7_airport_1' TO '$upa7_airport_2'】";
+            }
+            else{
+                $upa7_airport = NULL;
+            }
+            if($upa8_airport_orig !=  $request->upa8_airport){
+                $upa8_airport_1 = number_format($upa8_airport_orig, 2);
+                $upa8_airport_2 = number_format($request->upa8_airport, 2);
+                $upa8_airport = "【Add. Meal Type: FROM '$upa8_airport_1' TO '$upa8_airport_2'】";
+            }
+            else{
+                $upa8_airport = NULL;
+            }
+
             $date = Carbon::parse($request->effdate)->isoformat('dddd, MMMM DD, YYYY');
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED PRICE UPDATE: User successfully added Price Update for '$request->desc1' effective on $date with the following CHANGES: $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8";
+            $userlogs->activity = "ADDED PRICE UPDATE: User successfully added Price Update for '$request->desc1' effective on $date with the following CHANGES: $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa1_airport $upa2_airport $upa3_airport $upa4_airport $upa5_airport $upa6_airport $upa7_airport $upa8_airport";
             $userlogs->save();
 
             return 'true';
@@ -161,6 +242,14 @@ class PriceUpdateController extends Controller
         $upa6_orig = PriceUpdate::where('recid', $request->id)->first()->upa6;
         $upa7_orig = PriceUpdate::where('recid', $request->id)->first()->upa7;
         $upa8_orig = PriceUpdate::where('recid', $request->id)->first()->upa8;
+        $upa1_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa1_airport;
+        $upa2_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa2_airport;
+        $upa3_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa3_airport;
+        $upa4_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa4_airport;
+        $upa5_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa5_airport;
+        $upa6_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa6_airport;
+        $upa7_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa7_airport;
+        $upa8_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa8_airport;
         if($fcode_orig != $request->fcode){
             if(PriceUpdate::where('fcode', $request->fcode)
                 ->where('price_update_status', '0')
@@ -180,7 +269,15 @@ class PriceUpdateController extends Controller
             $upa5_orig == $request->upa5 &&
             $upa6_orig == $request->upa6 &&
             $upa7_orig == $request->upa7 &&
-            $upa8_orig == $request->upa8
+            $upa8_orig == $request->upa8 &&
+            $upa1_airport_orig == $request->upa1_airport &&
+            $upa2_airport_orig == $request->upa2_airport &&
+            $upa3_airport_orig == $request->upa3_airport &&
+            $upa4_airport_orig == $request->upa4_airport &&
+            $upa5_airport_orig == $request->upa5_airport &&
+            $upa6_airport_orig == $request->upa6_airport &&
+            $upa7_airport_orig == $request->upa7_airport &&
+            $upa8_airport_orig == $request->upa8_airport
             ){
             return 'nochanges';
         }
@@ -263,6 +360,71 @@ class PriceUpdateController extends Controller
         else{
             $upa8 = NULL;
         }
+
+        if($upa1_airport_orig !=  $request->upa1_airport){
+            $upa1_airport_1 = number_format($upa1_airport_orig, 2);
+            $upa1_airport_2 = number_format($request->upa1_airport, 2);
+            $upa1_airport = "【Dine-In Price: FROM '$upa1_airport_1' TO '$upa1_airport_2'】";
+        }
+        else{
+            $upa1_airport = NULL;
+        }
+        if($upa2_airport_orig !=  $request->upa2_airport){
+            $upa2_airport_1 = number_format($upa2_airport_orig, 2);
+            $upa2_airport_2 = number_format($request->upa2_airport, 2);
+            $upa2_airport = "【Take-Out Price: FROM '$upa2_airport_1' TO '$upa2_airport_2'】";
+        }
+        else{
+            $upa2_airport = NULL;
+        }
+        if($upa3_airport_orig !=  $request->upa3_airport){
+            $upa3_airport_1 = number_format($upa3_airport_orig, 2);
+            $upa3_airport_2 = number_format($request->upa3_airport, 2);
+            $upa3_airport = "【Pick-Up Price: FROM '$upa3_airport_1' TO '$upa3_airport_2'】";
+        }
+        else{
+            $upa3_airport = NULL;
+        }
+        if($upa4_airport_orig !=  $request->upa4_airport){
+            $upa4_airport_1 = number_format($upa4_airport_orig, 2);
+            $upa4_airport_2 = number_format($request->upa4_airport, 2);
+            $upa4_airport = "【Delivery Price: FROM '$upa4_airport_1' TO '$upa4_airport_2'】";
+        }
+        else{
+            $upa4_airport = NULL;
+        }
+        if($upa5_airport_orig !=  $request->upa5_airport){
+            $upa5_airport_1 = number_format($upa5_airport_orig, 2);
+            $upa5_airport_2 = number_format($request->upa5_airport, 2);
+            $upa5_airport = "【Bulk Order: FROM '$upa5_airport_1' TO '$upa5_airport_2'】";
+        }
+        else{
+            $upa5_airport = NULL;
+        }
+        if($upa6_airport_orig !=  $request->upa6_airport){
+            $upa6_airport_1 = number_format($upa6_airport_orig, 2);
+            $upa6_airport_2 = number_format($request->upa6_airport, 2);
+            $upa6_airport = "【PDS Price: FROM '$upa6_airport_1' TO '$upa6_airport_2'】";
+        }
+        else{
+            $upa6_airport = NULL;
+        }
+        if($upa7_airport_orig !=  $request->upa7_airport){
+            $upa7_airport_1 = number_format($upa7_airport_orig, 2);
+            $upa7_airport_2 = number_format($request->upa7_airport, 2);
+            $upa7_airport = "【Drive-Thru Price: FROM '$upa7_airport_1' TO '$upa7_airport_2'】";
+        }
+        else{
+            $upa7_airport = NULL;
+        }
+        if($upa8_airport_orig !=  $request->upa8_airport){
+            $upa8_airport_1 = number_format($upa8_airport_orig, 2);
+            $upa8_airport_2 = number_format($request->upa8_airport, 2);
+            $upa8_airport = "【Add. Meal Type: FROM '$upa8_airport_1' TO '$upa8_airport_2'】";
+        }
+        else{
+            $upa8_airport = NULL;
+        }
         $sql = PriceUpdate::where('recid', $request->id)
             ->update([
                 'fcode' => $request->fcode,
@@ -275,13 +437,21 @@ class PriceUpdateController extends Controller
                 'upa5' => $request->upa5,
                 'upa6' => $request->upa6,
                 'upa7' => $request->upa7,
-                'upa8' => $request->upa8
+                'upa8' => $request->upa8,
+                'upa1_airport' => $request->upa1_airport,
+                'upa2_airport' => $request->upa2_airport,
+                'upa3_airport' => $request->upa3_airport,
+                'upa4_airport' => $request->upa4_airport,
+                'upa5_airport' => $request->upa5_airport,
+                'upa6_airport' => $request->upa6_airport,
+                'upa7_airport' => $request->upa7_airport,
+                'upa8_airport' => $request->upa8_airport
             ]);
         if($sql){
             $date = Carbon::parse($request->effdate)->isoformat('dddd, MMMM DD, YYYY');
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED PRICE UPDATE: User successfully updated Price Update for '$request->desc1' with the following CHANGES: $fcode $effdate $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8";
+            $userlogs->activity = "UPDATED PRICE UPDATE: User successfully updated Price Update for '$request->desc1' with the following CHANGES: $fcode $effdate $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa1_airport $upa2_airport $upa3_airport $upa4_airport $upa5_airport $upa6_airport $upa7_airport $upa8_airport";
             $userlogs->save();
 
             return 'true';

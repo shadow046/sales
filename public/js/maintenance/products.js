@@ -159,28 +159,28 @@ $(document).ready(function(){
                 {
                     data: 'bulk_order', name: 'bulk_order',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.bulk_order).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.bulk_order_aiport).toFixed(2))}</span>`;
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.bulk_order).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.bulk_order_airport).toFixed(2))}</span>`;
 
                     }
                 },
                 {
                     data: 'fds', name: 'fds',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.fds).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.fds_aiport).toFixed(2))}</span>`;
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.fds).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.fds_airport).toFixed(2))}</span>`;
 
                     }
                 },
                 {
                     data: 'drive_thru', name: 'drive_thru',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.drive_thru).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.drive_thru_aiport).toFixed(2))}</span>`;
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.drive_thru).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.drive_thru_airport).toFixed(2))}</span>`;
 
                     }
                 },
                 {
                     data: 'meal_type', name: 'meal_type',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.meal_type).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.meal_type_aiport).toFixed(2))}</span>`;
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.meal_type).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.meal_type_airport).toFixed(2))}</span>`;
 
                     }
                 },
@@ -550,14 +550,14 @@ $('.saveBtn').on('click',function(){
     var drive_thru = $('#drive_thru').val();
     var meal_type = $('#meal_type').val();
 
-    var dine_in_aiport = $('#dine_in_aiport').val();
-    var take_out_aiport = $('#take_out_aiport').val();
-    var pick_up_aiport = $('#pick_up_aiport').val();
-    var delivery_aiport = $('#delivery_aiport').val();
-    var bulk_order_aiport = $('#bulk_order_aiport').val();
-    var fds_aiport = $('#fds_aiport').val();
-    var drive_thru_aiport = $('#drive_thru_aiport').val();
-    var meal_type_aiport = $('#meal_type_aiport').val();
+    var dine_in_airport = $('#dine_in_airport').val();
+    var take_out_airport = $('#take_out_airport').val();
+    var pick_up_airport = $('#pick_up_airport').val();
+    var delivery_airport = $('#delivery_airport').val();
+    var bulk_order_airport = $('#bulk_order_airport').val();
+    var fds_airport = $('#fds_airport').val();
+    var drive_thru_airport = $('#drive_thru_airport').val();
+    var meal_type_airport = $('#meal_type_airport').val();
 
     var max_modifier = $('#max_modifier').val();
     var seq = $('#seq').val();
@@ -673,14 +673,14 @@ $('.saveBtn').on('click',function(){
                         fds:fds,
                         drive_thru:drive_thru,
                         meal_type:meal_type,
-                        dine_in_aiport:dine_in_aiport,
-                        take_out_aiport:take_out_aiport,
-                        pick_up_aiport:pick_up_aiport,
-                        delivery_aiport:delivery_aiport,
-                        bulk_order_aiport:bulk_order_aiport,
-                        fds_aiport:fds_aiport,
-                        drive_thru_aiport:drive_thru_aiport,
-                        meal_type_aiport:meal_type_aiport,
+                        dine_in_airport:dine_in_airport,
+                        take_out_airport:take_out_airport,
+                        pick_up_airport:pick_up_airport,
+                        delivery_airport:delivery_airport,
+                        bulk_order_airport:bulk_order_airport,
+                        fds_airport:fds_airport,
+                        drive_thru_airport:drive_thru_airport,
+                        meal_type_airport:meal_type_airport,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -814,14 +814,14 @@ $('.saveBtn').on('click',function(){
                         fds:fds,
                         drive_thru:drive_thru,
                         meal_type:meal_type,
-                        dine_in_aiport:dine_in_aiport,
-                        take_out_aiport:take_out_aiport,
-                        pick_up_aiport:pick_up_aiport,
-                        delivery_aiport:delivery_aiport,
-                        bulk_order_aiport:bulk_order_aiport,
-                        fds_aiport:fds_aiport,
-                        drive_thru_aiport:drive_thru_aiport,
-                        meal_type_aiport:meal_type_aiport,
+                        dine_in_airport:dine_in_airport,
+                        take_out_airport:take_out_airport,
+                        pick_up_airport:pick_up_airport,
+                        delivery_airport:delivery_airport,
+                        bulk_order_airport:bulk_order_airport,
+                        fds_airport:fds_airport,
+                        drive_thru_airport:drive_thru_airport,
+                        meal_type_airport:meal_type_airport,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -1006,7 +1006,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('#fds').val(parseFloat(data.fds).toFixed(2));
         $('#drive_thru').val(parseFloat(data.drive_thru).toFixed(2));
         $('#meal_type').val(parseFloat(data.meal_type).toFixed(2));
-        $('#dine_in_aiport_airport').val(parseFloat(data.dine_in_aiport).toFixed(2));
+        $('#dine_in_airport_airport').val(parseFloat(data.dine_in_airport).toFixed(2));
         $('#take_out_airport_airport').val(parseFloat(data.take_out_airport).toFixed(2));
         $('#pick_up_airport').val(parseFloat(data.pick_up_airport).toFixed(2));
         $('#delivery_airport').val(parseFloat(data.delivery_airport).toFixed(2));
