@@ -25,7 +25,8 @@ hr{
     border-color: #fbb12d;
     opacity: initial;
 }
-#tabContent{
+#tabContent,
+#priceContent{
     border-top: 2px solid #850708;
 }
 .class{

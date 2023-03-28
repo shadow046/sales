@@ -7,7 +7,7 @@ var current_session = $('#current_session').val();
 var current_token = $('#current_token').val();
 var current_key = $('#current_key').val();
 var current_server = $('#current_server').val();
-var current_system = $('#current_server').val();
+var current_system = $('#current_system').val();
 var current_timeout = $('#current_timeout').val();
 var data_update, standby = true;
 
@@ -442,9 +442,14 @@ $(document).on('focusout', '.requiredField', function(){
 });
 
 $(document).on('blur', '.priceField', function(){
-    var inputValue = $(this).val();
-    if(inputValue.indexOf('.') === -1){
-        $(this).val(inputValue + '.00');
+    if(!$(this).val()){
+        $(this).val('0.00');
+    }
+    else{
+        var inputValue = $(this).val();
+        if(inputValue.indexOf('.') === -1){
+            $(this).val(inputValue + '.00');
+        }
     }
 });
 

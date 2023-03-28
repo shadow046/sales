@@ -59,7 +59,6 @@ class PriceUpdateController extends Controller
         $priceUpdate->upa6 = $request->upa6;
         $priceUpdate->upa7 = $request->upa7;
         $priceUpdate->upa8 = $request->upa8;
-        $priceUpdate->upa9 = $request->upa9;
         $sql = $priceUpdate->save();
 
         if($sql){
@@ -71,7 +70,6 @@ class PriceUpdateController extends Controller
             $upa6_orig = Product::where('item_code', $request->fcode)->first()->fds;
             $upa7_orig = Product::where('item_code', $request->fcode)->first()->drive_thru;
             $upa8_orig = Product::where('item_code', $request->fcode)->first()->meal_type;
-            $upa9_orig = Product::where('item_code', $request->fcode)->first()->airport;
 
             if($upa1_orig !=  $request->upa1){
                 $upa1_1 = number_format($upa1_orig, 2);
@@ -137,19 +135,11 @@ class PriceUpdateController extends Controller
             else{
                 $upa8 = NULL;
             }
-            if($upa9_orig !=  $request->upa9){
-                $upa9_1 = number_format($upa9_orig, 2);
-                $upa9_2 = number_format($request->upa9, 2);
-                $upa9 = "【Airport: FROM '$upa9_1' TO '$upa9_2'】";
-            }
-            else{
-                $upa9 = NULL;
-            }
 
             $date = Carbon::parse($request->effdate)->isoformat('dddd, MMMM DD, YYYY');
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED PRICE UPDATE: User successfully added Price Update for '$request->desc1' effective on $date with the following CHANGES: $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa9";
+            $userlogs->activity = "ADDED PRICE UPDATE: User successfully added Price Update for '$request->desc1' effective on $date with the following CHANGES: $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8";
             $userlogs->save();
 
             return 'true';
@@ -171,7 +161,6 @@ class PriceUpdateController extends Controller
         $upa6_orig = PriceUpdate::where('recid', $request->id)->first()->upa6;
         $upa7_orig = PriceUpdate::where('recid', $request->id)->first()->upa7;
         $upa8_orig = PriceUpdate::where('recid', $request->id)->first()->upa8;
-        $upa9_orig = PriceUpdate::where('recid', $request->id)->first()->upa9;
         if($fcode_orig != $request->fcode){
             if(PriceUpdate::where('fcode', $request->fcode)
                 ->where('price_update_status', '0')
@@ -191,9 +180,8 @@ class PriceUpdateController extends Controller
             $upa5_orig == $request->upa5 &&
             $upa6_orig == $request->upa6 &&
             $upa7_orig == $request->upa7 &&
-            $upa8_orig == $request->upa8 &&
-            $upa9_orig == $request->upa9
-        ){
+            $upa8_orig == $request->upa8
+            ){
             return 'nochanges';
         }
 
@@ -275,14 +263,6 @@ class PriceUpdateController extends Controller
         else{
             $upa8 = NULL;
         }
-        if($upa9_orig !=  $request->upa9){
-            $upa9_1 = number_format($upa9_orig, 2);
-            $upa9_2 = number_format($request->upa9, 2);
-            $upa9 = "【Airport: FROM '$upa9_1' TO '$upa9_2'】";
-        }
-        else{
-            $upa9 = NULL;
-        }
         $sql = PriceUpdate::where('recid', $request->id)
             ->update([
                 'fcode' => $request->fcode,
@@ -295,14 +275,13 @@ class PriceUpdateController extends Controller
                 'upa5' => $request->upa5,
                 'upa6' => $request->upa6,
                 'upa7' => $request->upa7,
-                'upa8' => $request->upa8,
-                'upa9' => $request->upa9
+                'upa8' => $request->upa8
             ]);
         if($sql){
             $date = Carbon::parse($request->effdate)->isoformat('dddd, MMMM DD, YYYY');
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED PRICE UPDATE: User successfully updated Price Update for '$request->desc1' with the following CHANGES: $fcode $effdate $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa9";
+            $userlogs->activity = "UPDATED PRICE UPDATE: User successfully updated Price Update for '$request->desc1' with the following CHANGES: $fcode $effdate $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8";
             $userlogs->save();
 
             return 'true';

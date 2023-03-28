@@ -38,12 +38,12 @@
                         <input type="number" name="upa3" id="upa3" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa3" class="formlabels form-label">PICK-UP PRICE</label>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col f-outline mb-3">
                         <input type="number" name="upa4" id="upa4" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa4" class="formlabels form-label">DELIVERY PRICE</label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col f-outline mb-3">
                         <input type="number" name="upa5" id="upa5" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa5" class="formlabels form-label">BULK ORDER</label>
@@ -52,8 +52,6 @@
                         <input type="number" name="upa6" id="upa6" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa6" class="formlabels form-label">FDS PRICE</label>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col f-outline mb-3">
                         <input type="number" name="upa7" id="upa7" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa7" class="formlabels form-label">DRIVE-THRU PRICE</label>
@@ -61,10 +59,6 @@
                     <div class="col f-outline mb-3">
                         <input type="number" name="upa8" id="upa8" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                         <label for="upa8" class="formlabels form-label">ADD. MEAL TYPE</label>
-                    </div>
-                    <div class="col f-outline mb-3">
-                        <input type="number" name="upa9" id="upa9" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
-                        <label for="upa9" class="formlabels form-label">AIRPORT</label>
                     </div>
                 </div>
             </div>

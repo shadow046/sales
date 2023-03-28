@@ -43,8 +43,9 @@ class ProductsController extends Controller
     public function products_data()
     {
         $products = Product::selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, area, store, status, product_image, product_update_status')
-            ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type, airport, pos_setup, max_modifier, seq, kitchen_printer')
-            ->selectRaw('promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
+            ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type')
+            ->selectRaw('dine_in_airport, take_out_airport, pick_up_airport, delivery_airport, bulk_order_airport, fds_airport, drive_thru_airport, meal_type_airport')
+            ->selectRaw('pos_setup, max_modifier, seq, kitchen_printer, promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
             ->join('category','category.id','products.category')
             ->get();
@@ -190,6 +191,7 @@ class ProductsController extends Controller
         $product->long_desc = strtoupper($request->long_desc);
         $product->sku = strtoupper($request->sku);
         $product->modifier_code = $request->modifier_code;
+
         $product->dine_in = $request->dine_in;
         $product->take_out = $request->take_out;
         $product->pick_up = $request->pick_up;
@@ -198,7 +200,15 @@ class ProductsController extends Controller
         $product->fds = $request->fds;
         $product->drive_thru = $request->drive_thru;
         $product->meal_type = $request->meal_type;
-        $product->airport = $request->airport;
+        $product->dine_in_airport = $request->dine_in;
+        $product->take_out_airport = $request->take_out_airport;
+        $product->pick_up_airport = $request->pick_up_airport;
+        $product->delivery_airport = $request->delivery_airport;
+        $product->bulk_order_airport = $request->bulk_order_airport;
+        $product->fds_airport = $request->fds_airport;
+        $product->drive_thru_airport = $request->drive_thru_airport;
+        $product->meal_type_airport = $request->meal_type_airport;
+
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
@@ -279,6 +289,7 @@ class ProductsController extends Controller
         $product->long_desc = strtoupper($request->long_desc);
         $product->sku = strtoupper($request->sku);
         $product->modifier_code = $request->modifier_code;
+
         $product->dine_in = $request->dine_in;
         $product->take_out = $request->take_out;
         $product->pick_up = $request->pick_up;
@@ -287,7 +298,15 @@ class ProductsController extends Controller
         $product->fds = $request->fds;
         $product->drive_thru = $request->drive_thru;
         $product->meal_type = $request->meal_type;
-        $product->airport = $request->airport;
+        $product->dine_in_airport = $request->dine_in;
+        $product->take_out_airport = $request->take_out_airport;
+        $product->pick_up_airport = $request->pick_up_airport;
+        $product->delivery_airport = $request->delivery_airport;
+        $product->bulk_order_airport = $request->bulk_order_airport;
+        $product->fds_airport = $request->fds_airport;
+        $product->drive_thru_airport = $request->drive_thru_airport;
+        $product->meal_type_airport = $request->meal_type_airport;
+
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
@@ -401,10 +420,10 @@ class ProductsController extends Controller
         $failed_rows = [];
         $row_num = 2;
         foreach($data[0] as $key => $value){
-            if(!$value['item_code'] && !$value['category'] && !$value['short_description'] && !$value['long_description'] && !$value['dine_in'] && !$value['take_out'] && !$value['pick_up'] && !$value['delivery'] && !$value['bulk_order'] && !$value['fds'] && !$value['drive_thru'] && !$value['add_meal_type'] && !$value['airport']){
+            if(!$value['item_code'] && !$value['category'] && !$value['short_description'] && !$value['long_description'] && !$value['dine_in'] && !$value['take_out'] && !$value['pick_up'] && !$value['delivery'] && !$value['bulk_order'] && !$value['fds'] && !$value['drive_thru'] && !$value['add_meal_type']){
                 echo(null);
             }
-            else if(!$value['item_code'] || !$value['category'] || !$value['short_description'] || !$value['long_description'] || !$value['dine_in'] || !$value['take_out'] || !$value['pick_up'] || !$value['delivery'] || !$value['bulk_order'] || !$value['fds'] || !$value['drive_thru'] || !$value['add_meal_type'] || !$value['airport']){
+            else if(!$value['item_code'] || !$value['category'] || !$value['short_description'] || !$value['long_description'] || !$value['dine_in'] || !$value['take_out'] || !$value['pick_up'] || !$value['delivery'] || !$value['bulk_order'] || !$value['fds'] || !$value['drive_thru'] || !$value['add_meal_type']){
                 array_push($failed_rows, '[Row: '.$row_num.' => Error: Fill Required Fields!]');
             }
             else{
@@ -516,7 +535,6 @@ class ProductsController extends Controller
                         $product->fds = str_replace(',', '', number_format($value['fds'], 2));
                         $product->drive_thru = str_replace(',', '', number_format($value['drive_thru'], 2));
                         $product->meal_type = str_replace(',', '', number_format($value['add_meal_type'], 2));
-                        $product->airport = str_replace(',', '', number_format($value['airport'], 2));
                         $product->pos_setup = $pos_setup;
                         $sql = $product->save();
                         if(!$sql){
@@ -551,7 +569,6 @@ class ProductsController extends Controller
                         $product->fds = str_replace(',', '', number_format($value['fds'], 2));
                         $product->drive_thru = str_replace(',', '', number_format($value['drive_thru'], 2));
                         $product->meal_type = str_replace(',', '', number_format($value['add_meal_type'], 2));
-                        $product->airport = str_replace(',', '', number_format($value['airport'], 2));
                         $product->pos_setup = $pos_setup;
                         $sql = $product->save();
                         if(!$sql){

@@ -3,6 +3,7 @@ $('.addBtn').on('click',function(){
     stores_list = [];
     promo_id = [];
     suspend_id = [];
+    $('#tab_regular').click();
     $('#set_meal_div').hide();
     $('#set_meal_table_orig_div').hide();
     $('#setup').chosen();
@@ -35,196 +36,376 @@ $('.addBtn').on('click',function(){
 });
 var table;
 $(document).ready(function(){
-    table = $('table.productsTable').DataTable({
-        dom: 'Blftrip',
-        buttons: [{
-            extend: 'excelHtml5',
-            title: 'Export - Products',
-            exportOptions: {
-                modifier : {
-                    order : 'index',
-                    page : 'all',
-                    search : 'none'
+    if(current_system == 'DD'){
+        table = $('table.productsTable').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: 'Export - Products',
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
                 },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            language: {
+                info: "Showing _START_ to _END_ of _TOTAL_ Products",
+                lengthMenu: "Show _MENU_ Products",
+                emptyTable: "No Products Data Found!",
             },
-        }],
-        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-        language: {
-            info: "Showing _START_ to _END_ of _TOTAL_ Products",
-            lengthMenu: "Show _MENU_ Products",
-            emptyTable: "No Products Data Found!",
-        },
-        processing: true,
-        serverSide: false,
-        ajax: {
-            "url": 'products_data'
-        },
-        columnDefs: [
-            {
-                "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,20],
-                "visible": false,
-                "searchable": true
+            processing: true,
+            serverSide: false,
+            ajax: {
+                "url": 'products_data'
             },
-        ],
-        order: [],
-        columns: [
-            { data: 'category_name', name: 'category_name'},
-            { data: 'item_code', name: 'item_code'},
-            {
-                data: 'intro_date', name: 'intro_date',
-                "render":function(data,type,row){
-                    return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
-                }
-            },
-            { data: 'short_desc', name: 'short_desc'},
-            { data: 'long_desc', name: 'long_desc'},
-            { data: 'setup_name', name: 'setup_name'},
-            // {
-            //     data: 'branch_name',
-            //     "render": function(data, type, row, meta){
-            //         if((row.company).includes('|')){
-            //             if(row.company_name.split("|").length == 1){
-            //                 var start = '';
-            //             }
-            //             else{
-            //                 var start = '• ';
-            //             }
-            //             return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
-            //         }
-            //         else{
-            //             return row.company_name;
-            //         }
-            //     }
-            // },
-            {
-                data: 'area_name',
-                "render": function(data, type, row, meta){
-                    if(row.area_name.split("|").length == 1){
-                        var start = '';
+            columnDefs: [
+                {
+                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,19],
+                    "visible": false,
+                    "searchable": true
+                },
+            ],
+            order: [],
+            columns: [
+                { data: 'category_name', name: 'category_name'},
+                { data: 'item_code', name: 'item_code'},
+                {
+                    data: 'intro_date', name: 'intro_date',
+                    "render":function(data,type,row){
+                        return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
                     }
-                    else{
-                        var start = '• ';
-                    }
-                    return `<div style="white-space:normal;">${start} ${row.area_name.split("|").join("<br/> • ")}</div>`;
-                }
-            },
-            {
-                data: 'store_name',
-                "render": function(data, type, row, meta){
-                    if(row.store_name == 'N/A'){
-                        return 'N/A';
-                    }
-                    else if(row.store_name == 'ALL BRANCHES'){
-                        return 'ALL BRANCHES';
-                    }
-                    else{
-                        if(row.store_name.split("|").length == 1){
+                },
+                { data: 'short_desc', name: 'short_desc'},
+                { data: 'long_desc', name: 'long_desc'},
+                { data: 'setup_name', name: 'setup_name'},
+                // {
+                //     data: 'branch_name',
+                //     "render": function(data, type, row, meta){
+                //         if((row.company).includes('|')){
+                //             if(row.company_name.split("|").length == 1){
+                //                 var start = '';
+                //             }
+                //             else{
+                //                 var start = '• ';
+                //             }
+                //             return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
+                //         }
+                //         else{
+                //             return row.company_name;
+                //         }
+                //     }
+                // },
+                {
+                    data: 'area_name',
+                    "render": function(data, type, row, meta){
+                        if(row.area_name.split("|").length == 1){
                             var start = '';
                         }
                         else{
                             var start = '• ';
                         }
-                        return `<div style="white-space:normal;">${start} ${row.store_name.split("|").join("<br/> • ")}</div>`;
+                        return `<div style="white-space:normal;">${start} ${row.area_name.split("|").join("<br/> • ")}</div>`;
                     }
-                }
-            },
-            {
-                data: 'dine_in', name: 'dine_in',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.dine_in).toFixed(2))}</span>`;
-                }
-            },
-            {
-                data: 'take_out', name: 'take_out',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.take_out).toFixed(2))}</span>`;
-                }
-            },
-            {
-                data: 'pick_up', name: 'pick_up',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.pick_up).toFixed(2))}</span>`;
-
-                }
-            },
-            {
-                data: 'delivery', name: 'delivery',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.delivery).toFixed(2))}</span>`;
-
-                }
-            },
-            {
-                data: 'bulk_order', name: 'bulk_order',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.bulk_order).toFixed(2))}</span>`;
-
-                }
-            },
-            {
-                data: 'fds', name: 'fds',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.fds).toFixed(2))}</span>`;
-
-                }
-            },
-            {
-                data: 'drive_thru', name: 'drive_thru',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.drive_thru).toFixed(2))}</span>`;
-
-                }
-            },
-            {
-                data: 'meal_type', name: 'meal_type',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.meal_type).toFixed(2))}</span>`;
-
-                }
-            },
-            {
-                data: 'airport', name: 'airport',
-                "render": function(data, type, row, meta){
-                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.airport).toFixed(2))}</span>`;
-
-                }
-            },
-            { data: 'sku', name: 'sku'},
-            { data: 'modifier_code', name: 'modifier_code'},
-            {
-                data: 'status',
-                "render": function(data, type, row, meta){
-                    if(row.product_update_status == '0'){
-                        var update_status = 'visible';
-                    }
-                    else{
-                        var update_status = 'invisible';
-                    }
-                    if(current_permissions.includes('5')){
-                        if(row.status == 'ACTIVE'){
-                            return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                },
+                {
+                    data: 'store_name',
+                    "render": function(data, type, row, meta){
+                        if(row.store_name == 'N/A'){
+                            return 'N/A';
                         }
-                        if(row.status == 'INACTIVE'){
-                            return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                        else if(row.store_name == 'ALL BRANCHES'){
+                            return 'ALL BRANCHES';
+                        }
+                        else{
+                            if(row.store_name.split("|").length == 1){
+                                var start = '';
+                            }
+                            else{
+                                var start = '• ';
+                            }
+                            return `<div style="white-space:normal;">${start} ${row.store_name.split("|").join("<br/> • ")}</div>`;
                         }
                     }
-                    else{
-                        if(row.status == 'ACTIVE'){
-                            return `<div style="width: 120px !important;"><center class="text-success"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                },
+                {
+                    data: 'dine_in', name: 'dine_in',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.dine_in).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.dine_in_airport).toFixed(2))} </span>`;
+                    }
+                },
+                {
+                    data: 'take_out', name: 'take_out',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.take_out).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.take_out_airport).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'pick_up', name: 'pick_up',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.pick_up).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.pick_up_airport).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'delivery', name: 'delivery',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.delivery).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.delivery_airport).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'bulk_order', name: 'bulk_order',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.bulk_order).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.bulk_order_aiport).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'fds', name: 'fds',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.fds).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.fds_aiport).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'drive_thru', name: 'drive_thru',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.drive_thru).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.drive_thru_aiport).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'meal_type', name: 'meal_type',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.meal_type).toFixed(2))} | AIPORT: ₱ ${formatNumber(parseFloat(row.meal_type_aiport).toFixed(2))}</span>`;
+
+                    }
+                },
+                { data: 'sku', name: 'sku'},
+                { data: 'modifier_code', name: 'modifier_code'},
+                {
+                    data: 'status',
+                    "render": function(data, type, row, meta){
+                        if(row.product_update_status == '0'){
+                            var update_status = 'visible';
                         }
-                        if(row.status == 'INACTIVE'){
-                            return `<div style="width: 120px !important;"><center class="text-danger"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                        else{
+                            var update_status = 'invisible';
+                        }
+                        if(current_permissions.includes('5')){
+                            if(row.status == 'ACTIVE'){
+                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
+                            if(row.status == 'INACTIVE'){
+                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
+                        }
+                        else{
+                            if(row.status == 'ACTIVE'){
+                                return `<div style="width: 120px !important;"><center class="text-success"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
+                            if(row.status == 'INACTIVE'){
+                                return `<div style="width: 120px !important;"><center class="text-danger"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
                         }
                     }
-                }
+                },
+                { data: 'status', name: 'status'}
+            ],
+            initComplete: function(){
+                $(document).prop('title', $('#page-name').text());
+                $('#loading').hide();
+            }
+        });
+    }
+    else{
+        table = $('table.productsTable').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: 'Export - Products',
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            language: {
+                info: "Showing _START_ to _END_ of _TOTAL_ Products",
+                lengthMenu: "Show _MENU_ Products",
+                emptyTable: "No Products Data Found!",
             },
-            { data: 'status', name: 'status'}
-        ],
-        initComplete: function(){
-            $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
-        }
-    });
+            processing: true,
+            serverSide: false,
+            ajax: {
+                "url": 'products_data'
+            },
+            columnDefs: [
+                {
+                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18],
+                    "visible": false,
+                    "searchable": true
+                },
+            ],
+            order: [],
+            columns: [
+                { data: 'category_name', name: 'category_name'},
+                { data: 'item_code', name: 'item_code'},
+                {
+                    data: 'intro_date', name: 'intro_date',
+                    "render":function(data,type,row){
+                        return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
+                    }
+                },
+                { data: 'short_desc', name: 'short_desc'},
+                { data: 'long_desc', name: 'long_desc'},
+                { data: 'setup_name', name: 'setup_name'},
+                // {
+                //     data: 'branch_name',
+                //     "render": function(data, type, row, meta){
+                //         if((row.company).includes('|')){
+                //             if(row.company_name.split("|").length == 1){
+                //                 var start = '';
+                //             }
+                //             else{
+                //                 var start = '• ';
+                //             }
+                //             return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
+                //         }
+                //         else{
+                //             return row.company_name;
+                //         }
+                //     }
+                // },
+                {
+                    data: 'area_name',
+                    "render": function(data, type, row, meta){
+                        if(row.area_name.split("|").length == 1){
+                            var start = '';
+                        }
+                        else{
+                            var start = '• ';
+                        }
+                        return `<div style="white-space:normal;">${start} ${row.area_name.split("|").join("<br/> • ")}</div>`;
+                    }
+                },
+                {
+                    data: 'store_name',
+                    "render": function(data, type, row, meta){
+                        if(row.store_name == 'N/A'){
+                            return 'N/A';
+                        }
+                        else if(row.store_name == 'ALL BRANCHES'){
+                            return 'ALL BRANCHES';
+                        }
+                        else{
+                            if(row.store_name.split("|").length == 1){
+                                var start = '';
+                            }
+                            else{
+                                var start = '• ';
+                            }
+                            return `<div style="white-space:normal;">${start} ${row.store_name.split("|").join("<br/> • ")}</div>`;
+                        }
+                    }
+                },
+                {
+                    data: 'dine_in', name: 'dine_in',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.dine_in).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'take_out', name: 'take_out',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.take_out).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'pick_up', name: 'pick_up',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.pick_up).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'delivery', name: 'delivery',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.delivery).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'bulk_order', name: 'bulk_order',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.bulk_order).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'fds', name: 'fds',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.fds).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'drive_thru', name: 'drive_thru',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.drive_thru).toFixed(2))}</span>`;
+
+                    }
+                },
+                {
+                    data: 'meal_type', name: 'meal_type',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.meal_type).toFixed(2))}</span>`;
+
+                    }
+                },
+                { data: 'sku', name: 'sku'},
+                { data: 'modifier_code', name: 'modifier_code'},
+                {
+                    data: 'status',
+                    "render": function(data, type, row, meta){
+                        if(row.product_update_status == '0'){
+                            var update_status = 'visible';
+                        }
+                        else{
+                            var update_status = 'invisible';
+                        }
+                        if(current_permissions.includes('5')){
+                            if(row.status == 'ACTIVE'){
+                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
+                            if(row.status == 'INACTIVE'){
+                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
+                        }
+                        else{
+                            if(row.status == 'ACTIVE'){
+                                return `<div style="width: 120px !important;"><center class="text-success"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
+                            if(row.status == 'INACTIVE'){
+                                return `<div style="width: 120px !important;"><center class="text-danger"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                            }
+                        }
+                    }
+                },
+                { data: 'status', name: 'status'}
+            ],
+            initComplete: function(){
+                $(document).prop('title', $('#page-name').text());
+                $('#loading').hide();
+            }
+        });
+    }
 
     setInterval(function(){
         if($('#loading').is(':hidden') && standby == false){
@@ -250,7 +431,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=20; i++){
+            for(var i=0; i<=19; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }
@@ -368,7 +549,16 @@ $('.saveBtn').on('click',function(){
     var fds = $('#fds').val();
     var drive_thru = $('#drive_thru').val();
     var meal_type = $('#meal_type').val();
-    var airport = $('#airport').val();
+
+    var dine_in_aiport = $('#dine_in_aiport').val();
+    var take_out_aiport = $('#take_out_aiport').val();
+    var pick_up_aiport = $('#pick_up_aiport').val();
+    var delivery_aiport = $('#delivery_aiport').val();
+    var bulk_order_aiport = $('#bulk_order_aiport').val();
+    var fds_aiport = $('#fds_aiport').val();
+    var drive_thru_aiport = $('#drive_thru_aiport').val();
+    var meal_type_aiport = $('#meal_type_aiport').val();
+
     var max_modifier = $('#max_modifier').val();
     var seq = $('#seq').val();
     var kitchen_printer = $('#kitchen_printer').val();
@@ -483,7 +673,14 @@ $('.saveBtn').on('click',function(){
                         fds:fds,
                         drive_thru:drive_thru,
                         meal_type:meal_type,
-                        airport:airport,
+                        dine_in_aiport:dine_in_aiport,
+                        take_out_aiport:take_out_aiport,
+                        pick_up_aiport:pick_up_aiport,
+                        delivery_aiport:delivery_aiport,
+                        bulk_order_aiport:bulk_order_aiport,
+                        fds_aiport:fds_aiport,
+                        drive_thru_aiport:drive_thru_aiport,
+                        meal_type_aiport:meal_type_aiport,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -617,7 +814,14 @@ $('.saveBtn').on('click',function(){
                         fds:fds,
                         drive_thru:drive_thru,
                         meal_type:meal_type,
-                        airport:airport,
+                        dine_in_aiport:dine_in_aiport,
+                        take_out_aiport:take_out_aiport,
+                        pick_up_aiport:pick_up_aiport,
+                        delivery_aiport:delivery_aiport,
+                        bulk_order_aiport:bulk_order_aiport,
+                        fds_aiport:fds_aiport,
+                        drive_thru_aiport:drive_thru_aiport,
+                        meal_type_aiport:meal_type_aiport,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -753,6 +957,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             $('#productsModal').find('textarea').prop('disabled', true);
         }
         $('.tab1').click();
+        $('#tab_regular').click();
         $('.validation').hide();
         $('.forminput').removeClass('redBorder');
 
@@ -801,7 +1006,14 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('#fds').val(parseFloat(data.fds).toFixed(2));
         $('#drive_thru').val(parseFloat(data.drive_thru).toFixed(2));
         $('#meal_type').val(parseFloat(data.meal_type).toFixed(2));
-        $('#airport').val(parseFloat(data.airport).toFixed(2));
+        $('#dine_in_aiport_airport').val(parseFloat(data.dine_in_aiport).toFixed(2));
+        $('#take_out_airport_airport').val(parseFloat(data.take_out_airport).toFixed(2));
+        $('#pick_up_airport').val(parseFloat(data.pick_up_airport).toFixed(2));
+        $('#delivery_airport').val(parseFloat(data.delivery_airport).toFixed(2));
+        $('#bulk_order_airport').val(parseFloat(data.bulk_order_airport).toFixed(2));
+        $('#fds_airport').val(parseFloat(data.fds_airport).toFixed(2));
+        $('#drive_thru_airport').val(parseFloat(data.drive_thru_airport).toFixed(2));
+        $('#meal_type_airport').val(parseFloat(data.meal_type_airport).toFixed(2));
         $('#max_modifier').val(data.max_modifier);
         $('#seq').val(data.seq);
         $('#kitchen_printer').val(data.kitchen_printer);
@@ -1147,6 +1359,38 @@ $('.tab2').on('click',function(){
     $('#page1').removeClass('show');
     $('#page2').show();
     $('#page1').hide();
+});
+
+$('#tab_regular').on('click',function(){
+    $(this).blur();
+    $('#tab_airport').addClass('bg-sub-light');
+    $('#tab_airport').removeClass('bg-sub active');
+    $('#tab_regular').removeClass('bg-sub-light');
+    $('#tab_regular').addClass('bg-sub active');
+    $('#tab_regular').attr('aria-selected', true);
+    $('#tab_airport').attr('aria-selected', false);
+    $('#page_regular').addClass('active');
+    $('#page_regular').addClass('show');
+    $('#page_airport').removeClass('active');
+    $('#page_airport').removeClass('show');
+    $('#page_regular').show();
+    $('#page_airport').hide();
+});
+
+$('#tab_airport').on('click',function(){
+    $(this).blur();
+    $('#tab_regular').addClass('bg-sub-light');
+    $('#tab_regular').removeClass('bg-sub active');
+    $('#tab_airport').removeClass('bg-sub-light');
+    $('#tab_airport').addClass('bg-sub active');
+    $('#tab_airport').attr('aria-selected', true);
+    $('#tab_regular').attr('aria-selected', false);
+    $('#page_airport').addClass('active');
+    $('#page_airport').addClass('show');
+    $('#page_regular').removeClass('active');
+    $('#page_regular').removeClass('show');
+    $('#page_airport').show();
+    $('#page_regular').hide();
 });
 
 $('.btnNextPage').on('click',function(){
@@ -1770,24 +2014,78 @@ setInterval(() => {
 }, 0);
 
 $(document).on('blur','#dine_in',function(){
-    var dine_in = parseFloat($(this).val());
-    if(dine_in > 0){
-        $('#take_out').val(dine_in);
-        $('#pick_up').val(dine_in);
-        $('#delivery').val(dine_in);
-        $('#bulk_order').val(dine_in);
-        $('#fds').val(dine_in);
-        $('#drive_thru').val(dine_in);
-        $('#meal_type').val(dine_in);
-        $('#airport').val(dine_in);
+    Swal.fire({
+        title: 'Autofill other fields with same price?',
+        width: 600,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Autofill',
+        denyButtonText: 'Manual',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if (save.isConfirmed) {
+            var dine_in = parseFloat($(this).val());
+            if(dine_in > 0){
+                $('#take_out').val(dine_in);
+                $('#pick_up').val(dine_in);
+                $('#delivery').val(dine_in);
+                $('#bulk_order').val(dine_in);
+                $('#fds').val(dine_in);
+                $('#drive_thru').val(dine_in);
+                $('#meal_type').val(dine_in);
 
-        $('#take_out').blur();
-        $('#pick_up').blur();
-        $('#delivery').blur();
-        $('#bulk_order').blur();
-        $('#fds').blur();
-        $('#drive_thru').blur();
-        $('#meal_type').blur();
-        $('#airport').blur();
-    }
+                $('#take_out').blur();
+                $('#pick_up').blur();
+                $('#delivery').blur();
+                $('#bulk_order').blur();
+                $('#fds').blur();
+                $('#drive_thru').blur();
+                $('#meal_type').blur();
+            }
+        }
+    });
+
+});
+
+$(document).on('blur','#dine_in_airport',function(){
+    Swal.fire({
+        title: 'Autofill other fields with same price?',
+        width: 600,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Autofill',
+        denyButtonText: 'Manual',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if (save.isConfirmed) {
+            var dine_in_airport = parseFloat($(this).val());
+            if(dine_in_airport > 0){
+                $('#take_out_airport').val(dine_in_airport);
+                $('#pick_up_airport').val(dine_in_airport);
+                $('#delivery_airport').val(dine_in_airport);
+                $('#bulk_order_airport').val(dine_in_airport);
+                $('#fds_airport').val(dine_in_airport);
+                $('#drive_thru_airport').val(dine_in_airport);
+                $('#meal_type_airport').val(dine_in_airport);
+
+                $('#take_out_airport').blur();
+                $('#pick_up_airport').blur();
+                $('#delivery_airport').blur();
+                $('#bulk_order_airport').blur();
+                $('#fds_airport').blur();
+                $('#drive_thru_airport').blur();
+                $('#meal_type_airport').blur();
+            }
+        }
+    });
 });
