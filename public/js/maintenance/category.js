@@ -38,10 +38,10 @@ $(document).ready(function(){
                 data: 'enable_combo',
                 "render": function(data, type, row, meta){
                     if(row.enable_combo == 'Y'){
-                        return `<div style="width: 190px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
+                        return `<div style="width: 150px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
                     }
                     if(row.enable_combo == 'N'){
-                        return `<div style="width: 190px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
+                        return `<div style="width: 150px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
                     }
                 }
             },

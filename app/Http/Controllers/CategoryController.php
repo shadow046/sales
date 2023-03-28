@@ -58,7 +58,7 @@ class CategoryController extends Controller
         else {
             $result = 'true';
 
-            $status = "【Category Type: FROM '$status2' TO '$status1'】";
+            $status = "【Product Type: FROM '$status2' TO '$status1'】";
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
