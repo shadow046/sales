@@ -1125,7 +1125,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
 
         //trclick table
         $('#promoProductCombination_tbody').empty();
-        if($('#category').val() == '0' || $('#category option:selected').text() == 'DONUTS'){
+        if($('#category option:selected').attr('combo') == 'Y'){
             $.ajax({
                 url: '/promo_product_combination/data',
                 async: false,
@@ -1683,7 +1683,7 @@ $(document).on('change', '.checkbox', function() {
 });
 
 $(document).on('change','#category',function(){
-    if($(this).val() == '0' || $('#category option:selected').text() == 'DONUTS'){
+    if($('#category option:selected').attr('combo') == 'Y'){
         $('#short_description').chosen();
         $('#short_description').trigger('chosen:updated');
         $('#short_description_chosen').css('width','100%');
@@ -1820,22 +1820,9 @@ setInterval(() => {
     }
 }, 0);
 
-// $(document).on('change', '#company', function(){
-//     if(!$('#company option:selected').length || !$('#area option:selected').length){
-//         $('.classStore').hide();
-//         $('#store').find('option').remove();
-//         $('#store').chosen();
-//         $('#store').trigger('chosen:updated');
-//         $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
-//         $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
-//     }
-//     $('#area').change();
-// });
-
 var area_all = [];
 var stores_list = [];
 $(document).on('change', '#area', function(){
-    // if(!$('#company option:selected').length || !$('#area option:selected').length){
     if(!$('#area option:selected').length){
         $('.classStore').hide();
         $('#store').find('option').remove();
@@ -1910,19 +1897,6 @@ $(document).on('change', '#store', function(){
     });
     $('#area').change();
 });
-
-// $(document).on('change','#company',function(){
-//     if($('#company_chosen').is(':visible')){
-//         if ($("#company").val().length > 0) {
-//             $('#company_chosen').removeClass('requiredField requiredInput redBorder');
-//             $('.classNamecompany_chosen').remove();
-//         } else {
-//             if($('.classNamecompany_chosen:visible').length == 0){
-//                 $('#company_chosen').addClass('requiredField requiredInput redBorder');
-//             }
-//         }
-//     }
-// });
 
 $(document).on('change','#area',function(){
     if($('#area_chosen').is(':visible')){

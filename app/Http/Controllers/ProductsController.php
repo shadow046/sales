@@ -31,11 +31,10 @@ class ProductsController extends Controller
     public function products()
     {
         $products = Product::orderBy('item_code', 'asc')->get();
-        $categories = Category::select('id', 'category')->where('category_status','!=','DELETED')->get()->sortBy('category');
+        $categories = Category::select('id', 'category', 'enable_combo')->where('category_status','!=','DELETED')->get()->sortBy('category');
         $product_categories = Category::select('id', 'category')->where('id','!=','0')->where('category_status','!=','DELETED')->get()->sortBy('category');
         $sales_types = SalesType::select('id','sales_type')->where('id','!=','0')->where('sales_type_status','!=','DELETED')->get()->sortBy('sales_type');
         $setups = Setup::select('id', 'setup')->where('id','!=','0')->where('setup_status','!=','DELETED')->get()->sortBy('setup');
-        // $companies = Company::select('id','company_name')->where('id','!=','0')->get();
         $areas = StoreArea::where('id', '!=', '0')->where('store_area_status', 'ACTIVE')->get()->sortBy('store_area');
         return view('pages.products', compact('products','categories','product_categories','sales_types','setups','areas'));
     }

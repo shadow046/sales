@@ -21,7 +21,7 @@
                     <select id="category" name="category" class="forminput form-control form-select requiredField" style="color: black">
                         <option value="" selected disabled>Select Category</option>
                         @foreach($categories as $category)
-                            <option value="{{$category->id}}" style="color: Black;">{{strtoupper($category->category)}}</option>
+                            <option combo="{{$category->enable_combo}}" value="{{$category->id}}" style="color: Black;">{{strtoupper($category->category)}}</option>
                         @endforeach
                     </select>
                     <label for="category" class="formlabels form-label">Category
