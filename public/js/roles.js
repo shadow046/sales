@@ -26,14 +26,14 @@ $(document).ready(function(){
             {
                 data: 'permissions',
                 "render":function(data,type,row){
-                    permissions = (row.permissions.replaceAll('[{\"desc\":\"', "• ")).replaceAll('{\"desc\":\"', "<br>• ").replaceAll('\"},', "").replaceAll('\"}]', "");
+                    permissions = (row.permissions.replaceAll('[{\"desc\":\"', "• ")).replaceAll('{\"desc\":\"', "<br>• ").replaceAll('\"},', "").replaceAll('\"}]', "").replaceAll('\\\/', "/");
                     return(`<div style="white-space: normal; width: 100%;">${permissions}</div>`);
                 }
             },
             {
                 data: 'access',
                 "render":function(data,type,row){
-                    access = (row.access.replaceAll('[{\"desc\":\"', "• ")).replaceAll('{\"desc\":\"', "<br>• ").replaceAll('\"},', "").replaceAll('\"}]', "");
+                    access = (row.access.replaceAll('[{\"desc\":\"', "• ")).replaceAll('{\"desc\":\"', "<br>• ").replaceAll('\"},', "").replaceAll('\"}]', "").replaceAll('\\\/', "/");
                     return(`<div style="white-space: normal; width: 300px;">${access}</div>`);
                 }
             }

@@ -37,11 +37,21 @@ $(document).ready(function(){
             {
                 data: 'enable_combo',
                 "render": function(data, type, row, meta){
-                    if(row.enable_combo == 'Y'){
-                        return `<div style="width: 150px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
+                    if(current_permissions.includes('5')){
+                        if(row.enable_combo == 'Y'){
+                            return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">ON</span><span style="font-size: 100%;" class="off">OFF</span></div></label></center></div>`;
+                        }
+                        if(row.enable_combo == 'N'){
+                            return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">ON</span><span style="font-size: 100%;" class="off">OFF</span></div></label></center></div>`;
+                        }
                     }
-                    if(row.enable_combo == 'N'){
-                        return `<div style="width: 150px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
+                    else{
+                        if(row.enable_combo == 'Y'){
+                            return `<div style="width: 120px !important;"><center class="text-success"><b>ON</b></center></div>`;
+                        }
+                        if(row.enable_combo == 'N'){
+                            return `<div style="width: 120px !important;"><center class="text-danger"><b>OFF</b></center></div>`;
+                        }
                     }
                 }
             },
@@ -77,7 +87,7 @@ $(document).on('change', '.togBtn', function(){
         var status = 'N';
     }
     $.ajax({
-        url: '/categoryMealType',
+        url: '/categoryCombo',
         data:{
             id: data.id,
             category: data.category,
@@ -150,7 +160,7 @@ $('.saveBtn').on('click',function(){
 });
 var category_orig;
 $(document).on('click','table.categoryTable tbody tr td',function(){
-    if($(this).text() != 'COMBOREGULAR'){
+    if($(this).text() != 'ONOFF'){
         $('.req').hide();
         if(!current_permissions.includes('3')){
             $('#categoryModal').find('input').prop('disabled', true);

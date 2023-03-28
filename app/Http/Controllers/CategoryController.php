@@ -38,14 +38,14 @@ class CategoryController extends Controller
         return $data_update;
     }
 
-    public function categoryMealType(Request $request){
+    public function categoryCombo(Request $request){
         if($request->status == 'Y'){
-            $status1 = 'COMBO';
-            $status2 = 'REGULAR';
+            $status1 = 'ON';
+            $status2 = 'OFF';
         }
         else{
-            $status1 = 'REGULAR';
-            $status2 = 'COMBO';
+            $status1 = 'OFF';
+            $status2 = 'ON';
         }
 
         $category = Category::find($request->id);
@@ -58,11 +58,11 @@ class CategoryController extends Controller
         else {
             $result = 'true';
 
-            $status = "【Product Type: FROM '$status2' TO '$status1'】";
+            $status = "【Combo ON/OFF: FROM '$status2' TO '$status1'】";
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "PRODUCT STATUS UPDATED: User successfully updated status of $category->category with the following CHANGES: $status.";
+            $userlogs->activity = "CATEGORY UPDATED: User successfully updated $category->category with the following CHANGES: $status.";
             $userlogs->save();
         }
         return response($result);

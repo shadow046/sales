@@ -34,7 +34,7 @@ Route::controller(CategoryController::class)->group(function(){
     Route::any('/maintenance-category','category');
     Route::any('/category_data','category_data');
     Route::any('/category_reload','category_reload');
-    Route::any('/categoryMealType','categoryMealType');
+    Route::any('/categoryCombo','categoryCombo');
     Route::any('/saveCategory','saveCategory');
     Route::any('/editCategory','editCategory');
     Route::any('/deleteCategory','deleteCategory');

@@ -18,7 +18,7 @@
         <thead>
             <tr class="bg-default">
                 <th>PRODUCT CATEGORIES</th>
-                <th style="width: 150px;">PRODUCT TYPE</th>
+                <th style="width: 120px;">COMBO ON/OFF</th>
             </tr>
         </thead>
         <tbody>
