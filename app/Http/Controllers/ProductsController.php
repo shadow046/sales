@@ -535,6 +535,14 @@ class ProductsController extends Controller
                         $product->fds = str_replace(',', '', number_format($value['fds'], 2));
                         $product->drive_thru = str_replace(',', '', number_format($value['drive_thru'], 2));
                         $product->meal_type = str_replace(',', '', number_format($value['add_meal_type'], 2));
+                        $product->dine_in_airport = !$value['dine_in_airport'] ? '0.00' : str_replace(',', '', number_format($value['dine_in_airport'], 2));
+                        $product->take_out_airport = !$value['take_out_airport'] ? '0.00' : str_replace(',', '', number_format($value['take_out_airport'], 2));
+                        $product->pick_up_airport = !$value['pick_up_airport'] ? '0.00' : str_replace(',', '', number_format($value['pick_up_airport'], 2));
+                        $product->delivery_airport = !$value['delivery_airport'] ? '0.00' : str_replace(',', '', number_format($value['delivery_airport'], 2));
+                        $product->bulk_order_airport = !$value['bulk_order_airport'] ? '0.00' : str_replace(',', '', number_format($value['bulk_order_airport'], 2));
+                        $product->fds_airport = !$value['fds_airport'] ? '0.00' : str_replace(',', '', number_format($value['fds_airport'], 2));
+                        $product->drive_thru_airport = !$value['drive_thru_airport'] ? '0.00' : str_replace(',', '', number_format($value['drive_thru_airport'], 2));
+                        $product->meal_type_airport = !$value['meal_type_airport'] ? '0.00' : str_replace(',', '', number_format($value['add_meal_type_airport'], 2));
                         $product->pos_setup = $pos_setup;
                         $sql = $product->save();
                         if(!$sql){
@@ -569,6 +577,14 @@ class ProductsController extends Controller
                         $product->fds = str_replace(',', '', number_format($value['fds'], 2));
                         $product->drive_thru = str_replace(',', '', number_format($value['drive_thru'], 2));
                         $product->meal_type = str_replace(',', '', number_format($value['add_meal_type'], 2));
+                        $product->dine_in_airport = !$value['dine_in_airport'] ? '0.00' : str_replace(',', '', number_format($value['dine_in_airport'], 2));
+                        $product->take_out_airport = !$value['take_out_airport'] ? '0.00' : str_replace(',', '', number_format($value['take_out_airport'], 2));
+                        $product->pick_up_airport = !$value['pick_up_airport'] ? '0.00' : str_replace(',', '', number_format($value['pick_up_airport'], 2));
+                        $product->delivery_airport = !$value['delivery_airport'] ? '0.00' : str_replace(',', '', number_format($value['delivery_airport'], 2));
+                        $product->bulk_order_airport = !$value['bulk_order_airport'] ? '0.00' : str_replace(',', '', number_format($value['bulk_order_airport'], 2));
+                        $product->fds_airport = !$value['fds_airport'] ? '0.00' : str_replace(',', '', number_format($value['fds_airport'], 2));
+                        $product->drive_thru_airport = !$value['drive_thru_airport'] ? '0.00' : str_replace(',', '', number_format($value['drive_thru_airport'], 2));
+                        $product->meal_type_airport = !$value['meal_type_airport'] ? '0.00' : str_replace(',', '', number_format($value['add_meal_type_airport'], 2));
                         $product->pos_setup = $pos_setup;
                         $sql = $product->save();
                         if(!$sql){
