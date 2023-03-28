@@ -18,6 +18,7 @@
         <thead>
             <tr class="bg-default">
                 <th>PRODUCT CATEGORIES</th>
+                <th style="width: 200px;">CATEGORY TYPE</th>
             </tr>
         </thead>
         <tbody>

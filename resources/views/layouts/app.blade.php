@@ -65,6 +65,9 @@
     @if(Request::is('products') || Request::is('store') || Request::is('users'))
         <link href="{{asset('css/switch.css?ver=')}}{{$version}}" rel="stylesheet">
     @endif
+    @if(Request::is('maintenance-category'))
+        <link href="{{asset('css/toggle.css?ver=')}}{{$version}}" rel="stylesheet">
+    @endif
     <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>

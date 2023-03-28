@@ -81,23 +81,6 @@ $(document).ready(function(){
                 { data: 'short_desc', name: 'short_desc'},
                 { data: 'long_desc', name: 'long_desc'},
                 { data: 'setup_name', name: 'setup_name'},
-                // {
-                //     data: 'branch_name',
-                //     "render": function(data, type, row, meta){
-                //         if((row.company).includes('|')){
-                //             if(row.company_name.split("|").length == 1){
-                //                 var start = '';
-                //             }
-                //             else{
-                //                 var start = '• ';
-                //             }
-                //             return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
-                //         }
-                //         else{
-                //             return row.company_name;
-                //         }
-                //     }
-                // },
                 {
                     data: 'area_name',
                     "render": function(data, type, row, meta){
@@ -266,23 +249,6 @@ $(document).ready(function(){
                 { data: 'short_desc', name: 'short_desc'},
                 { data: 'long_desc', name: 'long_desc'},
                 { data: 'setup_name', name: 'setup_name'},
-                // {
-                //     data: 'branch_name',
-                //     "render": function(data, type, row, meta){
-                //         if((row.company).includes('|')){
-                //             if(row.company_name.split("|").length == 1){
-                //                 var start = '';
-                //             }
-                //             else{
-                //                 var start = '• ';
-                //             }
-                //             return `<div style="white-space:normal;">${start} ${row.company_name.split("|").join("<br/> • ")}</div>`;
-                //         }
-                //         else{
-                //             return row.company_name;
-                //         }
-                //     }
-                // },
                 {
                     data: 'area_name',
                     "render": function(data, type, row, meta){

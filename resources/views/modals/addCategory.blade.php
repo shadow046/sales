@@ -13,7 +13,6 @@
                         <p class="validation"><i class="fas fa-exclamation-triangle"></i> CATEGORY ALREADY EXIST!</p>
                     </div>
                 </div>
-                
                 <div class="row">
                     <div class="col-md f-outline">
                         @can('delete')

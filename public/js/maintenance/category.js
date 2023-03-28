@@ -31,8 +31,20 @@ $(document).ready(function(){
         ajax: {
             "url": 'category_data'
         },
+        autoWidth: false,
         columns: [
-            { data: 'category', name:'category'}
+            { data: 'category', name:'category'},
+            {
+                data: 'enable_combo',
+                "render": function(data, type, row, meta){
+                    if(row.enable_combo == 'Y'){
+                        return `<div style="width: 190px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
+                    }
+                    if(row.enable_combo == 'N'){
+                        return `<div style="width: 190px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">COMBO</span><span style="font-size: 100%;" class="off">REGULAR</span></div></label></center></div>`;
+                    }
+                }
+            },
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
@@ -53,6 +65,28 @@ $(document).ready(function(){
             });
         }
     }, 1000);
+});
+
+$(document).on('change', '.togBtn', function(){
+    var id = $(this).attr("id");
+    var data = table.row(id).data();
+    if($(this).is(':checked')){
+        var status = 'Y';
+    }
+    else{
+        var status = 'N';
+    }
+    $.ajax({
+        url: '/categoryMealType',
+        data:{
+            id: data.id,
+            category: data.category,
+            status: status
+        },
+        success:function(){
+            setTimeout(() => { table.ajax.reload(null, false); }, 0);
+        }
+    });
 });
 
 $('.saveBtn').on('click',function(){
@@ -115,25 +149,27 @@ $('.saveBtn').on('click',function(){
     });
 });
 var category_orig;
-$(document).on('click','table.categoryTable tbody tr',function(){
-    $('.req').hide();
-    if(!current_permissions.includes('3')){
-        $('#categoryModal').find('input').prop('disabled', true);
+$(document).on('click','table.categoryTable tbody tr td',function(){
+    if($(this).text() != 'COMBOREGULAR'){
+        $('.req').hide();
+        if(!current_permissions.includes('3')){
+            $('#categoryModal').find('input').prop('disabled', true);
+        }
+        var data = table.row(this).data();
+
+        $('.saveBtn').hide();
+        $('.updateBtn').show();
+
+        $('.validation').hide();
+        $('.forminput').removeClass('redBorder');
+
+        $('#category_id').val(data.id);
+        $('#category').val(data.category);
+
+        category_orig = data.category;
+
+        $('#categoryModal').modal('show');
     }
-    var data = table.row(this).data();
-
-    $('.saveBtn').hide();
-    $('.updateBtn').show();
-
-    $('.validation').hide();
-    $('.forminput').removeClass('redBorder');
-
-    $('#category_id').val(data.id);
-    $('#category').val(data.category);
-
-    category_orig = data.category;
-
-    $('#categoryModal').modal('show');
 });
 
 $('.updateBtn').on('click',function(){
