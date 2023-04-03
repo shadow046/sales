@@ -13,6 +13,7 @@ use App\Http\Controllers\POSController;
 use App\Http\Controllers\PriceUpdateController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PromosController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SalesTypeController;
@@ -146,6 +147,10 @@ Route::controller(PromosController::class)->group(function(){
     Route::any('/promo_product_combination/bulk_delete', 'promo_product_combination_bulk_delete');
     Route::any('/promo_code/checkDuplicate','checkDuplicate');
 
+});
+
+Route::controller(ReportsController::class)->group(function(){
+    Route::get('/reports','reports');
 });
 
 Route::controller(RoleController::class)->group(function(){
