@@ -128,12 +128,12 @@ $(document).on('click','table.roleTable tbody tr',function(){
     $('.req').hide();
     $('#radio1').prop("checked", true);
     var data = table.row(this).data();
-    if(current_server != 'LOCAL'){
-        if(data.id < 5){
-            Swal.fire('RESTRICTED', 'Default User Roles cannot be modified!', 'error');
-            return false;
-        }
-    }
+    // if(current_server != 'LOCAL'){
+    //     if(data.id < 5){
+    //         Swal.fire('RESTRICTED', 'Default User Roles cannot be modified!', 'error');
+    //         return false;
+    //     }
+    // }
     $('.permission').prop('checked', false);
 
     $('.saveBtn').hide();

@@ -60,6 +60,11 @@
 					<a class="nav-link {{ Request::is('sales/index') ? 'navactive' : '' }}" href="/sales/index">SALES PERFORMANCE</a>
 				</li>
 			@endcan
+			@can('reports')
+				<li class="nav-item mr-1">
+					<a class="nav-link {{ Request::is('reports') ? 'navactive' : '' }}" href="/reports">REPORTS</a>
+				</li>
+			@endcan
 			@can('store')
 				<li class="nav-item mr-1">
 					<a class="nav-link {{ Request::is('store') ? 'navactive' : '' }}" href="/store">STORE</a>
