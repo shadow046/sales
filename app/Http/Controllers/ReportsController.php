@@ -29,4 +29,13 @@ class ReportsController extends Controller
             ->get();
         return DataTables::of($data)->make(true);
     }
+
+    public function byRegion(Request $request){
+        $data = Hdr::selectRaw('store.region, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, sum(netsales) as net_sales')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->join('store', 'store.branch_code', 'hdr.storecode')
+            ->groupBy('store.region')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
 }

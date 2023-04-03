@@ -152,6 +152,8 @@ Route::controller(PromosController::class)->group(function(){
 Route::controller(ReportsController::class)->group(function(){
     Route::get('/reports','reports');
     Route::get('/reports/area','byArea');
+    Route::get('/reports/region','byRegion');
+    Route::get('/reports/group','byGroup');
 });
 
 Route::controller(RoleController::class)->group(function(){
