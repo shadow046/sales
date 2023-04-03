@@ -11,14 +11,14 @@
 <div class="row mb-3">
     <div class="col-md-4 f-outline">
         <select id="report_type" name="report_type" class="forminput form-control form-select requiredField" style="color: black">
-            <option value="" selected disabled>SELECT REPORT TYPE</option>
-            <option value="1">STANDARD REPORT</option>
+            <option value="" disabled>SELECT REPORT TYPE</option>
+            <option value="1" selected>STANDARD REPORT</option>
             <option value="2">COMPARATIVE REPORT</option>
         </select>
         <label for="report_type" class="formlabels form-label">REPORT TYPE
     </div>
     <div class="col-md-4 f-outline">
-        <input type="search" style="color: black" name="report_title" id="report_title" class="forminput form-control requiredField text-uppercase" placeholder=" " autocomplete="off" >
+        <input type="search" style="color: black" name="report_title" id="report_title" class="forminput form-control requiredField text-uppercase" placeholder=" " autocomplete="off" value="CUSTOM REPORT">
         <label for="report_title" class="formlabels form-label">REPORT TITLE</label>
     </div>
 </div>

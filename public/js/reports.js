@@ -109,4 +109,61 @@ $('#btnGenerate').on('click', function(){
             }
         });
     }
+    else if($('#report_category').val() == 'STORE GROUP'){
+        $('#loading').show();
+        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+            '<table class="table table-hover table-bordered table-striped byGroupTable" id="byGroupTable" style="width:100%;">' +
+                '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr>' +
+                        '<th>STORE GROUP</th>' +
+                        '<th>GROSS SALES</th>' +
+                        '<th>TOTAL SALES</th>' +
+                        '<th>NET SALES</th>' +
+                    '</tr>' +
+                '</thead>' +
+            '</table>' +
+            '<br>' +
+        '</div>';
+        $('#reportsTable').append(htmlString);
+        $('table.byGroupTable').DataTable({
+            dom: 'lftrip',
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/reports/group',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val()
+                }
+            },
+            columns: [
+                { data: 'subgroup' },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'net_sales',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            initComplete: function(){
+                $('#loading').hide();
+            }
+        });
+    }
+    else{
+        Swal.fire('UNAVAILABLE', 'This Report Category is not yet available!', 'error');
+    }
 });

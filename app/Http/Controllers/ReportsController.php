@@ -38,4 +38,14 @@ class ReportsController extends Controller
             ->get();
         return DataTables::of($data)->make(true);
     }
+
+    public function byGroup(Request $request){
+        $data = Hdr::selectRaw('subgroup.subgroup, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, sum(netsales) as net_sales')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->join('store', 'store.branch_code', 'hdr.storecode')
+            ->join('subgroup', 'subgroup.id', 'store.sub_group')
+            ->groupBy('subgroup.subgroup')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
 }
