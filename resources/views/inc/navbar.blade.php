@@ -43,19 +43,12 @@
 <nav class="navbar navbar-expand-sm text-white w-100 content" style="background-color: {{$orange}}; font-weight:bolder;">
 	<div class="container-fluid">
 		<ul class="navbar-nav">
-			@if(env('APP_SYS') == 'DD')
-				@can('dashboard')
-					<li class="nav-item mr-1">
-						<a class="nav-link {{ Request::is('/') ? 'navactive' : '' }}" href="/">HOME</a>
-					</li>
-				@endcan
-			@endif
-			@can('sales')
+			@can('dashboard')
 				<li class="nav-item mr-1">
-					<a class="nav-link {{ Request::is('sales/index') ? 'navactive' : '' }}" href="/sales/index">SALES PERFORMANCE</a>
+					<a class="nav-link {{ Request::is('/') ? 'navactive' : '' }}" href="/">HOME</a>
 				</li>
 			@endcan
-			@can('home')
+			@can('sales')
 				<li class="nav-item mr-1">
 					<a class="nav-link {{ Request::is('sales/index') ? 'navactive' : '' }}" href="/sales/index">SALES PERFORMANCE</a>
 				</li>

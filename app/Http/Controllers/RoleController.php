@@ -24,7 +24,7 @@ class RoleController extends Controller
         $accesses = Permission::whereNotIn('id', ['8','24','25','26'])->where('type', 'access')->get();
         return view('pages/roles', compact('roles', 'permissions','accesses'));
     }
-    
+
     public function roles_data()
     {
         $list = Role::selectRaw('roles.name AS name, roles.id AS id')
