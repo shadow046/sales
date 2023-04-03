@@ -146,6 +146,12 @@ input, select{
     color: white !important;
     font-weight: bold;
 }
+.btn-default{
+    background-color: #850708 !important;
+    border-color: white !important;
+    color: white !important;
+    font-weight: bold;
+}
 .btn-custom{
     background-color: #850708 !important;
     border-color: white !important;

@@ -42,13 +42,18 @@
         <label for="report_category" class="formlabels form-label">REPORT CATEGORY
     </div>
     <div class="col-md-2 f-outline">
-        <input type="date" style="color: black" name="start_date" id="start_date" class="forminput form-control requiredField" placeholder=" " autocomplete="off" >
+        <input type="date" style="color: black" name="start_date" id="start_date" class="forminput form-control requiredField" placeholder=" " autocomplete="off">
         <label for="start_date" class="formlabels form-label">START DATE</label>
     </div>
     <div class="col-md-2 f-outline">
-        <input type="date" style="color: black" name="end_date" id="end_date" class="forminput form-control requiredField" placeholder=" " autocomplete="off" >
+        <input type="date" style="color: black" name="end_date" id="end_date" class="forminput form-control requiredField" placeholder=" " autocomplete="off">
         <label for="end_date" class="formlabels form-label">END DATE</label>
     </div>
+    <div class="col-md-2 f-outline">
+        <button id="btnGenerate" class="form-control btn btn-default float-end btnRequired"><i class="fa-solid fa-clipboard-check"></i> GENERATE REPORT</button>
+    </div>
 </div>
+<div id="reportsTable"></div>
+<hr>
 <script src={{asset('js/reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection
