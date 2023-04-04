@@ -1,6 +1,28 @@
 $(document).prop('title', $('#page-name').text());
+$('#btnReset').on('click', function(){
+    $('#formReports').trigger('reset');
+    $('#report_type').change();
+    $('#reportsTable').empty();
+});
+
+$('#report_type').on('change', function(){
+    $('.inputDates').val('');
+    if($('#report_type').val() == '1'){
+        $('.divStandard').show();
+        $('.divComparative').hide();
+    }
+    if($('#report_type').val() == '2'){
+        $('.divStandard').hide();
+        $('.divComparative').show();
+    }
+});
+
 $('#btnGenerate').on('click', function(){
     $('#reportsTable').empty();
+    if($('#report_type').val() == '2'){
+        Swal.fire('UNAVAILABLE', 'This Report Type is not yet available!', 'error');
+        return false;
+    }
     if($('#report_category').val() == 'AREA'){
         $('#loading').show();
         var htmlString = '<div class="table-responsive container-fluid pt-2">' +
@@ -167,3 +189,12 @@ $('#btnGenerate').on('click', function(){
         Swal.fire('UNAVAILABLE', 'This Report Category is not yet available!', 'error');
     }
 });
+
+setInterval(() => {
+    if($('#reportsTable').is(':empty')){
+        $('#btnExport').prop('disabled', true);
+    }
+    else{
+        $('#btnExport').prop('disabled', false);
+    }
+}, 0);
