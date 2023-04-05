@@ -70,10 +70,10 @@
     <div class="row mb-3">
         <div class="col-md-3"></div>
         <div class="col-md-2 f-outline">
-            <button type="button" id="btnGenerate" class="form-control btn btn-default float-end btnRequired"><i class="fa-solid fa-clipboard-check"></i> GENERATE REPORT</button>
+            <button type="button" id="btnReset" class="form-control btn btn-default float-end"><i class="fa-solid fa-eraser"></i> RESET FORM</button>
         </div>
         <div class="col-md-2 f-outline">
-            <button type="button" id="btnReset" class="form-control btn btn-default float-end"><i class="fa-solid fa-eraser"></i> RESET FORM</button>
+            <button type="button" id="btnGenerate" class="form-control btn btn-default float-end btnRequired"><i class="fa-solid fa-clipboard-check"></i> GENERATE REPORT</button>
         </div>
         <div class="col-md-2 f-outline">
             <button type="button" id="btnExport" class="form-control btn btn-default float-end"><i class="fas fa-file-export"></i> EXPORT</button>

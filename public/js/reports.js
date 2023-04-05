@@ -28,6 +28,20 @@ $('#btnGenerate').on('click', function(){
         var htmlString = '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped byAreaTable" id="byAreaTable" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr class="tbsearch">' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                    '</tr>' +
                     '<tr>' +
                         '<th>STORE AREA</th>' +
                         '<th>GROSS SALES</th>' +
@@ -82,6 +96,20 @@ $('#btnGenerate').on('click', function(){
         var htmlString = '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped byRegionTable" id="byRegionTable" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr class="tbsearch">' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                    '</tr>' +
                     '<tr>' +
                         '<th>REGION</th>' +
                         '<th>GROSS SALES</th>' +
@@ -136,6 +164,20 @@ $('#btnGenerate').on('click', function(){
         var htmlString = '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped byGroupTable" id="byGroupTable" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr class="tbsearch">' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                    '</tr>' +
                     '<tr>' +
                         '<th>STORE GROUP</th>' +
                         '<th>GROSS SALES</th>' +
