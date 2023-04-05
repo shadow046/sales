@@ -56,14 +56,32 @@
         <div class="col-md-3"></div>
     </div>
     <div class="row mb-3 divComparative" style="display: none;">
+        <div class="col"><center><b class="text-default">COMPARE DATE RANGES:</b><center></div>
+    </div>
+    <div class="row mb-3 divComparative" style="display: none;">
         <div class="col-md-3"></div>
         <div class="col-md-3 f-outline">
-            <input type="date" style="color: black" name="previous_date" id="previous_date" class="forminput inputDates form-control requiredField" placeholder=" " autocomplete="off">
-            <label for="previous_date" class="formlabels form-label">PREVIOUS DATE</label>
+            <input type="date" style="color: black" name="date1A" id="date1A" class="forminput inputDates form-control requiredField" placeholder=" " autocomplete="off">
+            <label for="date1A" class="formlabels form-label">START DATE</label>
         </div>
         <div class="col-md-3 f-outline">
-            <input type="date" style="color: black" name="current_date" id="current_date" class="forminput inputDates form-control requiredField" placeholder=" " autocomplete="off">
-            <label for="current_date" class="formlabels form-label">CURRENT DATE</label>
+            <input type="date" style="color: black" name="date1B" id="date1B" class="forminput inputDates form-control requiredField" placeholder=" " autocomplete="off">
+            <label for="date1B" class="formlabels form-label">END DATE</label>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row mb-3 divComparative" style="display: none;">
+        <div class="col"><center><b class="text-default">==========VS==========</b><center></div>
+    </div>
+    <div class="row mb-3 divComparative" style="display: none;">
+        <div class="col-md-3"></div>
+        <div class="col-md-3 f-outline">
+            <input type="date" style="color: black" name="date2A" id="date2A" class="forminput inputDates form-control requiredField" placeholder=" " autocomplete="off">
+            <label for="date2A" class="formlabels form-label">START DATE</label>
+        </div>
+        <div class="col-md-3 f-outline">
+            <input type="date" style="color: black" name="date2B" id="date2B" class="forminput inputDates form-control requiredField" placeholder=" " autocomplete="off">
+            <label for="date2B" class="formlabels form-label">END DATE</label>
         </div>
         <div class="col-md-3"></div>
     </div>
