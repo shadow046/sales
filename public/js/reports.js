@@ -1,5 +1,6 @@
 $(document).prop('title', $('#page-name').text());
 $('#btnReset').on('click', function(){
+    $('.req').hide();
     $('#formReports').trigger('reset');
     $('#report_type').change();
     $('#reportsTable').empty();
@@ -14,6 +15,48 @@ $('#report_type').on('change', function(){
     if($('#report_type').val() == '2'){
         $('.divStandard').hide();
         $('.divComparative').show();
+    }
+});
+
+$('#start_date').on('change', function(){
+    $('#end_date').val('');
+    if($(this).val()){
+        $('#end_date').attr('min', $(this).val());
+    }
+});
+
+$('#end_date').on('change', function(){
+    if($(this).val() < $('#start_date').val()){
+        $(this).val('');
+        Swal.fire('INVALID DATE', '', 'error');
+    }
+});
+
+$('#date1A').on('change', function(){
+    $('#date1B').val('');
+    if($(this).val()){
+        $('#date1B').attr('min', $(this).val());
+    }
+});
+
+$('#date1B').on('change', function(){
+    if($(this).val() < $('#date1A').val()){
+        $(this).val('');
+        Swal.fire('INVALID DATE', '', 'error');
+    }
+});
+
+$('#date2A').on('change', function(){
+    $('#date2B').val('');
+    if($(this).val()){
+        $('#date2B').attr('min', $(this).val());
+    }
+});
+
+$('#date2B').on('change', function(){
+    if($(this).val() < $('#date2A').val()){
+        $(this).val('');
+        Swal.fire('INVALID DATE', '', 'error');
     }
 });
 
