@@ -21,17 +21,29 @@ class ReportsController extends Controller
     }
 
     public function byArea(Request $request){
-        $data = Hdr::selectRaw('store_area.store_area, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, sum(netsales) as net_sales')
-            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->join('store', 'store.branch_code', 'hdr.storecode')
-            ->join('store_area', 'store_area.id', 'store.store_area')
-            ->groupBy('store_area.store_area')
-            ->get();
-        return DataTables::of($data)->make(true);
+        if($request->type == 'standard'){
+            $data = Hdr::selectRaw('store_area.store_area, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->join('store', 'store.branch_code', 'hdr.storecode')
+                ->join('store_area', 'store_area.id', 'store.store_area')
+                ->groupBy('store_area.store_area')
+                ->get();
+            return DataTables::of($data)->make(true);
+        }
+        else{
+            $data = Hdr::selectRaw('store_area.store_area, SUM(gross) as gross_sales1, SUM(totalsales) as total_sales1, SUM(netsales) as net_sales1')
+                ->selectRaw('SUM(gross) as gross_sales2, SUM(totalsales) as total_sales2, SUM(netsales) as net_sales2')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date1A, $request->date1B])
+                ->join('store', 'store.branch_code', 'hdr.storecode')
+                ->join('store_area', 'store_area.id', 'store.store_area')
+                ->groupBy('store_area.store_area')
+                ->get();
+            return DataTables::of($data)->make(true);
+        }
     }
 
     public function byRegion(Request $request){
-        $data = Hdr::selectRaw('store.region, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, sum(netsales) as net_sales')
+        $data = Hdr::selectRaw('store.region, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->join('store', 'store.branch_code', 'hdr.storecode')
             ->groupBy('store.region')
@@ -40,7 +52,7 @@ class ReportsController extends Controller
     }
 
     public function byGroup(Request $request){
-        $data = Hdr::selectRaw('subgroup.subgroup, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, sum(netsales) as net_sales')
+        $data = Hdr::selectRaw('subgroup.subgroup, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->join('store', 'store.branch_code', 'hdr.storecode')
             ->join('subgroup', 'subgroup.id', 'store.sub_group')
