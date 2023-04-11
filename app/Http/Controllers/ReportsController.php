@@ -92,4 +92,29 @@ class ReportsController extends Controller
         }
         return DataTables::of($data)->make(true);
     }
+
+    public function bySetup(Request $request){
+        if($request->type == 'standard'){
+            $data = Hdr::selectRaw('setup.setup, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->join('store', 'store.branch_code', 'hdr.storecode')
+                ->join('setup', 'setup.id', 'store.setup')
+                ->groupBy('setup.setup')
+                ->get();
+        }
+        else{
+            $data = Hdr::selectRaw("setup.setup,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN gross ELSE 0 END) as gross_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN totalsales ELSE 0 END) as total_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN netsales ELSE 0 END) as net_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN gross ELSE 0 END) as gross_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN totalsales ELSE 0 END) as total_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN netsales ELSE 0 END) as net_sales2")
+                ->join('store', 'store.branch_code', 'hdr.storecode')
+                ->join('setup', 'setup.id', 'store.setup')
+                ->groupBy('setup.setup')
+                ->get();
+        }
+        return DataTables::of($data)->make(true);
+    }
 }
