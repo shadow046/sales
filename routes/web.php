@@ -25,6 +25,8 @@ use App\Http\Controllers\TenderTypeController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreAreaController;
+use App\Http\Controllers\TransactionTypeController;
+use App\Http\Controllers\DiscountController;
 
 Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::fallback(function(){return redirect("/login");});
@@ -278,6 +280,24 @@ Route::controller(TenderTypeController::class)->group(function(){
     Route::any('/editTenderType','editTenderType');
     Route::any('/deleteTenderType','deleteTenderType');
     Route::any('/tender_type/checkDuplicate','checkDuplicate');
+});
+
+Route::controller(TransactionTypeController::class)->group(function(){
+    Route::any('/transaction_type_data','transaction_type_data');
+    Route::get('/transaction_type_reload','transaction_type_reload');
+    Route::any('/maintenance-transaction-type','transaction_type');
+    Route::any('/saveTransactionType','saveTransactionType');
+    Route::any('/editTransactionType','editTransactionType');
+    Route::any('/deleteTransactionType','deleteTransactionType');
+});
+
+Route::controller(DiscountController::class)->group(function(){
+    Route::any('/discount_data','discount_data');
+    Route::get('/discount_reload','discount_reload');
+    Route::any('/maintenance-discount','discount');
+    Route::any('/saveDiscount','saveDiscount');
+    Route::any('/editDiscount','editDiscount');
+    Route::any('/deleteDiscount','deleteDiscount');
 });
 
 Route::controller(UploadController::class)->group(function(){

@@ -32,4 +32,10 @@
 	@can('tender')
 		<a class="mtn dropdown-item mb-1 ml-1 {{ Request::is('maintenance-tender-type') ? 'linkactive' : '' }}" href="/maintenance-tender-type">Tender Type</a>
 	@endcan
+	{{-- @can('tender') --}}
+		<a class="mtn dropdown-item mb-1 ml-1 {{ Request::is('maintenance-transaction-type') ? 'linkactive' : '' }}" href="/maintenance-transaction-type">Transaction Type</a>
+	{{-- @endcan --}}
+	{{-- @can('tender') --}}
+		<a class="mtn dropdown-item mb-1 ml-1 {{ Request::is('maintenance-discount') ? 'linkactive' : '' }}" href="/maintenance-discount">Discount</a>
+	{{-- @endcan --}}
 </div>
