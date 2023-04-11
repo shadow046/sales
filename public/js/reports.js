@@ -62,6 +62,9 @@ $('#date2B').on('change', function(){
 
 $('#btnGenerate').on('click', function(){
     $('#reportsTable').empty();
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
+    var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
+    var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
     const alpha_test = ['AREA', 'REGION', 'STORE GROUP', 'STORE SETUP'];
     if($('#report_type').val() == '2' && !alpha_test.includes($('#report_category').val())){
         Swal.fire('UNAVAILABLE', 'This Report Type is not yet available!', 'error');
@@ -73,6 +76,10 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped byAreaTable" id="byAreaTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+display_range+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -141,6 +148,11 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped byAreaTable" id="byAreaTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+compare_range1+'</th>' +
+                            '<th colspan="3">'+compare_range2+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -244,6 +256,10 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped byRegionTable" id="byRegionTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+display_range+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -312,6 +328,11 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped byRegionTable" id="byRegionTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+compare_range1+'</th>' +
+                            '<th colspan="3">'+compare_range2+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -415,6 +436,10 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped byGroupTable" id="byGroupTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+display_range+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -483,6 +508,11 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped byGroupTable" id="byGroupTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+compare_range1+'</th>' +
+                            '<th colspan="3">'+compare_range2+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -586,6 +616,10 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped bySetupTable" id="bySetupTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+display_range+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -625,7 +659,7 @@ $('#btnGenerate').on('click', function(){
                     }
                 },
                 columns: [
-                    { data: 'setup' },
+                    { data: 'setup_name' },
                     {
                         data: 'gross_sales',
                         "render": function(data, type, row, meta){
@@ -654,6 +688,11 @@ $('#btnGenerate').on('click', function(){
             var htmlString = '<div class="table-responsive container-fluid pt-2">' +
                 '<table class="table table-hover table-bordered table-striped bySetupTable" id="bySetupTable" style="width:100%;">' +
                     '<thead style="font-weight:bolder" class="bg-default">' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th colspan="3">'+compare_range1+'</th>' +
+                            '<th colspan="3">'+compare_range2+'</th>' +
+                        '</tr>' +
                         '<tr class="tbsearch">' +
                             '<td>' +
                                 '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
@@ -707,7 +746,7 @@ $('#btnGenerate').on('click', function(){
                     }
                 },
                 columns: [
-                    { data: 'setup' },
+                    { data: 'setup_name' },
                     {
                         data: 'gross_sales1',
                         "render": function(data, type, row, meta){
