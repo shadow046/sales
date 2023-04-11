@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
+use App\Models\DeliveryServingStore;
 use App\Models\Setup;
 use App\Models\Hdr;
 
@@ -128,6 +129,46 @@ class ReportsController extends Controller
                 }
             }
             return $setup_row;
+        })
+        ->make(true);
+    }
+
+    public function byDelivery(Request $request){
+        if($request->type == 'standard'){
+            $data = Hdr::selectRaw('store.serving_store, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('store.serving_store', '!=', '')
+                ->join('store', 'store.branch_code', 'hdr.storecode')
+                ->groupBy('store.serving_store')
+                ->get();
+        }
+        else{
+            $data = Hdr::selectRaw("store.serving_store,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN gross ELSE 0 END) as gross_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN totalsales ELSE 0 END) as total_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN netsales ELSE 0 END) as net_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN gross ELSE 0 END) as gross_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN totalsales ELSE 0 END) as total_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN netsales ELSE 0 END) as net_sales2")
+                ->where('store.serving_store', '!=', '')
+                ->join('store', 'store.branch_code', 'hdr.storecode')
+                ->groupBy('store.serving_store')
+                ->get();
+        }
+        return DataTables::of($data)
+        ->addColumn('delivery_name', function(Hdr $hdr){
+            $delivery_row = '';
+            $array = explode(",", $hdr->serving_store);
+            foreach($array as $value){
+                $delivery_serving_store = DeliveryServingStore::where('id', $value)->first();
+                if($delivery_row != ''){
+                    $delivery_row = $delivery_row.', '.$delivery_serving_store->delivery_serving_store;
+                }
+                else{
+                    $delivery_row = $delivery_serving_store->delivery_serving_store;
+                }
+            }
+            return $delivery_row;
         })
         ->make(true);
     }
