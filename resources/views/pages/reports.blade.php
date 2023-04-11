@@ -28,6 +28,7 @@
                 <option value="" selected disabled>SELECT REPORT CATEGORY</option>
                 <option value="AREA">AREA</option>
                 <option value="REGION">REGION</option>
+                <option value="DISTRICT">DISTRICT</option>
                 <option value="AREA MANAGER">AREA MANAGER</option>
                 <option value="DISTRICT MANAGER">DISTRICT MANAGER</option>
                 <option value="STORE GROUP">STORE GROUP</option>
@@ -70,8 +71,10 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-    <div class="row mb-3 divComparative" style="display: none;">
-        <div class="col"><center><b class="text-default">==========VS==========</b><center></div>
+    <div class="row mb-3 px-4 divComparative" style="display: none;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 bg-default"><center><b><i>VERSUS</i></b><center></div>
+        <div class="col-md-3"></div>
     </div>
     <div class="row mb-3 divComparative" style="display: none;">
         <div class="col-md-3"></div>
