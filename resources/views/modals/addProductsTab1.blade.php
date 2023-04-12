@@ -191,11 +191,14 @@
     <hr>
 
     <ul class="nav nav-tabs {{ env('APP_SYS') != 'DD' ? 'd-none' : '' }}" style="border: none;" role="tablist">
-        <li class="nav-item"style="margin-right:5px" >
+        <li class="nav-item" style="margin-right:5px">
             <a class="nav-link pill bg-sub tab_regular active" style="text-decoration: none; color: white;" id="tab_regular" data-bs-toggle="tab" href="#page_regular"> REGULAR</a>
         </li>
-        <li class="nav-item"style="margin-right:5px" >
+        <li class="nav-item" style="margin-right:5px">
             <a class="nav-link pill bg-sub tab_airport active" style="text-decoration: none; color: white;" id="tab_airport" data-bs-toggle="tab" href="#page_airport"> AIRPORT</a>
+        </li>
+        <li class="nav-item" style="margin-right:5px">
+            <a class="nav-link pill bg-sub tab_discount active" style="text-decoration: none; color: white;" id="tab_discount" data-bs-toggle="tab" href="#page_discount"> DISCOUNTS</a>
         </li>
     </ul>
 
@@ -277,6 +280,19 @@
                 <div class="col-md f-outline">
                     <input type="number" value="0.00" style="color: black" name="meal_type_airport" id="meal_type_airport" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
                     <label for="meal_type_airport" class="formlabels form-label">ADD MEAL TYPE
+                </div>
+            </div>
+        </div>
+
+        <div id="page_discount" class="tab-pane">
+            <div class="row mb-3">
+                <div class="col-md-3 f-outline">
+                    <input type="number" value="0.00" style="color: black" name="senior" id="senior" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
+                    <label for="senior" class="formlabels form-label">SENIOR
+                </div>
+                <div class="col-md-3 f-outline">
+                    <input type="number" value="0.00" style="color: black" name="pwd" id="pwd" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
+                    <label for="pwd" class="formlabels form-label">PWD
                 </div>
             </div>
         </div>

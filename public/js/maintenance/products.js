@@ -63,7 +63,7 @@ $(document).ready(function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,19],
+                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,20],
                     "visible": false,
                     "searchable": true
                 },
@@ -165,6 +165,12 @@ $(document).ready(function(){
                     "render": function(data, type, row, meta){
                         return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.meal_type).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.meal_type_airport).toFixed(2))}</span>`;
 
+                    }
+                },
+                {
+                    data: 'senior', name: 'senior',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">SENIOR: ₱ ${formatNumber(parseFloat(row.senior).toFixed(2))} | PWD: ₱ ${formatNumber(parseFloat(row.pwd).toFixed(2))} </span>`;
                     }
                 },
                 { data: 'sku', name: 'sku'},
@@ -397,7 +403,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=19; i++){
+            for(var i=0; i<=20; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }
@@ -525,6 +531,9 @@ $('.saveBtn').on('click',function(){
     var drive_thru_airport = $('#drive_thru_airport').val();
     var meal_type_airport = $('#meal_type_airport').val();
 
+    var senior = $('#senior').val();
+    var pwd = $('#pwd').val();
+
     var max_modifier = $('#max_modifier').val();
     var seq = $('#seq').val();
     var kitchen_printer = $('#kitchen_printer').val();
@@ -647,6 +656,8 @@ $('.saveBtn').on('click',function(){
                         fds_airport:fds_airport,
                         drive_thru_airport:drive_thru_airport,
                         meal_type_airport:meal_type_airport,
+                        senior:senior,
+                        pwd:pwd,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -788,6 +799,8 @@ $('.saveBtn').on('click',function(){
                         fds_airport:fds_airport,
                         drive_thru_airport:drive_thru_airport,
                         meal_type_airport:meal_type_airport,
+                        senior:senior,
+                        pwd:pwd,
                         pos_setup:pos_setup_text,
                         max_modifier:max_modifier,
                         seq:seq,
@@ -980,6 +993,9 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('#fds_airport').val(parseFloat(data.fds_airport).toFixed(2));
         $('#drive_thru_airport').val(parseFloat(data.drive_thru_airport).toFixed(2));
         $('#meal_type_airport').val(parseFloat(data.meal_type_airport).toFixed(2));
+        $('#senior').val(parseFloat(data.senior).toFixed(2));
+        $('#pwd').val(parseFloat(data.pwd).toFixed(2));
+        console.log(data.senior);
         $('#max_modifier').val(data.max_modifier);
         $('#seq').val(data.seq);
         $('#kitchen_printer').val(data.kitchen_printer);
@@ -1333,14 +1349,20 @@ $('#tab_regular').on('click',function(){
     $('#tab_airport').removeClass('bg-sub active');
     $('#tab_regular').removeClass('bg-sub-light');
     $('#tab_regular').addClass('bg-sub active');
+    $('#tab_discount').addClass('bg-sub-light');
+    $('#tab_discount').removeClass('bg-sub active');
     $('#tab_regular').attr('aria-selected', true);
     $('#tab_airport').attr('aria-selected', false);
+    $('#tab_discount').attr('aria-selected', false);
     $('#page_regular').addClass('active');
     $('#page_regular').addClass('show');
     $('#page_airport').removeClass('active');
     $('#page_airport').removeClass('show');
+    $('#page_discount').removeClass('active');
+    $('#page_discount').removeClass('show');
     $('#page_regular').show();
     $('#page_airport').hide();
+    $('#page_discount').hide();
 });
 
 $('#tab_airport').on('click',function(){
@@ -1349,14 +1371,42 @@ $('#tab_airport').on('click',function(){
     $('#tab_regular').removeClass('bg-sub active');
     $('#tab_airport').removeClass('bg-sub-light');
     $('#tab_airport').addClass('bg-sub active');
+    $('#tab_discount').addClass('bg-sub-light');
+    $('#tab_discount').removeClass('bg-sub active');
     $('#tab_airport').attr('aria-selected', true);
     $('#tab_regular').attr('aria-selected', false);
+    $('#tab_discount').attr('aria-selected', false);
     $('#page_airport').addClass('active');
     $('#page_airport').addClass('show');
     $('#page_regular').removeClass('active');
     $('#page_regular').removeClass('show');
+    $('#page_discount').removeClass('active');
+    $('#page_discount').removeClass('show');
     $('#page_airport').show();
     $('#page_regular').hide();
+    $('#page_discount').hide();
+});
+
+$('#tab_discount').on('click',function(){
+    $(this).blur();
+    $('#tab_regular').addClass('bg-sub-light');
+    $('#tab_regular').removeClass('bg-sub active');
+    $('#tab_airport').addClass('bg-sub-light');
+    $('#tab_airport').removeClass('bg-sub active');
+    $('#tab_discount').removeClass('bg-sub-light');
+    $('#tab_discount').addClass('bg-sub active');
+    $('#tab_airport').attr('aria-selected', false);
+    $('#tab_regular').attr('aria-selected', false);
+    $('#tab_discount').attr('aria-selected', true);
+    $('#page_airport').removeClass('active');
+    $('#page_airport').removeClass('show');
+    $('#page_regular').removeClass('active');
+    $('#page_regular').removeClass('show');
+    $('#page_discount').addClass('active');
+    $('#page_discount').addClass('show');
+    $('#page_airport').hide();
+    $('#page_regular').hide();
+    $('#page_discount').show();
 });
 
 $('.btnNextPage').on('click',function(){

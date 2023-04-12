@@ -13,8 +13,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 f-outline">
             <select id="report_type" name="report_type" class="forminput form-control form-select requiredField" style="color: black">
-                <option value="" disabled>SELECT REPORT TYPE</option>
-                <option value="1" selected>STANDARD REPORT</option>
+                <option value="" selected disabled>SELECT REPORT TYPE</option>
+                <option value="1">STANDARD REPORT</option>
                 <option value="2">COMPARATIVE REPORT</option>
             </select>
             <label for="report_type" class="formlabels form-label">REPORT TYPE
@@ -44,7 +44,7 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-    <div class="row mb-3 divStandard">
+    <div class="row mb-3 divStandard" style="display: none;">
         <div class="col-md-3"></div>
         <div class="col-md-3 f-outline">
             <input type="date" style="color: black" name="start_date" id="start_date" class="forminput form-control inputDates requiredField" placeholder=" " autocomplete="off">

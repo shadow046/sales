@@ -45,6 +45,7 @@ class ProductsController extends Controller
             ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type')
             ->selectRaw('dine_in_airport, take_out_airport, pick_up_airport, delivery_airport, bulk_order_airport, fds_airport, drive_thru_airport, meal_type_airport')
             ->selectRaw('pos_setup, max_modifier, seq, kitchen_printer, promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
+            ->selectRaw('senior, pwd')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
             ->join('category','category.id','products.category')
             ->get();
@@ -207,7 +208,8 @@ class ProductsController extends Controller
         $product->fds_airport = $request->fds_airport;
         $product->drive_thru_airport = $request->drive_thru_airport;
         $product->meal_type_airport = $request->meal_type_airport;
-
+        $product->senior = $request->senior;
+        $product->pwd = $request->pwd;
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
@@ -305,6 +307,8 @@ class ProductsController extends Controller
         $product->fds_airport = $request->fds_airport;
         $product->drive_thru_airport = $request->drive_thru_airport;
         $product->meal_type_airport = $request->meal_type_airport;
+        $product->senior = $request->senior;
+        $product->pwd = $request->pwd;
 
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
