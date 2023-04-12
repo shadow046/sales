@@ -66,8 +66,8 @@ $('#date2B').on('change', function(){
 
 $('#btnGenerate').on('click', function(){
     $('#reportsTable').empty();
-    
-    const alpha_test = ['AREA', 'REGION', 'STORE GROUP', 'STORE SETUP', 'DELIVERY CHANNEL', 'TRANSACTION TYPE'];
+
+    const alpha_test = ['AREA', 'REGION', 'STORE GROUP', 'STORE SETUP', 'DELIVERY CHANNEL', 'TRANSACTION TYPE', 'PRODUCT CATEGORY', 'COMBO CATEGORY'];
     if($('#report_type').val() == '2' && !alpha_test.includes($('#report_category').val())){
         Swal.fire('UNAVAILABLE', 'This Report Type is not yet available!', 'error');
         return false;
@@ -114,6 +114,13 @@ $('#btnGenerate').on('click', function(){
         var colName = 'transaction_name';
         display_report(byTable, thTitle, urlName, colName);
     }
+    // else if($('#report_category').val() == 'PRODUCT CATEGORY'){
+    //     var byTable = 'byProductTable';
+    //     var thTitle = 'PRODUCT DESCRIPTION';
+    //     var urlName = '/reports/product';
+    //     var colName = 'product_name';
+    //     display_report(byTable, thTitle, urlName, colName);
+    // }
     else{
         Swal.fire('UNAVAILABLE', 'This Report Category is not yet available!', 'error');
     }

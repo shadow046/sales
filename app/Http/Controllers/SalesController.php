@@ -636,7 +636,7 @@ class SalesController extends Controller
                         ->whereDate(DB::raw("(STR_TO_DATE(dtl.tdate,'%m/%d/%Y'))"),'=', Carbon::parse($request->date))
                         ->groupBy('desc1')
                         ->get();
-                        // dd($data);
+                        // dd($data); JOIN DTL HDR
                 }
             }
             elseif ($request->tender) {

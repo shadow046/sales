@@ -159,6 +159,8 @@ Route::controller(ReportsController::class)->group(function(){
     Route::get('/reports/setup','bySetup');
     Route::get('/reports/delivery','byDelivery');
     Route::get('/reports/transaction','byTransaction');
+    Route::get('/reports/product','byProduct');
+    Route::get('/reports/combo','byCombo');
 });
 
 Route::controller(RoleController::class)->group(function(){
