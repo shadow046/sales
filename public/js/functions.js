@@ -208,6 +208,7 @@ $('body').on('cut paste', function(){
 });
 
 $(document).on('click', '.addBtn', function(){
+    current_modal = 'SAVE';
     if($(".btn-delete").length > 0){
         $('.btn-delete').each(function(){
             $(this).click();

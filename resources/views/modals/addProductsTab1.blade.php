@@ -197,7 +197,7 @@
         <li class="nav-item" style="margin-right:5px">
             <a class="nav-link pill bg-sub tab_airport active" style="text-decoration: none; color: white;" id="tab_airport" data-bs-toggle="tab" href="#page_airport"> AIRPORT</a>
         </li>
-        <li class="nav-item" style="margin-right:5px">
+        <li class="nav-item d-none" style="margin-right:5px">
             <a class="nav-link pill bg-sub tab_discount active" style="text-decoration: none; color: white;" id="tab_discount" data-bs-toggle="tab" href="#page_discount"> DISCOUNTS</a>
         </li>
     </ul>
@@ -284,7 +284,7 @@
             </div>
         </div>
 
-        <div id="page_discount" class="tab-pane">
+        <div id="page_discount" class="tab-pane d-none">
             <div class="row mb-3">
                 <div class="col-md-3 f-outline">
                     <input type="number" value="0.00" style="color: black" name="senior" id="senior" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >

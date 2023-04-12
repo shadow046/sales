@@ -126,6 +126,7 @@ $('#btnGenerate').on('click', function(){
     }
 });
 
+var table;
 function display_report(byTable, thTitle, urlName, colName){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
     var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
@@ -172,7 +173,7 @@ function display_report(byTable, thTitle, urlName, colName){
             '<br>' +
         '</div>';
         $('#reportsTable').append(htmlString);
-        $('table.'+byTable).DataTable({
+        table = $('table.'+byTable).DataTable({
             dom: 'lftrip',
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
@@ -313,7 +314,7 @@ function display_report(byTable, thTitle, urlName, colName){
             '<br>' +
         '</div>';
         $('#reportsTable').append(htmlString);
-        $('table.'+byTable).DataTable({
+        table = $('table.'+byTable).DataTable({
             dom: 'lftrip',
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
@@ -453,6 +454,10 @@ function display_report(byTable, thTitle, urlName, colName){
         });
     }
 }
+
+$(document).on('keyup search','.filter-input', function(){
+    table.column($(this).data('column')).search($(this).val()).draw();
+});
 
 setInterval(() => {
     if($('#reportsTable').is(':empty')){

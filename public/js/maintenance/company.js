@@ -194,7 +194,7 @@ $('.addCompanyContactPersonBtn').click(function(e){
                                             "<td class='td_5'>" + mobile + "</td>" +
                                             "<td> <button class='btn btn-danger btn-delete btn_company_contact_person center' title='DELETE'> <i class='fas fa-trash-alt'></i> DELETE </button> </td>" +
                                     "</tr>";
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#companyContactPerson_tbody').append(companyContactPersonTable);
         contact_person_change = 'CHANGED';
     }
@@ -216,16 +216,17 @@ $('.addCompanyContactPersonBtn').click(function(e){
 var company_id = [];
 var company_code_orig, company_name_orig;
 $(document).on('click','table.companyTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#companyModal').find('input').prop('disabled', true);
-        $('#province').prop('disabled', true); 
+        $('#province').prop('disabled', true);
         setInterval(() => {
             if($('#province').prop('disabled') == true){
-                $('#city').prop('disabled', true);   
+                $('#city').prop('disabled', true);
             }
             else{
-                $('#city').prop('disabled', false);   
+                $('#city').prop('disabled', false);
             }
         }, 0);
         $('.notUpdate').hide();
@@ -470,7 +471,7 @@ setInterval(() => {
         $('#companyContactPerson_orig').hide();
     }
 
-    if($('.saveBtn').is(":visible")){
+    if($('.saveBtn').is(":visible") || current_modal == 'SAVE'){
         $('#company_orig_div').hide();
         if($('#companyContactPerson tbody').children().length > 0){
             $('#companyContactPerson').show();
@@ -505,7 +506,7 @@ setInterval(() => {
         $('#companyContactPerson_orig').show();
     }
 
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#company_div').hide();
         if($('#companyContactPerson_orig tbody').children().length > 0){
             $('#companyContactPerson_orig').show();

@@ -137,7 +137,7 @@ $('.addPromoCombinationBtn').click(function(e){
                                             "<td>" + item_code + "</td>" +
                                             "<td> <button class='btn btn-danger btn-delete btn_promo center' title='DELETE'> <i class='fas fa-trash-alt'></i> DELETE </button> </td>" +
                                     "</tr>";
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#promoProductCombination_tbody').append(ProductCombinationTable);
     }
     else{
@@ -310,7 +310,7 @@ setInterval(() => {
         $('.addPromoCombinationBtn').prop('disabled',false);
     }
 
-    if($('.saveBtn').is(":visible")){
+    if($('.saveBtn').is(":visible") || current_modal == 'SAVE'){
         $('#promoProductCombination_orig').hide();
         if($('#promoProductCombination tbody').children().length > 0){
             $('#promoProductCombination').show();
@@ -336,7 +336,7 @@ setInterval(() => {
         $('#promoProductCombination_orig').show();
     }
 
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#promoProductCombination').hide();
         if($('#promoProductCombination_orig tbody').children().length > 0){
             $('#promoProductCombination_orig').show();

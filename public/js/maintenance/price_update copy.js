@@ -86,6 +86,12 @@ $(document).ready(function(){
                 },
             },
             {
+                data: 'discount', name:'discount',
+                "render":function(data,type,row){
+                    return `<span class="float-end">SENIOR: ₱ ${formatNumber(parseFloat(row.senior).toFixed(2))} | PWD: ₱ ${formatNumber(parseFloat(row.pwd).toFixed(2))}</span>`;
+                },
+            },
+            {
                 data: 'recid', name:'recid',
                 "render":function(data,type,row){
                     return '<center><button class="btn btn-danger deleteBtn" id="'+row.recid+'"><i class="fa-solid fa-trash-can"></i></button></center>';

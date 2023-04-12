@@ -1,3 +1,4 @@
+var current_modal;
 $('.addBtn').on('click',function(){
     if(!current_permissions.includes('3')){
         $('#storeModal').find('input').prop('disabled', false);
@@ -341,7 +342,7 @@ $('.addStoreContactDetailsBtn').click(function(e){
                                     "<td class='td_5'>" + mobile + "</td>" +
                                     "<td> <button class='btn btn-danger btn-delete btn_store_details' title='DELETE'> <i class='fas fa-trash-alt'></i> DELETE </button> </td>" +
                                 "</tr>";
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#storeContactDetails_tbody').append(storeDetailsTable);
         contact_person_change = 'CHANGED';
     }
@@ -372,7 +373,7 @@ $('.addPosInformationBtn').click(function(e){
     var ptu = $('#ptu').val();
     var date_issued = $('#date_issued').val();
 
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         var posInformationTable = "<tr class='storePosInformation_tr'>"+
                                         "<td class='td_1 d-none'>" + model_id + "</td>" +
                                         "<td class='td_2'>" + model + "</td>" +
@@ -418,6 +419,7 @@ var branch_code_orig,
     branch_name_orig,
     tin_orig;
 $(document).on('click','table.storeTable tbody tr td',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#storeModal').find('input').prop('disabled', true);
@@ -1143,7 +1145,7 @@ setInterval(() => {
         $('.addPosInformationBtn').prop('disabled',false);
     }
 
-    if($('.saveBtn').is(":visible")){
+    if($('.saveBtn').is(":visible") || current_modal == 'SAVE'){
         $('#storeContactDetails_orig_div').hide();
         $('#storePosInformation_orig_div').hide();
         if($('#storeContactDetails tbody').children().length > 0){
@@ -1192,7 +1194,7 @@ setInterval(() => {
         }
     }
 
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#storeContactDetails_div').hide();
         $('#storePosInformation_div').hide();
         if($('#storeContactDetails_orig tbody').children().length > 0){
@@ -1349,11 +1351,6 @@ $('#addStoreBtn').on('click', function(){
     $('#setup').val('').trigger('chosen:updated');
 
     $('.req').hide();
-
-    // $("#serving_store").change(function(){
-    //     var selectedValues = $(this).val();
-    //     alert("Selected values: " + selectedValues.join(", "));
-    // });
 });
 
 $(document).on('change','#setup',function(){

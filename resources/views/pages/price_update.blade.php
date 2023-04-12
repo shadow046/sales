@@ -52,9 +52,6 @@
                 <td>
                     <input type="search" class="form-control filter-input" data-column="10" style="border:1px solid #850708"/>
                 </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="11" style="border:1px solid #850708"/>
-                </td>
                 <td><center><i class="fa-solid fa-triangle-exclamation fa-2x"></i></center></td>
             </tr>
             <tr>
@@ -69,7 +66,6 @@
                 <th>FDS PRICE</th>
                 <th>DRIVE-THRU</th>
                 <th>ADD. MEAL TYPE</th>
-                <th>DISCOUNTS</th>
                 <th>DELETE</th>
             </tr>
         </thead>

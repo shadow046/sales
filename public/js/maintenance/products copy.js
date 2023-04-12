@@ -63,7 +63,7 @@ $(document).ready(function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,19],
+                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,20],
                     "visible": false,
                     "searchable": true
                 },
@@ -165,6 +165,12 @@ $(document).ready(function(){
                     "render": function(data, type, row, meta){
                         return `<span class="float-end">REGULAR: ₱ ${formatNumber(parseFloat(row.meal_type).toFixed(2))} | AIRPORT: ₱ ${formatNumber(parseFloat(row.meal_type_airport).toFixed(2))}</span>`;
 
+                    }
+                },
+                {
+                    data: 'discount', name: 'discount',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">SENIOR: ₱ ${formatNumber(parseFloat(row.senior).toFixed(2))} | PWD: ₱ ${formatNumber(parseFloat(row.pwd).toFixed(2))} </span>`;
                     }
                 },
                 { data: 'sku', name: 'sku'},
@@ -397,7 +403,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=19; i++){
+            for(var i=0; i<=20; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }

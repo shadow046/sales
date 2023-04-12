@@ -146,7 +146,7 @@ $('.addPosSpecificationBtn').click(function(e){
                                             "<td class='td_3'>" + quantity + "</td>" +
                                             "<td> <button class='btn btn-danger btn-delete btn_pos_specification center' title='DELETE'> <i class='fas fa-trash-alt'></i> DELETE </button> </td>" +
                                   "</tr>";
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#posSpecification_tbody').append(posSpecificationTable);
     }
     else{
@@ -164,6 +164,7 @@ $('.addPosSpecificationBtn').click(function(e){
 
 var pos_id = [];
 $(document).on('click','table.posTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#posModal').find('input').prop('disabled', true);
@@ -422,7 +423,7 @@ setInterval(() => {
         $('.addPosSpecificationBtn').prop('disabled',false);
     }
 
-    if($('.saveBtn').is(":visible")){
+    if($('.saveBtn').is(":visible") || current_modal == 'SAVE'){
         $('#posSpecs_orig_div').hide();
         if($('#posSpecification tbody').children().length > 0){
             $('#posSpecification').show();
@@ -455,7 +456,7 @@ setInterval(() => {
         $('#posSpecification_orig').show();
     }
 
-    if($('.updateBtn').is(":visible")){
+    if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#posSpecs_div').hide();
         if($('#posSpecification_orig tbody').children().length > 0){
             $('#posSpecification_orig').show();
