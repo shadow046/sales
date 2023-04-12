@@ -941,7 +941,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('.forminput').removeClass('redBorder');
 
         var data = table.row(this).data();
-        console.log(data);
+
         if(current_permissions.includes('5')){
             $('#tabContent').addClass('mt-8');
         }
