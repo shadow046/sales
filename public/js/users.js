@@ -777,6 +777,8 @@ $('#btnReset').on('click', function(){
     $('#company1').val($('#company2').val().split("|"));
     $('#company1').chosen();
     $('#company1').trigger('chosen:updated');
+    $('#province1').val($('#province2').val());
+    $('#district1').val($('#district2').val());
     $('#area1').val($('#area2').val().split("|"));
     $('#area1').chosen();
     $('#area1').trigger('chosen:updated');
