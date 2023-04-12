@@ -24,15 +24,19 @@
                         </div>
                         <div class="form-check">
                             <input type="radio" class="form-check-input assignment" id="radio1" name="optradio" value="" checked>
-                            <span class="form-check-label" for="radio1">NO COMPANY/AREA assignment in user accounts.</span>
+                            <span class="form-check-label" for="radio1">NO COMPANY/AREA/DISTRICT assignment in user accounts.</span>
                         </div>
                         <div class="form-check">
                             <input type="radio" class="form-check-input assignment" id="radio2" name="optradio" value="7">
                             <span class="form-check-label" for="radio2">COMPANY and AREA assignment in user accounts.</span>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input assignment" id="radio3" name="optradio" value="28">
-                            <span class="form-check-label" for="radio3">COMPANY ONLY assignment in user accounts.</span>
+                            <input type="radio" class="form-check-input assignment" id="radio3" name="optradio" value="30">
+                            <span class="form-check-label" for="radio3">COMPANY and DISTRICT assignment in user accounts.</span>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input assignment" id="radio4" name="optradio" value="28">
+                            <span class="form-check-label" for="radio4">COMPANY ONLY assignment in user accounts.</span>
                         </div>
                     </div>
                 </div>

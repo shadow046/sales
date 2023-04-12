@@ -166,8 +166,11 @@ $(document).on('click','table.roleTable tbody tr',function(){
             if(j.includes(parseInt(7))){
                 $('#radio2').prop("checked", true);
             }
-            else if(j.includes(parseInt(28))){
+            else if(j.includes(parseInt(30))){
                 $('#radio3').prop("checked", true);
+            }
+            else if(j.includes(parseInt(28))){
+                $('#radio4').prop("checked", true);
             }
             else{
                 $('#radio1').prop("checked", true);

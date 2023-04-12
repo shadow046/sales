@@ -20,7 +20,7 @@ class RoleController extends Controller
     }
     public function roles(){
         $roles = Role::all();
-        $permissions = Permission::whereNotIn('id', ['1','7','28'])->where('type', 'permissions')->get();
+        $permissions = Permission::whereNotIn('id', ['1','7','28','30'])->where('type', 'permissions')->get();
         $accesses = Permission::whereNotIn('id', ['8','24','25','26'])->where('type', 'access')->get();
         return view('pages/roles', compact('roles', 'permissions','accesses'));
     }
