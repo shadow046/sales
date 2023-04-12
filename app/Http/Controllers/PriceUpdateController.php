@@ -67,6 +67,8 @@ class PriceUpdateController extends Controller
         $priceUpdate->upa6_airport = $request->upa6_airport;
         $priceUpdate->upa7_airport = $request->upa7_airport;
         $priceUpdate->upa8_airport = $request->upa8_airport;
+        $priceUpdate->senior = $request->senior;
+        $priceUpdate->pwd = $request->pwd;
         $sql = $priceUpdate->save();
 
         if($sql){
@@ -86,6 +88,8 @@ class PriceUpdateController extends Controller
             $upa6_airport_orig = Product::where('item_code', $request->fcode)->first()->fds_airport;
             $upa7_airport_orig = Product::where('item_code', $request->fcode)->first()->drive_thru_airport;
             $upa8_airport_orig = Product::where('item_code', $request->fcode)->first()->meal_type_airport;
+            $senior_orig = Product::where('item_code', $request->fcode)->first()->senior;
+            $pwd_orig = Product::where('item_code', $request->fcode)->first()->pwd;
 
             if($upa1_orig !=  $request->upa1){
                 $upa1_1 = number_format($upa1_orig, 2);
@@ -216,11 +220,27 @@ class PriceUpdateController extends Controller
             else{
                 $upa8_airport = NULL;
             }
+            if($senior_orig !=  $request->senior){
+                $senior_1 = number_format($senior_orig, 2);
+                $senior_2 = number_format($request->senior, 2);
+                $senior = "【SENIOR DISCOUNT: FROM '$senior_1' TO '$senior_2'】";
+            }
+            else{
+                $senior = NULL;
+            }
+            if($pwd_orig !=  $request->pwd){
+                $pwd_1 = number_format($pwd_orig, 2);
+                $pwd_2 = number_format($request->pwd, 2);
+                $pwd = "【PWD DISCOUNT: FROM '$pwd_1' TO '$pwd_2'】";
+            }
+            else{
+                $pwd = NULL;
+            }
 
             $date = Carbon::parse($request->effdate)->isoformat('dddd, MMMM DD, YYYY');
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED PRICE UPDATE: User successfully added Price Update for '$request->desc1' effective on $date with the following CHANGES: $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa1_airport $upa2_airport $upa3_airport $upa4_airport $upa5_airport $upa6_airport $upa7_airport $upa8_airport";
+            $userlogs->activity = "ADDED PRICE UPDATE: User successfully added Price Update for '$request->desc1' effective on $date with the following CHANGES: $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa1_airport $upa2_airport $upa3_airport $upa4_airport $upa5_airport $upa6_airport $upa7_airport $upa8_airport $senior $pwd";
             $userlogs->save();
 
             return 'true';
@@ -250,6 +270,8 @@ class PriceUpdateController extends Controller
         $upa6_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa6_airport;
         $upa7_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa7_airport;
         $upa8_airport_orig = PriceUpdate::where('recid', $request->id)->first()->upa8_airport;
+        $senior_orig = PriceUpdate::where('recid', $request->id)->first()->senior;
+        $pwd_orig = PriceUpdate::where('recid', $request->id)->first()->pwd;
         if($fcode_orig != $request->fcode){
             if(PriceUpdate::where('fcode', $request->fcode)
                 ->where('price_update_status', '0')
@@ -277,7 +299,9 @@ class PriceUpdateController extends Controller
             $upa5_airport_orig == $request->upa5_airport &&
             $upa6_airport_orig == $request->upa6_airport &&
             $upa7_airport_orig == $request->upa7_airport &&
-            $upa8_airport_orig == $request->upa8_airport
+            $upa8_airport_orig == $request->upa8_airport &&
+            $senior_orig == $request->senior &&
+            $pwd_orig == $request->pwd
             ){
             return 'nochanges';
         }
@@ -425,6 +449,23 @@ class PriceUpdateController extends Controller
         else{
             $upa8_airport = NULL;
         }
+        if($senior_orig !=  $request->senior){
+            $senior_1 = number_format($senior_orig, 2);
+            $senior_2 = number_format($request->senior, 2);
+            $senior = "【SENIOR DISCOUNT: FROM '$senior_1' TO '$senior_2'】";
+        }
+        else{
+            $senior = NULL;
+        }
+        if($pwd_orig !=  $request->pwd){
+            $pwd_1 = number_format($pwd_orig, 2);
+            $pwd_2 = number_format($request->pwd, 2);
+            $pwd = "【SENIOR DISCOUNT: FROM '$pwd_1' TO '$pwd_2'】";
+        }
+        else{
+            $pwd = NULL;
+        }
+
         $sql = PriceUpdate::where('recid', $request->id)
             ->update([
                 'fcode' => $request->fcode,
@@ -445,13 +486,15 @@ class PriceUpdateController extends Controller
                 'upa5_airport' => $request->upa5_airport,
                 'upa6_airport' => $request->upa6_airport,
                 'upa7_airport' => $request->upa7_airport,
-                'upa8_airport' => $request->upa8_airport
+                'upa8_airport' => $request->upa8_airport,
+                'senior' => $request->senior,
+                'pwd' => $request->pwd
             ]);
         if($sql){
             $date = Carbon::parse($request->effdate)->isoformat('dddd, MMMM DD, YYYY');
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED PRICE UPDATE: User successfully updated Price Update for '$request->desc1' with the following CHANGES: $fcode $effdate $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa1_airport $upa2_airport $upa3_airport $upa4_airport $upa5_airport $upa6_airport $upa7_airport $upa8_airport";
+            $userlogs->activity = "UPDATED PRICE UPDATE: User successfully updated Price Update for '$request->desc1' with the following CHANGES: $fcode $effdate $upa1 $upa2 $upa3 $upa4 $upa5 $upa6 $upa7 $upa8 $upa1_airport $upa2_airport $upa3_airport $upa4_airport $upa5_airport $upa6_airport $upa7_airport $upa8_airport $senior $pwd";
             $userlogs->save();
 
             return 'true';

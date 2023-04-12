@@ -168,7 +168,7 @@ $(document).ready(function(){
                     }
                 },
                 {
-                    data: 'senior', name: 'senior',
+                    data: 'discount', name: 'discount',
                     "render": function(data, type, row, meta){
                         return `<span class="float-end">SENIOR: ₱ ${formatNumber(parseFloat(row.senior).toFixed(2))} | PWD: ₱ ${formatNumber(parseFloat(row.pwd).toFixed(2))} </span>`;
                     }
@@ -941,7 +941,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('.forminput').removeClass('redBorder');
 
         var data = table.row(this).data();
-
+        console.log(data);
         if(current_permissions.includes('5')){
             $('#tabContent').addClass('mt-8');
         }
@@ -995,7 +995,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         $('#meal_type_airport').val(parseFloat(data.meal_type_airport).toFixed(2));
         $('#senior').val(parseFloat(data.senior).toFixed(2));
         $('#pwd').val(parseFloat(data.pwd).toFixed(2));
-        console.log(data.senior);
         $('#max_modifier').val(data.max_modifier);
         $('#seq').val(data.seq);
         $('#kitchen_printer').val(data.kitchen_printer);

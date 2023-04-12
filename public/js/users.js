@@ -16,7 +16,7 @@ $(document).ready(function(){
         },
         columnDefs: [
             {
-                "targets": [7],
+                "targets": [1,9],
                 "visible": false,
                 "searchable": true
             },
@@ -77,6 +77,28 @@ $(document).ready(function(){
                             var start = '• ';
                         }
                         return `<div style="white-space:normal;">${start} ${row.store_name.split("|").join("<br/> • ")}</div>`;
+                    }
+                }
+            },
+            {
+                data: 'province',
+                "render": function(data, type, row, meta){
+                    if(!row.province){
+                        return 'N/A';
+                    }
+                    else{
+                        return row.province;
+                    }
+                }
+            },
+            {
+                data: 'district',
+                "render": function(data, type, row, meta){
+                    if(!row.district){
+                        return 'N/A';
+                    }
+                    else{
+                        return row.district;
                     }
                 }
             },
@@ -160,11 +182,12 @@ $(document).ready(function(){
     });
 });
 
-$(document).on('click', '#userTable tbody tr td:not(:nth-child(7))', function(){
+$(document).on('click', '#userTable tbody tr td:not(:nth-child(8))', function(){
     if(!table.data().any()){ return false; }
     area1_all = [];
     stores1_list = [];
     var data = table.row(this).data();
+    $('.req').hide();
     $('#id1').val(data.user_id);
     $('#name1').val(data.user_name);
     $('#name2').val(data.user_name);
@@ -175,6 +198,10 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(7))', function(){
     $('#role1').change();
     $('#branch1').val(data.branch);
     $('#branch2').val(data.branch);
+    $('#province1').val(data.province);
+    $('#province2').val(data.province);
+    $('#district1').val(data.district);
+    $('#district2').val(data.district);
     $('#company2').val(data.company);
     $('#area2').val(data.area);
     $('#store2').val(data.store);
@@ -239,6 +266,31 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(7))', function(){
             $('#branchAll1').change();
         }
     }, current_timeout);
+    setTimeout(() => {
+        if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
+            $('#btnReset').click();
+        }
+        setTimeout(() => {
+            if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
+                $('#btnReset').click();
+            }
+            setTimeout(() => {
+                if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
+                    $('#btnReset').click();
+                }
+                setTimeout(() => {
+                    if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
+                        $('#btnReset').click();
+                    }
+                    setTimeout(() => {
+                        if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
+                            $('#btnReset').click();
+                        }
+                    }, current_timeout * 3);
+                }, current_timeout * 3);
+            }, current_timeout * 3);
+        }, current_timeout * 3);
+    }, current_timeout * 3);
     $('#updateUser').modal('show');
 });
 
@@ -556,39 +608,45 @@ $('#btnSave').on('click', function(){
     var emailv2 = true;
     var name = $.trim($('#name').val());
     var email = $.trim($('#email').val());
-    var province = $('#province_user').val();
     var role = $('#role').val();
-    if($('#branch_chosen').is(':visible')){
-        var branch = $('#branch').val();
-        var store = '0';
-    }
-    else{
+    if($('.classDistrictManager').is(':visible')){
         var branch = '0';
-    }
-    if($('#company_chosen').is(':visible')){
         var company = $('#company').val();
-    }
-    else{
-        var company = '0';
-    }
-    if($('#area_chosen').is(':visible')){
-        var area = $('#area').val();
-        var store = $('#store').val();
-    }
-    else{
         var area = '0';
         var store = 'X';
+        var province = $('#province').val();
+        var district = $('#district').val();
     }
-    if($('#branchAll').is(':visible') && $('#branchAll').is(':checked')){
-        var store = '0';
+    else{
+        var province = '';
+        var district = '';
+        if($('#branch_chosen').is(':visible')){
+            var branch = $('#branch').val();
+            var store = '0';
+        }
+        else{
+            var branch = '0';
+        }
+        if($('#company_chosen').is(':visible')){
+            var company = $('#company').val();
+        }
+        else{
+            var company = '0';
+        }
+        if($('#area_chosen').is(':visible')){
+            var area = $('#area').val();
+            var store = $('#store').val();
+        }
+        else{
+            var area = '0';
+            var store = 'X';
+        }
+        if($('#branchAll').is(':visible') && $('#branchAll').is(':checked')){
+            var store = '0';
+        }
     }
     $('#loading').show();
     setTimeout(function(){
-        if(!name || !email || !role || !branch || !company || !area || !store){
-            $('#loading').hide();
-            Swal.fire('REQUIRED','Please fill up all required fields!','error');
-            return false;
-        }
         if(!validateEmail(email)){
             $('#loading').hide();
             Swal.fire("INVALID EMAIL", "Enter a valid email address format!", "error");
@@ -634,7 +692,9 @@ $('#btnSave').on('click', function(){
                 branch: branch,
                 company: company,
                 area: area,
-                store: store
+                store: store,
+                province: province,
+                district: district
             },
             success: function(data){
                 if(data.result == 'true'){
@@ -664,7 +724,9 @@ $('#btnSave').on('click', function(){
                                     branch: branch,
                                     company: company,
                                     area: area,
-                                    store: store
+                                    store: store,
+                                    province: province,
+                                    district: district
                                 },
                                 success: function(data){
                                     if(data == 'true'){
@@ -756,37 +818,46 @@ $('#btnUpdate').on('click', function(){
     var company2 = $('#company2').val();
     var area2 = $('#area2').val();
     var store2 = $('#store2').val();
-    if($('#branch1_chosen').is(':visible')){
-        var branch1 = $('#branch1').val();
-        var store1 = '0';
-    }
-    else{
+    var province2 = $('#province2').val();
+    var district2 = $('#district2').val();
+    if($('.classDistrictManager').is(':visible')){
         var branch1 = '0';
-    }
-    if($('#company1_chosen').is(':visible')){
         var company1 = $('#company1').val();
-    }
-    else{
-        var company1 = '0';
-    }
-    if($('#area1_chosen').is(':visible')){
-        var area1 = $('#area1').val();
-        var store1 = $('#store1').val();
-    }
-    else{
         var area1 = '0';
         var store1 = 'X';
+        var province1 = $('#province1').val();
+        var district1 = $('#district1').val();
     }
-    if($('#branchAll1').is(':visible') && $('#branchAll1').is(':checked')){
-        var store1 = '0';
+    else{
+        var province1 = '';
+        var district1 = '';
+        if($('#branch1_chosen').is(':visible')){
+            var branch1 = $('#branch1').val();
+            var store1 = '0';
+        }
+        else{
+            var branch1 = '0';
+        }
+        if($('#company1_chosen').is(':visible')){
+            var company1 = $('#company1').val();
+        }
+        else{
+            var company1 = '0';
+        }
+        if($('#area1_chosen').is(':visible')){
+            var area1 = $('#area1').val();
+            var store1 = $('#store1').val();
+        }
+        else{
+            var area1 = '0';
+            var store1 = 'X';
+        }
+        if($('#branchAll1').is(':visible') && $('#branchAll1').is(':checked')){
+            var store1 = '0';
+        }
     }
     $('#loading').show();
     setTimeout(function(){
-        if(!name1 || !email1|| !role1 || !branch1  || !company1 || !area1 || !store1){
-            $('#loading').hide();
-            Swal.fire('REQUIRED','Please fill up all required fields!','error');
-            return false;
-        }
         if(role1 != role2){
             if(name1.toUpperCase() == name2.toUpperCase() && email1.toUpperCase() == email2.toUpperCase() && role1 == role2){
                 $('#loading').hide();
@@ -801,12 +872,17 @@ $('#btnUpdate').on('click', function(){
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
                 }
-                if(role1 == '3' && branch1 == branch2){
+                else if(role1 == '3' && branch1 == branch2){
                     $('#loading').hide();
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
                 }
                 else if(role1 == '4' && JSON.stringify(company1) === JSON.stringify(company2.split('|')) && JSON.stringify(area1) === JSON.stringify(area2.split('|')) && JSON.stringify(store1) === JSON.stringify(store2.split('|'))){
+                    $('#loading').hide();
+                    Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
+                    return false;
+                }
+                else if(role1 == '6' && JSON.stringify(company1) === JSON.stringify(company2.split('|')) && province1 == province2 && district1 == district2){
                     $('#loading').hide();
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
@@ -866,7 +942,11 @@ $('#btnUpdate').on('click', function(){
                 area1: area1,
                 area2: area2,
                 store1: store1,
-                store2: store2
+                store2: store2,
+                province1: province1,
+                province2: province2,
+                district1: district1,
+                district2: district2
             },
             success: function(data){
                 if(data == 'true'){
@@ -902,7 +982,11 @@ $('#btnUpdate').on('click', function(){
                                     area1: area1,
                                     area2: area2,
                                     store1: store1,
-                                    store2: store2
+                                    store2: store2,
+                                    province1: province1,
+                                    province2: province2,
+                                    district1: district1,
+                                    district2: district2
                                 },
                                 success: function(data){
                                     if(data == 'true'){
@@ -941,7 +1025,10 @@ $('#btnUpdate').on('click', function(){
 
 var permissions=[];
 $(document).on('change', '#role',function(){
-    $('#loading').show();
+    $('.req').hide();
+    permissions=[];
+    $('#province').val('');
+    $('#district').val('');
     $('#branch').val('');
     $('#branch').trigger('chosen:updated');
     $('#company').val('');
@@ -949,44 +1036,55 @@ $(document).on('change', '#role',function(){
     $('#area').val('');
     $('#area').trigger('chosen:updated');
     $('#branchAll').prop('checked', false);
-    // $('#branchAll').change();
     $('#store').val('');
     $('#store').trigger('chosen:updated');
-    permissions=[];
-    $.ajax({
-        url: '/users/permissions',
-        data:{
-            role_id: $(this).val() ? $(this).val() : 'X'
-        },
-        success: function(data){
-            for(var i=0; i < data.length; i++){
-                permissions.push(data[i].permission_id);
+    if($(this).val() == '6'){
+        $('.classFranchisee').hide();
+        $('.classAreaManager').hide();
+        $('.classCompany').show();
+        $('.classDistrictManager').show();
+    }
+    else{
+        $('#loading').show();
+        $('.classDistrictManager').hide();
+        $.ajax({
+            url: '/users/permissions',
+            data:{
+                role_id: $(this).val() ? $(this).val() : 'X'
+            },
+            success: function(data){
+                for(var i=0; i < data.length; i++){
+                    permissions.push(data[i].permission_id);
+                }
+                permissions.sort();
+                if(permissions.includes(28)){
+                    $('.classBranch').show();
+                }
+                else{
+                    $('.classBranch').hide();
+                }
+                if(permissions.includes(7)){
+                    $('.classCompany').show();
+                    $('.classArea').show();
+                }
+                else{
+                    $('.classCompany').hide();
+                    $('.classArea').hide();
+                }
+                if($('.classCompany').is(':hidden') && $('.classArea').is(':hidden')){
+                    $('.classStore').hide();
+                }
+                $('#loading').hide();
             }
-            permissions.sort();
-            if(permissions.includes(28)){
-                $('.classBranch').show();
-            }
-            else{
-                $('.classBranch').hide();
-            }
-            if(permissions.includes(7)){
-                $('.classCompany').show();
-                $('.classArea').show();
-            }
-            else{
-                $('.classCompany').hide();
-                $('.classArea').hide();
-            }
-            if($('.classCompany').is(':hidden') && $('.classArea').is(':hidden')){
-                $('.classStore').hide();
-            }
-            $('#loading').hide();
-        }
-    });
+        });
+    }
 });
 
 $(document).on('change', '#role1',function(){
-    $('#loading').show();
+    $('.req').hide();
+    permissions=[];
+    $('#province1').val('');
+    $('#district1').val('');
     $('#branch1').val('');
     $('#branch1').trigger('chosen:updated');
     $('#company1').val('');
@@ -994,40 +1092,48 @@ $(document).on('change', '#role1',function(){
     $('#area1').val('');
     $('#area1').trigger('chosen:updated');
     $('#branchAll1').prop('checked', false);
-    // $('#branchAll1').change();
     $('#store1').val('');
     $('#store1').trigger('chosen:updated');
-    permissions=[];
-    $.ajax({
-        url: '/users/permissions',
-        data:{
-            role_id: $(this).val() ? $(this).val() : 'X'
-        },
-        success: function(data){
-            for(var i=0; i < data.length; i++){
-                permissions.push(data[i].permission_id);
+    if($(this).val() == '6'){
+        $('.classFranchisee').hide();
+        $('.classAreaManager').hide();
+        $('.classCompany').show();
+        $('.classDistrictManager').show();
+    }
+    else{
+        $('#loading').show();
+        $('.classDistrictManager').hide();
+        $.ajax({
+            url: '/users/permissions',
+            data:{
+                role_id: $(this).val() ? $(this).val() : 'X'
+            },
+            success: function(data){
+                for(var i=0; i < data.length; i++){
+                    permissions.push(data[i].permission_id);
+                }
+                permissions.sort();
+                if(permissions.includes(28)){
+                    $('.classBranch').show();
+                }
+                else{
+                    $('.classBranch').hide();
+                }
+                if(permissions.includes(7)){
+                    $('.classCompany').show();
+                    $('.classArea').show();
+                }
+                else{
+                    $('.classCompany').hide();
+                    $('.classArea').hide();
+                }
+                if($('.classCompany').is(':hidden') && $('.classArea').is(':hidden')){
+                    $('.classStore').hide();
+                }
+                $('#loading').hide();
             }
-            permissions.sort();
-            if(permissions.includes(28)){
-                $('.classBranch').show();
-            }
-            else{
-                $('.classBranch').hide();
-            }
-            if(permissions.includes(7)){
-                $('.classCompany').show();
-                $('.classArea').show();
-            }
-            else{
-                $('.classCompany').hide();
-                $('.classArea').hide();
-            }
-            if($('.classCompany').is(':hidden') && $('.classArea').is(':hidden')){
-                $('.classStore').hide();
-            }
-            $('#loading').hide();
-        }
-    });
+        });
+    }
 });
 
 setInterval(() => {

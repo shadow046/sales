@@ -1,5 +1,8 @@
 $('.addBtn').on('click',function(){
     $('#discount').val('');
+    if(!current_permissions.includes('3')){
+        $('#discountModal').find('input').prop('disabled', false);
+    }
 });
 
 var table;
@@ -110,9 +113,9 @@ $('.saveBtn').on('click',function(){
 
 $(document).on('click','table.discountTable tbody tr',function(){
     $('.req').hide();
-    // if(!current_permissions.includes('3')){
-    //     $('#typeModal').find('input').prop('disabled', true);
-    // }
+    if(!current_permissions.includes('3')){
+        $('#discountModal').find('input').prop('disabled', true);
+    }
     var data = table.row(this).data();
 
     $('.saveBtn').hide();

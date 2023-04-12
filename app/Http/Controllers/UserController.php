@@ -38,8 +38,10 @@ class UserController extends Controller
 
     public function users_data(){
         $list = User::query()->selectRaw('users.id AS user_id, users.name AS user_name, users.email AS user_email,
-        UPPER(roles.name) AS role_name, roles.id AS role, company.company_name AS branch_name, company.id AS branch, users.area AS area, users.store AS store, users.status AS user_status,
-        users.company AS company')
+        UPPER(roles.name) AS role_name, roles.id AS role, users.status AS user_status,
+        company.company_name AS branch_name, company.id AS branch, 
+        users.company AS company, users.area AS area, users.store AS store,
+        users.province AS province, users.district AS district')
             ->join('roles', 'roles.id', 'users.userlevel')
             ->join('company', 'company.id', 'users.branch')
             ->orderBy('user_status', 'ASC')
@@ -158,6 +160,8 @@ class UserController extends Controller
         $users->userlevel = $request->role;
         $users->branch = $request->branch;
         $users->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        $users->province = $request->province;
+        $users->district = $request->district;
         $users->area = $request->area == '0' ? '0' : implode("|", $request->area);
         if($request->store == 'X'){
             $users->store = 'X';
@@ -218,6 +222,8 @@ class UserController extends Controller
         $users->userlevel = $request->role1;
         $users->branch = $request->branch1;
         $users->company = $request->company1 == '0' ? '0' : implode("|", $request->company1);
+        $users->province = $request->province1;
+        $users->district = $request->district1;
         $users->area = $request->area1 == '0' ? '0' : implode("|", $request->area1);
         if($request->store1 == 'X'){
             $users->store = 'X';
@@ -236,6 +242,11 @@ class UserController extends Controller
         }
 
         if($result == 'true'){
+            $branch = NULL;
+            $company = NULL;
+            $area = NULL;
+            $province = NULL;
+            $district = NULL;
             if($name1 != $request->name2){
                 $name = "【Full Name: FROM '$request->name2' TO '$name1'】";
             }
@@ -257,21 +268,7 @@ class UserController extends Controller
                 $userlevel = NULL;
             }
 
-            if($request->branch1 != '0'){
-                if($request->branch1 != $request->branch2){
-                    $branch1 = Company::where('id', $request->branch1)->first()->company_name;
-                    $branch2 = Company::where('id', $request->branch2)->first()->company_name;
-                    $branch = "【Branch: FROM '$branch2' TO '$branch1'】";
-                }
-                else{
-                    $branch = NULL;
-                }
-            }
-            else{
-                $branch = NULL;
-            }
-
-            if($request->company1 != '0' && $request->area1 != '0'){
+            if($request->province1){
                 if(($request->company1) != (explode('|', $request->company2))){
                     $company1_array = array();
                     $list1 = Company::all();
@@ -291,41 +288,70 @@ class UserController extends Controller
                     $company2 = implode(', ', $company2_array);
                     $company = "【Company: FROM '$company2' TO '$company1'】";
                 }
-                else{
-                    $company = NULL;
+
+                if($request->province1 != $request->province2){
+                    $province = "【Province: FROM '$request->province2' TO '$request->province1'】";
                 }
 
-                if(($request->area1) != (explode('|', $request->area2))){
-                    $area1_array = array();
-                    $list1 = StoreArea::all();
-                    foreach($list1 as $list1key => $list1value){
-                        if(in_array($list1value['id'], $request->area1)){
-                            array_push($area1_array, $list1value['store_area']);
-                        }
-                    }
-                    $area1 = implode(', ', $area1_array);
-                    $area2_array = array();
-                    $list2 = StoreArea::all();
-                    foreach($list2 as $list2key => $list2value){
-                        if(in_array($list2value['id'], explode('|', $request->area2))){
-                            array_push($area2_array, $list2value['store_area']);
-                        }
-                    }
-                    $area2 = implode(', ', $area2_array);
-                    $area = "【Store Area: FROM '$area2' TO '$area1'】";
-                }
-                else{
-                    $area = NULL;
+                if($request->district1 != $request->district2){
+                    $district = "【District: FROM '$request->district2' TO '$request->district1'】";
                 }
             }
             else{
-                $company = NULL;
-                $area = NULL;
+                if($request->branch1 != '0'){
+                    if($request->branch1 != $request->branch2){
+                        $branch1 = Company::where('id', $request->branch1)->first()->company_name;
+                        $branch2 = Company::where('id', $request->branch2)->first()->company_name;
+                        $branch = "【Branch: FROM '$branch2' TO '$branch1'】";
+                    }
+                }
+
+                if($request->company1 != '0' && $request->area1 != '0'){
+                    if(($request->company1) != (explode('|', $request->company2))){
+                        $company1_array = array();
+                        $list1 = Company::all();
+                        foreach($list1 as $list1key => $list1value){
+                            if(in_array($list1value['id'], $request->company1)){
+                                array_push($company1_array, $list1value['company_name']);
+                            }
+                        }
+                        $company1 = implode(', ', $company1_array);
+                        $company2_array = array();
+                        $list2 = Company::all();
+                        foreach($list2 as $list2key => $list2value){
+                            if(in_array($list2value['id'], explode('|', $request->company2))){
+                                array_push($company2_array, $list2value['company_name']);
+                            }
+                        }
+                        $company2 = implode(', ', $company2_array);
+                        $company = "【Company: FROM '$company2' TO '$company1'】";
+                    }
+
+                    if(($request->area1) != (explode('|', $request->area2))){
+                        $area1_array = array();
+                        $list1 = StoreArea::all();
+                        foreach($list1 as $list1key => $list1value){
+                            if(in_array($list1value['id'], $request->area1)){
+                                array_push($area1_array, $list1value['store_area']);
+                            }
+                        }
+                        $area1 = implode(', ', $area1_array);
+                        $area2_array = array();
+                        $list2 = StoreArea::all();
+                        foreach($list2 as $list2key => $list2value){
+                            if(in_array($list2value['id'], explode('|', $request->area2))){
+                                array_push($area2_array, $list2value['store_area']);
+                            }
+                        }
+                        $area2 = implode(', ', $area2_array);
+                        $area = "【Store Area: FROM '$area2' TO '$area1'】";
+                    }
+                }
             }
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED USER: User successfully updated details of $request->name2 with UserID#$request->id1 with the following CHANGES: $name $email $userlevel $branch $company $area.";
+            $userlogs->activity = "UPDATED USER: User successfully updated details of $request->name2 with UserID#$request->id1 with the following CHANGES: $name $email $userlevel $branch $company $area $province $district.";
             $userlogs->save();
         }
 

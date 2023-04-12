@@ -15,6 +15,7 @@ yarn-error.log
 /.idea
 /.vscode
 /public/*.apk
+/public/*.mp4
 
 # public/js/sales
 # app/Http/Controllers/SalesController.php

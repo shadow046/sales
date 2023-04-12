@@ -11,7 +11,7 @@
     </div>
 </div>
 <div class="table-responsive container-fluid pt-2">
-    <table id="userTable" class="table userTable table-bordered table-striped table-hover display" style="cursor: pointer; width: 100%;">
+    <table id="userTable" class="table userTable table-bordered table-striped table-hover display" style="cursor: pointer; width: 100%; zoom: 80%;">
         <thead style="font-weight:bolder" class="bg-default">
             <tr class="tbsearch">
                 <td>
@@ -50,7 +50,13 @@
                     <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/>
                 </td>
                 <td>
-                    <select class="form-control form-select filter-select" data-column="7" style="border:1px solid #808080">
+                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #808080"/>
+                </td>
+                <td>
+                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #808080"/>
+                </td>
+                <td>
+                    <select class="form-control form-select filter-select" data-column="9" style="border:1px solid #808080">
                         <option value="" selected></option>
                         <option value="ACTIVE" style="font-weight: bold; color: #2ab934;">ACTIVE</option>
                         <option value="INACTIVE" style="font-weight: bold; color: #ca2222;">INACTIVE</option>
@@ -65,6 +71,8 @@
                 <th>COMPANY NAME</th>
                 <th>STORE AREA</th>
                 <th>BRANCH NAME</th>
+                <th>PROVINCE</th>
+                <th>DISTRICT</th>
                 <th style="width: 120px;">STATUS</th>
                 <th>STATUS</th>
             </tr>

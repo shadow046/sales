@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-{{-- <script>accessibility('23');</script> --}}
+<script>accessibility('31');</script>
 <br>
 <div class="row">
     <div class="col">

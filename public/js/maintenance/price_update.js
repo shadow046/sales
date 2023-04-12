@@ -86,12 +86,17 @@ $(document).ready(function(){
                 },
             },
             {
+                data: 'discount', name:'discount',
+                "render":function(data,type,row){
+                    return `<span class="float-end">SENIOR: ₱ ${formatNumber(parseFloat(row.senior).toFixed(2))} | PWD: ₱ ${formatNumber(parseFloat(row.pwd).toFixed(2))}</span>`;
+                },
+            },
+            {
                 data: 'recid', name:'recid',
                 "render":function(data,type,row){
                     return '<center><button class="btn btn-danger deleteBtn" id="'+row.recid+'"><i class="fa-solid fa-trash-can"></i></button></center>';
                 },
             },
-
         ],
         order: [],
         initComplete: function(){
@@ -194,6 +199,8 @@ $('.saveBtn').on('click', function(){
     var upa6_airport = $('#upa6_airport').val();
     var upa7_airport = $('#upa7_airport').val();
     var upa8_airport = $('#upa8_airport').val();
+    var senior = $('#senior').val();
+    var pwd = $('#pwd').val();
     if(
         parseFloat(upa1) == parseFloat($('#upa1').attr('price')) &&
         parseFloat(upa2) == parseFloat($('#upa2').attr('price')) &&
@@ -210,7 +217,9 @@ $('.saveBtn').on('click', function(){
         parseFloat(upa5_airport) == parseFloat($('#upa5_airport').attr('price')) &&
         parseFloat(upa6_airport) == parseFloat($('#upa6_airport').attr('price')) &&
         parseFloat(upa7_airport) == parseFloat($('#upa7_airport').attr('price')) &&
-        parseFloat(upa8_airport) == parseFloat($('#upa8_airport').attr('price'))
+        parseFloat(upa8_airport) == parseFloat($('#upa8_airport').attr('price')) &&
+        parseFloat(senior) == parseFloat($('#senior').attr('price')) &&
+        parseFloat(pwd) == parseFloat($('#pwd').attr('price'))
     ){
         Swal.fire('NO CHANGES FOUND', '', 'error');
         return false;
@@ -255,7 +264,9 @@ $('.saveBtn').on('click', function(){
                     upa5_airport: upa5_airport,
                     upa6_airport: upa6_airport,
                     upa7_airport: upa7_airport,
-                    upa8_airport: upa8_airport
+                    upa8_airport: upa8_airport,
+                    senior:senior,
+                    pwd:pwd
                 },
                 success:function(data){
                     if(data == 'true'){
@@ -327,6 +338,8 @@ $('#priceUpdateTable tbody').on('click', 'tr td:not(:nth-child(12))', function()
     $('#upa6_airport').val(data.upa6_airport);
     $('#upa7_airport').val(data.upa7_airport);
     $('#upa8_airport').val(data.upa8_airport);
+    $('#senior').val(data.senior);
+    $('#pwd').val(data.pwd);
     $('.decimalNumber').attr('price', '0.00');
 
     $('#product').chosen();
@@ -357,6 +370,8 @@ $('.updateBtn').on('click', function(){
     var upa6_airport = $('#upa6_airport').val();
     var upa7_airport = $('#upa7_airport').val();
     var upa8_airport = $('#upa8_airport').val();
+    var senior = $('#senior').val();
+    var pwd = $('#pwd').val();
     Swal.fire({
         title: 'Do you want to update?',
         allowOutsideClick: false,
@@ -398,7 +413,9 @@ $('.updateBtn').on('click', function(){
                     upa5_airport: upa5_airport,
                     upa6_airport: upa6_airport,
                     upa7_airport: upa7_airport,
-                    upa8_airport: upa8_airport
+                    upa8_airport: upa8_airport,
+                    senior:senior,
+                    pwd:pwd
                 },
                 success:function(data){
                     if(data == 'true'){
@@ -633,14 +650,20 @@ $('#tab_regular').on('click',function(){
     $('#tab_airport').removeClass('bg-sub active');
     $('#tab_regular').removeClass('bg-sub-light');
     $('#tab_regular').addClass('bg-sub active');
+    $('#tab_discount').addClass('bg-sub-light');
+    $('#tab_discount').removeClass('bg-sub active');
     $('#tab_regular').attr('aria-selected', true);
     $('#tab_airport').attr('aria-selected', false);
+    $('#tab_discount').attr('aria-selected', false);
     $('#page_regular').addClass('active');
     $('#page_regular').addClass('show');
     $('#page_airport').removeClass('active');
     $('#page_airport').removeClass('show');
+    $('#page_discount').removeClass('active');
+    $('#page_discount').removeClass('show');
     $('#page_regular').show();
     $('#page_airport').hide();
+    $('#page_discount').hide();
 });
 
 $('#tab_airport').on('click',function(){
@@ -649,14 +672,42 @@ $('#tab_airport').on('click',function(){
     $('#tab_regular').removeClass('bg-sub active');
     $('#tab_airport').removeClass('bg-sub-light');
     $('#tab_airport').addClass('bg-sub active');
+    $('#tab_discount').addClass('bg-sub-light');
+    $('#tab_discount').removeClass('bg-sub active');
     $('#tab_airport').attr('aria-selected', true);
     $('#tab_regular').attr('aria-selected', false);
+    $('#tab_discount').attr('aria-selected', false);
     $('#page_airport').addClass('active');
     $('#page_airport').addClass('show');
     $('#page_regular').removeClass('active');
     $('#page_regular').removeClass('show');
+    $('#page_discount').removeClass('active');
+    $('#page_discount').removeClass('show');
     $('#page_airport').show();
     $('#page_regular').hide();
+    $('#page_discount').hide();
+});
+
+$('#tab_discount').on('click',function(){
+    $(this).blur();
+    $('#tab_regular').addClass('bg-sub-light');
+    $('#tab_regular').removeClass('bg-sub active');
+    $('#tab_airport').addClass('bg-sub-light');
+    $('#tab_airport').removeClass('bg-sub active');
+    $('#tab_discount').removeClass('bg-sub-light');
+    $('#tab_discount').addClass('bg-sub active');
+    $('#tab_airport').attr('aria-selected', false);
+    $('#tab_regular').attr('aria-selected', false);
+    $('#tab_discount').attr('aria-selected', true);
+    $('#page_airport').removeClass('active');
+    $('#page_airport').removeClass('show');
+    $('#page_regular').removeClass('active');
+    $('#page_regular').removeClass('show');
+    $('#page_discount').addClass('active');
+    $('#page_discount').addClass('show');
+    $('#page_airport').hide();
+    $('#page_regular').hide();
+    $('#page_discount').show();
 });
 
 setInterval(() => {

@@ -34,6 +34,9 @@
                         <li class="nav-item"style="margin-right:5px" >
                             <a class="nav-link pill bg-sub tab_airport active" style="text-decoration: none; color: white;" id="tab_airport" data-bs-toggle="tab" href="#page_airport"> AIRPORT</a>
                         </li>
+                        <li class="nav-item"style="margin-right:5px" >
+                            <a class="nav-link pill bg-sub tab_discount active" style="text-decoration: none; color: white;" id="tab_discount" data-bs-toggle="tab" href="#page_discount"> DISCOUNTS</a>
+                        </li>
                     </ul>
 
                     <div id="priceContent">
@@ -112,6 +115,19 @@
                                 <div class="col f-outline mb-3">
                                     <input type="number" name="upa8_airport" id="upa8_airport" class="forminput form-control inputFields decimalNumber" value="0.00" min="0.00" placeholder=" ">
                                     <label for="upa8_airport" class="formlabels form-label">ADD. MEAL TYPE</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="page_discount" class="tab-pane">
+                            <div class="row mb-3">
+                                <div class="col-md-3 f-outline">
+                                    <input type="number" value="0.00" style="color: black" name="senior" id="senior" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
+                                    <label for="senior" class="formlabels form-label">SENIOR
+                                </div>
+                                <div class="col-md-3 f-outline">
+                                    <input type="number" value="0.00" style="color: black" name="pwd" id="pwd" class="forminput form-control requiredField priceField" placeholder=" " autocomplete="off" >
+                                    <label for="pwd" class="formlabels form-label">PWD
                                 </div>
                             </div>
                         </div>
