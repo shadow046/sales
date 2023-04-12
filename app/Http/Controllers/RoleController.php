@@ -27,7 +27,7 @@ class RoleController extends Controller
 
     public function roles_data()
     {
-        $list = Role::selectRaw('roles.name AS name, roles.id AS id')
+        $list = Role::selectRaw('roles.name AS name, roles.id AS id, roles.type')
             ->where('status','!=','DELETED')
             ->get();
         return DataTables::of($list)

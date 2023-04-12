@@ -129,7 +129,7 @@ $(document).on('click','table.roleTable tbody tr',function(){
     $('#radio1').prop("checked", true);
     var data = table.row(this).data();
     if(current_server != 'LOCAL'){
-        if(data.id < 5){
+        if(data.type == "DEFAULT"){
             Swal.fire('RESTRICTED', 'Default User Roles cannot be modified!', 'error');
             return false;
         }
