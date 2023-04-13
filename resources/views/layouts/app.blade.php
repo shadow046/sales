@@ -15,11 +15,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if(env('APP_SYS') == 'DD')
-        <link href="{{asset('dd-logo.ico')}}" rel="icon" type="image/x-icon"/>
-        <link href="{{asset('dd-logo.ico')}}" rel="shortcut icon" type="image/x-icon"/>
+        <link href="/dd-logo.ico" rel="icon" type="image/x-icon"/>
+        <link href="/dd-logo.ico" rel="shortcut icon" type="image/x-icon"/>
     @else
-        <link href="{{asset('mg-logo.ico')}}" rel="icon" type="image/x-icon"/>
-        <link href="{{asset('mg-logo.ico')}}" rel="shortcut icon" type="image/x-icon"/>
+        <link href="/mg-logo.ico" rel="icon" type="image/x-icon"/>
+        <link href="/mg-logo.ico" rel="shortcut icon" type="image/x-icon"/>
     @endif
     <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/{{$jquery_version}}/jquery.min.js"></script>
@@ -33,9 +33,9 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2{{$sweetalert_version}}/dist/sweetalert2.min.css" rel='stylesheet'>
     <link href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css" rel="stylesheet">
     <link href="https://code.jquery.com/ui/{{$jquery_ui_version}}/themes/base/jquery-ui.css" rel="stylesheet">
-    <link href="{{asset('css/inc/chosen.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="/css/inc/chosen.css" rel="stylesheet" type="text/css"/>
     @if(env('APP_SYS') == 'DD')
-        <link href="{{asset('css/dd-styles.css?ver=')}}{{$version}}" rel="stylesheet" type="text/css">
+        <link href="/css/dd-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
         <script>
             $(document).ready(function(){
                 const brown = '#683817';
@@ -49,7 +49,7 @@
             $pink = '#e11383';
         @endphp
     @else
-        <link href="{{asset('css/mg-styles.css?ver=')}}{{$version}}" rel="stylesheet" type="text/css">
+        <link href="/css/mg-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
         <script>
             $(document).ready(function(){
                 const brown = '#850708'; //Maroon
@@ -64,10 +64,10 @@
         @endphp
     @endif
     @if(Request::is('products') || Request::is('store') || Request::is('users'))
-        <link href="{{asset('css/switch.css?ver=')}}{{$version}}" rel="stylesheet">
+        <link href="/css/switch.css?ver={{$version}}" rel="stylesheet">
     @endif
     @if(Request::is('maintenance-category'))
-        <link href="{{asset('css/toggle.css?ver=')}}{{$version}}" rel="stylesheet">
+        <link href="/css/toggle.css?ver={{$version}}" rel="stylesheet">
     @endif
     <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -94,7 +94,7 @@
         @include('inc.include')
     @endif
     @if(!Auth::guest())
-        <script src="{{asset('js/functions.js?ver=')}}{{$version}}"></script>
+        <script src="/js/functions.js?ver={{$version}}"></script>
     @endif
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 
@@ -112,9 +112,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js" integrity="sha512-vDKWohFHe2vkVWXHp3tKvIxxXg0pJxeid5eo+UjdjME3DBFBn2F8yWOE0XmiFcFbXxrEOR1JriWEno5Ckpn15A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2{{$sweetalert_version}}/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/ui/{{$jquery_ui_version}}/jquery-ui.min.js"></script>
-    <script src="{{asset('js/inc/chosen.jquery.js')}}"></script>
-    <script src="{{asset('js/inc/moment.js')}}"></script>
-    <script src="{{asset('js/inc/datetime.js')}}"></script>
-    <script src={{asset('/js/sales/function.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+    <script src="/js/inc/chosen.jquery.js"></script>
+    <script src="/js/inc/moment.js"></script>
+    <script src="/js/inc/datetime.js"></script>
+    <script src="/js/sales/function.js?ver={{\Illuminate\Support\Str::random(50)}}"></script>
 </body>
 </html>
