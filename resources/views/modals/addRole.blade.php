@@ -13,7 +13,7 @@
                         <p class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-m f-outline">
                         <b class="text-default">USER PERMISSIONS</b>
                         <div class="form-check">
@@ -22,6 +22,8 @@
                                 <span class="form-check-label">{{$permission->desc}}</span><br>
                             @endforeach
                         </div>
+                        <br>
+                        <b class="text-default">USER ACCOUNT</b>
                         <div class="form-check">
                             <input type="radio" class="form-check-input assignment" id="radio1" name="optradio" value="" checked>
                             <span class="form-check-label" for="radio1">NO COMPANY/AREA/DISTRICT assignment in user accounts.</span>
@@ -40,10 +42,15 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <div class="row">
                     <div class="col-m f-outline">
-                        <b class="text-default">USER ACCESS</b>
+                        <b class="text-default">USER ACCESSIBILITY</b>
                         <div class="form-check">
+                            @if(env('APP_SYS') == 'DD')
+                                <input class="form-check-input permission" type="checkbox" value="27"/>
+                                <span class="form-check-label">DASHBOARD</span><br>
+                            @endif
                             @foreach($accesses as $access)
                                 <input class="form-check-input permission" type="checkbox" value="{{$access->id}}"/>
                                 <span class="form-check-label">{{$access->desc}}</span><br>

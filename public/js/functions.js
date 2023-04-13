@@ -9,6 +9,7 @@ var current_key = $('#current_key').val();
 var current_server = $('#current_server').val();
 var current_system = $('#current_system').val();
 var current_timeout = $('#current_timeout').val();
+var current_modal;
 var data_update, standby = true;
 
 setInterval(loadFunction, 0);
@@ -99,6 +100,19 @@ $(document).ready(function(){
     else{
         $('.maintenance_tab').hide();
     }
+
+    $('#report').popover({
+        html: true,
+        sanitize: false
+    });
+
+    $('html').on('click', function(e){
+        $('#report').each(function(){
+            if(!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0){
+                $('#report').popover('hide');
+            }
+        });
+    });
 
     $('#maintenance').popover({
         html: true,

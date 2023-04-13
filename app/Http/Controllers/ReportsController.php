@@ -24,6 +24,29 @@ class ReportsController extends Controller
         return view('pages.reports');
     }
 
+    public function byBranch(Request $request){
+        if($request->type == 'standard'){
+            $data = Hdr::selectRaw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                ->groupBy('storecode','branch_name','branch')
+                ->get();
+        }
+        else{
+            $data = Hdr::selectRaw("CONCAT(hdr.storecode, IFNULL(CONCAT(': ', store.branch_name), '')) AS branch,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN gross ELSE 0 END) as gross_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN totalsales ELSE 0 END) as total_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN netsales ELSE 0 END) as net_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN gross ELSE 0 END) as gross_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN totalsales ELSE 0 END) as total_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN netsales ELSE 0 END) as net_sales2")
+                ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                ->groupBy('storecode','branch_name','branch')
+                ->get();
+        }
+        return DataTables::of($data)->make(true);
+    }
+
     public function byArea(Request $request){
         if($request->type == 'standard'){
             $data = Hdr::selectRaw('store_area.store_area, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
@@ -136,15 +159,15 @@ class ReportsController extends Controller
     }
 
     public function byDelivery(Request $request){
-        $transaction_type = array();
-        $transactions = TransactionType::all();
-        foreach($transactions as $transaction){
-            array_push($transaction_type, $transaction->transaction_type);
+        $delivery_array = array();
+        $items = DeliveryServingStore::all();
+        foreach($items as $item){
+            array_push($delivery_array, $item->delivery_serving_store);
         }
         if($request->type == 'standard'){
             $data = Hdr::selectRaw('trantype as delivery_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
                 ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-                ->whereNotIn('hdr.trantype', $transaction_type)
+                ->whereIn('hdr.trantype', $delivery_array)
                 ->groupBy('delivery_name')
                 ->get();
         }
@@ -156,7 +179,7 @@ class ReportsController extends Controller
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN gross ELSE 0 END) as gross_sales2,
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN totalsales ELSE 0 END) as total_sales2,
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN netsales ELSE 0 END) as net_sales2")
-                ->whereNotIn('hdr.trantype', $transaction_type)
+                ->whereIn('hdr.trantype', $delivery_array)
                 ->groupBy('delivery_name')
                 ->get();
         }
@@ -164,15 +187,9 @@ class ReportsController extends Controller
     }
 
     public function byTransaction(Request $request){
-        $transaction_type = array();
-        $transactions = TransactionType::all();
-        foreach($transactions as $transaction){
-            array_push($transaction_type, $transaction->transaction_type);
-        }
         if($request->type == 'standard'){
             $data = Hdr::selectRaw('trantype as transaction_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
                 ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-                ->whereIn('hdr.trantype', $transaction_type)
                 ->groupBy('transaction_name')
                 ->get();
         }
@@ -184,7 +201,6 @@ class ReportsController extends Controller
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN gross ELSE 0 END) as gross_sales2,
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN totalsales ELSE 0 END) as total_sales2,
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN netsales ELSE 0 END) as net_sales2")
-                ->whereIn('hdr.trantype', $transaction_type)
                 ->groupBy('transaction_name')
                 ->get();
         }

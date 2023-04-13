@@ -4,7 +4,7 @@
 <br>
 <div class="row">
     <div class="col">
-        <div id="page-name"><h4><span class="page-reload">SALES REPORTS</span></h4></div>
+        <div id="page-name"><h4><span class="page-reload">GENERATE SALES REPORTS</span></h4></div>
     </div>
 </div>
 <br>
@@ -26,15 +26,16 @@
         <div class="col-md-6 f-outline">
             <select id="report_category" name="report_category" class="forminput form-control form-select requiredField" style="color: black">
                 <option value="" selected disabled>SELECT REPORT CATEGORY</option>
-                <option value="AREA">AREA</option>
-                <option value="REGION">REGION</option>
-                <option value="DISTRICT">DISTRICT</option>
+                <option value="BRANCH">BRANCH*</option>
+                <option value="AREA">AREA*</option>
+                <option value="REGION">REGION*</option>
+                <option value="DISTRICT">DISTRICT*</option>
                 <option value="AREA MANAGER">AREA MANAGER</option>
                 <option value="DISTRICT MANAGER">DISTRICT MANAGER</option>
-                <option value="STORE GROUP">STORE GROUP</option>
-                <option value="STORE SETUP">STORE SETUP</option>
-                <option value="DELIVERY CHANNEL">DELIVERY CHANNEL</option>
-                <option value="TRANSACTION TYPE">TRANSACTION TYPE</option>
+                <option value="STORE GROUP">STORE GROUP*</option>
+                <option value="STORE SETUP">STORE SETUP*</option>
+                <option value="DELIVERY CHANNEL">DELIVERY CHANNEL*</option>
+                <option value="TRANSACTION TYPE">TRANSACTION TYPE*</option>
                 <option value="TENDER TYPE">TENDER TYPE</option>
                 <option value="DISCOUNT">DISCOUNT</option>
                 <option value="PRODUCT CATEGORY">PRODUCT CATEGORY</option>

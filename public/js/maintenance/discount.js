@@ -112,6 +112,7 @@ $('.saveBtn').on('click',function(){
 });
 
 $(document).on('click','table.discountTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#discountModal').find('input').prop('disabled', true);

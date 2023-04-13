@@ -124,6 +124,7 @@ $('.saveBtn').on('click',function(){
 
 var role_orig, j=[];
 $(document).on('click','table.roleTable tbody tr',function(){
+    current_modal = 'UPDATE';
     j=[];
     $('.req').hide();
     $('#radio1').prop("checked", true);

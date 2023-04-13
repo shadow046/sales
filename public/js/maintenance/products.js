@@ -917,6 +917,7 @@ $('.saveBtn').on('click',function(){
 var promo_id = [];
 $(document).on('click','table.productsTable tbody tr td',function(){
     if($(this).text() != 'ACTIVEINACTIVE'){
+        current_modal = 'UPDATE';
         $('#loading').show();
         $('.req').hide();
         area_all = [];

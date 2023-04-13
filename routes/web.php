@@ -27,6 +27,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreAreaController;
 use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\PdfController;
 
 Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::fallback(function(){return redirect("/login");});
@@ -153,6 +154,7 @@ Route::controller(PromosController::class)->group(function(){
 
 Route::controller(ReportsController::class)->group(function(){
     Route::get('/reports','reports');
+    Route::get('/reports/branch','byBranch');
     Route::get('/reports/area','byArea');
     Route::get('/reports/region','byRegion');
     Route::get('/reports/group','byGroup');
@@ -302,6 +304,10 @@ Route::controller(DiscountController::class)->group(function(){
     Route::any('/saveDiscount','saveDiscount');
     Route::any('/editDiscount','editDiscount');
     Route::any('/deleteDiscount','deleteDiscount');
+});
+
+Route::controller(PdfController::class)->group(function(){
+    Route::any('/pdf','pdf');
 });
 
 Route::controller(UploadController::class)->group(function(){

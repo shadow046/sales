@@ -25,7 +25,7 @@ hr{
     border-color: #f5821f;
     opacity: initial;
 }
-#tabContent, #priceContent{
+#tabContent, #priceContent, #pdfContent{
     border-top: 2px solid #e11383;
 }
 .class{

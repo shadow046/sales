@@ -182,7 +182,7 @@ $(document).ready(function(){
     });
 });
 
-$(document).on('click', '#userTable tbody tr td:not(:nth-child(8))', function(){
+$(document).on('click', '#userTable tbody tr td:not(:nth-child(9))', function(){
     if(!table.data().any()){ return false; }
     area1_all = [];
     stores1_list = [];
@@ -1210,3 +1210,12 @@ $(document).on('change','#area',function(){
         }
     }
 });
+
+setInterval(() => {
+    if($('#id1').val() == current_user){
+        $('#role1').prop('disabled', true);
+    }
+    else{
+        $('#role1').prop('disabled', false);
+    }
+}, 0);

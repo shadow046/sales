@@ -15,8 +15,8 @@
         <thead>
             <tr class="bg-default">
                 <th>USER ROLE</th>
-                <th>USER PERMISSIONS</th>
-                <th>USER ACCESS</th>
+                <th>USER PERMISSIONS / ACCOUNT</th>
+                <th>USER ACCESSIBILITY</th>
             </tr>
         </thead>
         <tbody>

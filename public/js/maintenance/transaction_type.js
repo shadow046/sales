@@ -112,6 +112,7 @@ $('.saveBtn').on('click',function(){
 });
 
 $(document).on('click','table.transactionTypeTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#transactionTypeModal').find('input').prop('disabled', true);

@@ -123,6 +123,7 @@ $('.saveBtn').on('click',function(){
 
 var network_setup_orig;
 $(document).on('click','table.network_setupTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#network_setupModal').find('input').prop('disabled', true);

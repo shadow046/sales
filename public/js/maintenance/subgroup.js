@@ -122,6 +122,7 @@ $('.saveBtn').on('click',function(){
 });
 var sub_group_orig;
 $(document).on('click','table.subgroupTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#subgroupModal').find('input').prop('disabled', true);

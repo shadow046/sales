@@ -155,6 +155,7 @@ $('.addPromoCombinationBtn').click(function(e){
 
 var promo_id = [];
 $(document).on('click','table.promoTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     promo_id = [];
     if($(".btn-delete").length > 0){

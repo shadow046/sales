@@ -160,6 +160,7 @@ $('.saveBtn').on('click',function(){
 });
 var category_orig;
 $(document).on('click','table.categoryTable tbody tr td',function(){
+    current_modal = 'UPDATE';
     if($(this).text() != 'ONOFF'){
         $('.req').hide();
         if(!current_permissions.includes('3')){

@@ -1,4 +1,3 @@
-var current_modal;
 $('.addBtn').on('click',function(){
     if(!current_permissions.includes('3')){
         $('#storeModal').find('input').prop('disabled', false);

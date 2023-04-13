@@ -54,8 +54,8 @@
 				</li>
 			@endcan
 			@can('reports')
-				<li class="nav-item mr-1">
-					<a class="nav-link {{ Request::is('reports') ? 'navactive' : '' }}" href="/reports">REPORTS</a>
+				<li class="nav-item dropdown mr-1">
+					<a href="#" id="report" class="nav-link dropdown-toggle {{ Request::is('reports') || Request::is('pdf') ? 'navactive' : '' }}" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content='@include("inc.dropdownReports")'>REPORTS</a>
 				</li>
 			@endcan
 			@can('store')

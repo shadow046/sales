@@ -114,6 +114,7 @@ $('.saveBtn').on('click',function(){
 
 var store_area_orig;
 $(document).on('click','table.storeAreaTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#storeAreaModal').find('input').prop('disabled', true);

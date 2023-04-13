@@ -113,6 +113,7 @@ $('.saveBtn').on('click',function(){
 
 var setup_orig;
 $(document).on('click','table.setupTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#setupModal').find('input').prop('disabled', true);

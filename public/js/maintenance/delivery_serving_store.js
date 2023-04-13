@@ -124,6 +124,7 @@ $('.saveBtn').on('click',function(){
 
 var delivery_serving_store_orig;
 $(document).on('click','table.delivery_serving_storeTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#deliveryServingStoreModal').find('input').prop('disabled', true);

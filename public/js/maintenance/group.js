@@ -113,6 +113,7 @@ $('.saveBtn').on('click',function(){
 
 var group_orig;
 $(document).on('click','table.groupTable tbody tr',function(){
+    current_modal = 'UPDATE';
     $('.req').hide();
     if(!current_permissions.includes('3')){
         $('#groupModal').find('input').prop('disabled', true);
