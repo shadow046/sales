@@ -1,29 +1,27 @@
-name: Build and publish Docker image
+name: Publish to docker
 
-on:
+on:    
   release:
-    types: [published]
-
+      types: [published]
 jobs:
-  build-and-publish:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER }}
-          password: ${{ secrets.DUNKIN }}
-
-      - name: Build Docker image
-        run: |
-          docker build -t my-image:latest .
-          docker tag my-image:latest my-image:{{ github.ref | replace('refs/tags/', '') }}
-
-      - name: Push Docker image
-        run: |
-          docker push my-image:latest
-          docker push my-image:{{ github.ref | replace('refs/tags/', '') }}
+    - uses:  actions/checkout@master
+    - name: Publish to Registry (Latest Release)
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: shadow046/sales/tim:latest
+        username: ${{ secrets.DOCKER }}
+        password:  ${{secrets.DUNKIN}}
+        registry: docker.pkg.github.com
+    - uses: actions/checkout@master
+    - name: Publish to Registry (Version Release)
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: shadow046/sales/tim
+        username: ${{ secrets.DOCKER }}
+        password: ${{secrets.DUNKIN}}
+        registry: docker.pkg.github.com
+        tag_names: true
