@@ -14,23 +14,10 @@ RUN apt-get install php8.0 php8.0-fpm php8.0-curl php8.0-ldap php8.0-mysql php8.
 RUN apt-get install php8.1 php8.1-fpm php8.1-curl php8.1-ldap php8.1-mysql php8.1-gd php8.1-xml php8.1-mbstring php8.1-zip php8.1-bcmath -y
 RUN apt-get purge apache2 apache* -y
 RUN apt-get remove --purge php8.2* -y
-
-# Create a new directory for the Laravel files
-RUN mkdir /app
-WORKDIR /app
-
-# Copy the Laravel files into the new directory
+WORKDIR /home/
 COPY . .
-
-# Set the ownership and permissions for the new directory
-RUN chown -R www-data:www-data /app
-RUN chmod -R 750 /app
-
-# Install the Laravel dependencies
 RUN composer install
-
-# Expose the Laravel port
+#RUN php artisan key:generate
+RUN chmod 777 -R .
 EXPOSE 8001
-
-# Start the Laravel server
 CMD php artisan serve --host 0.0.0.0 --port 8001
