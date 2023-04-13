@@ -163,17 +163,17 @@ function display_report(byTable, thTitle, urlName, colName){
                     '</tr>' +
                     '<tr>' +
                         '<th>'+thTitle+'</th>' +
-                        '<th>GROSS SALES</th>' +
-                        '<th>TOTAL SALES</th>' +
-                        '<th>NET SALES</th>' +
+                        '<th class="sum">GROSS SALES</th>' +
+                        '<th class="sum">TOTAL SALES</th>' +
+                        '<th class="sum">NET SALES</th>' +
                     '</tr>' +
                 '</thead>' +
                 '<tfoot style="font-size: 14px;">' +
                     '<tr>' +
                         '<th class="text-right">TOTAL:</th>' +
-                        '<th class="text-right total_gross"></th>' +
-                        '<th class="text-right total_total"></th>' +
-                        '<th class="text-right total_net"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
                     '</tr>' +
                 '</tfoot>' +
             '</table>' +
@@ -214,52 +214,29 @@ function display_report(byTable, thTitle, urlName, colName){
                     }
                 }
             ],
-            footerCallback: function ( row, data, start, end, display ) {
-                var api = this.api();
-                // Modify intVal function to strip currency symbols and commas
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
                 var intVal = function ( i ) {
-                  return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                      i : 0;
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
                 };
-                // Calculate sum of column 1
-                var totalCol1 = api
-                  .column(1)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-                // Update footer with total sum count for column 1
-                $( api.column( 1 ).footer() ).html(totalCol1);
-
-                // Calculate sum of column 2
-                var totalCol2 = api
-                  .column(2)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-
-                // Update footer with total sum count for column 2
-                $( api.column( 2 ).footer() ).html(totalCol2);
-
-                // Calculate sum of column 3
-                var totalCol3 = api
-                  .column(3)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-
-                // Update footer with total sum count for column 3
-                $( api.column( 3 ).footer() ).html(totalCol3);
+                api.columns('.sum',{page:'current'}).every(function(){
+                  var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
             },
-
             initComplete: function(){
-                $('.total_gross').html('₱ '+formatNumber(parseFloat($('.total_gross').html()).toFixed(2)));
-                $('.total_total').html('₱ '+formatNumber(parseFloat($('.total_total').html()).toFixed(2)));
-                $('.total_net').html('₱ '+formatNumber(parseFloat($('.total_net').html()).toFixed(2)));
                 $('#loading').hide();
             }
         });
@@ -298,23 +275,23 @@ function display_report(byTable, thTitle, urlName, colName){
                     '</tr>' +
                     '<tr>' +
                         '<th>'+thTitle+'</th>' +
-                        '<th>GROSS SALES</th>' +
-                        '<th>TOTAL SALES</th>' +
-                        '<th>NET SALES</th>' +
-                        '<th>GROSS SALES</th>' +
-                        '<th>TOTAL SALES</th>' +
-                        '<th>NET SALES</th>' +
+                        '<th class="sum">GROSS SALES</th>' +
+                        '<th class="sum">TOTAL SALES</th>' +
+                        '<th class="sum">NET SALES</th>' +
+                        '<th class="sum">GROSS SALES</th>' +
+                        '<th class="sum">TOTAL SALES</th>' +
+                        '<th class="sum">NET SALES</th>' +
                     '</tr>' +
                 '</thead>' +
                 '<tfoot style="font-size: 14px;">' +
                     '<tr>' +
                         '<th class="text-right">TOTAL:</th>' +
-                        '<th class="text-right total_gross1"></th>' +
-                        '<th class="text-right total_total1"></th>' +
-                        '<th class="text-right total_net1"></th>' +
-                        '<th class="text-right total_gross2"></th>' +
-                        '<th class="text-right total_total2"></th>' +
-                        '<th class="text-right total_net2"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
                     '</tr>' +
                 '</tfoot>' +
             '</table>' +
@@ -375,87 +352,29 @@ function display_report(byTable, thTitle, urlName, colName){
                     }
                 }
             ],
-            footerCallback: function ( row, data, start, end, display ) {
-                var api = this.api();
-                // Modify intVal function to strip currency symbols and commas
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
                 var intVal = function ( i ) {
-                  return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                      i : 0;
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
                 };
-                // Calculate sum of column 1
-                var totalCol1 = api
-                  .column(1)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-                // Update footer with total sum count for column 1
-                $( api.column( 1 ).footer() ).html(totalCol1);
-
-                // Calculate sum of column 2
-                var totalCol2 = api
-                  .column(2)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-
-                // Update footer with total sum count for column 2
-                $( api.column( 2 ).footer() ).html(totalCol2);
-
-                // Calculate sum of column 3
-                var totalCol3 = api
-                  .column(3)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-
-                // Update footer with total sum count for column 3
-                $( api.column( 3 ).footer() ).html(totalCol3);
-
-                // Calculate sum of column 4
-                var totalCol4 = api
-                  .column(4)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-
-                // Update footer with total sum count for column 4
-                $( api.column( 4 ).footer() ).html(totalCol4);
-
-                // Calculate sum of column 5
-                var totalCol5 = api
-                  .column(5)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-
-                // Update footer with total sum count for column 5
-                $( api.column( 5 ).footer() ).html(totalCol5);
-
-                // Calculate sum of column 6
-                var totalCol6 = api
-                  .column(6)
-                  .data()
-                  .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0 );
-
-                // Update footer with total sum count for column 6
-                $( api.column( 6 ).footer() ).html(totalCol6);
+                api.columns('.sum',{page:'current'}).every(function(){
+                  var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
             },
             initComplete: function(){
-                $('.total_gross1').html('₱ '+formatNumber(parseFloat($('.total_gross1').html()).toFixed(2)));
-                $('.total_total1').html('₱ '+formatNumber(parseFloat($('.total_total1').html()).toFixed(2)));
-                $('.total_net1').html('₱ '+formatNumber(parseFloat($('.total_net1').html()).toFixed(2)));
-                $('.total_gross2').html('₱ '+formatNumber(parseFloat($('.total_gross2').html()).toFixed(2)));
-                $('.total_total2').html('₱ '+formatNumber(parseFloat($('.total_total2').html()).toFixed(2)));
-                $('.total_net2').html('₱ '+formatNumber(parseFloat($('.total_net2').html()).toFixed(2)));
                 $('#loading').hide();
             }
         });
@@ -464,7 +383,7 @@ function display_report(byTable, thTitle, urlName, colName){
 
 $(document).on('keyup search','.filter-input', function(){
     table.column($(this).data('column')).search($(this).val()).draw();
-    $('tfoot').remove();
+    // $('tfoot').remove();
 });
 
 setInterval(() => {
