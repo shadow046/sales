@@ -21,9 +21,9 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t my-image:latest .
-          docker tag my-image:latest my-image:${{ github.ref }}
+          docker tag my-image:latest my-image:{{ github.ref | replace('refs/tags/', '') }}
 
       - name: Push Docker image
         run: |
           docker push my-image:latest
-          docker push my-image:${{ github.ref }}
+          docker push my-image:{{ github.ref | replace('refs/tags/', '') }}
