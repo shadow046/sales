@@ -11,7 +11,7 @@ RUN apt-get update -y
 RUN apt-get install php8.1 php8.1-fpm php8.1-curl php8.1-ldap php8.1-mysql php8.1-gd \
 	php8.1-xml php8.1-mbstring php8.1-zip php8.1-bcmath composer curl wget nano php -y
 RUN apt-get purge apache2 apache* -y
-RUN apt-get remove --purge php8* -y
+#RUN apt-get remove --purge php8* -y
 WORKDIR /home/
 COPY . .
 RUN composer install
