@@ -13,7 +13,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: shadow046/sales/tim:latest
-        username: ${{ secrets.DOCKER }}
+        username: ${{ github.actor }}
         password:  ${{secrets.GITPASS}}
         registry: docker.pkg.github.com
     - uses: actions/checkout@master
@@ -21,7 +21,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: shadow046/sales/tim
-        username: ${{ secrets.DOCKER }}
+        username: ${{ github.actor }}
         password: ${{secrets.GITPASS}}
         registry: docker.pkg.github.com
         tag_names: true
