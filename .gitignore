@@ -21,3 +21,6 @@ yarn-error.log
 # app/Http/Controllers/SalesController.php
 # resources/views/pages/sales
 # resources/views/pages/sales.blade.php
+download-logs
+FSCommand.conf
+FSCommand.conf.sample
