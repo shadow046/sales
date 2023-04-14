@@ -312,12 +312,14 @@ function btnAddUser(){
     $('#company1').val('').trigger('chosen:updated');
     $('#company_chosen').css({'width': '100%', 'margin-top': '-15px'});
     $('#company_chosen').addClass('requiredField requiredInput redBorder');
+    $("#company_chosen input").attr("id", "company_input");
     $('label[for="company"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
     $('#area').chosen();
     $('#area').val('').trigger('chosen:updated');
     $('#area1').val('').trigger('chosen:updated');
     $('#area_chosen').css({'width': '100%', 'margin-top': '-15px'});
     $('#area_chosen').addClass('requiredField requiredInput redBorder');
+    $("#area_chosen input").attr("id", "area_input");
     $('label[for="area"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
     $('#area').change();
     $('#store').change();
@@ -410,6 +412,7 @@ $(document).on('change', '#company', function(){
         $('#store').chosen();
         $('#store').trigger('chosen:updated');
         $('#store_chosen').css({'width': '100%', 'margin-top': '-15px'});
+        $("#store_chosen input").attr("id", "store_input");
         $('label[for="store"]').css({'margin-top': '-15px', 'margin-right': '-20px'});
     }
     $('#area').change();
@@ -1219,3 +1222,27 @@ setInterval(() => {
         $('#role1').prop('disabled', false);
     }
 }, 0);
+
+$(document).on('click', '#company_input', function() {
+    $('#company_input').focusout();
+});
+
+$(document).on('click', '#area_input', function() {
+    $('#area_input').focusout();
+});
+
+$(document).on('click', '#store_input', function() {
+    $('#store_input').focusout();
+});
+
+$(document).on('click','#company_chosen', function(){
+    $('#company_chosen').focusout();
+});
+
+$(document).on('click','#area_chosen', function(){
+    $('#area_chosen').focusout();
+});
+
+$(document).on('click','#store_chosen', function(){
+    $('#store_chosen').focusout();
+});
