@@ -157,6 +157,7 @@ Route::controller(ReportsController::class)->group(function(){
     Route::get('/reports/branch','byBranch');
     Route::get('/reports/area','byArea');
     Route::get('/reports/region','byRegion');
+    Route::get('/reports/area_manager','byAreaManager');
     Route::get('/reports/group','byGroup');
     Route::get('/reports/setup','bySetup');
     Route::get('/reports/delivery','byDelivery');

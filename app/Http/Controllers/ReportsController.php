@@ -9,6 +9,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 use App\Models\Dtl;
 use App\Models\Hdr;
+use App\Models\User;
+use App\Models\Store;
 use App\Models\Setup;
 use App\Models\DeliveryServingStore;
 use App\Models\TransactionType;
@@ -93,6 +95,290 @@ class ReportsController extends Controller
                 ->get();
         }
         return DataTables::of($data)->make(true);
+    }
+
+    public function byAreaManager(Request $request){
+        $data = User::selectRaw('users.name AS area_manager, users.area AS area, users.store AS branch')
+            ->where('userlevel', '4')
+            ->get();
+        if($request->type == 'standard'){
+            return DataTables::of($data)
+            ->addColumn('gross_sales', function(User $hdr) use($request){
+                $gross_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(gross) as gross_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                            ->first()
+                            ->gross_sales;
+                        $gross_sales = $gross_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(gross) as gross_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                            ->first()
+                            ->gross_sales;
+                        $gross_sales = $gross_sales + $total;
+                    }
+                }
+                return $gross_sales;
+            })
+            ->addColumn('total_sales', function(User $hdr) use($request){
+                $total_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(totalsales) as total_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                            ->first()
+                            ->total_sales;
+                        $total_sales = $total_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(totalsales) as total_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                            ->first()
+                            ->total_sales;
+                        $total_sales = $total_sales + $total;
+                    }
+                }
+                return $total_sales;
+            })
+            ->addColumn('net_sales', function(User $hdr) use($request){
+                $net_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(netsales) as net_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                            ->first()
+                            ->net_sales;
+                        $net_sales = $net_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(netsales) as net_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                            ->first()
+                            ->net_sales;
+                        $net_sales = $net_sales + $total;
+                    }
+                }
+                return $net_sales;
+            })
+            ->make(true);
+        }
+        else{
+            return DataTables::of($data)
+            ->addColumn('gross_sales1', function(User $hdr) use($request){
+                $gross_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(gross) as gross_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date1A, $request->date1B])
+                            ->first()
+                            ->gross_sales;
+                        $gross_sales = $gross_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(gross) as gross_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date1A, $request->date1B])
+                            ->first()
+                            ->gross_sales;
+                        $gross_sales = $gross_sales + $total;
+                    }
+                }
+                return $gross_sales;
+            })
+            ->addColumn('total_sales1', function(User $hdr) use($request){
+                $total_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(totalsales) as total_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date1A, $request->date1B])
+                            ->first()
+                            ->total_sales;
+                        $total_sales = $total_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(totalsales) as total_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date1A, $request->date1B])
+                            ->first()
+                            ->total_sales;
+                        $total_sales = $total_sales + $total;
+                    }
+                }
+                return $total_sales;
+            })
+            ->addColumn('net_sales1', function(User $hdr) use($request){
+                $net_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(netsales) as net_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date1A, $request->date1B])
+                            ->first()
+                            ->net_sales;
+                        $net_sales = $net_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(netsales) as net_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date1A, $request->date1B])
+                            ->first()
+                            ->net_sales;
+                        $net_sales = $net_sales + $total;
+                    }
+                }
+                return $net_sales;
+            })
+            ->addColumn('gross_sales2', function(User $hdr) use($request){
+                $gross_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(gross) as gross_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date2A, $request->date2B])
+                            ->first()
+                            ->gross_sales;
+                        $gross_sales = $gross_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(gross) as gross_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date2A, $request->date2B])
+                            ->first()
+                            ->gross_sales;
+                        $gross_sales = $gross_sales + $total;
+                    }
+                }
+                return $gross_sales;
+            })
+            ->addColumn('total_sales2', function(User $hdr) use($request){
+                $total_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(totalsales) as total_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date2A, $request->date2B])
+                            ->first()
+                            ->total_sales;
+                        $total_sales = $total_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(totalsales) as total_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date2A, $request->date2B])
+                            ->first()
+                            ->total_sales;
+                        $total_sales = $total_sales + $total;
+                    }
+                }
+                return $total_sales;
+            })
+            ->addColumn('net_sales2', function(User $hdr) use($request){
+                $net_sales = 0;
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        $total = Hdr::selectRaw('SUM(netsales) as net_sales')
+                            ->where('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date2A, $request->date2B])
+                            ->first()
+                            ->net_sales;
+                        $net_sales = $net_sales + $total;
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $total = Hdr::selectRaw('SUM(netsales) as net_sales')
+                            ->whereIn('storecode', $branch_code)
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->date2A, $request->date2B])
+                            ->first()
+                            ->net_sales;
+                        $net_sales = $net_sales + $total;
+                    }
+                }
+                return $net_sales;
+            })
+            ->make(true);
+        }
     }
 
     public function byGroup(Request $request){

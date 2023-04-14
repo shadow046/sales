@@ -26,20 +26,20 @@
         <div class="col-md-6 f-outline">
             <select id="report_category" name="report_category" class="forminput form-control form-select requiredField" style="color: black">
                 <option value="" selected disabled>SELECT REPORT CATEGORY</option>
-                <option value="BRANCH">BRANCH*</option>
-                <option value="AREA">AREA*</option>
-                <option value="REGION">REGION*</option>
-                <option value="DISTRICT">DISTRICT*</option>
+                <option value="BRANCH">BRANCH</option>
+                <option value="AREA">AREA</option>
+                <option value="REGION">REGION</option>
+                <option value="DISTRICT" class="text-danger">DISTRICT</option>
                 <option value="AREA MANAGER">AREA MANAGER</option>
-                <option value="DISTRICT MANAGER">DISTRICT MANAGER</option>
-                <option value="STORE GROUP">STORE GROUP*</option>
-                <option value="STORE SETUP">STORE SETUP*</option>
-                <option value="DELIVERY CHANNEL">DELIVERY CHANNEL*</option>
-                <option value="TRANSACTION TYPE">TRANSACTION TYPE*</option>
-                <option value="TENDER TYPE">TENDER TYPE</option>
-                <option value="DISCOUNT">DISCOUNT</option>
-                <option value="PRODUCT CATEGORY">PRODUCT CATEGORY</option>
-                <option value="COMBO CATEGORY">COMBO CATEGORY</option>
+                <option value="DISTRICT MANAGER" class="text-danger">DISTRICT MANAGER</option>
+                <option value="STORE GROUP">STORE GROUP</option>
+                <option value="STORE SETUP">STORE SETUP</option>
+                <option value="DELIVERY CHANNEL">DELIVERY CHANNEL</option>
+                <option value="TRANSACTION TYPE">TRANSACTION TYPE</option>
+                <option value="TENDER TYPE" class="text-danger">TENDER TYPE</option>
+                <option value="DISCOUNT" class="text-danger">DISCOUNT</option>
+                <option value="PRODUCT CATEGORY" class="text-danger">PRODUCT CATEGORY</option>
+                <option value="COMBO CATEGORY" class="text-danger">COMBO CATEGORY</option>
             </select>
             <label for="report_category" class="formlabels form-label">REPORT CATEGORY
         </div>

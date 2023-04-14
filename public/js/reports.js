@@ -67,81 +67,73 @@ $('#date2B').on('change', function(){
 $('#btnGenerate').on('click', function(){
     $('#reportsTable').empty();
 
-    const alpha_test = ['BRANCH', 'AREA', 'REGION', 'STORE GROUP', 'STORE SETUP', 'DELIVERY CHANNEL', 'TRANSACTION TYPE', 'PRODUCT CATEGORY', 'COMBO CATEGORY'];
+    const alpha_test = ['BRANCH', 'AREA', 'REGION', 'AREA MANAGER', 'STORE GROUP', 'STORE SETUP', 'DELIVERY CHANNEL', 'TRANSACTION TYPE', 'PRODUCT CATEGORY', 'COMBO CATEGORY'];
     if($('#report_type').val() == '2' && !alpha_test.includes($('#report_category').val())){
         Swal.fire('UNAVAILABLE', 'This Report Type is not yet available!', 'error');
         return false;
     }
     else if($('#report_category').val() == 'BRANCH'){
-        var byTable = 'byBranchTable';
         var thTitle = 'BRANCH CODE';
         var urlName = '/reports/branch';
         var colName = 'branch';
-        display_report(byTable, thTitle, urlName, colName);
+        display_report(thTitle, urlName, colName);
     }
     else if($('#report_category').val() == 'AREA'){
-        var byTable = 'byAreaTable';
         var thTitle = 'STORE AREA';
         var urlName = '/reports/area';
         var colName = 'store_area';
-        display_report(byTable, thTitle, urlName, colName);
+        display_report(thTitle, urlName, colName);
     }
     else if($('#report_category').val() == 'REGION'){
-        var byTable = 'byRegionTable';
         var thTitle = 'REGION';
         var urlName = '/reports/region';
         var colName = 'region';
-        display_report(byTable, thTitle, urlName, colName);
+        display_report(thTitle, urlName, colName);
+    }
+    else if($('#report_category').val() == 'AREA MANAGER'){
+        var thTitle = 'AREA MANAGER';
+        var urlName = '/reports/area_manager';
+        var colName = 'area_manager';
+        display_report(thTitle, urlName, colName);
     }
     else if($('#report_category').val() == 'STORE GROUP'){
-        var byTable = 'byGroupTable';
         var thTitle = 'STORE GROUP';
         var urlName = '/reports/group';
         var colName = 'subgroup';
-        display_report(byTable, thTitle, urlName, colName);
+        display_report(thTitle, urlName, colName);
     }
     else if($('#report_category').val() == 'STORE SETUP'){
-        var byTable = 'bySetupTable';
         var thTitle = 'STORE SETUP';
         var urlName = '/reports/setup';
         var colName = 'setup_name';
-        display_report(byTable, thTitle, urlName, colName);
+        display_report(thTitle, urlName, colName);
     }
     else if($('#report_category').val() == 'DELIVERY CHANNEL'){
-        var byTable = 'byDeliveryTable';
         var thTitle = 'DELIVERY CHANNEL';
         var urlName = '/reports/delivery';
         var colName = 'delivery_name';
-        display_report(byTable, thTitle, urlName, colName);
+        display_report(thTitle, urlName, colName);
     }
     else if($('#report_category').val() == 'TRANSACTION TYPE'){
-        var byTable = 'byTransactionTable';
         var thTitle = 'TRANSACTION TYPE';
         var urlName = '/reports/transaction';
         var colName = 'transaction_name';
-        display_report(byTable, thTitle, urlName, colName);
+        display_report(thTitle, urlName, colName);
     }
-    // else if($('#report_category').val() == 'PRODUCT CATEGORY'){
-    //     var byTable = 'byProductTable';
-    //     var thTitle = 'PRODUCT DESCRIPTION';
-    //     var urlName = '/reports/product';
-    //     var colName = 'product_name';
-    //     display_report(byTable, thTitle, urlName, colName);
-    // }
     else{
         Swal.fire('UNAVAILABLE', 'This Report Category is not yet available!', 'error');
     }
 });
 
 var table;
-function display_report(byTable, thTitle, urlName, colName){
+function display_report(thTitle, urlName, colName){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
     var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMMM DD, YYYY')).toUpperCase();
     $('#loading').show();
     if($('#report_type').val() == '1'){
         var htmlString = '<div class="table-responsive container-fluid pt-2">' +
-            '<table class="table table-hover table-bordered table-striped '+byTable+'" id="'+byTable+'" style="width:100%;">' +
+            '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
                         '<th></th>' +
@@ -180,7 +172,7 @@ function display_report(byTable, thTitle, urlName, colName){
             '<br>' +
         '</div>';
         $('#reportsTable').append(htmlString);
-        table = $('table.'+byTable).DataTable({
+        table = $('table.tblReports').DataTable({
             dom: 'lftrip',
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
@@ -243,7 +235,7 @@ function display_report(byTable, thTitle, urlName, colName){
     }
     if($('#report_type').val() == '2'){
         var htmlString = '<div class="table-responsive container-fluid pt-2">' +
-            '<table class="table table-hover table-bordered table-striped '+byTable+'" id="'+byTable+'" style="width:100%;">' +
+            '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
                         '<th></th>' +
@@ -298,7 +290,7 @@ function display_report(byTable, thTitle, urlName, colName){
             '<br>' +
         '</div>';
         $('#reportsTable').append(htmlString);
-        table = $('table.'+byTable).DataTable({
+        table = $('table.tblReports').DataTable({
             dom: 'lftrip',
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
