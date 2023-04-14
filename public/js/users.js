@@ -266,31 +266,6 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(9))', function(){
             $('#branchAll1').change();
         }
     }, current_timeout);
-    setTimeout(() => {
-        if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
-            $('#btnReset').click();
-        }
-        setTimeout(() => {
-            if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
-                $('#btnReset').click();
-            }
-            setTimeout(() => {
-                if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
-                    $('#btnReset').click();
-                }
-                setTimeout(() => {
-                    if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
-                        $('#btnReset').click();
-                    }
-                    setTimeout(() => {
-                        if($('.requiredInput').is(':visible') && $('#loading').is(':hidden')){
-                            $('#btnReset').click();
-                        }
-                    }, current_timeout * 3);
-                }, current_timeout * 3);
-            }, current_timeout * 3);
-        }, current_timeout * 3);
-    }, current_timeout * 3);
     $('#updateUser').modal('show');
 });
 
@@ -1030,7 +1005,6 @@ $('#btnUpdate').on('click', function(){
 
 var permissions=[];
 $(document).on('change', '#role',function(){
-    $('.req').hide();
     permissions=[];
     $('#province').val('');
     $('#district').val('');
@@ -1086,7 +1060,6 @@ $(document).on('change', '#role',function(){
 });
 
 $(document).on('change', '#role1',function(){
-    $('.req').hide();
     permissions=[];
     $('#province1').val('');
     $('#district1').val('');
