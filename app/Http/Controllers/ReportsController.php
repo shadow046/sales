@@ -496,16 +496,45 @@ class ReportsController extends Controller
 
     public function byProduct(Request $request){
         if($request->type == 'standard'){
-            $data = Dtl::selectRaw('itemcode as item_code, desc1 as short_desc, desc2 as long_desc, SUM(unitprice * qty) as gross_sales')
+            $data = Dtl::selectRaw('itemcode as item_code, short_desc as short_desc, long_desc as long_desc, SUM(unitprice * qty) as gross_sales')
                 ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-                ->groupBy('item_code','short_desc','long_desc')
+                ->where('category.enable_combo', 'N')
+                ->join('products', 'products.item_code', 'dtl.itemcode')
+                ->join('category', 'category.id', 'products.category')
+                ->groupBy('itemcode','item_code','short_desc','long_desc')
                 ->get();
         }
         else{
-            $data = Dtl::selectRaw("itemcode as item_code, desc1 as short_desc, desc2 as long_desc,
+            $data = Dtl::selectRaw("itemcode as item_code, short_desc as short_desc, long_desc as long_desc,
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN (unitprice * qty) ELSE 0 END) as gross_sales1,
                         SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN (unitprice * qty) ELSE 0 END) as gross_sales2")
-                ->groupBy('item_code','short_desc','long_desc')
+                ->where('category.enable_combo', 'N')
+                ->join('products', 'products.item_code', 'dtl.itemcode')
+                ->join('category', 'category.id', 'products.category')
+                ->groupBy('itemcode','item_code','short_desc','long_desc')
+                ->get();
+        }
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byCombo(Request $request){
+        if($request->type == 'standard'){
+            $data = Dtl::selectRaw('itemcode as item_code, short_desc as short_desc, long_desc as long_desc, SUM(unitprice * qty) as gross_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('category.enable_combo', 'Y')
+                ->join('products', 'products.item_code', 'dtl.itemcode')
+                ->join('category', 'category.id', 'products.category')
+                ->groupBy('itemcode','item_code','short_desc','long_desc')
+                ->get();
+        }
+        else{
+            $data = Dtl::selectRaw("itemcode as item_code, short_desc as short_desc, long_desc as long_desc,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN (unitprice * qty) ELSE 0 END) as gross_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN (unitprice * qty) ELSE 0 END) as gross_sales2")
+                ->where('category.enable_combo', 'Y')
+                ->join('products', 'products.item_code', 'dtl.itemcode')
+                ->join('category', 'category.id', 'products.category')
+                ->groupBy('itemcode','item_code','short_desc','long_desc')
                 ->get();
         }
         return DataTables::of($data)->make(true);
