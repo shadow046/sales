@@ -309,6 +309,7 @@ Route::controller(DiscountController::class)->group(function(){
 
 Route::controller(PdfController::class)->group(function(){
     Route::any('/pdf','pdf');
+    Route::any('/pdf_data','pdf_data');
 });
 
 Route::controller(UploadController::class)->group(function(){

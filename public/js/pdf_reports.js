@@ -1,3 +1,109 @@
+var ebook_table,sales_mix_table,end_of_day_table,terminal_table;
+
+$('#date_submit').on('click',function(){
+
+    var html ='<table class="table table-striped ebookTable w-100">' +
+            '<thead style="font-weight:bolder" class="bg-default">' +
+            '<tr>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th>DATE</th>' +
+            '<th>BRANCH</th>' +
+            '<th>FILENAME</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody></tbody>' +
+            '</table>';
+
+    $('#page_ebook').empty().append(html);
+    displayUploads('ebookTable', 'EBOOK');
+
+    var html = '<table class="table table-striped salesMixTable w-100">' +
+            '<thead style="font-weight:bolder" class="bg-default">' +
+            '<tr>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th>DATE</th>' +
+            '<th>BRANCH</th>' +
+            '<th>FILENAME</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody></tbody>' +
+            '</table>';
+
+    $('#page_sales_mix').empty().append(html);
+    displayUploads('salesMixTable', 'SALESMIX');
+
+    var html = '<table class="table table-striped endOfDayTable w-100">' +
+                '<thead style="font-weight:bolder" class="bg-default">' +
+                '<tr>' +
+                '<td>' +
+                '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+                '</td>' +
+                '<td>' +
+                '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+                '</td>' +
+                '<td>' +
+                '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<th>DATE</th>' +
+                '<th>BRANCH</th>' +
+                '<th>FILENAME</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody></tbody>' +
+                '</table>';
+
+    $('#page_end_of_day').empty().append(html);
+    displayUploads('endOfDayTable', 'EOD');
+
+    var html ='<table class="table table-striped terminalTable w-100">' +
+            '<thead style="font-weight:bolder" class="bg-default">' +
+            '<tr>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '<td>' +
+            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+            '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th>DATE</th>' +
+            '<th>BRANCH</th>' +
+            '<th>FILENAME</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody></tbody>' +
+            '</table>';
+
+    $('#page_terminal').empty().append(html);
+    displayUploads('terminalTable', 'TERMINAL');
+
+});
+
 $('#tab_ebook').on('click',function(){
     $(this).blur();
     $('#tab_ebook').removeClass('bg-sub-light');
@@ -122,19 +228,44 @@ $('#tab_terminal').on('click',function(){
     $('#page_terminal').show();
 });
 
-var ebook_table,sales_mix_table,end_of_day_table,terminal_table;
-$(document).ready(function(){
-    ebook_table = $('table.ebookTable').DataTable({
-        autoWidth: false,
+function displayUploads(upload_table, upload_name){
+    $('table.'+upload_table).DataTable({
+        dom: 'lftrip',
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '/pdf_data',
+            data:{
+                pdf: upload_name,
+                month_range: $('#month_range').val()
+            }
+        },
+        columns: [
+            {
+                data: 'dt',
+                "render":function(data,type,row){
+                    return `<span class="d-none">${row.dt}</span><span">${row.date}</span>`;
+                }
+            },
+            { data: 'branch', name:'branch'},
+            { data: 'filename', name:'filename'}
+        ]
     });
-    sales_mix_table = $('table.salesMixTable').DataTable({
-        autoWidth: false,
-    });
-    end_of_day_table = $('table.endOfDayTable').DataTable({
-        autoWidth: false,
-    });
-    terminal_table = $('table.terminalTable').DataTable({
-        autoWidth: false,
-    });
+}
+
+$(document).on('click','table.ebookTable tbody tr td',function(){
+    var data = ebook_table.row(this).data();
 });
 
+$(document).ready(function() {
+    setInterval(function() {
+        if($('table.table-striped').length == 0) {
+            $('#pdf_tab').hide();
+            $('#pdf_alert').show();
+        }
+        else{
+            $('#pdf_tab').show();
+            $('#pdf_alert').hide();
+        }
+    }, 0);
+});
