@@ -38,7 +38,7 @@
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE</option>
                 <option value="TENDER TYPE" class="text-danger">TENDER TYPE</option>
                 <option value="DISCOUNT" class="text-danger">DISCOUNT</option>
-                <option value="PRODUCT CATEGORY" class="text-danger">PRODUCT CATEGORY</option>
+                <option value="PRODUCT CATEGORY">PRODUCT CATEGORY</option>
                 <option value="COMBO CATEGORY" class="text-danger">COMBO CATEGORY</option>
             </select>
             <label for="report_category" class="formlabels form-label">REPORT CATEGORY
