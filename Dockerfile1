@@ -1,9 +1,4 @@
 FROM ubuntu:18.04
-LABEL maintainer="Jerome Lopez"
-RUN groupadd -r jerome && useradd -r -g jerome jerome
-RUN chsh -s /usr/sbin/nologin root
-
-ENV HOME /home/jerome
 ENV TZ=Asia/Manila
 ENV DEBIAN_FRONTEND=noninteractive
 RUN 	ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
@@ -21,7 +16,6 @@ RUN apt-get purge apache2 apache* -y
 RUN apt-get remove --purge php8.2* -y
 
 # Create a new directory for the Laravel files
-RUN mkdir /home/jerome
 RUN mkdir /app
 WORKDIR /app
 
@@ -40,4 +34,3 @@ EXPOSE 8001
 
 # Start the Laravel server
 CMD php artisan serve --host 0.0.0.0 --port 8001
-WORKDIR /home
