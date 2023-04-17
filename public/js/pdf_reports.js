@@ -1,8 +1,6 @@
-var ebook_table,sales_mix_table,end_of_day_table,terminal_table;
-
 $('#date_submit').on('click',function(){
 
-    var html ='<table class="table table-striped ebookTable w-100">' +
+    var html ='<table class="table table-striped ebookTable w-100" tbl="ebookTable">' +
             '<thead style="font-weight:bolder" class="bg-default">' +
             '<tr>' +
             '<td>' +
@@ -27,7 +25,7 @@ $('#date_submit').on('click',function(){
     $('#page_ebook').empty().append(html);
     displayUploads('ebookTable', 'EBOOK');
 
-    var html = '<table class="table table-striped salesMixTable w-100">' +
+    var html = '<table class="table table-striped salesMixTable w-100" tbl="salesMixTable">' +
             '<thead style="font-weight:bolder" class="bg-default">' +
             '<tr>' +
             '<td>' +
@@ -52,7 +50,7 @@ $('#date_submit').on('click',function(){
     $('#page_sales_mix').empty().append(html);
     displayUploads('salesMixTable', 'SALESMIX');
 
-    var html = '<table class="table table-striped endOfDayTable w-100">' +
+    var html = '<table class="table table-striped endOfDayTable w-100" tbl="endOfDayTable">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                 '<tr>' +
                 '<td>' +
@@ -77,7 +75,7 @@ $('#date_submit').on('click',function(){
     $('#page_end_of_day').empty().append(html);
     displayUploads('endOfDayTable', 'EOD');
 
-    var html ='<table class="table table-striped terminalTable w-100">' +
+    var html ='<table class="table table-striped terminalTable w-100" tbl="terminalTable">' +
             '<thead style="font-weight:bolder" class="bg-default">' +
             '<tr>' +
             '<td>' +
@@ -228,9 +226,11 @@ $('#tab_terminal').on('click',function(){
     $('#page_terminal').show();
 });
 
+var table;
 function displayUploads(upload_table, upload_name){
-    $('table.'+upload_table).DataTable({
+    table = $('table.'+upload_table).DataTable({
         dom: 'lftrip',
+        autoWidth:false,
         processing: true,
         serverSide: false,
         ajax: {
@@ -253,9 +253,14 @@ function displayUploads(upload_table, upload_name){
     });
 }
 
-$(document).on('click','table.ebookTable tbody tr td',function(){
-    var data = ebook_table.row(this).data();
+$(document).on('click','table tbody tr',function(){
+    var upl = $(this).parent().parent().attr('tbl');
+    var tbl = $('table.'+upl).DataTable();
+    if(!tbl.data().any()){ return false; }
+    var data = tbl.row(this).data();
+    window.open('/storage/uploads/' + data.filename, '_blank');
 });
+
 
 $(document).ready(function() {
     setInterval(function() {

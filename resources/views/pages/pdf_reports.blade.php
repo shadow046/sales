@@ -28,7 +28,7 @@
         <div class="col-md-3"></div>
     </div>
 
-    <div id="pdf_tab" style="display:none;">
+    <div id="pdf_tab" style="display:none;" class="mt-3">
         <ul class="nav nav-tabs" style="border: none;" role="tablist">
             <li class="nav-item" style="margin-right:5px">
                 <a class="nav-link pill bg-sub tab_ebook active" style="text-decoration: none; color: white;" id="tab_ebook" data-bs-toggle="tab" href="#page_ebook"> E-BOOK REPORTS</a>
