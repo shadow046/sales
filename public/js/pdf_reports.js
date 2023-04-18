@@ -19,7 +19,7 @@ $('#date_submit').on('click',function(){
             '<th>FILENAME</th>' +
             '</tr>' +
             '</thead>' +
-            '<tbody></tbody>' +
+            '<tbody title="CLICK TO VIEW"></tbody>' +
             '</table>';
 
     $('#page_ebook').empty().append(html);
@@ -44,7 +44,7 @@ $('#date_submit').on('click',function(){
             '<th>FILENAME</th>' +
             '</tr>' +
             '</thead>' +
-            '<tbody></tbody>' +
+            '<tbody title="CLICK TO VIEW"></tbody>' +
             '</table>';
 
     $('#page_sales_mix').empty().append(html);
@@ -69,7 +69,7 @@ $('#date_submit').on('click',function(){
                 '<th>FILENAME</th>' +
                 '</tr>' +
                 '</thead>' +
-                '<tbody></tbody>' +
+                '<tbody title="CLICK TO VIEW"></tbody>' +
                 '</table>';
 
     $('#page_end_of_day').empty().append(html);
@@ -94,7 +94,7 @@ $('#date_submit').on('click',function(){
             '<th>FILENAME</th>' +
             '</tr>' +
             '</thead>' +
-            '<tbody></tbody>' +
+            '<tbody title="CLICK TO VIEW"></tbody>' +
             '</table>';
 
     $('#page_terminal').empty().append(html);
