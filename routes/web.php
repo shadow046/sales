@@ -333,3 +333,24 @@ Route::controller(UserController::class)->group(function(){
     Route::any('/change/validate', 'change_validate');
     Route::any('/change/password', 'change_password');
 });
+
+Route::get('/txt-to-pdf', function () {
+    // $txtFile = storage_path('uploads/G228-20230101-AIEJ-1.txt');
+    // $pdfFile = storage_path('uploads/example.pdf');
+    $txtFile = public_path('storage/uploads/G228-20230101-AIEJ-1.txt');
+    $pdfFile = public_path('storage/uploads/example.pdf');
+    // SnappyPdf::loadFile($txtFile)
+    //         ->save($pdfFile);
+
+    // return response()->download($pdfFile);
+    $pdf = SnappyPdf::loadFile($txtFile)->output();
+
+    // Set the response headers
+    $headers = [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="example.pdf"',
+    ];
+
+    // Return the PDF as a response
+    return response($pdf, 200, $headers);
+});
