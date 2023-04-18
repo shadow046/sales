@@ -22,15 +22,18 @@ RUN apt-get remove --purge php8.2* -y
 
 # Create a new directory for the Laravel files
 RUN mkdir /home/jerome
-RUN mkdir /app
-WORKDIR /app
+RUN mkdir /home/laravel
+RUN mkdir /opt/app
+RUN mkdir /opt/app/tmp
+RUN mkdir /opt/app/tmp/app
+WORKDIR /opt/app/tmp/app
 
 # Copy the Laravel files into the new directory
 COPY . .
 
 # Set the ownership and permissions for the new directory
-RUN chown -R www-data:www-data /app
-RUN chmod -R 750 /app
+RUN chown -R www-data:www-data /opt/app/tmp/app
+RUN chmod -R 750 /opt/app/tmp/app
 
 # Install the Laravel dependencies
 RUN composer install
@@ -40,4 +43,4 @@ EXPOSE 8001
 
 # Start the Laravel server
 CMD php artisan serve --host 0.0.0.0 --port 8001
-WORKDIR /home
+WORKDIR /home/laravel
