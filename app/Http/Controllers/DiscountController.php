@@ -29,15 +29,16 @@ class DiscountController extends Controller
             Discount::select()
                 ->where('id','!=',0)
                 ->where('discount_status','!=','DELETED')
+                ->orderBy('id','ASC')
                 ->get()
         )->make(true);
     }
 
-    public function transaction_type_reload(){
-        if(TransactionType::count() == 0){
+    public function discount_reload(){
+        if(Discount::count() == 0){
             return 'NULL';
         }
-        $data_update = TransactionType::latest('updated_at')->first()->updated_at;
+        $data_update = Discount::latest('updated_at')->first()->updated_at;
         return $data_update;
     }
 
@@ -97,6 +98,6 @@ class DiscountController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return Type::where('type',$request->type)->count() > 0 ? 'true': 'false';
+        return Discount::where('discount',$request->discount)->count() > 0 ? 'true': 'false';
     }
 }

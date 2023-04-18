@@ -32,6 +32,7 @@ $(document).ready(function(){
         ajax: {
             url: 'transaction_type_data'
         },
+        order:[],
         columns: [
             { data: 'transaction_type', name:'transaction_type'}
         ],
@@ -41,19 +42,19 @@ $(document).ready(function(){
         }
     });
 
-    // setInterval(function(){
-    //     if($('#loading').is(':hidden') && standby == false){
-    //         $.ajax({
-    //             url: "/transaction_type_reload",
-    //             success: function(data){
-    //                 if(data != data_update){
-    //                     data_update = data;
-    //                     table.ajax.reload(null, false);
-    //                 }
-    //             }
-    //         });
-    //     }
-    // }, 1000);
+    setInterval(function(){
+        if($('#loading').is(':hidden') && standby == false){
+            $.ajax({
+                url: "/transaction_type_reload",
+                success: function(data){
+                    if(data != data_update){
+                        data_update = data;
+                        table.ajax.reload(null, false);
+                    }
+                }
+            });
+        }
+    }, 1000);
 });
 
 
@@ -111,6 +112,7 @@ $('.saveBtn').on('click',function(){
     });
 });
 
+var transaction_type_orig;
 $(document).on('click','table.transactionTypeTable tbody tr',function(){
     current_modal = 'UPDATE';
     $('.req').hide();
@@ -127,6 +129,7 @@ $(document).on('click','table.transactionTypeTable tbody tr',function(){
 
     $('#transaction_type_id').val(data.id);
     $('#transaction_type').val(data.transaction_type);
+    transaction_type_orig = data.transaction_type;
 
     $('#transactionTypeModal').modal('show');
 });
@@ -244,4 +247,30 @@ $('.deleteBtn').on('click',function(){
             $('#transactionTypeModal').modal('hide');
         }
     });
+});
+
+$('#transaction_type').on('keyup',function(){
+    console.log(transaction_type_orig);
+    if(transaction_type_orig != $.trim($('#transaction_type').val()).toUpperCase()){
+        $.ajax({
+            url: "/transaction_type/checkDuplicate",
+            data:{
+                transaction_type : $.trim($('#transaction_type').val()).toUpperCase(),
+            },
+            success: function(data){
+                if(data == 'true'){
+                    $('.validation').show();
+                    $('#transaction_type').addClass('redBorder');
+                    $('.saveBtn').prop('disabled',true);
+                    $('.updateBtn').prop('disabled',true);
+                }
+                else{
+                    $('.validation').hide();
+                    $('#transaction_type').removeClass('redBorder');
+                    $('.saveBtn').prop('disabled',false);
+                    $('.updateBtn').prop('disabled',false);
+                }
+            }
+        });
+    }
 });

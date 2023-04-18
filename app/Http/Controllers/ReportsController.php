@@ -494,6 +494,25 @@ class ReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byDiscount(Request $request){
+        if($request->type == 'standard'){
+            $data = Hdr::selectRaw('discname as discount_name, SUM(discamt) as total')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('discname', '!=', '')
+                ->groupBy('discount_name')
+                ->get();
+        }
+        else{
+            $data = Hdr::selectRaw("discname as discount_name,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN discamt ELSE 0 END) as total1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN discamt ELSE 0 END) as total2")
+                ->where('discname', '!=', '')
+                ->groupBy('discount_name')
+                ->get();
+        }
+        return DataTables::of($data)->make(true);
+    }
+
     public function byProduct(Request $request){
         if($request->type == 'standard'){
             $data = Dtl::selectRaw('itemcode as item_code, short_desc as short_desc, long_desc as long_desc, SUM(unitprice * qty) as gross_sales')

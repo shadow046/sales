@@ -67,12 +67,7 @@ $('#date2B').on('change', function(){
 $('#btnGenerate').on('click', function(){
     $('#reportsTable').empty();
 
-    const alpha_test = ['BRANCH', 'AREA', 'REGION', 'AREA MANAGER', 'STORE GROUP', 'STORE SETUP', 'DELIVERY CHANNEL', 'TRANSACTION TYPE', 'PRODUCT CATEGORY', 'COMBO CATEGORY'];
-    if($('#report_type').val() == '2' && !alpha_test.includes($('#report_category').val())){
-        Swal.fire('UNAVAILABLE', 'This Report Type is not yet available!', 'error');
-        return false;
-    }
-    else if($('#report_category').val() == 'BRANCH'){
+    if($('#report_category').val() == 'BRANCH'){
         var thTitle = 'BRANCH CODE';
         var urlName = '/reports/branch';
         var colName = 'branch';
@@ -119,6 +114,12 @@ $('#btnGenerate').on('click', function(){
         var urlName = '/reports/transaction';
         var colName = 'transaction_name';
         display_report_A(thTitle, urlName, colName);
+    }
+    else if($('#report_category').val() == 'DISCOUNT'){
+        var thTitle = 'DISCOUNT';
+        var urlName = '/reports/discount';
+        var colName = 'discount_name';
+        display_report_C(thTitle, urlName, colName);
     }
     else if($('#report_category').val() == 'PRODUCT CATEGORY'){
         var urlName = '/reports/product';
@@ -594,6 +595,209 @@ function display_report_B(urlName){
                     data: 'gross_sales2',
                     "render": function(data, type, row, meta){
                         return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'current'}).every(function(){
+                  var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+            }
+        });
+    }
+}
+
+function display_report_C(thTitle, urlName, colName){
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    $('#loading').show();
+    if($('#report_type').val() == '1'){
+        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+            '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
+                '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr>' +
+                        '<th></th>' +
+                        '<th>'+display_range+'</th>' +
+                    '</tr>' +
+                    '<tr class="tbsearch">' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<th>'+thTitle+' NAME</th>' +
+                        '<th class="sum">TOTAL '+thTitle+'</th>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tfoot style="font-size: 14px;">' +
+                    '<tr>' +
+                        '<th class="text-right">TOTAL:</th>' +
+                        '<th class="text-right sum"></th>' +
+                    '</tr>' +
+                '</tfoot>' +
+            '</table>' +
+            '<br>' +
+        '</div>';
+        $('#reportsTable').append(htmlString);
+        table = $('table.tblReports').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: urlName,
+                data:{
+                    type: 'standard',
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val()
+                }
+            },
+            columns: [
+                { data: colName },
+                {
+                    data: 'total',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'current'}).every(function(){
+                  var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+            }
+        });
+    }
+    if($('#report_type').val() == '2'){
+        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+            '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
+                '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr>' +
+                        '<th></th>' +
+                        '<th>'+compare_range1+'</th>' +
+                        '<th>'+compare_range2+'</th>' +
+                    '</tr>' +
+                    '<tr class="tbsearch">' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<th>'+thTitle+' NAME</th>' +
+                        '<th class="sum">TOTAL '+thTitle+'</th>' +
+                        '<th class="sum">TOTAL '+thTitle+'</th>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tfoot style="font-size: 14px;">' +
+                    '<tr>' +
+                        '<th class="text-right">TOTAL:</th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                    '</tr>' +
+                '</tfoot>' +
+            '</table>' +
+            '<br>' +
+        '</div>';
+        $('#reportsTable').append(htmlString);
+        table = $('table.tblReports').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: urlName,
+                data:{
+                    type: 'comparative',
+                    date1A: $('#date1A').val(),
+                    date1B: $('#date1B').val(),
+                    date2A: $('#date2A').val(),
+                    date2B: $('#date2B').val()
+                }
+            },
+            columns: [
+                { data: colName },
+                {
+                    data: 'total1',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total1).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total2',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total2).toFixed(2))}</span>`;
                     }
                 }
             ],

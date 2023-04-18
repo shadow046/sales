@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="row mb-3">
                     <div class="col-md f-outline">
-                        <input type="search" style="color: black" name="discount" id="discount" class="forminput form-control requiredField text-uppercase stringOnly" placeholder=" " autocomplete="off" >
+                        <input type="search" style="color: black" name="discount" id="discount" class="forminput form-control requiredField text-uppercase" placeholder=" " autocomplete="off" >
                         <p class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                         <label for="discount" class="formlabels form-label">DISCOUNT</label>
                     </div>

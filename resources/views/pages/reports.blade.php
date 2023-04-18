@@ -37,7 +37,7 @@
                 <option value="DELIVERY CHANNEL">DELIVERY CHANNEL</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE</option>
                 <option value="TENDER TYPE" class="text-danger">TENDER TYPE</option>
-                <option value="DISCOUNT" class="text-danger">DISCOUNT</option>
+                <option value="DISCOUNT">DISCOUNT</option>
                 <option value="PRODUCT CATEGORY">PRODUCT CATEGORY</option>
                 <option value="COMBO CATEGORY">COMBO CATEGORY</option>
             </select>

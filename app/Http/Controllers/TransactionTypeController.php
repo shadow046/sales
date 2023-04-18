@@ -29,6 +29,7 @@ class TransactionTypeController extends Controller
             TransactionType::select()
                 ->where('id','!=',0)
                 ->where('transaction_type_status','!=','DELETED')
+                ->orderBy('transaction_type.id', 'ASC')
                 ->get()
         )->make(true);
     }
@@ -97,6 +98,6 @@ class TransactionTypeController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return Type::where('type',$request->type)->count() > 0 ? 'true': 'false';
+        return TransactionType::where('transaction_type',$request->transaction_type)->count() > 0 ? 'true': 'false';
     }
 }

@@ -162,6 +162,7 @@ Route::controller(ReportsController::class)->group(function(){
     Route::get('/reports/setup','bySetup');
     Route::get('/reports/delivery','byDelivery');
     Route::get('/reports/transaction','byTransaction');
+    Route::get('/reports/discount','byDiscount');
     Route::get('/reports/product','byProduct');
     Route::get('/reports/combo','byCombo');
 });
@@ -296,6 +297,7 @@ Route::controller(TransactionTypeController::class)->group(function(){
     Route::any('/saveTransactionType','saveTransactionType');
     Route::any('/editTransactionType','editTransactionType');
     Route::any('/deleteTransactionType','deleteTransactionType');
+    Route::any('/transaction_type/checkDuplicate','checkDuplicate');
 });
 
 Route::controller(DiscountController::class)->group(function(){
@@ -305,6 +307,7 @@ Route::controller(DiscountController::class)->group(function(){
     Route::any('/saveDiscount','saveDiscount');
     Route::any('/editDiscount','editDiscount');
     Route::any('/deleteDiscount','deleteDiscount');
+    Route::any('/discount/checkDuplicate','checkDuplicate');
 });
 
 Route::controller(PdfController::class)->group(function(){

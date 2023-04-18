@@ -32,6 +32,7 @@ $(document).ready(function(){
         ajax: {
             url: 'discount_data'
         },
+        order:[],
         columns: [
             { data: 'discount', name:'discount'}
         ],
@@ -41,19 +42,19 @@ $(document).ready(function(){
         }
     });
 
-    // setInterval(function(){
-    //     if($('#loading').is(':hidden') && standby == false){
-    //         $.ajax({
-    //             url: "/transaction_type_reload",
-    //             success: function(data){
-    //                 if(data != data_update){
-    //                     data_update = data;
-    //                     table.ajax.reload(null, false);
-    //                 }
-    //             }
-    //         });
-    //     }
-    // }, 1000);
+    setInterval(function(){
+        if($('#loading').is(':hidden') && standby == false){
+            $.ajax({
+                url: "/discount_reload",
+                success: function(data){
+                    if(data != data_update){
+                        data_update = data;
+                        table.ajax.reload(null, false);
+                    }
+                }
+            });
+        }
+    }, 1000);
 });
 
 $('.saveBtn').on('click',function(){
@@ -111,6 +112,7 @@ $('.saveBtn').on('click',function(){
     });
 });
 
+var discount_orig;
 $(document).on('click','table.discountTable tbody tr',function(){
     current_modal = 'UPDATE';
     $('.req').hide();
@@ -127,6 +129,7 @@ $(document).on('click','table.discountTable tbody tr',function(){
 
     $('#discount_id').val(data.id);
     $('#discount').val(data.discount);
+    discount_orig = data.discount;
 
     $('#discountModal').modal('show');
 });
@@ -244,4 +247,29 @@ $('.deleteBtn').on('click',function(){
             $('#discountModal').modal('hide');
         }
     });
+});
+
+$('#discount').on('keyup',function(){
+    if(discount_orig != $.trim($('#discount').val()).toUpperCase()){
+        $.ajax({
+            url: "/discount/checkDuplicate",
+            data:{
+                discount : $.trim($('#discount').val()).toUpperCase(),
+            },
+            success: function(data){
+                if(data == 'true'){
+                    $('.validation').show();
+                    $('#discount').addClass('redBorder');
+                    $('.saveBtn').prop('disabled',true);
+                    $('.updateBtn').prop('disabled',true);
+                }
+                else{
+                    $('.validation').hide();
+                    $('#discount').removeClass('redBorder');
+                    $('.saveBtn').prop('disabled',false);
+                    $('.updateBtn').prop('disabled',false);
+                }
+            }
+        });
+    }
 });
