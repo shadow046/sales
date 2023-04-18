@@ -102,6 +102,11 @@ $('#date_submit').on('click',function(){
 
 });
 
+$('#btnReset').on('click',function(){
+    $('#month_range').val('');
+    $('.tab-pane').empty();
+});
+
 $('#tab_ebook').on('click',function(){
     $(this).blur();
     $('#tab_ebook').removeClass('bg-sub-light');
