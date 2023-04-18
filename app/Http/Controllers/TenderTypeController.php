@@ -42,41 +42,78 @@ class TenderTypeController extends Controller
     }
 
     public function saveTenderType(Request $request){
-        // if(Type::where('type',$request->type)->count() > 0){
-        //     return 'duplicate';
-        // }
-        $tender_type = new TenderType;
-        $tender_type->tender_type = strtoupper(trim($request->tender_type));
-        $save = $tender_type->save();
+        $tender_name = strtoupper(trim($request->tender_type));
+        if(TenderType::where('tender_type',$tender_name)->where('tender_type_status','DELETED')->count() == 0){
+            $tender_type = new TenderType;
+            $tender_type->tender_type = strtoupper(trim($request->tender_type));
+            $save = $tender_type->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED TYPE: User successfully added Type '$tender_type->tender_type'.";
-            $userlogs->save();
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED TYPE: User successfully added Type '$tender_type->tender_type'.";
+                $userlogs->save();
 
-            return 'true';
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = TenderType::where('tender_type', $tender_name)->update([
+                'tender_type_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED TENDER TYPE: User successfully added Tender Type '$tender_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editTenderType(Request $request){
-        $tender_type = TenderType::find($request->tender_type_id);
-        $tender_type->tender_type = strtoupper(trim($request->tender_type));
-        $save = $tender_type->save();
+        $tender_name = strtoupper(trim($request->tender_type));
+        if(TenderType::where('tender_type',$tender_name)->where('tender_type_status','DELETED')->count() == 0){
+            $tender_type = TenderType::find($request->tender_type_id);
+            $tender_type->tender_type = strtoupper(trim($request->tender_type));
+            $save = $tender_type->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$tender_type->tender_type'.";
-            $userlogs->save();
-            
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$tender_type->tender_type'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = TenderType::where('tender_type', $tender_name)->update([
+                'tender_type_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED TENDER TYPE: User successfully updated Tender Type '$tender_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -90,7 +127,7 @@ class TenderTypeController extends Controller
             $userlogs->user_id = auth()->user()->id;
             $userlogs->activity = "DELETED TYPE: User successfully deleted Type '$tender_type->tender_type'.";
             $userlogs->save();
-            
+
             return 'true';
         }
         else{
@@ -99,6 +136,6 @@ class TenderTypeController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return TenderType::where('tender_type',$request->tender_type)->count() > 0 ? 'true': 'false';
+        return TenderType::where('tender_type',$request->tender_type)->where('tender_type_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

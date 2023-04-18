@@ -69,38 +69,75 @@ class CategoryController extends Controller
     }
 
     public function saveCategory(Request $request){
-        if(Category::where('category',$request->category)->count() > 0){
-            return 'duplicate';
-        }
-        $category = new Category;
-        $category->category = strtoupper(trim($request->category));
-        $save = $category->save();
+        $category_name = strtoupper(trim($request->category));
+        if(Category::where('category',$category_name)->where('category_status','DELETED')->count() == 0){
+            $category = new Category;
+            $category->category = strtoupper(trim($request->category));
+            $save = $category->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED CATEGORY: User successfully added Category  '$request->category'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED CATEGORY: User successfully added Category '$request->category'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Category::where('category', $category_name)->update([
+                'category_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED CATEGORY: User successfully added Category '$category_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
     public function editCategory(Request $request){
-        $category = Category::find($request->category_id);
-        $category->category = strtoupper(trim($request->category));
-        $save = $category->save();
+        $category_name = strtoupper(trim($request->category));
+        if(Category::where('category',$category_name)->where('category_status','DELETED')->count() == 0){
+            $category = Category::find($request->category_id);
+            $category->category = strtoupper(trim($request->category));
+            $save = $category->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED CATEGORY: User successfully updated Category  '$request->category'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED CATEGORY: User successfully updated Category '$request->category'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Category::where('category', $category_name)->update([
+                'category_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED CATEGORY: User successfully updated Category '$category_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -122,6 +159,6 @@ class CategoryController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return Category::where('category',$request->category)->count() > 0 ? 'true': 'false';
+        return Category::where('category',$request->category)->where('category_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

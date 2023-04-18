@@ -31,6 +31,7 @@ $(document).ready(function(){
         ajax: {
             url: 'delivery_serving_store_data'
         },
+        order:[],
         columns: [
             { data: 'delivery_serving_store', name:'delivery_serving_store'}
         ],

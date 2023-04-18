@@ -21,7 +21,7 @@ class GroupController extends Controller
     public function group(){
         return view('maintenance.group');
     }
-    
+
     public function group_data()
     {
         return DataTables::of(
@@ -41,39 +41,76 @@ class GroupController extends Controller
     }
 
     public function saveGroup(Request $request){
-        if(Group::where('group',$request->group)->count() > 0){
-            return 'duplicate';
-        }
-        $group = new Group;
-        $group->group = strtoupper(trim($request->group));
-        $save = $group->save();
+        $group_name = strtoupper(trim($request->group));
+        if(Group::where('group',$group_name)->where('group_status','DELETED')->count() == 0){
+            $group = new Group;
+            $group->group = strtoupper(trim($request->group));
+            $save = $group->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED GROUP: User successfully added Group '$group->group'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED GROUP: User successfully added Group '$group->group'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Group::where('group', $group_name)->update([
+                'group_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED GROUP: User successfully added Group '$group_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editGroup(Request $request){
-        $group = Group::find($request->group_id);
-        $group->group = strtoupper(trim($request->group));
-        $save = $group->save();
+        $group_name = strtoupper(trim($request->group));
+        if(Group::where('group',$group_name)->where('group_status','DELETED')->count() == 0){
+            $group = Group::find($request->group_id);
+            $group->group = strtoupper(trim($request->group));
+            $save = $group->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED GROUP: User successfully updated Group '$group->group'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED GROUP: User successfully updated Group '$group->group'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Group::where('group', $group_name)->update([
+                'group_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED GROUP: User successfully added Group '$group_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -95,6 +132,6 @@ class GroupController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return Group::where('group',$request->group)->count() > 0 ? 'true': 'false';
+        return Group::where('group',$request->group)->where('group_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

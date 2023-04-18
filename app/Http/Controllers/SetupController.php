@@ -32,7 +32,7 @@ class SetupController extends Controller
                 ->get()
         )->make(true);
     }
-    
+
     public function setup_reload(){
         if(Setup::count() == 0){
             return 'NULL';
@@ -42,39 +42,76 @@ class SetupController extends Controller
     }
 
     public function saveSetup(Request $request){
-        if(Setup::where('setup',$request->setup)->count() > 0){
-            return 'duplicate';
-        }
-        $setup = new Setup;
-        $setup->setup = strtoupper(trim($request->setup));
-        $save = $setup->save();
+        $setup_name = strtoupper(trim($request->setup));
+        if(Setup::where('setup',$setup_name)->where('setup_status','DELETED')->count() == 0){
+            $setup = new Setup;
+            $setup->setup = strtoupper(trim($request->setup));
+            $save = $setup->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED SETUP: User successfully added Setup '$setup->setup'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED SETUP: User successfully added Setup '$setup->setup'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Setup::where('setup', $setup_name)->update([
+                'setup_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED SETUP: User successfully added Setup '$setup_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editSetup(Request $request){
-        $setup = Setup::find($request->setup_id);
-        $setup->setup = strtoupper(trim($request->setup));
-        $save = $setup->save();
+        $setup_name = strtoupper(trim($request->setup));
+        if(Setup::where('setup',$request->setup)->where('setup_status','DELETED')->count() == 0){
+            $setup = Setup::find($request->setup_id);
+            $setup->setup = strtoupper(trim($request->setup));
+            $save = $setup->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UDPATED SETUP: User successfully updated Setup '$setup->setup'.";
-            $userlogs->save();
-            return 'true';  
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UDPATED SETUP: User successfully updated Setup '$setup->setup'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Setup::where('setup', $setup_name)->update([
+                'setup_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED SETUP: User successfully added Setup '$setup_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -88,14 +125,14 @@ class SetupController extends Controller
             $userlogs->user_id = auth()->user()->id;
             $userlogs->activity = "DELETED SETUP: User successfully deleted Setup '$setup->setup'.";
             $userlogs->save();
-            return 'true';  
+            return 'true';
         }
         else{
             return 'false';
         }
     }
-    
+
     public function checkDuplicate(Request $request){
-        return Setup::where('setup',$request->setup)->count() > 0 ? 'true': 'false';
+        return Setup::where('setup',$request->setup)->where('setup_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

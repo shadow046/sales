@@ -41,39 +41,79 @@ class StoreAreaController extends Controller
     }
 
     public function saveStoreArea(Request $request){
-        $store_area = new StoreArea;
-        $store_area->store_area = strtoupper(trim($request->store_area));
-        $save = $store_area->save();
+        $store_area_name = strtoupper(trim($request->store_area));
+        if(StoreArea::where('store_area',$store_area_name)->where('store_area_status','DELETED')->count() == 0){
+            $store_area = new StoreArea;
+            $store_area->store_area = strtoupper(trim($request->store_area));
+            $save = $store_area->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED STORE AREA: User successfully added Store Area '$store_area->store_area'.";
-            $userlogs->save();
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED STORE AREA: User successfully added Store Area '$store_area->store_area'.";
+                $userlogs->save();
 
-            return 'true';
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = StoreArea::where('store_area', $store_area_name)->update([
+                'store_area_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED STORE AREA: User successfully added Store Area '$store_area_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editStoreArea(Request $request){
-        $store_area = StoreArea::find($request->store_area_id);
-        $store_area->store_area = strtoupper($request->store_area);
-        $save = $store_area->save();
+        $store_area_name = strtoupper(trim($request->store_area));
+        if(StoreArea::where('store_area',$store_area_name)->where('store_area_status','DELETED')->count() == 0){
+            $store_area = StoreArea::find($request->store_area_id);
+            $store_area->store_area = strtoupper($request->store_area);
+            $save = $store_area->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED STORE AREA: User successfully updated Store Area '$store_area->store_area'.";
-            $userlogs->save();
-            
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED STORE AREA: User successfully updated Store Area '$store_area->store_area'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
-        }
+
+        }$save = StoreArea::where('store_area', $store_area_name)->update([
+                'store_area_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED STORE AREA: User successfully updated Store Area '$store_area_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
     }
 
     public function deleteStoreArea(Request $request){
@@ -86,7 +126,7 @@ class StoreAreaController extends Controller
             $userlogs->user_id = auth()->user()->id;
             $userlogs->activity = "DELETED STORE AREA: User successfully deleted Store Area '$store_area->store_area'.";
             $userlogs->save();
-            
+
             return 'true';
         }
         else{
@@ -95,6 +135,6 @@ class StoreAreaController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return StoreArea::where('store_area',$request->store_area)->count() > 0 ? 'true': 'false';
+        return StoreArea::where('store_area',$request->store_area)->where('store_area_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

@@ -42,41 +42,78 @@ class TypeController extends Controller
     }
 
     public function saveType(Request $request){
-        // if(Type::where('type',$request->type)->count() > 0){
-        //     return 'duplicate';
-        // }
-        $type = new Type;
-        $type->type = strtoupper(trim($request->type));
-        $save = $type->save();
+        $type_name = strtoupper(trim($request->type));
+        if(Type::where('type',$type_name)->where('type_status','DELETED')->count() == 0){
+            $type = new Type;
+            $type->type = strtoupper(trim($request->type));
+            $save = $type->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED TYPE: User successfully added Type '$type->type'.";
-            $userlogs->save();
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED TYPE: User successfully added Type '$type->type'.";
+                $userlogs->save();
 
-            return 'true';
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Type::where('type', $type_name)->update([
+                'type_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED TYPE: User successfully added Type '$type_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editType(Request $request){
-        $type = Type::find($request->type_id);
-        $type->type = strtoupper(trim($request->type));
-        $save = $type->save();
+        $type_name = strtoupper(trim($request->type));
+        if(Type::where('type',$type_name)->where('type_status','DELETED')->count() == 0){
+            $type = Type::find($request->type_id);
+            $type->type = strtoupper(trim($request->type));
+            $save = $type->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$type->type'.";
-            $userlogs->save();
-            
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$type->type'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Type::where('type', $type_name)->update([
+                'type_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$type_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -90,7 +127,7 @@ class TypeController extends Controller
             $userlogs->user_id = auth()->user()->id;
             $userlogs->activity = "DELETED TYPE: User successfully deleted Type '$type->type'.";
             $userlogs->save();
-            
+
             return 'true';
         }
         else{
@@ -99,6 +136,6 @@ class TypeController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return Type::where('type',$request->type)->count() > 0 ? 'true': 'false';
+        return Type::where('type',$request->type)->where('type_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

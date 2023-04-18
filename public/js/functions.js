@@ -46,7 +46,9 @@ function idleLogout(){
         }, 3600000);
     }
 }
-idleLogout();
+if(current_server == 'BETA'){
+    idleLogout();
+}
 
 function idleStandby(){
     var timeout;

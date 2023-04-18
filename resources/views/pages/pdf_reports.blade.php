@@ -10,7 +10,7 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <div class="f-outline">
-            <input type="month" class="forminput form-control requiredField" id="month_range" name="month_range" style="width: 58%;">
+            <input type="month" class="forminput form-control" id="month_range" name="month_range" style="width: 58%;">
             <label for="month_range" class="formlabels form-label">MONTH</label>
         </div>
     </div>
@@ -21,7 +21,7 @@
     <div class="col-md-6">
         <div style="margin-top: -55px; z-index: 100;">
             <button type="button" class="form-control btn btn-default float-end ml-1" id="btnReset" style="width: 20%;"><i class="fa-solid fa-eraser"></i> RESET</button>
-            <button type="button" class="form-control btn btn-default float-end btnRequired" id="date_submit" style="width: 20%;"><i class="fa-solid fa-clipboard-check"></i> SUBMIT</button>
+            <button type="button" class="form-control btn btn-default float-end" id="date_submit" style="width: 20%;"><i class="fa-solid fa-clipboard-check"></i> SUBMIT</button>
         </div>
     </div>
     <div class="col-md-3"></div>

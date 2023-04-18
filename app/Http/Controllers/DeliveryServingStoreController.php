@@ -42,39 +42,76 @@ class DeliveryServingStoreController extends Controller
     }
 
     public function saveDeliveryServingStore(Request $request){
-        if(DeliveryServingStore::where('delivery_serving_store',$request->delivery_serving_store)->count() > 0){
-            return 'duplicate';
-        }
-        $delivery_serving_store = new DeliveryServingStore;
-        $delivery_serving_store->delivery_serving_store = strtoupper(trim($request->delivery_serving_store));
-        $save = $delivery_serving_store->save();
+        $delivery_name = strtoupper(trim($request->delivery_serving_store));
+        if(DeliveryServingStore::where('delivery_serving_store',$request->delivery_serving_store)->where('delivery_serving_store_status','DELETED')->count() == 0){
+            $delivery_serving_store = new DeliveryServingStore;
+            $delivery_serving_store->delivery_serving_store = strtoupper(trim($request->delivery_serving_store));
+            $save = $delivery_serving_store->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED DELIVERY CHANNEL: User successfully added Delivery Channel  '$delivery_serving_store->delivery_serving_store'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED DELIVERY CHANNEL: User successfully added Delivery Channel  '$delivery_serving_store->delivery_serving_store'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = DeliveryServingStore::where('delivery_serving_store', $delivery_name)->update([
+                'delivery_serving_store_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED DELIVERY CHANNEL: User successfully added Delivery Channel '$delivery_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editDeliveryServingStore(Request $request){
-        $delivery_serving_store = DeliveryServingStore::find($request->delivery_serving_store_id);
-        $delivery_serving_store->delivery_serving_store = strtoupper(trim($request->delivery_serving_store));
-        $save = $delivery_serving_store->save();
+        $delivery_name = strtoupper(trim($request->delivery_serving_store));
+        if(DeliveryServingStore::where('delivery_serving_store',$request->delivery_serving_store)->where('delivery_serving_store_status','DELETED')->count() == 0){
+            $delivery_serving_store = DeliveryServingStore::find($request->delivery_serving_store_id);
+            $delivery_serving_store->delivery_serving_store = strtoupper(trim($request->delivery_serving_store));
+            $save = $delivery_serving_store->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED DELIVERY CHANNEL: User successfully updated Delivery Channel  '$delivery_serving_store->delivery_serving_store'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED DELIVERY CHANNEL: User successfully updated Delivery Channel  '$delivery_serving_store->delivery_serving_store'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = DeliveryServingStore::where('delivery_serving_store', $delivery_name)->update([
+                'delivery_serving_store_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED DELIVERY CHANNEL: User successfully updated Delivery Channel '$delivery_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -86,7 +123,7 @@ class DeliveryServingStoreController extends Controller
         if($save){
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "DELETED DELIVERY CHANNEL: User successfully deleted Delivery Channel  '$delivery_serving_store->delivery_serving_store'.";
+            $userlogs->activity = "DELETED DELIVERY CHANNEL: User successfully deleted Delivery Channel '$delivery_serving_store->delivery_serving_store'.";
             $userlogs->save();
             return 'true';
         }
@@ -96,6 +133,6 @@ class DeliveryServingStoreController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return DeliveryServingStore::where('delivery_serving_store',$request->delivery_serving_store)->count() > 0 ? 'true': 'false';
+        return DeliveryServingStore::where('delivery_serving_store',$request->delivery_serving_store)->where('delivery_serving_store_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

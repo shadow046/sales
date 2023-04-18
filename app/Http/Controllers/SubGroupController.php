@@ -18,11 +18,11 @@ class SubGroupController extends Controller
     {
        $this->middleware('auth');
     }
-    
+
     public function subgroup(){
         return view('maintenance.subgroup');
     }
-    
+
     public function subgroup_data()
     {
         return DataTables::of(
@@ -42,39 +42,76 @@ class SubGroupController extends Controller
     }
 
     public function saveSubgroup(Request $request){
-        if(Subgroup::where('subgroup',$request->subgroup)->count() > 0){
-            return 'duplicate';
-        }
-        $subgroup = new Subgroup;
-        $subgroup->subgroup = strtoupper(trim($request->subgroup));
-        $save = $subgroup->save();
+        $subgroup_name = strtoupper(trim($request->subgroup));
+        if(Subgroup::where('subgroup',$subgroup_name)->where('subgroup_status','DELETED')->count() == 0){
+            $subgroup = new Subgroup;
+            $subgroup->subgroup = strtoupper(trim($request->subgroup));
+            $save = $subgroup->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED MALL SUB-GROUP: User successfully added Mall Sub-Group '$subgroup->subgroup'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED MALL SUB-GROUP: User successfully added Mall Sub-Group '$subgroup->subgroup'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Subgroup::where('subgroup', $subgroup_name)->update([
+                'subgroup_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED SUB-GROUP: User successfully added Sub-Group '$subgroup_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editSubgroup(Request $request){
-        $subgroup = Subgroup::find($request->subgroup_id);
-        $subgroup->subgroup = strtoupper(trim($request->subgroup));
-        $save = $subgroup->save();
+        $subgroup_name = strtoupper(trim($request->subgroup));
+        if(Subgroup::where('subgroup',$subgroup_name)->where('subgroup_status','DELETED')->count() == 0){
+            $subgroup = Subgroup::find($request->subgroup_id);
+            $subgroup->subgroup = strtoupper(trim($request->subgroup));
+            $save = $subgroup->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED MALL SUB-GROUP: User successfully updated Mall Sub-Group '$subgroup->subgroup'.";
-            $userlogs->save();
-            return 'true';
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED MALL SUB-GROUP: User successfully updated Mall Sub-Group '$subgroup->subgroup'.";
+                $userlogs->save();
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Subgroup::where('subgroup', $subgroup_name)->update([
+                'subgroup_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED SUB-GROUP: User successfully updated Sub-Group '$subgroup_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -96,6 +133,6 @@ class SubGroupController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return Subgroup::where('subgroup',$request->subgroup)->count() > 0 ? 'true': 'false';
+        return Subgroup::where('subgroup',$request->subgroup)->where('subgroup_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

@@ -1,5 +1,4 @@
 $('#date_submit').on('click',function(){
-
     var html ='<table class="table table-striped ebookTable w-100" tbl="ebookTable">' +
             '<thead style="font-weight:bolder" class="bg-default">' +
             '<tr>' +
@@ -279,3 +278,21 @@ $(document).ready(function() {
         }
     }, 0);
 });
+
+$('#month_range').on('focusout',function(){
+    if(!$(this).val()){
+        $(this).addClass('requiredInput')
+    }
+    else{
+        $(this).removeClass('requiredInput')
+    }
+});
+
+setInterval(() => {
+    if(!$('#month_range').val()){
+        $('#date_submit').prop('disabled', true);
+    }
+    else{
+        $('#date_submit').prop('disabled', false);
+    }
+}, 0);

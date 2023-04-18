@@ -43,39 +43,78 @@ class DiscountController extends Controller
     }
 
     public function saveDiscount(Request $request){
+        $discount_name = strtoupper(trim($request->discount));
+        if(Discount::where('discount',$discount_name)->where('discount_status','DELETED')->count() == 0){
+            $discount = new Discount;
+            $discount->discount = strtoupper(trim($request->discount));
+            $save = $discount->save();
 
-        $discount = new Discount;
-        $discount->discount = strtoupper(trim($request->discount));
-        $save = $discount->save();
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED DISCOUNT: User successfully added Discount '$discount->discount'.";
+                $userlogs->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED DISCOUNT: User successfully added Discount '$discount->discount'.";
-            $userlogs->save();
-
-            return 'true';
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Discount::where('discount', $discount_name)->update([
+                'discount_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED DISCOUNT: User successfully added Discount '$discount_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editDiscount(Request $request){
-        $discount = Discount::find($request->discount_id);
-        $discount->discount = strtoupper(trim($request->discount));
-        $save = $discount->save();
+        $discount_name = strtoupper(trim($request->discount));
+        if(Discount::where('discount',$discount_name)->where('discount_status','DELETED')->count() == 0){
+            $discount = Discount::find($request->discount_id);
+            $discount->discount = strtoupper(trim($request->discount));
+            $save = $discount->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED DISCOUNT: User successfully updated Discount '$discount->discount'.";
-            $userlogs->save();
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED DISCOUNT: User successfully updated Discount '$discount->discount'.";
+                $userlogs->save();
 
-            return 'true';
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = Discount::where('discount', $discount_name)->update([
+                'discount_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED DISCOUNT: User successfully updated Discount '$discount_name'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -98,6 +137,6 @@ class DiscountController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return Discount::where('discount',$request->discount)->count() > 0 ? 'true': 'false';
+        return Discount::where('discount',$request->discount)->where('discount_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }

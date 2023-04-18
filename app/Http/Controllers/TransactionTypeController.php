@@ -43,39 +43,78 @@ class TransactionTypeController extends Controller
     }
 
     public function saveTransactionType(Request $request){
+        $tran_type = strtoupper(trim($request->transaction_type));
+        if(TransactionType::where('transaction_type',$request->transaction_type)->where('transaction_type_status','DELETED')->count() == 0){
+            $transaction_type = new TransactionType;
+            $transaction_type->transaction_type = strtoupper(trim($request->transaction_type));
+            $save = $transaction_type->save();
 
-        $transaction_type = new TransactionType;
-        $transaction_type->transaction_type = strtoupper(trim($request->transaction_type));
-        $save = $transaction_type->save();
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED TRANSACTION TYPE: User successfully added Transaction Type '$transaction_type->transaction_type'.";
+                $userlogs->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED TRANSACTION TYPE: User successfully added Transaction Type '$transaction_type->transaction_type'.";
-            $userlogs->save();
-
-            return 'true';
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = TransactionType::where('transaction_type', $tran_type)->update([
+                'transaction_type_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "ADDED TRANSACTION TYPE: User successfully added Transaction Type '$tran_type'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
     public function editTransactionType(Request $request){
-        $transaction_type = TransactionType::find($request->transaction_type_id);
-        $transaction_type->transaction_type = strtoupper(trim($request->transaction_type));
-        $save = $transaction_type->save();
+        $tran_type = strtoupper(trim($request->transaction_type));
+        if(TransactionType::where('transaction_type',$request->transaction_type)->where('transaction_type_status','DELETED')->count() == 0){
+            $transaction_type = TransactionType::find($request->transaction_type_id);
+            $transaction_type->transaction_type = strtoupper(trim($request->transaction_type));
+            $save = $transaction_type->save();
 
-        if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED TRANSACTION TYPE: User successfully updated Transaction Type '$transaction_type->transaction_type'.";
-            $userlogs->save();
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED TRANSACTION TYPE: User successfully updated Transaction Type '$transaction_type->transaction_type'.";
+                $userlogs->save();
 
-            return 'true';
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
         else{
-            return 'false';
+            $save = TransactionType::where('transaction_type', $tran_type)->update([
+                'transaction_type_status' => 'ACTIVE'
+            ]);
+
+            if($save){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED TRANSACTION TYPE: User successfully added Transaction Type '$tran_type'.";
+                $userlogs->save();
+
+                return 'true';
+            }
+            else{
+                return 'false';
+            }
         }
     }
 
@@ -98,6 +137,6 @@ class TransactionTypeController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        return TransactionType::where('transaction_type',$request->transaction_type)->count() > 0 ? 'true': 'false';
+        return TransactionType::where('transaction_type',$request->transaction_type)->where('transaction_type_status','!=','DELETED')->count() > 0 ? 'true': 'false';
     }
 }
