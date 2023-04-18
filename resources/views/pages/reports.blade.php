@@ -98,7 +98,7 @@
             <button type="button" id="btnGenerate" class="form-control btn btn-default float-end btnRequired"><i class="fa-solid fa-clipboard-check"></i> GENERATE REPORT</button>
         </div>
         <div class="col-md-2 f-outline">
-            <button type="button" id="btnExport" class="form-control btn btn-default float-end"><i class="fas fa-file-export"></i> EXPORT</button>
+            <button type="button" id="btnExport" class="form-control btn btn-default float-end btnExport"><i class="fas fa-file-export"></i> EXPORT AS EXCEL</button>
         </div>
         <div class="col-md-3"></div>
     </div>

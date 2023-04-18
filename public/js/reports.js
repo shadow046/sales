@@ -181,7 +181,18 @@ function display_report_A(thTitle, urlName, colName){
         '</div>';
         $('#reportsTable').append(htmlString);
         table = $('table.tblReports').DataTable({
-            dom: 'lftrip',
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -299,7 +310,18 @@ function display_report_A(thTitle, urlName, colName){
         '</div>';
         $('#reportsTable').append(htmlString);
         table = $('table.tblReports').DataTable({
-            dom: 'lftrip',
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -426,7 +448,18 @@ function display_report_B(urlName){
         '</div>';
         $('#reportsTable').append(htmlString);
         table = $('table.tblReports').DataTable({
-            dom: 'lftrip',
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -522,7 +555,18 @@ function display_report_B(urlName){
         '</div>';
         $('#reportsTable').append(htmlString);
         table = $('table.tblReports').DataTable({
-            dom: 'lftrip',
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
