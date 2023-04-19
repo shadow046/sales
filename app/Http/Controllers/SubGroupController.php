@@ -97,6 +97,10 @@ class SubGroupController extends Controller
             }
         }
         else{
+            $subgroup = Subgroup::find($request->subgroup_id);
+            $subgroup->subgroup_status = 'DELETED';
+            $subgroup->save();
+
             $save = Subgroup::where('subgroup', $subgroup_name)->update([
                 'subgroup_status' => 'ACTIVE'
             ]);

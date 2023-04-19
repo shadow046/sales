@@ -98,10 +98,13 @@ class StoreAreaController extends Controller
             }
         }
         else{
+            $store_area = StoreArea::find($request->store_area_id);
+            $store_area->store_area_status = 'DELETED';
+            $store_area->save();
 
-        }$save = StoreArea::where('store_area', $store_area_name)->update([
-                'store_area_status' => 'ACTIVE'
-            ]);
+            $save = StoreArea::where('store_area', $store_area_name)->update([
+                    'store_area_status' => 'ACTIVE'
+                ]);
 
             if($save){
                 $userlogs = new UserLogs;
@@ -114,6 +117,7 @@ class StoreAreaController extends Controller
             else{
                 return 'false';
             }
+        }
     }
 
     public function deleteStoreArea(Request $request){

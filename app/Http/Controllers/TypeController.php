@@ -99,6 +99,10 @@ class TypeController extends Controller
             }
         }
         else{
+            $type = Type::find($request->type_id);
+            $type->type_status = 'DELETED';
+            $type->save();
+
             $save = Type::where('type', $type_name)->update([
                 'type_status' => 'ACTIVE'
             ]);

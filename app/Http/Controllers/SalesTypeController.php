@@ -96,6 +96,10 @@ class SalesTypeController extends Controller
             }
         }
         else{
+            $sales_type = SalesType::find($request->sales_type_id);
+            $sales_type->sales_type_status = 'DELETED';
+            $sales_type->save();
+
             $save = SalesType::where('sales_type', $sales_type_name)->update([
                 'sales_type_status' => 'ACTIVE'
             ]);

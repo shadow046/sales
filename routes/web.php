@@ -107,6 +107,7 @@ Route::controller(POSController::class)->group(function(){
     Route::any('/editPos','editPos');
     Route::any('/deletePos','deletePos');
     Route::any('/savePosSpecification','savePosSpecification');
+    Route::any('/syncPosSpecification','syncPosSpecification');
     Route::any('/pos_specification/delete', 'pos_specification_delete');
     Route::any('/model/checkDuplicate','checkDuplicate');
 });

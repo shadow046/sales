@@ -99,6 +99,10 @@ class TenderTypeController extends Controller
             }
         }
         else{
+            $tender_type = TenderType::find($request->tender_type_id);
+            $tender_type->tender_type_status = 'DELETED';
+            $tender_type->save();
+
             $save = TenderType::where('tender_type', $tender_name)->update([
                 'tender_type_status' => 'ACTIVE'
             ]);

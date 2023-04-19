@@ -100,6 +100,10 @@ class DiscountController extends Controller
             }
         }
         else{
+            $discount = Discount::find($request->discount_id);
+            $discount->discount_status = 'DELETED';
+            $discount->save();
+
             $save = Discount::where('discount', $discount_name)->update([
                 'discount_status' => 'ACTIVE'
             ]);

@@ -123,6 +123,10 @@ class CategoryController extends Controller
             }
         }
         else{
+            $category = Category::find($request->category_id);
+            $category->category_status = 'DELETED';
+            $category->save();
+
             $save = Category::where('category', $category_name)->update([
                 'category_status' => 'ACTIVE'
             ]);

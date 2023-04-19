@@ -97,6 +97,10 @@ class SetupController extends Controller
             }
         }
         else{
+            $setup = Setup::find($request->setup_id);
+            $setup->setup_status = 'DELETED';
+            $setup->save();
+
             $save = Setup::where('setup', $setup_name)->update([
                 'setup_status' => 'ACTIVE'
             ]);

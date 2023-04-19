@@ -96,6 +96,10 @@ class GroupController extends Controller
             }
         }
         else{
+            $group = Group::find($request->group_id);
+            $group->group_status = 'DELETED';
+            $group->save();
+
             $save = Group::where('group', $group_name)->update([
                 'group_status' => 'ACTIVE'
             ]);

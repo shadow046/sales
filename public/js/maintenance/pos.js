@@ -96,6 +96,18 @@ $('.saveBtn').on('click',function(){
                 },
                 success:function(data){
                     if(data.result == 'true'){
+                        $.ajax({
+                            type: 'POST',
+                            url: '/syncPosSpecification',
+                            async: false,
+                            headers:{
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data:{
+                                pos_id : data.id,
+                            }
+                        });
+
                         var posSpecification_data = $('#posSpecification').DataTable().rows().data();
                         $.each(posSpecification_data, function(key, value){
                             $.ajax({
@@ -113,9 +125,11 @@ $('.saveBtn').on('click',function(){
                                 },
                             });
                         });
+
                         $('#loading').hide();
                         Swal.fire("SAVE SUCCESS", "", "success");
                         $('#posModal').modal('hide');
+                        setTimeout(function(){window.location.reload()}, 2000);
                     }
                     else{
                         $('#loading').hide();
@@ -317,6 +331,18 @@ $('.updateBtn').on('click',function(){
                 },
                 success:function(data){
                     if(data.result == 'true'){
+                        $.ajax({
+                            type: 'POST',
+                            url: '/syncPosSpecification',
+                            async: false,
+                            headers:{
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data:{
+                                pos_id : data.id,
+                            }
+                        });
+
                         $('.posSpecification_tr').each(function(){
                             $.ajax({
                                 type: 'POST',
@@ -326,7 +352,7 @@ $('.updateBtn').on('click',function(){
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
                                 data:{
-                                    pos_id : id,
+                                    pos_id : data.id, //id to data.id
                                     short_description : $(this).children('.td_1').html(),
                                     capacity :  $(this).children('.td_2').html(),
                                     quantity:  $(this).children('.td_3').html()
@@ -343,9 +369,11 @@ $('.updateBtn').on('click',function(){
                                 id: pos_id.toString()
                             }
                         });
+
                         $('#loading').hide();
                         Swal.fire('UPDATE SUCCESS','','success');
                         $('#posModal').modal('hide');
+                        setTimeout(function(){window.location.reload()}, 2000);
                     }
                     else{
                         $('#loading').hide();
@@ -477,7 +505,7 @@ setInterval(() => {
         else{
             $('#posRequired').show();
         }
-        
+
         if($('#posSpecification_orig tbody').children().length > 0){
             $('#posSpecs_orig_div').show();
         }

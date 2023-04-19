@@ -81,7 +81,7 @@ class NetworkSetupController extends Controller
     public function editNetworkSetup(Request $request){
         $network_name = strtoupper(trim($request->network_setup));
         if(NetworkSetup::where('network_setup',$network_name)->where('network_setup_status','DELETED')->count() == 0){
-            $network_setup = new NetworkSetup;
+            $network_setup = NetworkSetup::find($request->network_setup_id);
             $network_setup->network_setup = strtoupper(trim($request->network_setup));
             $save = $network_setup->save();
 
@@ -97,6 +97,10 @@ class NetworkSetupController extends Controller
             }
         }
         else{
+            $network_setup = NetworkSetup::find($request->network_setup_id);
+            $network_setup->network_setup_status = 'DELETED';
+            $network_setup->save();
+
             $save = NetworkSetup::where('network_setup', $network_name)->update([
                 'network_setup_status' => 'ACTIVE'
             ]);

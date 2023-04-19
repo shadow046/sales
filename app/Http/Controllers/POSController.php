@@ -59,8 +59,15 @@ class POSController extends Controller
             ->get())
             ->make(true);
     }
-    
+
     public function savePos(Request $request){
+        $model_name = strtoupper(trim($request->model));
+        if(Pos::where('model',$model_name)->where('pos_status','DELETED')->count() > 0){
+            $pos_id = Pos::where('model',$model_name)->where('pos_status','DELETED')->first()->id;
+        }
+        else{
+            $pos_id = 'X';
+        }
         $pos = new Pos;
         $pos->model = strtoupper(trim($request->model));
         $pos->brand = strtoupper(trim($request->brand));
@@ -74,6 +81,16 @@ class POSController extends Controller
             $userlogs->user_id = auth()->user()->id;
             $userlogs->activity = "ADDED POS: User successfully added POS Model '$pos->model' under Brand '$pos->brand'.";
             $userlogs->save();
+
+            if($pos_id != 'X'){
+                Pos::where('id',$pos_id)->delete();
+
+                Pos::where('id',$id)->update([
+                    'id' => $pos_id
+                ]);
+
+                $id = $pos_id;
+            }
         }
         else{
             $result = 'false';
@@ -92,20 +109,48 @@ class POSController extends Controller
         $posSpecification->save();
     }
 
+    public function syncPosSpecification(Request $request){
+        PosSpecification::where('pos_id', $request->pos_id)->delete();
+    }
+
     public function editPos(Request $request){
-        $pos = Pos::find($request->id);
-        $pos->model = strtoupper(trim($request->model));
-        $pos->brand = strtoupper(trim($request->brand));
-        $pos->vendor = strtoupper(trim($request->vendor));
-        $save = $pos->save();
+        $model_name = strtoupper(trim($request->model));
+        $brand_name = strtoupper(trim($request->brand));
+        $vendor_name = strtoupper(trim($request->vendor));
+        if(Pos::where('model',$model_name)->where('pos_status','DELETED')->count() > 0){
+            $pos_id = Pos::where('model',$model_name)->where('pos_status','DELETED')->first()->id;
+            $save = 'X';
+        }
+        else{
+            $pos_id = 'X';
+            $pos = Pos::find($request->id);
+            $pos->model = $model_name;
+            $pos->brand = $brand_name;
+            $pos->vendor = $vendor_name;
+            $save = $pos->save();
+            $id = $pos->id;
+        }
 
         if($save){
             $result = 'true';
-            $id = $pos->id;
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED POS: User successfully updated POS Model '$pos->model' under Brand '$pos->brand'.";
+            $userlogs->activity = "UPDATED POS: User successfully updated POS Model '$model_name' under Brand '$brand_name'.";
             $userlogs->save();
+
+            if($pos_id != 'X'){
+                Pos::where('id',$request->id)->update([
+                    'pos_status' => 'DELETED'
+                ]);
+
+                Pos::where('id',$pos_id)->update([
+                    'brand' => $brand_name,
+                    'vendor' => $vendor_name,
+                    'pos_status' => 'ACTIVE'
+                ]);
+
+                $id = $pos_id;
+            }
         }
         else{
             $result = 'false';
@@ -143,8 +188,6 @@ class POSController extends Controller
     }
 
     public function checkDuplicate(Request $request){
-        if(Pos::where('model',$request->model)->count() > 0){
-            return 'duplicate_model';
-        }
+        return Pos::where('model',$request->model)->where('pos_status','!=','DELETED')->count() > 0 ? 'duplicate_model': '';
     }
 }

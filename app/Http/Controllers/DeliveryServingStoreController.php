@@ -97,6 +97,10 @@ class DeliveryServingStoreController extends Controller
             }
         }
         else{
+            $delivery_serving_store = DeliveryServingStore::find($request->delivery_serving_store_id);
+            $delivery_serving_store->delivery_serving_store_status = 'DELETED';
+            $delivery_serving_store->save();
+
             $save = DeliveryServingStore::where('delivery_serving_store', $delivery_name)->update([
                 'delivery_serving_store_status' => 'ACTIVE'
             ]);

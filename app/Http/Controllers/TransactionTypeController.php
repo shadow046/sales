@@ -100,6 +100,10 @@ class TransactionTypeController extends Controller
             }
         }
         else{
+            $transaction_type = TransactionType::find($request->transaction_type_id);
+            $transaction_type->transaction_type_status = 'DELETED';
+            $transaction_type->save();
+
             $save = TransactionType::where('transaction_type', $tran_type)->update([
                 'transaction_type_status' => 'ACTIVE'
             ]);
