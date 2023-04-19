@@ -107,4 +107,9 @@
 <div id="subreportsTable"></div>
 <hr>
 <script src={{asset('js/reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<style>
+    .dt-buttons{
+        display: inline;
+    }
+</style>
 @endsection

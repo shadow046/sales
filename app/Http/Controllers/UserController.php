@@ -393,8 +393,7 @@ class UserController extends Controller
         return HasPermission::select('permission_id')->where('role_id', $request->role_id)->get();
     }
 
-    public function users_stores(Request $request)
-    {
+    public function users_stores(Request $request){
         if($request->area_all){
             $areas = array_diff($request->area_id, $request->area_all);
         }
@@ -430,6 +429,15 @@ class UserController extends Controller
             }
             return response()->json($list);
         }
+    }
+
+    public function users_areas(Request $request){
+        $area_string = User::where('id', $request->user_id)->first()->area;
+        $area_array = explode("|", $area_string);
+        $area_code_array = StoreArea::select('store_area')->whereIn('id', $area_array)->get()->toArray();
+        return array_map(function($item) {
+            return $item['store_area'];
+        }, $area_code_array);
     }
 
     public function change_validate(Request $request){

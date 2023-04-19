@@ -866,12 +866,20 @@ $(document).on('click','table.tblReports tbody tr',function(){
     var report_category = $('#report_category').val();
     var data = table.row(this).data();
     if(report_category == 'AREA MANAGER'){
-        var h4Title = data.area_manager;
-        var thTitle = 'BRANCH';
-        var urlName = '/subreports/area_manager';
-        var colData = data.branch_codes;
-        var colName = 'branch';
-        display_subreport_A(h4Title, thTitle, urlName, colData, colName);
+        $.ajax({
+            url: '/users/areas',
+            data:{
+                user_id: data.user_id
+            },
+            success: function(areas){
+                var h4Title = 'AREA MANAGER: '+data.area_manager+' - '+(areas.join(', '));
+                var thTitle = 'BRANCH';
+                var urlName = '/subreports/area_manager';
+                var colData = data.branch_codes;
+                var colName = 'branch';
+                display_subreport_A(h4Title, thTitle, urlName, colData, colName);
+            }
+        });
     }
 });
 
@@ -927,7 +935,7 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                title: h4Title,
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -1064,7 +1072,7 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                title: h4Title,
                 exportOptions: {
                     modifier : {
                         order : 'index',

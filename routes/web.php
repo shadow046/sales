@@ -333,6 +333,7 @@ Route::controller(UserController::class)->group(function(){
     Route::any('/users/status', 'users_status');
     Route::get('/users/permissions', 'users_permissions');
     Route::get('/users/stores', 'users_stores');
+    Route::get('/users/areas', 'users_areas');
     Route::any('/change/validate', 'change_validate');
     Route::any('/change/password', 'change_password');
 });
