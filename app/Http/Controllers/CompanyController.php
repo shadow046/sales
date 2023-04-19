@@ -47,6 +47,37 @@ class CompanyController extends Controller
         return DataTables::of(CompanyContactPerson::where('company_id',$request->id)->get())->make(true);
     }
 
+    public function company_status(Request $request){
+        if($request->status == 'ACTIVE'){
+            $status1 = 'ACTIVE';
+            $status2 = 'INACTIVE';
+        }
+        else{
+            $status1 = 'INACTIVE';
+            $status2 = 'ACTIVE';
+        }
+        $company_name = strtoupper($request->company_name);
+
+        $company = Company::find($request->id);
+        $company->status = $request->status;
+        $sql = $company->save();
+
+        if(!$sql){
+            $result = 'false';
+        }
+        else {
+            $result = 'true';
+
+            $status = "【Status: FROM '$status2' TO '$status1'】";
+
+            $userlogs = new UserLogs;
+            $userlogs->user_id = auth()->user()->id;
+            $userlogs->activity = "COMPANY STATUS UPDATED: User successfully updated status of $company_name with Company Code: $request->company_code with the following CHANGES: $status.";
+            $userlogs->save();
+        }
+        return response($result);
+    }
+
     public function saveCompany(Request $request){
         $company = new Company;
         $company->company_name = strtoupper($request->company_name);
@@ -183,7 +214,7 @@ class CompanyController extends Controller
         $data = array('result' => $result, 'id' => $id);
         return response()->json($data);
     }
-    
+
     public function saveCompanyContactPerson(Request $request){
         $companyContactPerson = new CompanyContactPerson;
         $companyContactPerson->company_id = $request->company_id;
@@ -290,7 +321,7 @@ class CompanyController extends Controller
                         $userlogs->save();
                     }
                 }
-                
+
             }
             $row_num++;
         }

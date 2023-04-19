@@ -57,6 +57,7 @@ Route::controller(CompanyController::class)->group(function(){
     Route::any('/company/import','import');
     Route::any('/company_code/checkDuplicate', 'checkDuplicate');
     Route::any('/company_name/checkDuplicate', 'checkDuplicate');
+    Route::any('/company_status', 'company_status');
 });
 
 Route::controller(DeliveryServingStoreController::class)->group(function(){
@@ -166,6 +167,7 @@ Route::controller(ReportsController::class)->group(function(){
     Route::get('/reports/discount','byDiscount');
     Route::get('/reports/product','byProduct');
     Route::get('/reports/combo','byCombo');
+    Route::get('/subreports/area_manager','subAreaManager');
 });
 
 Route::controller(RoleController::class)->group(function(){

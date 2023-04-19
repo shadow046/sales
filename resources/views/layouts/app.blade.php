@@ -63,7 +63,7 @@
             $pink = '#850708'; //Maroon
         @endphp
     @endif
-    @if(Request::is('products') || Request::is('store') || Request::is('users'))
+    @if(Request::is('products') || Request::is('store') || Request::is('company') || Request::is('users'))
         <link href="/css/switch.css?ver={{$version}}" rel="stylesheet">
     @endif
     @if(Request::is('maintenance-category'))

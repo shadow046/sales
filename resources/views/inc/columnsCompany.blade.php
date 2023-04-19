@@ -71,4 +71,13 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-9" data-column="9"/ disabled> STATUS
+                </label>
+            </div>
+        </div>
+    </div>
 </div>

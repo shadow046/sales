@@ -36,7 +36,7 @@ $(document).ready(function(){
         },
         columnDefs: [
             {
-                "targets": [3,5,7],
+                "targets": [3,5,7,9],
                 "visible": false,
                 "searchable": true
             },
@@ -49,7 +49,29 @@ $(document).ready(function(){
             { data: 'address', name:'address'},
             { data: 'province', name:'province'},
             { data: 'city', name:'city'},
-            { data: 'region', name:'region'}
+            { data: 'region', name:'region'},
+            {
+                data: 'status',
+                "render": function(data, type, row, meta){
+                    if(current_permissions.includes('5')){
+                        if(row.status == 'ACTIVE'){
+                            return '<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="'+ meta.row +'" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label></center></div>';
+                        }
+                        if(row.status == 'INACTIVE'){
+                            return '<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="'+ meta.row +'"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label></center></div>';
+                        }
+                    }
+                    else{
+                        if(row.status == 'ACTIVE'){
+                            return `<div style="width: 120px !important;"><center class="text-success"><b>${row.status}</b></center></div>`;
+                        }
+                        if(row.status == 'INACTIVE'){
+                            return `<div style="width: 120px !important;"><center class="text-danger"><b>${row.status}</b></center></div>`;
+                        }
+                    }
+                }
+            },
+            { data: 'status', name:'status'},
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
@@ -81,7 +103,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=7; i++){
+            for(var i=0; i<=8; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }
@@ -95,6 +117,33 @@ $(document).ready(function(){
 
 $('.filter-input').on('keyup search', function(){
     table.column($(this).data('column')).search($(this).val()).draw();
+});
+
+
+$('.filter-select').on('change', function(){
+    table.column($(this).data('column')).search(!$(this).val()?'':'^'+$(this).val()+'$',true,false,true).draw();
+});
+
+$(document).on('change', '.togBtn', function(){
+    var id = $(this).attr("id");
+    var data = table.row(id).data();
+
+    if($(this).is(':checked')){
+        var status = 'ACTIVE';
+    }
+    else{
+        var status = 'INACTIVE';
+    }
+    console.log(status);
+    $.ajax({
+        url: '/company_status',
+        data:{
+            id: data.id,
+            company_name: data.company_name,
+            company_code: data.company_code,
+            status: status
+        }
+    });
 });
 
 $('.saveBtn').on('click',function(){
@@ -215,141 +264,143 @@ $('.addCompanyContactPersonBtn').click(function(e){
 
 var company_id = [];
 var company_code_orig, company_name_orig;
-$(document).on('click','table.companyTable tbody tr',function(){
-    current_modal = 'UPDATE';
-    $('.req').hide();
-    if(!current_permissions.includes('3')){
-        $('#companyModal').find('input').prop('disabled', true);
-        $('#province').prop('disabled', true);
-        setInterval(() => {
-            if($('#province').prop('disabled') == true){
-                $('#city').prop('disabled', true);
-            }
-            else{
-                $('#city').prop('disabled', false);
-            }
-        }, 0);
-        $('.notUpdate').hide();
-    }
-    company_id = [];
-    if($(".btn-delete").length > 0){
-        $('.btn-delete').each(function(){
-            $(this).click();
-        });
-    }
-
-    $('.saveBtn').hide();
-    $('.updateBtn').show();
-
-    var data = table.row(this).data();
-    $('#company_id').val(data.id);
-    $('#company_name').val(decodeHtml(data.company_name));
-    company_name_orig = data.company_name;
-    $('#company_code').val(data.company_code);
-    company_code_orig = data.company_code;
-    $('#trade_name').val(data.trade_name);
-    $('#address').val(data.address);
-    $('#tax').val(data.tax);
-    $('.province').each(function(){
-        if($(this).html() == data.province){
-            $(this).prop('selected', true);
-        }
-    });
-    setTimeout(() => {
-        $('#province').change();
-        setTimeout(() => {
-            $('.city').each(function(){
-                if($(this).html() == data.city){
-                    $(this).prop('selected', true);
+$(document).on('click','table.companyTable tbody tr td',function(){
+    if($(this).text() != 'ACTIVEINACTIVE'){
+        current_modal = 'UPDATE';
+        $('.req').hide();
+        if(!current_permissions.includes('3')){
+            $('#companyModal').find('input').prop('disabled', true);
+            $('#province').prop('disabled', true);
+            setInterval(() => {
+                if($('#province').prop('disabled') == true){
+                    $('#city').prop('disabled', true);
                 }
+                else{
+                    $('#city').prop('disabled', false);
+                }
+            }, 0);
+            $('.notUpdate').hide();
+        }
+        company_id = [];
+        if($(".btn-delete").length > 0){
+            $('.btn-delete').each(function(){
+                $(this).click();
             });
+        }
+
+        $('.saveBtn').hide();
+        $('.updateBtn').show();
+
+        var data = table.row(this).data();
+        $('#company_id').val(data.id);
+        $('#company_name').val(decodeHtml(data.company_name));
+        company_name_orig = data.company_name;
+        $('#company_code').val(data.company_code);
+        company_code_orig = data.company_code;
+        $('#trade_name').val(data.trade_name);
+        $('#address').val(data.address);
+        $('#tax').val(data.tax);
+        $('.province').each(function(){
+            if($(this).html() == data.province){
+                $(this).prop('selected', true);
+            }
+        });
+        setTimeout(() => {
+            $('#province').change();
             setTimeout(() => {
-                $('#city').change();
+                $('.city').each(function(){
+                    if($(this).html() == data.city){
+                        $(this).prop('selected', true);
+                    }
+                });
+                setTimeout(() => {
+                    $('#city').change();
+                }, current_timeout);
             }, current_timeout);
         }, current_timeout);
-    }, current_timeout);
 
-    contact_person_change = '';
+        contact_person_change = '';
 
-    if(current_permissions.includes('3')){
-        $('table.companyContactPerson_orig').dataTable().fnDestroy();
-        $('table.companyContactPerson_orig').DataTable({
-            columnDefs: [
-                {
-                    "render": function(data, type, row, meta){
-                            return '<button class="btn btn-danger btndelItem" id="'+ meta.row +'"><i class="fa-solid fa-trash-can"></i> DELETE </button>';
-                    },
-                    "defaultContent": '',
-                    "data": null,
-                    "targets": [5]
-                }
-            ],
-            searching: false,
-            paging: false,
-            ordering: false,
-            info: false,
-            autoWidth: false,
-            language:{
-                emptyTable: "No data available in table",
-                processing: "Loading...",
-            },
-            serverSide: true,
-            ajax: {
-                url: '/company_contact_person/data',
-                async: false,
-                data:{
-                    id: data.id,
-                }
-            },
-            columns: [
-                { data: 'person', name:'person'},
-                { data: 'position', name:'position'},
-                { data: 'email_address', name:'email_address'},
-                { data: 'telephone', name:'telephone'},
-                { data: 'mobile', name:'mobile'},
-                { data: 'person', name:'person'},
-            ]
-        });
+        if(current_permissions.includes('3')){
+            $('table.companyContactPerson_orig').dataTable().fnDestroy();
+            $('table.companyContactPerson_orig').DataTable({
+                columnDefs: [
+                    {
+                        "render": function(data, type, row, meta){
+                                return '<button class="btn btn-danger btndelItem" id="'+ meta.row +'"><i class="fa-solid fa-trash-can"></i> DELETE </button>';
+                        },
+                        "defaultContent": '',
+                        "data": null,
+                        "targets": [5]
+                    }
+                ],
+                searching: false,
+                paging: false,
+                ordering: false,
+                info: false,
+                autoWidth: false,
+                language:{
+                    emptyTable: "No data available in table",
+                    processing: "Loading...",
+                },
+                serverSide: true,
+                ajax: {
+                    url: '/company_contact_person/data',
+                    async: false,
+                    data:{
+                        id: data.id,
+                    }
+                },
+                columns: [
+                    { data: 'person', name:'person'},
+                    { data: 'position', name:'position'},
+                    { data: 'email_address', name:'email_address'},
+                    { data: 'telephone', name:'telephone'},
+                    { data: 'mobile', name:'mobile'},
+                    { data: 'person', name:'person'},
+                ]
+            });
+        }
+        else{
+            $('table.companyContactPerson_orig').dataTable().fnDestroy();
+            $('table.companyContactPerson_orig').DataTable({
+                columnDefs: [
+                    {
+                        "targets": [5],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ],
+                searching: false,
+                paging: false,
+                ordering: false,
+                info: false,
+                autoWidth: false,
+                language:{
+                    emptyTable: "No data available in table",
+                    processing: "Loading...",
+                },
+                serverSide: true,
+                ajax: {
+                    url: '/company_contact_person/data',
+                    async: false,
+                    data:{
+                        id: data.id,
+                    }
+                },
+                columns: [
+                    { data: 'person', name:'person'},
+                    { data: 'position', name:'position'},
+                    { data: 'email_address', name:'email_address'},
+                    { data: 'telephone', name:'telephone'},
+                    { data: 'mobile', name:'mobile'},
+                    { data: 'person', name:'person'}
+                ]
+            });
+        }
+        $('#companyModal').modal('show');
+        $('th').removeClass('sorting_asc');
     }
-    else{
-        $('table.companyContactPerson_orig').dataTable().fnDestroy();
-        $('table.companyContactPerson_orig').DataTable({
-            columnDefs: [
-                {
-                    "targets": [5],
-                    "visible": false,
-                    "searchable": false
-                }
-            ],
-            searching: false,
-            paging: false,
-            ordering: false,
-            info: false,
-            autoWidth: false,
-            language:{
-                emptyTable: "No data available in table",
-                processing: "Loading...",
-            },
-            serverSide: true,
-            ajax: {
-                url: '/company_contact_person/data',
-                async: false,
-                data:{
-                    id: data.id,
-                }
-            },
-            columns: [
-                { data: 'person', name:'person'},
-                { data: 'position', name:'position'},
-                { data: 'email_address', name:'email_address'},
-                { data: 'telephone', name:'telephone'},
-                { data: 'mobile', name:'mobile'},
-                { data: 'person', name:'person'}
-            ]
-        });
-    }
-    $('#companyModal').modal('show');
-    $('th').removeClass('sorting_asc');
 });
 
 $('.updateBtn').on('click',function(){

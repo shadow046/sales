@@ -177,6 +177,7 @@ $('.addPosSpecificationBtn').click(function(e){
 });
 
 var pos_id = [];
+var model_orig;
 $(document).on('click','table.posTable tbody tr',function(){
     current_modal = 'UPDATE';
     $('.req').hide();
@@ -208,6 +209,8 @@ $(document).on('click','table.posTable tbody tr',function(){
     $('#vendor_orig').val(data.vendor);
 
     $('#model').val(data.model);
+    model_orig = data.model;
+    console.log(model_orig);
     $('#brand').val(data.brand);
     $('#vendor').val(data.vendor);
 
@@ -516,20 +519,22 @@ setInterval(() => {
 }, 0);
 
 $('#model').on('keyup',function(){
-    $.ajax({
-        url: "/model/checkDuplicate",
-        data:{
-            model : $('#model').val(),
-        },
-        success: function(data){
-            if(data == 'duplicate_model'){
-                $('#duplicate_model').show();
-                $('#model').addClass('redBorder');
+    if(model_orig != $.trim($('#model').val()).toUpperCase()){
+        $.ajax({
+            url: "/model/checkDuplicate",
+            data:{
+                model : $.trim($('#model').val()).toUpperCase(),
+            },
+            success: function(data){
+                if(data == 'duplicate_model'){
+                    $('#duplicate_model').show();
+                    $('#model').addClass('redBorder');
+                }
+                else{
+                    $('#duplicate_model').hide();
+                    $('#model').removeClass('redBorder');
+                }
             }
-            else{
-                $('#duplicate_model').hide();
-                $('#model').removeClass('redBorder');
-            }
-        }
-    });
+        });
+    }
 });

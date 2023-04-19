@@ -4,9 +4,12 @@ $('#btnReset').on('click', function(){
     $('#formReports').trigger('reset');
     $('#report_type').change();
     $('#reportsTable').empty();
+    $('#subreportsTable').empty();
 });
 
 $('#report_type').on('change', function(){
+    $('#reportsTable').empty();
+    $('#subreportsTable').empty();
     $('.inputDates').val('');
     if($('#report_type').val() == '1'){
         $('.divStandard').show();
@@ -20,6 +23,11 @@ $('#report_type').on('change', function(){
         $('.divStandard').hide();
         $('.divComparative').hide();
     }
+});
+
+$('#report_category').on('change', function(){
+    $('#reportsTable').empty();
+    $('#subreportsTable').empty();
 });
 
 $('#start_date').on('change', function(){
@@ -66,9 +74,10 @@ $('#date2B').on('change', function(){
 
 $('#btnGenerate').on('click', function(){
     $('#reportsTable').empty();
+    $('#subreportsTable').empty();
 
     if($('#report_category').val() == 'BRANCH'){
-        var thTitle = 'BRANCH CODE';
+        var thTitle = 'BRANCH';
         var urlName = '/reports/branch';
         var colName = 'branch';
         display_report_A(thTitle, urlName, colName);
@@ -134,14 +143,15 @@ $('#btnGenerate').on('click', function(){
     }
 });
 
-var table;
+var table, subtable;
 function display_report_A(thTitle, urlName, colName){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     $('#loading').show();
     if($('#report_type').val() == '1'){
-        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
@@ -254,7 +264,8 @@ function display_report_A(thTitle, urlName, colName){
         });
     }
     if($('#report_type').val() == '2'){
-        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
@@ -410,7 +421,8 @@ function display_report_B(urlName){
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     $('#loading').show();
     if($('#report_type').val() == '1'){
-        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
@@ -511,7 +523,8 @@ function display_report_B(urlName){
         });
     }
     if($('#report_type').val() == '2'){
-        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
@@ -633,7 +646,8 @@ function display_report_C(thTitle, urlName, colName){
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     $('#loading').show();
     if($('#report_type').val() == '1'){
-        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
@@ -724,7 +738,8 @@ function display_report_C(thTitle, urlName, colName){
         });
     }
     if($('#report_type').val() == '2'){
-        var htmlString = '<div class="table-responsive container-fluid pt-2">' +
+        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                     '<tr>' +
@@ -834,6 +849,10 @@ $(document).on('keyup search','.filter-input', function(){
     table.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-input1', function(){
+    subtable.column($(this).data('column')).search($(this).val()).draw();
+});
+
 setInterval(() => {
     if($('#reportsTable').is(':empty')){
         $('#btnExport').prop('disabled', true);
@@ -842,3 +861,302 @@ setInterval(() => {
         $('#btnExport').prop('disabled', false);
     }
 }, 0);
+
+$(document).on('click','table.tblReports tbody tr',function(){
+    var report_category = $('#report_category').val();
+    var data = table.row(this).data();
+    if(report_category == 'AREA MANAGER'){
+        var h4Title = data.area_manager;
+        var thTitle = 'BRANCH';
+        var urlName = '/subreports/area_manager';
+        var colData = data.branch_codes;
+        var colName = 'branch';
+        display_subreport_A(h4Title, thTitle, urlName, colData, colName);
+    }
+});
+
+function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    $('#subreportsTable').empty();
+    $('#loading').show();
+    if($('#report_type').val() == '1'){
+        var htmlString = `<hr><h4>${h4Title}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
+            '<table class="table table-hover table-bordered table-striped tblSubReports" id="tblSubReports" style="width:100%;">' +
+                '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr>' +
+                        '<th></th>' +
+                        '<th colspan="3">'+display_range+'</th>' +
+                    '</tr>' +
+                    '<tr class="tbsearch">' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<th>'+thTitle+'</th>' +
+                        '<th class="sum">GROSS SALES</th>' +
+                        '<th class="sum">TOTAL SALES</th>' +
+                        '<th class="sum">NET SALES</th>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tfoot style="font-size: 14px;">' +
+                    '<tr>' +
+                        '<th class="text-right">TOTAL:</th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                    '</tr>' +
+                '</tfoot>' +
+            '</table>' +
+            '<br>' +
+        '</div>';
+        $('#subreportsTable').append(htmlString);
+        subtable = $('table.tblSubReports').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: urlName,
+                data:{
+                    type: 'standard',
+                    colData: colData,
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val()
+                }
+            },
+            columns: [
+                { data: colName },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'net_sales',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'current'}).every(function(){
+                  var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/reports#tblSubReports';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset().top
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+    if($('#report_type').val() == '2'){
+        var htmlString = `<hr><h4>${h4Title}</h4>` +
+        '<div class="table-responsive container-fluid pt-2">' +
+            '<table class="table table-hover table-bordered table-striped tblSubReports" id="tblSubReports" style="width:100%;">' +
+                '<thead style="font-weight:bolder" class="bg-default">' +
+                    '<tr>' +
+                        '<th></th>' +
+                        '<th colspan="3">'+compare_range1+'</th>' +
+                        '<th colspan="3">'+compare_range2+'</th>' +
+                    '</tr>' +
+                    '<tr class="tbsearch">' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="4" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="5" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="search" class="form-control filter-input1" data-column="6" style="border:1px solid #808080"/>' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<th>'+thTitle+'</th>' +
+                        '<th class="sum">GROSS SALES</th>' +
+                        '<th class="sum">TOTAL SALES</th>' +
+                        '<th class="sum">NET SALES</th>' +
+                        '<th class="sum">GROSS SALES</th>' +
+                        '<th class="sum">TOTAL SALES</th>' +
+                        '<th class="sum">NET SALES</th>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tfoot style="font-size: 14px;">' +
+                    '<tr>' +
+                        '<th class="text-right">TOTAL:</th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                        '<th class="text-right sum"></th>' +
+                    '</tr>' +
+                '</tfoot>' +
+            '</table>' +
+            '<br>' +
+        '</div>';
+        $('#subreportsTable').append(htmlString);
+        subtable = $('table.tblSubReports').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#report_type option:selected').text() + ' - ' + $('#report_category option:selected').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: urlName,
+                data:{
+                    type: 'comparative',
+                    colData: colData,
+                    date1A: $('#date1A').val(),
+                    date1B: $('#date1B').val(),
+                    date2A: $('#date2A').val(),
+                    date2B: $('#date2B').val()
+                }
+            },
+            columns: [
+                { data: colName },
+                {
+                    data: 'gross_sales1',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales1).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales1',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales1).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'net_sales1',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales1).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'gross_sales2',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales2',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales2).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'net_sales2',
+                    "render": function(data, type, row, meta){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales2).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'current'}).every(function(){
+                  var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/reports#tblSubReports';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset().top
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+}

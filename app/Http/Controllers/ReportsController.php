@@ -99,11 +99,31 @@ class ReportsController extends Controller
     }
 
     public function byAreaManager(Request $request){
-        $data = User::selectRaw('users.name AS area_manager, users.area AS area, users.store AS branch')
+        $data = User::selectRaw('users.id AS user_id, users.name AS area_manager, users.area AS area, users.store AS branch')
             ->where('userlevel', '4')
             ->get();
         if($request->type == 'standard'){
             return DataTables::of($data)
+            ->addColumn('branch_codes', function(User $hdr) use($request){
+                $branch_codes = array();
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        array_push($branch_codes, $branch_code);
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $branch_codes = $branch_codes + $branch_code;
+                    }
+                }
+                return $branch_codes;
+            })
             ->addColumn('gross_sales', function(User $hdr) use($request){
                 $gross_sales = 0;
                 $area_array = explode("|", $hdr->area);
@@ -198,6 +218,26 @@ class ReportsController extends Controller
         }
         else{
             return DataTables::of($data)
+            ->addColumn('branch_codes', function(User $hdr) use($request){
+                $branch_codes = array();
+                $area_array = explode("|", $hdr->area);
+                $branch_array = explode("|", $hdr->branch);
+                foreach($branch_array as $branch){
+                    if(strpos($branch, '-0') == false){
+                        $branch_code = Store::where('id', $branch)->first()->branch_code;
+                        array_push($branch_codes, $branch_code);
+                    }
+                    else{
+                        $area_id = str_replace('-0', '', $branch);
+                        $branch_code_array = Store::select('branch_code')->where('store_area', $area_id)->get()->toArray();
+                        $branch_code = array_map(function($item) {
+                            return $item['branch_code'];
+                        }, $branch_code_array);
+                        $branch_codes = $branch_codes + $branch_code;
+                    }
+                }
+                return $branch_codes;
+            })
             ->addColumn('gross_sales1', function(User $hdr) use($request){
                 $gross_sales = 0;
                 $area_array = explode("|", $hdr->area);
@@ -554,6 +594,31 @@ class ReportsController extends Controller
                 ->join('products', 'products.item_code', 'dtl.itemcode')
                 ->join('category', 'category.id', 'products.category')
                 ->groupBy('itemcode','item_code','short_desc','long_desc')
+                ->get();
+        }
+        return DataTables::of($data)->make(true);
+    }
+
+    public function subAreaManager(Request $request){
+        if($request->type == 'standard'){
+            $data = Hdr::selectRaw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->whereIn('storecode', $request->colData)
+                ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                ->groupBy('storecode','branch_name','branch')
+                ->get();
+        }
+        else{
+            $data = Hdr::selectRaw("CONCAT(hdr.storecode, IFNULL(CONCAT(': ', store.branch_name), '')) AS branch,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN gross ELSE 0 END) as gross_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN totalsales ELSE 0 END) as total_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN netsales ELSE 0 END) as net_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN gross ELSE 0 END) as gross_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN totalsales ELSE 0 END) as total_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN netsales ELSE 0 END) as net_sales2")
+                ->whereIn('storecode', $request->colData)
+                ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                ->groupBy('storecode','branch_name','branch')
                 ->get();
         }
         return DataTables::of($data)->make(true);
