@@ -37,7 +37,7 @@ class StoreController extends Controller
     public function store()
     {
         $provinces = Province::orderBy('provDesc', 'asc')->get();
-        $companies = Company::select('id','company_name')->where('id','!=','0')->get()->sortBy('company_name');
+        $companies = Company::select('id','company_name')->where('id','!=','0')->where('status','!=','INACTIVE')->get()->sortBy('company_name');
         $poss = Pos::select('id', 'model')->where('id','!=','0')->where('pos_status','!=','DELETED')->get()->sortBy('model');
         $types = Type::select('id', 'type')->where('id','!=','0')->where('type_status','!=','DELETED')->get()->sortBy('type');
         $setups = Setup::select('id', 'setup')->where('id','!=','0')->where('setup_status','!=','DELETED')->get()->sortBy('setup');
