@@ -15,6 +15,11 @@
     user-select: none;
     cursor: wait;
 }
+.align-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 tbody{
     cursor: pointer;
 }

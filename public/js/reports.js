@@ -150,7 +150,8 @@ function display_report_A(thTitle, urlName, colName){
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     $('#loading').show();
     if($('#report_type').val() == '1'){
-        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
@@ -264,7 +265,8 @@ function display_report_A(thTitle, urlName, colName){
         });
     }
     if($('#report_type').val() == '2'){
-        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
@@ -421,7 +423,8 @@ function display_report_B(urlName){
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     $('#loading').show();
     if($('#report_type').val() == '1'){
-        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
@@ -523,7 +526,8 @@ function display_report_B(urlName){
         });
     }
     if($('#report_type').val() == '2'){
-        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
@@ -646,7 +650,8 @@ function display_report_C(thTitle, urlName, colName){
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     $('#loading').show();
     if($('#report_type').val() == '1'){
-        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
@@ -738,7 +743,8 @@ function display_report_C(thTitle, urlName, colName){
         });
     }
     if($('#report_type').val() == '2'){
-        var htmlString = `<hr><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblReports" id="tblReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
@@ -853,15 +859,6 @@ $(document).on('keyup search','.filter-input1', function(){
     subtable.column($(this).data('column')).search($(this).val()).draw();
 });
 
-setInterval(() => {
-    if($('#reportsTable').is(':empty')){
-        $('#btnExport').prop('disabled', true);
-    }
-    else{
-        $('#btnExport').prop('disabled', false);
-    }
-}, 0);
-
 $(document).on('click','table.tblReports tbody tr',function(){
     var report_category = $('#report_category').val();
     var data = table.row(this).data();
@@ -890,7 +887,8 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
     $('#subreportsTable').empty();
     $('#loading').show();
     if($('#report_type').val() == '1'){
-        var htmlString = `<hr><h4>${h4Title}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${h4Title}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblSubReports" id="tblSubReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
@@ -1011,7 +1009,8 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
         });
     }
     if($('#report_type').val() == '2'){
-        var htmlString = `<hr><h4>${h4Title}</h4>` +
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${h4Title}</h4>` +
+        `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
         '<div class="table-responsive container-fluid pt-2">' +
             '<table class="table table-hover table-bordered table-striped tblSubReports" id="tblSubReports" style="width:100%;">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
