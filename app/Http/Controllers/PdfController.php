@@ -12,6 +12,11 @@ use DB;
 
 class PdfController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function pdf(){
         return view('pages.pdf_reports');
     }

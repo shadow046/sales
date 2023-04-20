@@ -46,9 +46,10 @@ hr{
 .page-reload{
     cursor: pointer;
 }
-.linkactive, .dropdown-item:hover, h4{
+.linkactive, .dropdown-item:hover, .dropdown-item:active, h4{
     color: #e11383 !important;
     font-weight: bold !important;
+    background-color: inherit !important;
 }
 .navactive{
     background-color: #e11383;
@@ -58,7 +59,7 @@ hr{
     color: white !important;
     border-radius: 0.375rem !important;
 }
-.nav-item:hover, .nav-link:hover{
+.nav-item:hover, .nav-link:hover, .navhover{
     background-color: white;
     color: #e11383 !important;
     -webkit-transition: none !important;
@@ -324,11 +325,6 @@ textarea{
 .swal-wide{
     width: 900px !important;
 }
-.content{
-    overflow-x: hidden !important;
-    transition: 0.5s;
-    white-space: nowrap;
-}
 .dt-buttons{
     display: none;
 }
@@ -415,30 +411,24 @@ input[type="date"]{
     transform: rotate(45deg);
     border-bottom-right-radius: 20px;
 }
-/* width */
 ::-webkit-scrollbar{
     width: 10px;
 }
-/* Track */
 ::-webkit-scrollbar-track {
     background: #683817;
 }
-/* Handle */
 ::-webkit-scrollbar-thumb{
     background: #e11383;
 }
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover{
     background: #e11383;
 }
-
 .search-choice{
     margin-top: 9px !important;
 }
 .search-field{
     margin-top: 7px !important;
 }
-
 label{
     text-transform: uppercase !important;
 }

@@ -1,46 +1,44 @@
-<div class="content">
+@if(env('APP_SYS') == 'DD')
+	<div style="height: 5px; background-color: {{$pink}}"></div>
+@else
+	<div style="height: 5px; background-color: {{$orange}}"></div>
+@endif
+<div class="container-fluid bg-default text-white d-flex" style="height: 80px; line-height: 70px;">
 	@if(env('APP_SYS') == 'DD')
-		<div style="height: 5px; background-color: {{$pink}}"></div>
+		<a href="/" class="xD text-white">
+			<img class="mr-1" src="{{asset('inc/DD.png')}}" style="margin-top: -17px; height: 25px;">
+			<b style="font-size: 35px;">HEADQUARTERS CONSOLE SYSTEM</b><b class="ml-1">{{ env('APP_SERVER') == 'BETA' ? 'BETA' : ''}}</b>
+		</a>
 	@else
-		<div style="height: 5px; background-color: {{$orange}}"></div>
+		<a href="/" class="xD text-white">
+			<img class="mr-1" src="{{asset('inc/MG.png')}}" style="margin-top: -32px; height: 55px;">
+			<b style="font-size: 35px;">HEADQUARTERS CONSOLE SYSTEM</b><b class="ml-1">{{ env('APP_SERVER') == 'BETA' ? 'BETA' : ''}}</b>
+		</a>
 	@endif
-	<div class="container-fluid bg-default text-white d-flex" style="height: 80px; line-height: 70px;">
-		@if(env('APP_SYS') == 'DD')
-			<a href="/" class="xD text-white">
-				<img class="mr-1" src="{{asset('inc/DD.png')}}" style="margin-top: -17px; height: 25px;">
-				<b style="font-size: 35px;">HEADQUARTERS CONSOLE SYSTEM</b><b class="ml-1">{{ env('APP_SERVER') == 'BETA' ? 'BETA' : ''}}</b>
-			</a>
-		@else
-			<a href="/" class="xD text-white">
-				<img class="mr-1" src="{{asset('inc/MG.png')}}" style="margin-top: -32px; height: 55px;">
-				<b style="font-size: 35px;">HEADQUARTERS CONSOLE SYSTEM</b><b class="ml-1">{{ env('APP_SERVER') == 'BETA' ? 'BETA' : ''}}</b>
-			</a>
-		@endif
-		<table class="text-right ml-auto mb-2 align-self-end" style="color: white; font-size: 12px; line-height: 12px;">
-			<thead>
-				<tr>
-					<td class="m-0 p-0">
-						<span id="current_datetime">{{ Carbon\Carbon::now()->isoformat('dddd, MMMM DD, YYYY, h:mm:ss A') }}</span>
-					</td>
-					<td  class="m-0 p-0" rowspan="3">
-						<i class="fa fa-user-circle fa-4x p-2" aria-hidden="true" role="button" onclick="$('#lblChangePassword').click()"></i>
-					</td>
-				</tr>
-				<tr>
-					<td class="m-0 p-0">
-						<b>{{ auth()->user()->name }}</b>&nbsp;[{{ App\Models\User::select('roles.name')->where('users.id', auth()->user()->id)->join('roles', 'roles.id', 'users.userlevel')->first()->name }}]
-					</td>
-				</tr>
-				<tr>
-					<td class="m-0 p-0">
-						<span id="lblChangePassword" style="text-decoration: underline; cursor: pointer;">Change Password</span>
-					</td>
-				</tr>
-			</thead>
-		</table>
-	</div>
+	<table class="text-right ml-auto mb-2 align-self-end" style="color: white; font-size: 12px; line-height: 12px;">
+		<thead>
+			<tr>
+				<td class="m-0 p-0">
+					<span id="current_datetime">{{ Carbon\Carbon::now()->isoformat('dddd, MMMM DD, YYYY, h:mm:ss A') }}</span>
+				</td>
+				<td  class="m-0 p-0" rowspan="3">
+					<i class="fa fa-user-circle fa-4x p-2" aria-hidden="true" role="button" onclick="$('#lblChangePassword').click()"></i>
+				</td>
+			</tr>
+			<tr>
+				<td class="m-0 p-0">
+					<b>{{ auth()->user()->name }}</b>&nbsp;[{{ App\Models\User::select('roles.name')->where('users.id', auth()->user()->id)->join('roles', 'roles.id', 'users.userlevel')->first()->name }}]
+				</td>
+			</tr>
+			<tr>
+				<td class="m-0 p-0">
+					<span id="lblChangePassword" style="text-decoration: underline; cursor: pointer;">Change Password</span>
+				</td>
+			</tr>
+		</thead>
+	</table>
 </div>
-<nav class="navbar navbar-expand-sm text-white w-100 content" style="background-color: {{$orange}}; font-weight:bolder;">
+<nav class="navbar navbar-expand-sm text-white w-100 navcontent" style="background-color: {{$orange}}; font-weight: bolder; zoom: 95%;">
 	<div class="container-fluid">
 		<ul class="navbar-nav">
 			@can('dashboard')
@@ -53,9 +51,18 @@
 					<a class="nav-link {{ Request::is('sales/index') ? 'navactive' : '' }}" href="/sales/index">SALES PERFORMANCE</a>
 				</li>
 			@endcan
-			@can('reports')
+			{{-- @can('reports')
 				<li class="nav-item dropdown mr-1">
 					<a href="#" id="report" class="nav-link dropdown-toggle {{ Request::is('reports') || Request::is('pdf') ? 'navactive' : '' }}" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content='@include("inc.dropdownReports")'>REPORTS</a>
+				</li>
+			@endcan --}}
+			@can('reports')
+				<li class="nav-item dropdown mr-1">
+					<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('reports') || Request::is('pdf') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
+					<div class="dropdown-menu" aria-labelledby="dropdownReports" style="width: 200%; zoom: 90%;" onmouseover="$('#dropdownReports').addClass('navhover');" onmouseout="$('#dropdownReports').removeClass('navhover');">
+						<a class="dropdown-item {{ Request::is('reports') ? 'linkactive' : '' }}" href="/reports">Generate Sales Reports</a>
+						<a class="dropdown-item {{ Request::is('pdf') ? 'linkactive' : '' }}" href="/pdf">POS Uploaded Reports</a>
+					</div>
 				</li>
 			@endcan
 			@can('store')
@@ -80,8 +87,52 @@
 					</li>
 				@endcan
 			@endif
-			<li class="maintenance_tab nav-item dropdown mr-1">
+			{{-- <li class="maintenance_tab nav-item dropdown mr-1">
 				<a href="#" id="maintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content='@include("inc.dropdown")'>MAINTENANCE</a>
+			</li> --}}
+			<li class="nav-item dropdown mr-1">
+				<a href="#" id="dropdownMaintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MAINTENANCE</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownMaintenance" style="width: 120%; zoom: 90%;" onmouseover="$('#dropdownMaintenance').addClass('navhover');" onmouseout="$('#dropdownMaintenance').removeClass('navhover');">
+					@can('pos')
+						<a class="dropdown-item {{ Request::is('maintenance-pos') ? 'linkactive' : '' }}" href="/maintenance-pos">POS</a>
+					@endcan
+					@can('categories')
+						<a class="dropdown-item {{ Request::is('maintenance-category') ? 'linkactive' : '' }}" href="/maintenance-category">Product Category</a>
+					@endcan
+					@can('salestype')
+						<a class="dropdown-item {{ Request::is('maintenance-sales-type') ? 'linkactive' : '' }}" href="/maintenance-sales-type">Product Sales Type</a>
+					@endcan
+					@can('storearea')
+						<a class="dropdown-item {{ Request::is('maintenance-store-area') ? 'linkactive' : '' }}" href="/maintenance-store-area">Store Area</a>
+					@endcan
+					@can('storetype')
+						<a class="dropdown-item {{ Request::is('maintenance-type') ? 'linkactive' : '' }}" href="/maintenance-type">Store Type</a>
+					@endcan
+					@can('storesetup')
+						<a class="dropdown-item {{ Request::is('maintenance-setup') ? 'linkactive' : '' }}" href="/maintenance-setup">Store Setup</a>
+					@endcan
+					@can('storegroup')
+						<a class="dropdown-item {{ Request::is('maintenance-group') ? 'linkactive' : '' }}" href="/maintenance-group">Store Group</a>
+					@endcan
+					@can('subgroup')
+						<a class="dropdown-item {{ Request::is('maintenance-sub-group') ? 'linkactive' : '' }}" href="/maintenance-sub-group">Mall Sub-Group</a>
+					@endcan
+					@can('network')
+						<a class="dropdown-item {{ Request::is('maintenance-network-setup') ? 'linkactive' : '' }}" href="/maintenance-network-setup">Store Network Setup</a>
+					@endcan
+					@can('delivery')
+						<a class="dropdown-item {{ Request::is('maintenance-delivery-channel') ? 'linkactive' : '' }}" href="/maintenance-delivery-channel">Delivery Channel</a>
+					@endcan
+					@can('tender')
+						<a class="dropdown-item {{ Request::is('maintenance-tender-type') ? 'linkactive' : '' }}" href="/maintenance-tender-type">Tender Type</a>
+					@endcan
+					@can('transaction')
+						<a class="dropdown-item {{ Request::is('maintenance-transaction-type') ? 'linkactive' : '' }}" href="/maintenance-transaction-type">Transaction Type</a>
+					@endcan
+					@can('discount')
+						<a class="dropdown-item {{ Request::is('maintenance-discount') ? 'linkactive' : '' }}" href="/maintenance-discount">Discounts</a>
+					@endcan
+				</div>
 			</li>
 			@can('roles')
 				<li class="nav-item ml-4 mr-1">

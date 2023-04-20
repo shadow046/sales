@@ -98,7 +98,7 @@
     @endif
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 
-    <main class="container-fluid content">
+    <main class="container-fluid">
         @yield('content')
     </main>
     <script src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js" type="text/javascript"></script>

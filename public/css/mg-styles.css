@@ -46,9 +46,10 @@ hr{
 .page-reload{
     cursor: pointer;
 }
-.linkactive, .dropdown-item:hover, h4{
+.linkactive, .dropdown-item:hover, .dropdown-item:active, h4{
     color: #850708 !important;
     font-weight: bold !important;
+    background-color: inherit !important;
 }
 .nav-item, .nav-link{
     color: #850708 !important;
@@ -58,7 +59,7 @@ hr{
     background-color: #850708;
     color: white !important;
 }
-.nav-item:hover, .nav-link:hover{
+.nav-item:hover, .nav-link:hover, .navhover{
     background-color: white;
     color: #850708 !important;
     -webkit-transition: none !important;
@@ -324,11 +325,6 @@ textarea{
 .swal-wide{
     width: 900px !important;
 }
-.content{
-    overflow-x: hidden !important;
-    transition: 0.5s;
-    white-space: nowrap;
-}
 .dt-buttons{
     display: none;
 }
@@ -415,30 +411,24 @@ input[type="date"]{
     transform: rotate(45deg);
     border-bottom-right-radius: 20px;
 }
-/* width */
 ::-webkit-scrollbar{
     width: 10px;
 }
-/* Track */
 ::-webkit-scrollbar-track {
     background: #fbb12d;
 }
-/* Handle */
 ::-webkit-scrollbar-thumb{
     background: #850708;
 }
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover{
     background: #850708;
 }
-
 .search-choice{
     margin-top: 9px !important;
 }
 .search-field{
     margin-top: 7px !important;
 }
-
 label{
     text-transform: uppercase !important;
 }

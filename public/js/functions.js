@@ -504,7 +504,6 @@ $(document).on('change', '#province', function(){
 });
 
 $(document).on('change', '#city', function(){
-    var RegionOption = " ";
     $.ajax({
         url:"/getRegion",
         type:"get",
