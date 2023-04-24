@@ -534,6 +534,90 @@ class ReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byTender(Request $request){
+        if($request->type == 'standard'){
+            $data = Hdr::select('temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
+                ->from(function($query) use($request){
+                    $query->select(
+                        'tendname1 AS tendname', 'tendamnt1 AS tendamnt'
+                    )
+                    ->from('hdr')
+                    ->where('tendname1', '!=', '')
+                    ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname2', 'tendamnt2')
+                            ->where('tendname2', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname3', 'tendamnt3')
+                            ->where('tendname3', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname4', 'tendamnt4')
+                            ->where('tendname4', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname5', 'tendamnt5')
+                            ->where('tendname5', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname6', 'tendamnt6')
+                            ->where('tendname6', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname7', 'tendamnt7')
+                            ->where('tendname7', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname8', 'tendamnt8')
+                            ->where('tendname8', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname9', 'tendamnt9')
+                            ->where('tendname9', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname10', 'tendamnt10')
+                            ->where('tendname10', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname11', 'tendamnt11')
+                            ->where('tendname11', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    )
+                    ->unionAll(
+                        DB::table('hdr')->select('tendname12', 'tendamnt12')
+                            ->where('tendname12', '!=', '')
+                            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                    );
+                }, 'temp')
+                ->groupBy('temp.tendname')
+                ->get();
+
+        }
+        else{
+            $data = Hdr::selectRaw("trantype as transaction_name,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN gross ELSE 0 END) as gross_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN totalsales ELSE 0 END) as total_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date1A' AND '$request->date1B' THEN netsales ELSE 0 END) as net_sales1,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN gross ELSE 0 END) as gross_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN totalsales ELSE 0 END) as total_sales2,
+                        SUM(CASE WHEN STR_TO_DATE(tdate, '%m/%d/%Y') BETWEEN '$request->date2A' AND '$request->date2B' THEN netsales ELSE 0 END) as net_sales2")
+                ->groupBy('transaction_name')
+                ->get();
+        }
+        return DataTables::of($data)->make(true);
+    }
+
     public function byDiscount(Request $request){
         if($request->type == 'standard'){
             $data = Hdr::selectRaw('discname as discount_name, SUM(discamt) as total')

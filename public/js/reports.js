@@ -124,6 +124,12 @@ $('#btnGenerate').on('click', function(){
         var colName = 'transaction_name';
         display_report_A(thTitle, urlName, colName);
     }
+    else if($('#report_category').val() == 'TENDER TYPE'){
+        var thTitle = 'TENDER TYPE';
+        var urlName = '/reports/tender';
+        var colName = 'tendname';
+        display_report_C(thTitle, urlName, colName);
+    }
     else if($('#report_category').val() == 'DISCOUNT'){
         var thTitle = 'DISCOUNT';
         var urlName = '/reports/discount';
