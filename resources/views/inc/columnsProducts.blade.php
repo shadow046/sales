@@ -89,7 +89,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-none">
         <div class="col">
             <div class="checkbox">
                 <label>
@@ -98,7 +98,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-none">
         <div class="col">
             <div class="checkbox">
                 <label>
@@ -107,7 +107,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-none">
         <div class="col">
             <div class="checkbox">
                 <label>
@@ -116,7 +116,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-none">
         <div class="col">
             <div class="checkbox">
                 <label>
@@ -125,7 +125,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-none">
         <div class="col">
             <div class="checkbox">
                 <label>
@@ -134,7 +134,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-none">
         <div class="col">
             <div class="checkbox">
                 <label>
@@ -143,7 +143,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-none">
         <div class="col">
             <div class="checkbox">
                 <label>

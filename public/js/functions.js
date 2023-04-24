@@ -96,7 +96,7 @@ $(document).on('click', '#dashboard', function(){
 });
 
 $(document).ready(function(){
-    if($('#maintenance').attr('data-bs-content').includes('mtn')){
+    if($('.mtn').length > 0){
         $('.maintenance_tab').show();
     }
     else{

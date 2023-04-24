@@ -69,25 +69,6 @@ class ProductsController extends Controller
                 return $setup_row;
             }
         })
-        // ->addColumn('company_name', function(Product $products){
-        //     if(!$products->company){
-        //         return 'NONE';
-        //     }
-        //     else{
-        //         $user_row = '';
-        //         $array = explode("|", $products->company);
-        //         foreach($array as $value){
-        //             $user = Company::where('id', $value)->first();
-        //             if($user_row != ''){
-        //                 $user_row = $user_row.'|'.$user->company_name;
-        //             }
-        //             else{
-        //                 $user_row = $user->company_name;
-        //             }
-        //         }
-        //         return $user_row;
-        //     }
-        // })
         ->addColumn('area_name', function(Product $products){
             if(!$products->area){
                 return 'NONE';
@@ -96,12 +77,17 @@ class ProductsController extends Controller
                 $user_row = '';
                 $array = explode("|", $products->area);
                 foreach($array as $value){
-                    $user = StoreArea::where('id', $value)->first();
-                    if($user_row != ''){
-                        $user_row = $user_row.'|'.$user->store_area;
+                    if($value == '-1'){
+                        $user_row = 'ALL';
                     }
                     else{
-                        $user_row = $user->store_area;
+                        $user = StoreArea::where('id', $value)->first();
+                        if($user_row != ''){
+                            $user_row = $user_row.'|'.$user->store_area;
+                        }
+                        else{
+                            $user_row = $user->store_area;
+                        }
                     }
                 }
                 return $user_row;

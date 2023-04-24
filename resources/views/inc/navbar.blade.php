@@ -90,47 +90,47 @@
 			{{-- <li class="maintenance_tab nav-item dropdown mr-1">
 				<a href="#" id="maintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content='@include("inc.dropdown")'>MAINTENANCE</a>
 			</li> --}}
-			<li class="nav-item dropdown mr-1">
+			<li class="maintenance_tab nav-item dropdown mr-1">
 				<a href="#" id="dropdownMaintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MAINTENANCE</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownMaintenance" style="width: 120%; zoom: 90%;" onmouseover="$('#dropdownMaintenance').addClass('navhover');" onmouseout="$('#dropdownMaintenance').removeClass('navhover');">
 					@can('pos')
-						<a class="dropdown-item {{ Request::is('maintenance-pos') ? 'linkactive' : '' }}" href="/maintenance-pos">POS</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-pos') ? 'linkactive' : '' }}" href="/maintenance-pos">POS</a>
 					@endcan
 					@can('categories')
-						<a class="dropdown-item {{ Request::is('maintenance-category') ? 'linkactive' : '' }}" href="/maintenance-category">Product Category</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-category') ? 'linkactive' : '' }}" href="/maintenance-category">Product Category</a>
 					@endcan
 					@can('salestype')
-						<a class="dropdown-item {{ Request::is('maintenance-sales-type') ? 'linkactive' : '' }}" href="/maintenance-sales-type">Product Sales Type</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-sales-type') ? 'linkactive' : '' }}" href="/maintenance-sales-type">Product Sales Type</a>
 					@endcan
 					@can('storearea')
-						<a class="dropdown-item {{ Request::is('maintenance-store-area') ? 'linkactive' : '' }}" href="/maintenance-store-area">Store Area</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-store-area') ? 'linkactive' : '' }}" href="/maintenance-store-area">Store Area</a>
 					@endcan
 					@can('storetype')
-						<a class="dropdown-item {{ Request::is('maintenance-type') ? 'linkactive' : '' }}" href="/maintenance-type">Store Type</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-type') ? 'linkactive' : '' }}" href="/maintenance-type">Store Type</a>
 					@endcan
 					@can('storesetup')
-						<a class="dropdown-item {{ Request::is('maintenance-setup') ? 'linkactive' : '' }}" href="/maintenance-setup">Store Setup</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-setup') ? 'linkactive' : '' }}" href="/maintenance-setup">Store Setup</a>
 					@endcan
 					@can('storegroup')
-						<a class="dropdown-item {{ Request::is('maintenance-group') ? 'linkactive' : '' }}" href="/maintenance-group">Store Group</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-group') ? 'linkactive' : '' }}" href="/maintenance-group">Store Group</a>
 					@endcan
 					@can('subgroup')
-						<a class="dropdown-item {{ Request::is('maintenance-sub-group') ? 'linkactive' : '' }}" href="/maintenance-sub-group">Mall Sub-Group</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-sub-group') ? 'linkactive' : '' }}" href="/maintenance-sub-group">Mall Sub-Group</a>
 					@endcan
 					@can('network')
-						<a class="dropdown-item {{ Request::is('maintenance-network-setup') ? 'linkactive' : '' }}" href="/maintenance-network-setup">Store Network Setup</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-network-setup') ? 'linkactive' : '' }}" href="/maintenance-network-setup">Store Network Setup</a>
 					@endcan
 					@can('delivery')
-						<a class="dropdown-item {{ Request::is('maintenance-delivery-channel') ? 'linkactive' : '' }}" href="/maintenance-delivery-channel">Delivery Channel</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-delivery-channel') ? 'linkactive' : '' }}" href="/maintenance-delivery-channel">Delivery Channel</a>
 					@endcan
 					@can('tender')
-						<a class="dropdown-item {{ Request::is('maintenance-tender-type') ? 'linkactive' : '' }}" href="/maintenance-tender-type">Tender Type</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-tender-type') ? 'linkactive' : '' }}" href="/maintenance-tender-type">Tender Type</a>
 					@endcan
 					@can('transaction')
-						<a class="dropdown-item {{ Request::is('maintenance-transaction-type') ? 'linkactive' : '' }}" href="/maintenance-transaction-type">Transaction Type</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-transaction-type') ? 'linkactive' : '' }}" href="/maintenance-transaction-type">Transaction Type</a>
 					@endcan
 					@can('discount')
-						<a class="dropdown-item {{ Request::is('maintenance-discount') ? 'linkactive' : '' }}" href="/maintenance-discount">Discounts</a>
+						<a class="mtn dropdown-item {{ Request::is('maintenance-discount') ? 'linkactive' : '' }}" href="/maintenance-discount">Discounts</a>
 					@endcan
 				</div>
 			</li>

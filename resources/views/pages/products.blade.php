@@ -104,7 +104,7 @@
                 <th>STORE SETUP</th>
                 <th>STORE AREA</th>
                 <th>STORE BRANCH</th>
-                <th>DINE-IN PRICE</th>
+                <th>REGULAR | AIRPORT PRICE</th>
                 <th>TAKE-OUT PRICE</th>
                 <th>PICK-UP PRICE</th>
                 <th>DELIVERY PRICE</th>

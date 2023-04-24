@@ -76,6 +76,7 @@
                 <div class="col-md-6 f-outline">
                     <div class="f-outline">
                         <select class="forminput form-control form-select" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
+                                <option value="-1">ALL</option>
                             @foreach($areas as $area)
                                 <option value="{{$area->id}}">{{$area->store_area}}</option>
                             @endforeach
