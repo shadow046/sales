@@ -36,7 +36,7 @@
                 <option value="STORE SETUP">STORE SETUP</option>
                 <option value="DELIVERY CHANNEL">DELIVERY CHANNEL</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE</option>
-                <option value="TENDER TYPE">TENDER TYPE</option>
+                <option value="TENDER TYPE">TENDER TYPE*</option>
                 <option value="DISCOUNT">DISCOUNT</option>
                 <option value="PRODUCT CATEGORY">PRODUCT CATEGORY</option>
                 <option value="COMBO CATEGORY">COMBO CATEGORY</option>
