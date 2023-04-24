@@ -1867,6 +1867,14 @@ setInterval(() => {
 var area_all = [];
 var stores_list = [];
 $(document).on('change', '#area', function(){
+    if($(this).val().includes('-1')){
+        $(this).val(['-1']);
+        $(this).trigger('chosen:updated');
+        $('#store').val([]);
+        $('#store').trigger('chosen:updated');
+        $('.classStore').hide();
+        return false;
+    }
     if(!$('#area option:selected').length){
         $('.classStore').hide();
         $('#store').find('option').remove();

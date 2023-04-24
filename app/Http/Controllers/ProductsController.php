@@ -301,7 +301,7 @@ class ProductsController extends Controller
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
         // $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
         $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
-        $product->store = $request->store == '0' ? '0' : implode("|", $request->store);
+        $product->store = $request->store == '0' || $request->store == '' ? '0' : implode("|", $request->store);
         $product->seq = $request->seq;
         $product->kitchen_printer = $request->kitchen_printer;
         // Page 2
