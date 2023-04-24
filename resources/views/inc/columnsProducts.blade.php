@@ -1,4 +1,4 @@
-<div style="width: 150px;">
+<div style="width: 200px;">
     <div class="row">
         <div class="col">
             <div class="checkbox">
@@ -84,7 +84,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8" disabled/> DINE-IN PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8" disabled/> REGULAR | AIRPORT PRICE
                 </label>
             </div>
         </div>
