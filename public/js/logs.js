@@ -6,7 +6,7 @@ $(document).ready(function(){
             emptyTable: "No Activities Data Found!",
         },
         processing: true,
-        serverSide: true,
+        serverSide: false,
         ajax:{
             url: '/index/data',
         },
@@ -22,7 +22,7 @@ $(document).ready(function(){
             {
                 data: null,
                 "render": function(data, type, row){
-                    return(moment(row.date, 'YYYY-MM-DD HH:mm:ss').format("MMM. DD, YYYY, h:mm A"));
+                    return`<span class="d-none">${row.date}</span>`+moment(row.date, 'YYYY-MM-DD HH:mm:ss').format("MMM. DD, YYYY, h:mm A");
                 }, width: '16vh'
             },
             { data: 'username', width: '22vh' },
@@ -68,10 +68,8 @@ $(document).ready(function(){
     $('#userlogsTable tbody').on('click', 'tr', function(){
         if(!table.data().any()){ return false; }
         var value = table.row(this).data();
-        // var activity = decodeHtml(value.activity).replaceAll(" 【", "<br>【");
         Swal.fire({
             title: moment(value.date).format('dddd, MMMM DD, YYYY, h:mm:ss A'),
-            // html: `<h4>`+value.username+` [`+value.role+`]</h4><br><h5>`+activity+`</h5>`,
             html: `<h4>` + value.username + `[`+ value.role +`]` + `</h4>` + `<br>` + `<ol style="text-align: left !important;font-weight:600 !important;">` +  decodeHtml(value.activity).replaceAll(" 【", "<li>【") + `</li></ol>`,
             icon: 'info',
             customClass: 'swal-wide'

@@ -353,6 +353,15 @@ function formatNumber(n){
     }
 }
 
+function sortAmount(num){
+    let numStr = num.toFixed(2).toString();
+    let [integerPart, decimalPart] = numStr.split('.');
+    while(integerPart.length < 13){
+        integerPart = '0' + integerPart;
+    }
+    return integerPart + '.' + decimalPart;
+}
+
 $(document).on('keypress', '.spChar', function(e){
     var k;
     document.all ? k = e.keyCode : k = e.which;

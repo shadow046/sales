@@ -227,22 +227,23 @@ function display_report_A(thTitle, urlName, colName){
                 {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'total_sales',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'net_sales',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
                     }
                 }
             ],
+            order: [],
             footerCallback:function(row,data,start,end,display){
                 var api=this.api(),data;
                 var intVal = function ( i ) {
@@ -360,37 +361,37 @@ function display_report_A(thTitle, urlName, colName){
                 {
                     data: 'gross_sales1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'total_sales1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'net_sales1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'gross_sales2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'total_sales2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales2).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'net_sales2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales2).toFixed(2))}</span>`;
                     }
                 }
             ],
@@ -500,7 +501,7 @@ function display_report_B(urlName){
                 {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
                     }
                 }
             ],
@@ -611,13 +612,13 @@ function display_report_B(urlName){
                 {
                     data: 'gross_sales1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'gross_sales2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
                     }
                 }
             ],
@@ -717,7 +718,7 @@ function display_report_C(thTitle, urlName, colName){
                 {
                     data: 'total',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total).toFixed(2))}</span>`;
                     }
                 }
             ],
@@ -818,13 +819,13 @@ function display_report_C(thTitle, urlName, colName){
                 {
                     data: 'total1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'total2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total2).toFixed(2))}</span>`;
                     }
                 }
             ],
@@ -965,19 +966,19 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
                 {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'total_sales',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'net_sales',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
                     }
                 }
             ],
@@ -1105,37 +1106,37 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
                 {
                     data: 'gross_sales1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'total_sales1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'net_sales1',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales1).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales1).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'gross_sales2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales2).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'total_sales2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales2).toFixed(2))}</span>`;
                     }
                 },
                 {
                     data: 'net_sales2',
                     "render": function(data, type, row, meta){
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales2).toFixed(2))}</span>`;
+                        return `<span class="d-none">${sortAmount(data)}</span><span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales2).toFixed(2))}</span>`;
                     }
                 }
             ],
