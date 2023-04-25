@@ -80,13 +80,11 @@
 					<a class="nav-link {{ Request::is('products') ? 'navactive' : '' }}" href="/products">PRODUCTS<span style="border: 1px solid white !important;" class="badge rounded-pill bg-danger ml-2 {{ App\Models\Product::where('product_update_status', '0')->count() > 0 ? 'd-inline' : 'd-none' }}">{{ App\Models\Product::where('product_update_status', '0')->count() }}</span></a>
 				</li>
 			@endcan
-			@if(env('APP_SYS') == 'DD')
-				@can('prices')
-					<li class="nav-item mr-1">
-						<a class="nav-link {{ Request::is('price_update') ? 'navactive' : '' }}" href="/price_update">PRICE UPDATE<span style="border: 1px solid white;" class="badge rounded-pill bg-danger ml-2 {{ App\Models\PriceUpdate::where('price_update_status', '0')->count() > 0 ? 'd-inline' : 'd-none' }}">{{ App\Models\PriceUpdate::where('price_update_status', '0')->count() }}</span></a>
-					</li>
-				@endcan
-			@endif
+			@can('prices')
+				<li class="nav-item mr-1">
+					<a class="nav-link {{ Request::is('price_update') ? 'navactive' : '' }}" href="/price_update">PRICE UPDATE<span style="border: 1px solid white;" class="badge rounded-pill bg-danger ml-2 {{ App\Models\PriceUpdate::where('price_update_status', '0')->count() > 0 ? 'd-inline' : 'd-none' }}">{{ App\Models\PriceUpdate::where('price_update_status', '0')->count() }}</span></a>
+				</li>
+			@endcan
 			{{-- <li class="maintenance_tab nav-item dropdown mr-1">
 				<a href="#" id="maintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content='@include("inc.dropdown")'>MAINTENANCE</a>
 			</li> --}}
