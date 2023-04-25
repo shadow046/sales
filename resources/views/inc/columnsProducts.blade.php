@@ -84,7 +84,12 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8" disabled/> REGULAR | AIRPORT PRICE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8" disabled/> 
+                    @if(env('APP_SYS') == 'DD')
+                        REGULAR | AIRPORT PRICE
+                    @else
+                        REGULAR PRICE
+                    @endif
                 </label>
             </div>
         </div>
