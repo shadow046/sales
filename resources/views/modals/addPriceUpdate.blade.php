@@ -27,7 +27,7 @@
                 </div>
 
                 <div id="divPriceUpdate">
-                    <ul class="nav nav-tabs" style="border: none;" role="tablist">
+                    <ul class="nav nav-tabs {{ env('APP_SYS') != 'DD' ? 'd-none' : '' }}" style="border: none; zoom: 90%;" role="tablist">
                         <li class="nav-item"style="margin-right:5px" >
                             <a class="nav-link pill bg-sub tab_regular active" style="text-decoration: none; color: white;" id="tab_regular" data-bs-toggle="tab" href="#page_regular"> REGULAR</a>
                         </li>
