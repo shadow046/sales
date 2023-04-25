@@ -1585,7 +1585,11 @@ $('#btnUpload').on('click', function(){
     }
 });
 
-$(document).on('click', '.btnSendUpdate', function(){
+$(document).on('click','.btnSendUpdate',function(){
+    $('#sendUpdateModal').modal('show');
+});
+
+$(document).on('click','.sendUpdateBtn',function(){
     Swal.fire({
         title: 'Send All Product Updates?',
         allowOutsideClick: false,
@@ -1615,6 +1619,7 @@ $(document).on('click', '.btnSendUpdate', function(){
                             icon: 'success',
                             timer: 2000
                         });
+                        $('#sendUpdateModal').modal('hide');
                         setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else{
@@ -1629,10 +1634,59 @@ $(document).on('click', '.btnSendUpdate', function(){
             });
         }
         else if(save.isDenied){
-            Swal.fire('SEND CANCELLED','','info');
+            Swal.fire('CANCELLED','','info');
         }
     });
 });
+
+// $(document).on('click', '.btnSendUpdate', function(){
+//     Swal.fire({
+//         title: 'Send All Product Updates?',
+//         allowOutsideClick: false,
+//         allowEscapeKey: false,
+//         showDenyButton: true,
+//         confirmButtonText: 'Yes',
+//         denyButtonText: 'No',
+//         customClass: {
+//         actions: 'my-actions',
+//         confirmButton: 'order-2',
+//         denyButton: 'order-3',
+//         }
+//     }).then((save) => {
+//         if(save.isConfirmed){
+//             $('#loading').show();
+//             $.ajax({
+//                 url:'/sendProductUpdate',
+//                 type:"POST",
+//                 headers:{
+//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                 },
+//                 success:function(data){
+//                     if(data == 'true'){
+//                         $('#loading').hide();
+//                         Swal.fire({
+//                             title: 'PRODUCT UPDATES SENT SUCCESSFULLY',
+//                             icon: 'success',
+//                             timer: 2000
+//                         });
+//                         setTimeout(function(){window.location.reload();}, 2000);
+//                     }
+//                     else{
+//                         $('#loading').hide();
+//                         Swal.fire({
+//                             title: 'SEND FAILED',
+//                             icon: 'error',
+//                             timer: 2000
+//                         });
+//                     }
+//                 }
+//             });
+//         }
+//         else if(save.isDenied){
+//             Swal.fire('SEND CANCELLED','','info');
+//         }
+//     });
+// });
 
 $(document).ready(function(){
     if(current_location == '/products?import=success_without_errors'){

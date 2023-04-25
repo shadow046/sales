@@ -48,6 +48,9 @@ class ProductsController extends Controller
             ->selectRaw('senior, pwd')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
             ->join('category','category.id','products.category')
+            ->orderBy('product_update_status','DESC')
+            ->orderBy('category_name','ASC')
+            ->orderBy('item_code','ASC')
             ->get();
         return DataTables::of($products)
         ->addColumn('setup_name', function(Product $products){

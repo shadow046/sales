@@ -95,6 +95,7 @@ class StoreController extends Controller
                 ->join('subgroup','subgroup.id','store.sub_group')
                 ->join('network_setup','network_setup.id','store.network')
                 ->join('store_area','store_area.id','store.store_area')
+                ->orderBy('branch_name','ASC')
                 ->get();
         }
 

@@ -31,7 +31,7 @@ class CompanyController extends Controller
 
     public function company_data()
     {
-        return DataTables::of(Company::where('id','!=',0)->get())->make(true);
+        return DataTables::of(Company::where('id','!=',0)->orderBy('company_name','ASC')->get())->make(true);
     }
 
     public function company_reload(){

@@ -128,6 +128,8 @@
 <hr>
 @include('modals.addProducts')
 @include('modals.importProducts')
+@include('modals.sendUpdate')
+
 <div class="modal fade" id="modal_product_image_preview" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -141,5 +143,6 @@
         </div>
     </div>
 </div>
+
 <script src={{asset('js/maintenance/products.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection
