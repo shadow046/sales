@@ -104,7 +104,11 @@
                 <th>STORE SETUP</th>
                 <th>STORE AREA</th>
                 <th>STORE BRANCH</th>
-                <th>REGULAR | AIRPORT PRICE</th>
+                @if(env('APP_SYS') == 'DD')
+                    <th>REGULAR | AIRPORT PRICE</th>
+                @else
+                    <th>REGULAR PRICE</th>
+                @endif
                 <th>TAKE-OUT PRICE</th>
                 <th>PICK-UP PRICE</th>
                 <th>DELIVERY PRICE</th>
