@@ -1,15 +1,15 @@
 $('#date_submit').on('click',function(){
-    var html ='<table class="table table-striped ebookTable w-100" tbl="ebookTable">' +
+    var html ='<table class="table table-striped ebookTable w-100" tbl="ebookTable" id="ebookTable">' +
             '<thead style="font-weight:bolder" class="bg-default">' +
             '<tr>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>' +
             '</td>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>' +
             '</td>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>' +
             '</td>' +
             '</tr>' +
             '<tr>' +
@@ -24,17 +24,17 @@ $('#date_submit').on('click',function(){
     $('#page_ebook').empty().append(html);
     displayUploads('ebookTable', 'EBOOK');
 
-    var html = '<table class="table table-striped salesMixTable w-100" tbl="salesMixTable">' +
+    var html = '<table class="table table-striped salesMixTable w-100" tbl="salesMixTable" id="salesMixTable">' +
             '<thead style="font-weight:bolder" class="bg-default">' +
             '<tr>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>' +
             '</td>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>' +
             '</td>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>' +
             '</td>' +
             '</tr>' +
             '<tr>' +
@@ -49,17 +49,17 @@ $('#date_submit').on('click',function(){
     $('#page_sales_mix').empty().append(html);
     displayUploads('salesMixTable', 'SALESMIX');
 
-    var html = '<table class="table table-striped endOfDayTable w-100" tbl="endOfDayTable">' +
+    var html = '<table class="table table-striped endOfDayTable w-100" tbl="endOfDayTable" id="endOfDayTable">' +
                 '<thead style="font-weight:bolder" class="bg-default">' +
                 '<tr>' +
                 '<td>' +
-                '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+                '<input type="search" class="form-control filter-input3" data-column="0" style="border:1px solid #808080"/>' +
                 '</td>' +
                 '<td>' +
-                '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+                '<input type="search" class="form-control filter-input3" data-column="1" style="border:1px solid #808080"/>' +
                 '</td>' +
                 '<td>' +
-                '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+                '<input type="search" class="form-control filter-input3" data-column="2" style="border:1px solid #808080"/>' +
                 '</td>' +
                 '</tr>' +
                 '<tr>' +
@@ -74,17 +74,17 @@ $('#date_submit').on('click',function(){
     $('#page_end_of_day').empty().append(html);
     displayUploads('endOfDayTable', 'EOD');
 
-    var html ='<table class="table table-striped terminalTable w-100" tbl="terminalTable">' +
+    var html ='<table class="table table-striped terminalTable w-100" tbl="terminalTable" id="terminalTable">' +
             '<thead style="font-weight:bolder" class="bg-default">' +
             '<tr>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input4" data-column="0" style="border:1px solid #808080"/>' +
             '</td>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input4" data-column="1" style="border:1px solid #808080"/>' +
             '</td>' +
             '<td>' +
-            '<input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>' +
+            '<input type="search" class="form-control filter-input4" data-column="2" style="border:1px solid #808080"/>' +
             '</td>' +
             '</tr>' +
             '<tr>' +
@@ -256,6 +256,23 @@ function displayUploads(upload_table, upload_name){
         ]
     });
 }
+
+$(document).on('keyup search','.filter-input1', function(){
+    var tbl1 = $('#ebookTable').DataTable();
+    tbl1.column($(this).data('column')).search($(this).val()).draw();
+});
+$(document).on('keyup search','.filter-input2', function(){
+    var tbl2 = $('#salesMixTable').DataTable();
+    tbl2.column($(this).data('column')).search($(this).val()).draw();
+});
+$(document).on('keyup search','.filter-input3', function(){
+    var tbl3 = $('#endOfDayTable').DataTable();
+    tbl3.column($(this).data('column')).search($(this).val()).draw();
+});
+$(document).on('keyup search','.filter-input4', function(){
+    var tbl4 = $('#terminalTable').DataTable();
+    tbl4.column($(this).data('column')).search($(this).val()).draw();
+});
 
 $(document).on('click','table tbody tr',function(){
     var upl = $(this).parent().parent().attr('tbl');
