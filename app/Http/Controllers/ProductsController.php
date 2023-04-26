@@ -19,6 +19,7 @@ use App\Models\PromoProductCombination;
 use App\Models\Company;
 use App\Models\StoreArea;
 use App\Models\Store;
+use App\Models\Type;
 
 
 class ProductsController extends Controller
@@ -36,7 +37,9 @@ class ProductsController extends Controller
         $sales_types = SalesType::select('id','sales_type')->where('id','!=','0')->where('sales_type_status','!=','DELETED')->get()->sortBy('sales_type');
         $setups = Setup::select('id', 'setup')->where('id','!=','0')->where('setup_status','!=','DELETED')->get()->sortBy('setup');
         $areas = StoreArea::where('id', '!=', '0')->where('store_area_status', 'ACTIVE')->get()->sortBy('store_area');
-        return view('pages.products', compact('products','categories','product_categories','sales_types','setups','areas'));
+        $companies = Company::select('id','company_name')->where('id','!=','0')->where('status','!=','INACTIVE')->get()->sortBy('company_name');
+        $types = Type::select('id', 'type')->where('id','!=','0')->where('type_status','!=','DELETED')->get()->sortBy('type');
+        return view('pages.products', compact('products','categories','product_categories','sales_types','setups','areas','companies','types'));
     }
 
     public function products_data()
@@ -46,6 +49,7 @@ class ProductsController extends Controller
             ->selectRaw('dine_in_airport, take_out_airport, pick_up_airport, delivery_airport, bulk_order_airport, fds_airport, drive_thru_airport, meal_type_airport')
             ->selectRaw('pos_setup, max_modifier, seq, kitchen_printer, promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
             ->selectRaw('senior, pwd')
+            ->selectRaw('company, type, store_code')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
             ->join('category','category.id','products.category')
             ->orderBy('product_update_status','DESC')
