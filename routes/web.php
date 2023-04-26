@@ -132,6 +132,7 @@ Route::controller(ProductsController::class)->group(function(){
     Route::any('/products/update','products_update');
     Route::any('/products/insertImage','insertImage');
     Route::any('/products/import','import');
+    Route::any('/products/stores','products_stores');
     Route::any('/item_code/checkDuplicate','checkDuplicate');
     Route::any('/sku/checkDuplicate','checkDuplicate');
     Route::any('/modifier_code/checkDuplicate','checkDuplicate');

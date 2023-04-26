@@ -374,6 +374,64 @@ class ProductsController extends Controller
         return $productImageFileName;
     }
 
+    public function products_stores(Request $request){
+        if($request->area_id == ['0']){
+            $area_array = StoreArea::select('id')->get()->toArray();
+            $areas = array_map(function($item) {
+                return $item['id'];
+            }, $area_array);
+        }
+        else{
+            $areas = $request->area_id;
+        }
+
+        if($request->company_id == ['0']){
+            $company_array = Company::select('id')->get()->toArray();
+            $companies = array_map(function($item) {
+                return $item['id'];
+            }, $company_array);
+        }
+        else{
+            $companies = $request->company_id;
+        }
+
+        if($request->type_id == ['0']){
+            $type_array = Type::select('id')->get()->toArray();
+            $types = array_map(function($item) {
+                return $item['id'];
+            }, $type_array);
+        }
+        else{
+            $types = $request->type_id;
+        }
+
+        $list = array();
+        $stores = Store::query()
+            ->whereIn('company_name', $companies)
+            ->whereIn('type', $types)
+            ->whereIn('store_area', $areas)
+            ->orderBy('branch_code', 'asc')
+            ->get();
+        foreach($stores as $store){
+            if($request->setup_id == ['0']){
+                array_push($list, $store);
+            }
+            else{
+                $setup_array = explode(',',$store->setup);
+                $x = 0;
+                foreach($request->setup_id as $setup_id){
+                    if($x == 0){
+                        if(in_array($setup_id, $setup_array)){
+                            array_push($list, $store);
+                            $x++;
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json($list);
+    }
+
     public function checkDuplicate(Request $request){
         if(Product::where('item_code',$request->item_code)->count() > 0){
             return 'duplicate_item_code';

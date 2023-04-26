@@ -11,10 +11,12 @@
     $('#area').chosen();
     $('#area_chosen').css('width','100%');
 
+    $('#store').chosen();
+    $('#store_chosen').css('width','100%');
+
 });
 
 $('.addBtn').on('click',function(){
-    area_all = [];
     stores_list = [];
     promo_id = [];
     suspend_id = [];
@@ -42,10 +44,11 @@ $('.addBtn').on('click',function(){
     $('#company').val('').trigger('chosen:updated');
     $('#type').val('').trigger('chosen:updated');
 
-    $('#area').change();
-    $('#store').change();
     $('#company').change();
     $('#type').change();
+    $('#setup').change();
+    $('#area').change();
+    $('#store').change();
 
 });
 var table;
@@ -895,7 +898,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         current_modal = 'UPDATE';
         $('#loading').show();
         $('.req').hide();
-        area_all = [];
         stores_list = [];
         promo_id = [];
         suspend_id = [];
@@ -1053,7 +1055,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
 
         setTimeout(() => {
             $('#company').change();
-            $('#company').chosen();
             $('#company').trigger('chosen:updated');
         }, current_timeout);
 
@@ -1069,7 +1070,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
 
         setTimeout(() => {
             $('#type').change();
-            $('#type').chosen();
             $('#type').trigger('chosen:updated');
         }, current_timeout);
 
@@ -1085,7 +1085,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
 
         setTimeout(() => {
             $('#setup').change();
-            $('#setup').chosen();
             $('#setup').trigger('chosen:updated');
         }, current_timeout);
 
@@ -1099,7 +1098,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         });
 
         setTimeout(() => {
-            $('#area').chosen();
             $('#area').trigger('chosen:updated');
             $('#area').change();
 
@@ -1113,7 +1111,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
                     }
                 });
                 setTimeout(() => {
-                    $('#store').chosen();
                     $('#store').trigger('chosen:updated');
                     $('#store').change();
                 }, current_timeout);
@@ -1830,33 +1827,29 @@ setInterval(() => {
     }
 }, 0);
 
-var area_all = [];
+$(document).on('change', '#company, #type, #setup', function(){
+    $('#area').change();
+});
+
 var stores_list = [];
 $(document).on('change', '#area', function(){
-    if($(this).val().includes('-1')){
-        $(this).val(['-1']);
-        $(this).trigger('chosen:updated');
-        $('#store').val([]);
-        $('#store').trigger('chosen:updated');
-        return false;
-    }
     if(!$('#area option:selected').length){
         $('#store').find('option').remove();
-        $('#store').chosen();
         $('#store').trigger('chosen:updated');
     }
     else{
         var storesOption = " ";
         $.ajax({
-            url:"/users/stores",
+            url:"/products/stores",
             type:"get",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data:{
+                company_id: $('#company').val(),
+                type_id: $('#type').val(),
                 setup_id: $('#setup').val(),
-                area_id: $('#area').val(),
-                area_all: area_all
+                area_id: $('#area').val()
             },
             success:function(data){
                 var stores = $.map(data, function(value, index) {
@@ -1872,7 +1865,6 @@ $(document).on('change', '#area', function(){
                     storesOption+='<option value="'+value.id+'">'+value.branch_code+': '+value.branch_name+'</option>';
                 });
                 $('#store').find('option').remove().end().append(storesOption);
-                $('#store').chosen();
                 $('#store').trigger('chosen:updated');
                 $('.branchCount').html(stores.length);
 
@@ -1885,7 +1877,6 @@ $(document).on('change', '#area', function(){
                             $(this).prop("selected",false);
                         }
                     });
-                    $('#store').chosen();
                     $('#store').trigger('chosen:updated');
                 }
                 $('#store_count').html(stores.length);
@@ -2060,6 +2051,7 @@ $(document).on('blur','#dine_in_airport',function(){
 });
 
 setInterval(() => {
+    $('#area_chosen').css('width','100%');
     if($("#company").val().length != 0 && $("#type").val().length != 0 && $("#setup").val().length != 0 && $("#area").val().length != 0){
         $('.classStore').show();
     }
