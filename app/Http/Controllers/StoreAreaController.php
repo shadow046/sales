@@ -28,6 +28,7 @@ class StoreAreaController extends Controller
             StoreArea::select()
                 ->where('id','!=',0)
                 ->where('store_area_status','!=','DELETED')
+                ->orderBy('store_area','ASC')
                 ->get()
         )->make(true);
     }

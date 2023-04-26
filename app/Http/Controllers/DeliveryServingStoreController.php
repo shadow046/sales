@@ -29,6 +29,7 @@ class DeliveryServingStoreController extends Controller
             DeliveryServingStore::select()
                 ->where('id','!=',0)
                 ->where('delivery_serving_store_status','!=','DELETED')
+                ->orderBy('delivery_serving_store','ASC')
                 ->get()
         )->make(true);
     }
