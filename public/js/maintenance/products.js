@@ -1,15 +1,15 @@
  $(document).ready(function(){
+    $('#company').chosen();
+    $('#company_chosen').css('width','100%');
+
+    $('#type').chosen();
+    $('#type_chosen').css('width','100%');
+
     $('#setup').chosen();
     $('#setup_chosen').css('width','100%');
 
     $('#area').chosen();
-    $('#area_chosen').css({'width': '100%'});
-
-    $('#company').chosen();
-    $('#company_chosen').css({'width': '100%'});
-
-    $('#type').chosen();
-    $('#type_chosen').css({'width': '100%'});
+    $('#area_chosen').css('width','100%');
 
 });
 
@@ -870,44 +870,6 @@ $('.saveBtn').on('click',function(){
                                 });
                             });
 
-                            // $('#promoProductCombination_orig').DataTable().destroy();
-                            // var promoProductCombination_data = $('#promoProductCombination_orig').DataTable().rows().data();
-                            // $.each(promoProductCombination_data, function(key, value){
-                            //     var va = $.trim(value[0]);
-                            //     if(suspend_id.includes(va.toString())){
-                            //         var suspend = 'INACTIVE';
-                            //     }
-                            //     else{
-                            //         var suspend = 'ACTIVE';
-                            //     }
-                            //     $.ajax({
-                            //         type: 'POST',
-                            //         url: '/savePromoProductCombination',
-                            //         async: false,
-                            //         headers:{
-                            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            //         },
-                            //         data:{
-                            //             promo_id : data.id,
-                            //             product : va.toString(),
-                            //             qty : value[4],
-                            //             promo_item_status: suspend
-                            //         },
-                            //     });
-                            // });
-
-                            // $.ajax({
-                            //     type: 'POST',
-                            //     url: '/promo_product_combination/bulk_delete',
-                            //     headers:{
-                            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            //     },
-                            //     data:{
-                            //         promo_id: id,
-                            //         product_id: promo_id.toString()
-                            //     }
-                            // });
-
                             $('#loading').hide();
                             $('#productsModal').modal('hide');
                             Swal.fire("UPDATE SUCCESS", "", "success");
@@ -1093,7 +1055,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             $('#company').change();
             $('#company').chosen();
             $('#company').trigger('chosen:updated');
-            $('#company_chosen').css('width','100%');
         }, current_timeout);
 
         var type_array = data.type.split()[0].split(',');
@@ -1110,7 +1071,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             $('#type').change();
             $('#type').chosen();
             $('#type').trigger('chosen:updated');
-            $('#type_chosen').css('width','100%');
         }, current_timeout);
 
         var setup_array = data.setup.split()[0].split(',');
@@ -1127,7 +1087,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             $('#setup').change();
             $('#setup').chosen();
             $('#setup').trigger('chosen:updated');
-            $('#setup_chosen').css('width','100%');
         }, current_timeout);
 
         $("#area").children("option").each(function(){
@@ -1142,7 +1101,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         setTimeout(() => {
             $('#area').chosen();
             $('#area').trigger('chosen:updated');
-            $('#area_chosen').css({'width': '100%'});
             $('#area').change();
 
             setTimeout(() => {
@@ -1157,7 +1115,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
                 setTimeout(() => {
                     $('#store').chosen();
                     $('#store').trigger('chosen:updated');
-                    $('#store_chosen').css({'width': '100%'});
                     $('#store').change();
                 }, current_timeout);
             }, current_timeout);
@@ -1215,81 +1172,6 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             });
             $('.td_totalAmount').html(formatNumber(td_totalAmount.toFixed(2)));
         }
-        // $('#promoProductCombination_orig').dataTable().fnDestroy();
-        // $('#promoProductCombination_orig').DataTable({
-        //     columnDefs: [
-        //         {
-        //             "render": function(data, type, row, meta){
-        //                     return '<center><button type="button" class="btn btn-danger btndelItem" id="'+ meta.row +'"><i class="fa-solid fa-trash-can"></i> DELETE </button></center>';
-        //             },
-        //             "defaultContent": '',
-        //             "data": null,
-        //             "targets": [7]
-        //         },
-        //         {
-        //             "targets": [0,6],
-        //             "visible": false,
-        //             "searchable": false
-        //         },
-        //     ],
-        //     searching: false,
-        //     paging: false,
-        //     ordering: false,
-        //     info: false,
-        //     autoWidth: false,
-        //     language:{
-        //         emptyTable: "No data available in table",
-        //         processing: "Loading...",
-        //     },
-        //     serverSide: true,
-        //     ajax: {
-        //         url: '/promo_product_combination/data',
-        //         async: false,
-        //         data:{
-        //             id: data.id,
-        //         }
-        //     },
-        //     columns: [
-        //         { data: 'product_id', name:'product_id'},
-        //         { data: 'item_code', name:'item_code'},
-        //         { data: 'long_description', name:'long_description'},
-        //         { data: 'dine_in', name:'dine_in'},
-        //         { data: 'qty', name:'qty'},
-        //         {
-        //             data: 'promo_item_status',
-        //             "render":function(data,type,row){
-        //                 if(row.promo_item_status == 'INACTIVE'){
-        //                     suspend_id.push(row.product_id);
-        //                 }
-        //                 else{
-        //                     var index = suspend_id.indexOf(row.product_id);
-        //                     if(index !== -1){
-        //                         suspend_id.splice(index, 1);
-        //                     }
-        //                 }
-        //                 return(`<center><input type='checkbox' class='checkbox cbx' style='zoom:180%;' value="${row.product_id}"></center>`);
-        //             }
-        //         },
-        //         {
-        //             data: 'product_id',
-        //             "render":function(data,type,row){
-        //                 return '0';
-        //             }
-        //         }
-        //     ],
-        //     initComplete: function(){
-        //         $('.cbx').each(function() {
-        //             var va = parseInt($.trim($(this).val()));
-        //             if(suspend_id.includes(va.toString())){
-        //                 $(this).prop('checked',true);
-        //             }
-        //             else{
-        //                 $(this).prop('checked',false);
-        //             }
-        //         });
-        //         $('#loading').hide();
-        //     }
-        // });
         $('#loading').hide();
         $('#productsModal').modal('show');
     }
@@ -1615,61 +1497,11 @@ $('#btnUpload').on('click', function(){
     }
 });
 
-$(document).on('click','.btnSendUpdate',function(){
-    $('#sendUpdateModal').modal('show');
-});
+// $(document).on('click','.btnSendUpdate',function(){
+//     $('#sendUpdateModal').modal('show');
+// });
 
-$(document).on('click','.sendUpdateBtn',function(){
-    Swal.fire({
-        title: 'Send All Product Updates?',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        showDenyButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: 'No',
-        customClass: {
-        actions: 'my-actions',
-        confirmButton: 'order-2',
-        denyButton: 'order-3',
-        }
-    }).then((save) => {
-        if(save.isConfirmed){
-            $('#loading').show();
-            $.ajax({
-                url:'/sendProductUpdate',
-                type:"POST",
-                headers:{
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success:function(data){
-                    if(data == 'true'){
-                        $('#loading').hide();
-                        Swal.fire({
-                            title: 'PRODUCT UPDATES SENT SUCCESSFULLY',
-                            icon: 'success',
-                            timer: 2000
-                        });
-                        $('#sendUpdateModal').modal('hide');
-                        setTimeout(function(){window.location.reload();}, 2000);
-                    }
-                    else{
-                        $('#loading').hide();
-                        Swal.fire({
-                            title: 'SEND FAILED',
-                            icon: 'error',
-                            timer: 2000
-                        });
-                    }
-                }
-            });
-        }
-        else if(save.isDenied){
-            Swal.fire('CANCELLED','','info');
-        }
-    });
-});
-
-// $(document).on('click', '.btnSendUpdate', function(){
+// $(document).on('click','.sendUpdateBtn',function(){
 //     Swal.fire({
 //         title: 'Send All Product Updates?',
 //         allowOutsideClick: false,
@@ -1699,6 +1531,7 @@ $(document).on('click','.sendUpdateBtn',function(){
 //                             icon: 'success',
 //                             timer: 2000
 //                         });
+//                         $('#sendUpdateModal').modal('hide');
 //                         setTimeout(function(){window.location.reload();}, 2000);
 //                     }
 //                     else{
@@ -1713,10 +1546,59 @@ $(document).on('click','.sendUpdateBtn',function(){
 //             });
 //         }
 //         else if(save.isDenied){
-//             Swal.fire('SEND CANCELLED','','info');
+//             Swal.fire('CANCELLED','','info');
 //         }
 //     });
 // });
+
+$(document).on('click', '.btnSendUpdate', function(){
+    Swal.fire({
+        title: 'Send All Product Updates?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if(save.isConfirmed){
+            $('#loading').show();
+            $.ajax({
+                url:'/sendProductUpdate',
+                type:"POST",
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function(data){
+                    if(data == 'true'){
+                        $('#loading').hide();
+                        Swal.fire({
+                            title: 'PRODUCT UPDATES SENT SUCCESSFULLY',
+                            icon: 'success',
+                            timer: 2000
+                        });
+                        setTimeout(function(){window.location.reload();}, 2000);
+                    }
+                    else{
+                        $('#loading').hide();
+                        Swal.fire({
+                            title: 'SEND FAILED',
+                            icon: 'error',
+                            timer: 2000
+                        });
+                    }
+                }
+            });
+        }
+        else if(save.isDenied){
+            Swal.fire('SEND CANCELLED','','info');
+        }
+    });
+});
 
 $(document).ready(function(){
     if(current_location == '/products?import=success_without_errors'){
@@ -1962,7 +1844,6 @@ $(document).on('change', '#area', function(){
         $('#store').find('option').remove();
         $('#store').chosen();
         $('#store').trigger('chosen:updated');
-        $('#store_chosen').css({'width': '100%'});
     }
     else{
         var storesOption = " ";
@@ -1993,7 +1874,6 @@ $(document).on('change', '#area', function(){
                 $('#store').find('option').remove().end().append(storesOption);
                 $('#store').chosen();
                 $('#store').trigger('chosen:updated');
-                $('#store_chosen').css({'width': '100%'});
                 $('.branchCount').html(stores.length);
 
                 if(stores_list.length > 0){
@@ -2007,7 +1887,6 @@ $(document).on('change', '#area', function(){
                     });
                     $('#store').chosen();
                     $('#store').trigger('chosen:updated');
-                    $('#store_chosen').css({'width': '100%'});
                 }
                 $('#store_count').html(stores.length);
             }

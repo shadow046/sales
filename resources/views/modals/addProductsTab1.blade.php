@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-md f-outline">
                     <select id="company" name="company" class="forminput form-control form-select requiredField" multiple style="color: black" data-placeholder="Select Company">
-                        <option value="-1">ALL</option>
+                        <option value="0">ALL</option>
                         @foreach($companies as $company)
                             <option value="{{$company->id}}">{{$company->company_name}}</option>
                         @endforeach
@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-md f-outline classType">
                     <select id="type" name="type" class="forminput form-control form-select requiredField" multiple style="color: black" data-placeholder="Select Type">
-                        <option value="-1">ALL</option>
+                        <option value="0">ALL</option>
                         @foreach($types as $type)
                             <option value="{{$type->id}}">{{$type->type}}</option>
                         @endforeach
@@ -75,6 +75,7 @@
             <div class="col-12 row mb-4">
                 <div class="col-md-4 f-outline classSetup">
                     <select class="forminput form-control form-select" multiple id="setup" name="setup" data-placeholder="Select Setup">
+                        <option value="0">ALL</option>
                         @foreach($setups as $setup)
                             <option value="{{$setup->id}}">{{$setup->setup}}</option>
                         @endforeach
@@ -83,7 +84,7 @@
                 </div>
                 <div class="col-md f-outline classArea">
                     <select class="forminput form-control form-select" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
-                        <option value="-1">ALL</option>
+                        <option value="0">ALL</option>
                         @foreach($areas as $area)
                             <option value="{{$area->id}}">{{$area->store_area}}</option>
                         @endforeach
