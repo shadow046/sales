@@ -206,9 +206,11 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
-        // $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->type = $request->type == '0' ? '0' : implode("|", $request->type);
         $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
         $product->store = $request->store == '0' ? '0' : implode("|", $request->store);
+        $product->store_code = implode(",",$request->store_code);
         $product->seq = $request->seq;
         $product->kitchen_printer = $request->kitchen_printer;
         // Page 2
@@ -306,9 +308,11 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
-        // $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->type = $request->type == '0' ? '0' : implode("|", $request->type);
         $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
         $product->store = $request->store == '0' || $request->store == '' ? '0' : implode("|", $request->store);
+        $product->store_code = implode(",",$request->store_code);
         $product->seq = $request->seq;
         $product->kitchen_printer = $request->kitchen_printer;
         // Page 2

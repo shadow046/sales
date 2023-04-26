@@ -1,4 +1,4 @@
- $(document).ready(function(){
+$(document).ready(function(){
     $('#company').chosen();
     $('#company_chosen').css('width','100%');
 
@@ -13,7 +13,6 @@
 
     $('#store').chosen();
     $('#store_chosen').css('width','100%');
-
 });
 
 $('.addBtn').on('click',function(){
@@ -520,6 +519,8 @@ $('.saveBtn').on('click',function(){
     var long_desc = $('#long_desc').val();
     var sku = $('#sku').val();
     var modifier_code = $('#modifier_code').val();
+    var company = $('#company').val();
+    var type = $('#type').val();
     var setup = $('#setup').val();
     var area = $('#area').val();
     var store = $('#store').val();
@@ -607,6 +608,13 @@ $('.saveBtn').on('click',function(){
         var promo_setup_text = promo_setup.toString();
     }
 
+    var store_code = new Array();
+    $("#store option:selected").each(function(){
+        var selectedText = $(this).text();
+        var code = selectedText.split(":")[0];
+        store_code.push(code);
+    });
+
     if($('.saveBtn').attr('btntype') == 'SAVE'){
         Swal.fire({
             title: 'Do you want to save?',
@@ -647,9 +655,12 @@ $('.saveBtn').on('click',function(){
                         long_desc:long_desc,
                         sku:sku,
                         modifier_code:modifier_code,
+                        company:company,
+                        type:type,
                         setup:setup,
-                        area: area,
-                        store: store,
+                        area:area,
+                        store:store,
+                        store_code:store_code,
                         dine_in:dine_in,
                         take_out:take_out,
                         pick_up:pick_up,
@@ -790,9 +801,12 @@ $('.saveBtn').on('click',function(){
                         long_desc:long_desc,
                         sku:sku,
                         modifier_code:modifier_code,
+                        company:company,
+                        type:type,
                         setup:setup,
-                        area: area,
-                        store: store,
+                        area:area,
+                        store:store,
+                        store_code:store_code,
                         dine_in:dine_in,
                         take_out:take_out,
                         pick_up:pick_up,
@@ -1828,11 +1842,19 @@ setInterval(() => {
 }, 0);
 
 $(document).on('change', '#company, #type, #setup', function(){
+    if($(this).val().includes('0')){
+        $(this).val(['0']);
+        $(this).trigger('chosen:updated');
+    }
     $('#area').change();
 });
 
 var stores_list = [];
 $(document).on('change', '#area', function(){
+    if($(this).val().includes('0')){
+        $(this).val(['0']);
+        $(this).trigger('chosen:updated');
+    }
     if(!$('#area option:selected').length){
         $('#store').find('option').remove();
         $('#store').trigger('chosen:updated');
@@ -1886,12 +1908,8 @@ $(document).on('change', '#area', function(){
 });
 
 $(document).on('change', '#store', function(){
-    area_all = [];
     stores_list = [];
     $.each($(this).val(), function(index, value){
-        if(value.includes('-0')){
-            area_all.push(value.substring(0, value.length - 2));
-        }
         stores_list.push(value);
     });
     $('#area').change();
