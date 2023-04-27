@@ -1849,6 +1849,13 @@ $(document).on('change', '#company, #type, #setup', function(){
     $('#area').change();
 });
 
+$(document).on('change', '#store', function(){
+    if($(this).val().includes('0-0')){
+        $(this).val(['0-0']);
+        $(this).trigger('chosen:updated');
+    }
+});
+
 var stores_list = [];
 $(document).on('change', '#area', function(){
     if($(this).val().includes('0')){
