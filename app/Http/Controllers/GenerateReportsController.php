@@ -44,4 +44,14 @@ class GenerateReportsController extends Controller
             ->get();
         return DataTables::of($data)->make(true);
     }
+
+    public function byBranch_Date(Request $request){
+        $data = Hdr::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date")
+            ->selectRaw('SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+            ->where('storecode', $request->colData)
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->groupBy('tdate','date')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
 }

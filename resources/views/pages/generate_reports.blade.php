@@ -15,13 +15,13 @@
             <select id="report_category" name="report_category" class="forminput form-control form-select requiredField" style="color: black">
                 <option value="" selected disabled>SELECT SALES REPORT CATEGORY</option>
                 <option value="STORE">STORE SALES</option>
-                <option value="PRODUCT">PRODUCT SALES</option>
-                <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
-                <option value="TENDER TYPE">TENDER TYPE SALES</option>
-                <option value="DISCOUNT">DISCOUNT SALES</option>
-                <option value="PROMO">PROMO SALES</option>
-                <option value="COMBO">COMBO SALES</option>
-                <option value="DELIVERY CHANNEL">DELIVERY CHANNEL SALES</option>
+                <option value="PRODUCT" class="text-danger">PRODUCT SALES</option>
+                <option value="TRANSACTION TYPE" class="text-danger">TRANSACTION TYPE SALES</option>
+                <option value="TENDER TYPE" class="text-danger">TENDER TYPE SALES</option>
+                <option value="DISCOUNT" class="text-danger">DISCOUNT SALES</option>
+                <option value="PROMO" class="text-danger">PROMO SALES</option>
+                <option value="COMBO" class="text-danger">COMBO SALES</option>
+                <option value="DELIVERY CHANNEL" class="text-danger">DELIVERY CHANNEL SALES</option>
             </select>
             <label for="report_category" class="formlabels form-label">REPORT CATEGORY
         </div>
@@ -50,9 +50,9 @@
         <div class="col-md-4"></div>
     </div>
 </form>
-<div class="reportsTable" style="display: none;">
+<div class="reportsTable1" style="display: none;">
     <hr>
-    <h4 id="tblReportsHeader"></h4>
+    <h4 id="tblReports1Header"></h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button>
     <div class="ml-2">
         <a href="#" id="tblReportToggle" class="text-default" title="Toggle Visible Columns" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content='@include("inc.columnsReportsStore")'>
@@ -62,8 +62,9 @@
         </a>
     </div>
 </div>
-<div id="reportsTable" style="min-height: 50vh;"></div>
-<div id="subreportsTable"></div>
+<div id="reportsTable1"></div>
+<div id="reportsTable2"></div>
+<div id="reportsTable3"></div>
 <hr>
 <script src={{asset('js/generate_reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection
