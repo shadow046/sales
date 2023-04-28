@@ -15,7 +15,7 @@
             <select id="report_category" name="report_category" class="forminput form-control form-select requiredField" style="color: black">
                 <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CATEGORY</option>
                 <option value="STORE">STORE SALES</option>
-                <option value="PRODUCT" class="text-secondary">PRODUCT SALES</option>
+                <option value="PRODUCT">PRODUCT SALES</option>
                 <option value="TRANSACTION TYPE" class="text-secondary">TRANSACTION TYPE SALES</option>
                 <option value="TENDER TYPE" class="text-secondary">TENDER TYPE SALES</option>
                 <option value="DISCOUNT" class="text-secondary">DISCOUNT SALES</option>

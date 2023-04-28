@@ -48,8 +48,8 @@ class GenerateReportsController extends Controller
     public function byBranch_Date(Request $request){
         $data = Hdr::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date")
             ->selectRaw('SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
-            ->where('storecode', $request->colData)
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('storecode', $request->colData)
             ->groupBy('tdate','date')
             ->get();
         return DataTables::of($data)->make(true);
@@ -57,13 +57,45 @@ class GenerateReportsController extends Controller
 
     public function byBranch_Product(Request $request){
         $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
-            ->where('itemcat', '!=', '')
-            ->where('storecode', $request->branchcode)
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->where('itemcat', '!=', '')
+            ->where('storecode', $request->datacode)
             ->join('products', 'products.item_code', 'dtl.itemcode')
             ->join('category', 'category.id', 'products.category')
             ->groupBy('category.category','short_desc','long_desc')
             ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byProduct(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('itemcat', '!=', '')
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('itemcat','itemcode','desc1','desc2')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byProduct_Date(Request $request){
+        $data = Dtl::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales")
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('itemcode', $request->colData)
+            ->where('itemcat', '!=', '')
+            ->groupBy('tdate','date')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byProduct_Branch(Request $request){
+        $data = Dtl::selectRaw('CONCAT(dtl.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->where('itemcode', $request->datacode)
+            ->leftjoin('store', 'store.branch_code', 'dtl.storecode')
+            ->groupBy('dtl.storecode','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
     }
