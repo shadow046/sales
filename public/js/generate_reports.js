@@ -1,4 +1,32 @@
 $(document).prop('title', $('#page-name').text());
+$(document).ready(function(){
+    var todayDay = new Date();
+    var firstDay = new Date(todayDay.getFullYear(), todayDay.getMonth(), 1);
+    var lastDay = new Date(todayDay.getFullYear(), todayDay.getMonth() + 1, 0);
+
+    var month1 = firstDay.getMonth()+1;
+    var month2 = lastDay.getMonth()+1;
+
+    var date1 = firstDay.getDate();
+    var date2 = lastDay.getDate();
+
+
+    if(month1 < 10) month1 = '0' + month1.toString();
+    if(month2 < 10) month2 = '0' + month2.toString();
+    if(date1 < 10) date1 = '0' + date1.toString();
+    if(date2 < 10) date2 = '0' + date2.toString();
+
+    var startDateValue = firstDay.getFullYear() + '-' + month1 + '-' + date1;
+    var endDateValue = lastDay.getFullYear() + '-' + month2 + '-' + date2;
+
+    $('#start_date').val(startDateValue);
+    $('#end_date').val(endDateValue);
+
+    $('#report_category').val('STORE');
+    $('#btnGenerate').click();
+});
+
+
 $('#btnReset').on('click', function(){
     $('.req').hide();
     $('#formReports').trigger('reset');
@@ -242,6 +270,7 @@ $(document).on('keyup search','.filter-input2', function(){
 });
 
 var branchcode, branchname;
+var headername;
 $(document).on('click','table.tblReports1 tbody tr',function(){
     $('#loading').show();
     $('#reportsTable2').empty();
@@ -251,138 +280,145 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
     if(report_category == 'STORE'){
         branchcode = data.branch_code;
         branchname = data.branch_name;
-        var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>${branchname} (${display_range})</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
-        <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
-                <thead style="font-weight:bolder" class="bg-default">
-                    <tr class="tbsearch">
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>DATE</th>
-                        <th class="sum">GROSS SALES</th>
-                        <th class="sum">TOTAL SALES</th>
-                        <th class="sum">NET SALES</th>
-                    </tr>
-                </thead>
-                <tfoot style="font-size: 14px;">
-                    <tr>
-                        <th class="text-right">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        </div>`;
-        $('#reportsTable2').append(htmlString);
-        table2 = $('table.tblReports2').DataTable({
-            dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: branchname+' ('+display_range+')',
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
-                },
-            }],
-            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-            processing: true,
-            serverSide: false,
-            ajax: {
-                url: '/sales/reports/branch/date',
-                data:{
-                    colData: branchcode,
-                    start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val()
-                }
-            },
-            columnDefs: [
-                {
-                    "targets": [0],
-                    "render": $.fn.dataTable.render.moment('YYYY-MM-DD', 'MMMM DD, YYYY')
-                },
-            ],
-            columns: [
-                { data: 'date' },
-                {
-                    data: 'gross_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
-                    }
-                },
-                {
-                    data: 'total_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
-                    }
-                },
-                {
-                    data: 'net_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
-                    }
-                }
-            ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
-                };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
-                });
-            },
-            initComplete: function(){
-                $('#loading').hide();
-                setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports2';
-                    $('html, body').animate({
-                        scrollTop: $($.attr(this, 'href')).offset()
-                    }, 1000);
-                }, 200);
-            }
-        });
+        headername = branchname;
+        urlName = '/sales/reports/branch/date';
+        colData = branchcode;
     }
+    else{
+        Swal.fire('UNAVAILABLE', 'This data breakdown is not yet available!', 'error');
+        return false;
+    }
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>DATE</th>
+                    <th class="sum">GROSS SALES</th>
+                    <th class="sum">TOTAL SALES</th>
+                    <th class="sum">NET SALES</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right">TOTAL:</th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable2').append(htmlString);
+    table2 = $('table.tblReports2').DataTable({
+        dom: 'Blftrip',
+        buttons: [{
+            extend: 'excelHtml5',
+            title: branchname+' ('+display_range+')',
+            exportOptions: {
+                modifier : {
+                    order : 'index',
+                    page : 'all',
+                    search : 'none'
+                },
+            },
+        }],
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: urlName,
+            data:{
+                colData: colData,
+                start_date: $('#start_date').val(),
+                end_date: $('#end_date').val()
+            }
+        },
+        columnDefs: [
+            {
+                "targets": [0],
+                "render": $.fn.dataTable.render.moment('YYYY-MM-DD', 'MMMM DD, YYYY')
+            },
+        ],
+        columns: [
+            { data: 'date' },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'total_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'net_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        footerCallback:function(row,data,start,end,display){
+            var api=this.api(),data;
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[^\d.-]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+            api.columns('.sum',{page:'all'}).every(function(){
+            var sum=this
+                .data()
+                .reduce(function(a,b){
+                    return intVal(a)+intVal(b);
+                },0);
+                sum=Number(sum).toFixed(2);
+                sum=sum.toString();
+                var pattern=/(-?\d+)(\d{3})/;
+                while(pattern.test(sum))
+                sum=sum.replace(pattern,"$1,$2");
+                this.footer().innerHTML='₱ '+sum;
+            });
+        },
+        initComplete: function(){
+            $('#loading').hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReports2';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
 });
 
 $(document).on('click','table.tblReports2 tbody tr',function(){
@@ -518,24 +554,10 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
 
 setInterval(() => {
     if($('#reportsTable1').is(':empty')){
-        $(this).css({'min-height': '0vh'});
         $('.reportsTable1').hide();
     }
     else{
-        $(this).css({'min-height': '50vh'});
         $('.reportsTable1').show();
-    }
-    if($('#reportsTable2').is(':empty')){
-        $(this).css({'min-height': '0vh'});
-    }
-    else{
-        $(this).css({'min-height': '50vh'});
-    }
-    if($('#reportsTable3').is(':empty')){
-        $(this).css({'min-height': '0vh'});
-    }
-    else{
-        $(this).css({'min-height': '50vh'});
     }
 }, 0);
 

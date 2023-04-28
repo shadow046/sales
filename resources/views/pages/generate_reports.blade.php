@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <script>accessibility('29');</script>
+<div style="min-height: 85vh;">
 <br>
 <div class="row">
     <div class="col">
@@ -13,17 +14,17 @@
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
             <select id="report_category" name="report_category" class="forminput form-control form-select requiredField" style="color: black">
-                <option value="" selected disabled>SELECT SALES REPORT CATEGORY</option>
+                <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CATEGORY</option>
                 <option value="STORE">STORE SALES</option>
-                <option value="PRODUCT" class="text-danger">PRODUCT SALES</option>
-                <option value="TRANSACTION TYPE" class="text-danger">TRANSACTION TYPE SALES</option>
-                <option value="TENDER TYPE" class="text-danger">TENDER TYPE SALES</option>
-                <option value="DISCOUNT" class="text-danger">DISCOUNT SALES</option>
-                <option value="PROMO" class="text-danger">PROMO SALES</option>
-                <option value="COMBO" class="text-danger">COMBO SALES</option>
-                <option value="DELIVERY CHANNEL" class="text-danger">DELIVERY CHANNEL SALES</option>
+                <option value="PRODUCT" class="text-secondary">PRODUCT SALES</option>
+                <option value="TRANSACTION TYPE" class="text-secondary">TRANSACTION TYPE SALES</option>
+                <option value="TENDER TYPE" class="text-secondary">TENDER TYPE SALES</option>
+                <option value="DISCOUNT" class="text-secondary">DISCOUNT SALES</option>
+                <option value="PROMO" class="text-secondary">PROMO SALES</option>
+                <option value="COMBO" class="text-secondary">COMBO SALES</option>
+                <option value="DELIVERY CHANNEL" class="text-secondary">DELIVERY CHANNEL SALES</option>
             </select>
-            <label for="report_category" class="formlabels form-label">REPORT CATEGORY
+            <label for="report_category" class="formlabels form-label">SALES REPORT CATEGORY
         </div>
         <div class="col-md-4"></div>
     </div>
@@ -66,5 +67,6 @@
 <div id="reportsTable2"></div>
 <div id="reportsTable3"></div>
 <hr>
+</div>
 <script src={{asset('js/generate_reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection
