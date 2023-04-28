@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <script>accessibility('29');</script>
-<div style="min-height: 85vh;">
 <br>
 <div class="row">
     <div class="col">
@@ -63,10 +62,9 @@
         </a>
     </div>
 </div>
-<div id="reportsTable1"></div>
+<div id="reportsTable1" style="min-height: 60vh;"></div>
 <div id="reportsTable2"></div>
 <div id="reportsTable3"></div>
 <hr>
-</div>
 <script src={{asset('js/generate_reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection
