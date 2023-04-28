@@ -21,6 +21,10 @@
     transition: 0.5s;
     white-space: nowrap;
 }
+.wrap-content{
+    overflow: hidden;
+    white-space: normal;
+}
 .align-content {
     display: flex;
     align-items: center;

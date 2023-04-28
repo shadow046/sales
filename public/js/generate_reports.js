@@ -422,7 +422,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                         <th>ITEM CODE</th>
                         <th>SHORT DESCRIPTION</th>
                         <th>LONG DESCRIPTION</th>
-                        <th>TRANSACTION TYPE</th>
+                        <th>QTY</th>
                         <th class="sum">GROSS SALES</th>
                     </tr>
                 </thead>
@@ -459,12 +459,18 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     selected_date: data.date,
                 }
             },
+            autoWidth: false,
             columns: [
                 { data: 'itemcat' },
                 { data: 'itemcode' },
                 { data: 'desc1' },
-                { data: 'desc2' },
-                { data: 'trantype' },
+                {
+                    data: 'desc2',
+                    "render": function(data, type, row, meta){
+                        return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
+                    }
+                },
+                { data: 'quantity' },
                 {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
