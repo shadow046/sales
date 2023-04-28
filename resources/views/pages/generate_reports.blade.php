@@ -16,11 +16,10 @@
                 <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CATEGORY</option>
                 <option value="STORE">STORE SALES</option>
                 <option value="PRODUCT">PRODUCT SALES</option>
-                <option value="TRANSACTION TYPE" class="text-secondary">TRANSACTION TYPE SALES</option>
+                <option value="COMBO MEAL">COMBO MEAL SALES</option>
+                <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
                 <option value="TENDER TYPE" class="text-secondary">TENDER TYPE SALES</option>
                 <option value="DISCOUNT" class="text-secondary">DISCOUNT SALES</option>
-                <option value="PROMO" class="text-secondary">PROMO SALES</option>
-                <option value="COMBO" class="text-secondary">COMBO SALES</option>
                 <option value="DELIVERY CHANNEL" class="text-secondary">DELIVERY CHANNEL SALES</option>
             </select>
             <label for="report_category" class="formlabels form-label">SALES REPORT CATEGORY

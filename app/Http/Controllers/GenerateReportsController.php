@@ -41,6 +41,7 @@ class GenerateReportsController extends Controller
             ->join('subgroup', 'subgroup.id', 'store.sub_group')
             ->join('network_setup', 'network_setup.id', 'store.network')
             ->groupBy('hdr.storecode','branch_code','branch_name','company_name','store_area','region','type','store_group','subgroup','network_setup')
+            ->orderBy('net_sales', 'DESC')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -76,6 +77,7 @@ class GenerateReportsController extends Controller
             ->join('category', 'category.id', 'products.category')
             ->groupBy('category.category','short_desc','long_desc')
             ->groupBy('itemcat','itemcode','desc1','desc2')
+            ->orderBy('quantity', 'DESC')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -96,6 +98,70 @@ class GenerateReportsController extends Controller
             ->where('itemcode', $request->datacode)
             ->leftjoin('store', 'store.branch_code', 'dtl.storecode')
             ->groupBy('dtl.storecode','branch_name')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byCombo(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('category.enable_combo', 'Y')
+            ->where('itemcat', '!=', '')
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('itemcat','itemcode','desc1','desc2')
+            ->orderBy('quantity', 'DESC')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byCombo_Date(Request $request){
+        $data = Dtl::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales")
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('itemcode', $request->colData)
+            ->where('itemcat', '!=', '')
+            ->groupBy('tdate','date')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byCombo_Branch(Request $request){
+        $data = Dtl::selectRaw('CONCAT(dtl.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->where('itemcode', $request->datacode)
+            ->leftjoin('store', 'store.branch_code', 'dtl.storecode')
+            ->groupBy('dtl.storecode','branch_name')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTransaction(Request $request){
+        $data = Hdr::selectRaw('trantype as transaction_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->groupBy('transaction_name')
+                ->orderBy('net_sales', 'DESC')
+                ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTransaction_Date(Request $request){
+        $data = Hdr::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date")
+            ->selectRaw('SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('trantype', $request->colData)
+            ->groupBy('tdate','date')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTransaction_Branch(Request $request){
+        $data = Hdr::selectRaw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
+            SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->where('trantype', $request->datacode)
+            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+            ->groupBy('hdr.storecode','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
     }

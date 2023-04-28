@@ -79,6 +79,12 @@ Route::controller(GenerateReportsController::class)->group(function(){
     Route::get('/sales/reports/product','byProduct');
     Route::get('/sales/reports/product/date','byProduct_Date');
     Route::get('/sales/reports/product/branch','byProduct_Branch');
+    Route::get('/sales/reports/combo','byCombo');
+    Route::get('/sales/reports/combo/date','byCombo_Date');
+    Route::get('/sales/reports/combo/branch','byCombo_Branch');
+    Route::get('/sales/reports/transaction','byTransaction');
+    Route::get('/sales/reports/transaction/date','byTransaction_Date');
+    Route::get('/sales/reports/transaction/branch','byTransaction_Branch');
 });
 
 Route::controller(GroupController::class)->group(function(){
