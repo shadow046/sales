@@ -233,16 +233,16 @@ $('#btnGenerate').on('click', function(){
             }
         });
         $('body').on('click', '.checkboxFilter', function(){
-            var column = table.column($(this).attr('data-column'));
+            var column = table1.column($(this).attr('data-column'));
             var colnum = $(this).attr('data-column');
             column.visible(!column.visible());
             $('.fl-'+colnum).val('');
-            table.column(colnum).search('').draw();
+            table1.column(colnum).search('').draw();
         });
         setInterval(() => {
             if($('.popover-header').is(':visible')){
                 for(var i=0; i<=10; i++){
-                    if(table.column(i).visible()){
+                    if(table1.column(i).visible()){
                         $('#filter-'+i).prop('checked', true);
                     }
                     else{
