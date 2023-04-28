@@ -859,7 +859,8 @@ $('.saveBtn').on('click',function(){
                         delivery_med:delivery_med,
                         delivery_large:delivery_large,
                         delivery_xl:delivery_xl,
-                        delivery_zero:delivery_zero
+                        delivery_zero:delivery_zero,
+                        product_composition_change:product_composition_change
                     },
                     success:function(data){
                         if(data.result == 'true'){
@@ -1057,7 +1058,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             });
         }, current_timeout);
 
-        var company_array = data.company.split()[0].split(',');
+        var company_array = data.company.split()[0].split('|');
         $("#company").children("option").each(function(){
             if(company_array.includes($(this).val().toString())){
                 $(this).prop("selected",true);
@@ -1072,7 +1073,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             $('#company').trigger('chosen:updated');
         }, current_timeout);
 
-        var type_array = data.type.split()[0].split(',');
+        var type_array = data.type.split()[0].split('|');
         $("#type").children("option").each(function(){
             if(type_array.includes($(this).val().toString())){
                 $(this).prop("selected",true);
@@ -1635,6 +1636,7 @@ $(document).on('click', '.btndelItem', function(e){
     $(this).parent().parent().parent().remove();
 });
 
+var product_composition_change;
 $('.addPromoCombinationBtn').click(function(e){
     e.preventDefault();
     $('#promoProductCombination').show();
@@ -1660,6 +1662,7 @@ $('.addPromoCombinationBtn').click(function(e){
     if($('.saveBtn').attr('btntype') == 'UPDATE'){
         $('#promoProductCombination_tbody').append(ProductCombinationTable);
         $('#promoProductCombination').hide();
+        product_composition_change = 'CHANGED';
     }
     else{
         $('#promoProductCombination tbody').append(ProductCombinationTable);
@@ -1672,6 +1675,7 @@ $('.addPromoCombinationBtn').click(function(e){
     $('#short_description').trigger('chosen:updated');
     $('#product_code').val("");
     $('#qty').val("");
+    $('#price').val("");
 
     var td_totalAmount = 0;
     $(".td_Amount").each(function(){
@@ -1687,6 +1691,7 @@ $(document).on('click', '.btn_promo', function(){
         td_totalAmount += parseFloat($(this).html().replace(/,/g,''));
     });
     $('.td_totalAmount').html(formatNumber(td_totalAmount.toFixed(2)));
+    product_composition_change = 'CHANGED';
 });
 
 var suspend_id = [];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\Datatables\Datatables;
+use Carbon\Carbon;
 
 use App\Imports\ProductsImport;
 use App\Models\Role;
@@ -275,8 +276,314 @@ class ProductsController extends Controller
 
         PromoProductCombination::where('promo_id',$request->id)->delete();
 
-        $product = Product::find($request->id);
         // Page 1
+        $item_code_orig = Product::where('id', $request->id)->first()->item_code;
+        $category_orig = Product::where('id', $request->id)->first()->category;
+        $intro_date_orig = Product::where('id', $request->id)->first()->intro_date;
+        $short_desc_orig = Product::where('id', $request->id)->first()->short_desc;
+        $long_desc_orig = Product::where('id', $request->id)->first()->long_desc;
+        $sku_orig = Product::where('id', $request->id)->first()->sku;
+        $modifier_code_orig = Product::where('id', $request->id)->first()->modifier_code;
+
+        $dine_in_orig = Product::where('id', $request->id)->first()->dine_in;
+        $take_out_orig = Product::where('id', $request->id)->first()->take_out;
+        $pick_up_orig = Product::where('id', $request->id)->first()->pick_up;
+        $delivery_orig = Product::where('id', $request->id)->first()->delivery;
+        $bulk_order_orig = Product::where('id', $request->id)->first()->bulk_order;
+        $fds_orig = Product::where('id', $request->id)->first()->fds;
+        $drive_thru_orig = Product::where('id', $request->id)->first()->drive_thru;
+        $meal_type_orig = Product::where('id', $request->id)->first()->meal_type;
+
+        $dine_in_airport_orig = Product::where('id', $request->id)->first()->dine_in_airport;
+        $take_out_airport_orig = Product::where('id', $request->id)->first()->take_out_airport;
+        $pick_up_airport_orig = Product::where('id', $request->id)->first()->pick_up_airport;
+        $delivery_airport_orig = Product::where('id', $request->id)->first()->delivery_airport;
+        $bulk_order_airport_orig = Product::where('id', $request->id)->first()->bulk_order_airport;
+        $fds_airport_orig = Product::where('id', $request->id)->first()->fds_airport;
+        $drive_thru_airport_orig = Product::where('id', $request->id)->first()->drive_thru_airport;
+        $meal_type_airport_orig = Product::where('id', $request->id)->first()->meal_type_airport;
+
+        $company_orig = Product::where('id', $request->id)->first()->company;
+        $type_orig = Product::where('id', $request->id)->first()->type;
+        $setup_orig = Product::where('id', $request->id)->first()->setup;
+        $area_orig = Product::where('id', $request->id)->first()->area;
+        $store_orig = Product::where('id', $request->id)->first()->store;
+
+        if(($request->company) != array_map('trim', (explode('|', $company_orig)))){
+            $company_orig = Company::where('id', $company_orig)->first()->company_name;
+            $company_array = array();
+            $company = Company::all();
+            foreach($company as $companykey => $companyvalue){
+                if(in_array($companyvalue['id'], $request->company)){
+                    array_push($company_array, $companyvalue['company_name']);
+                }
+            }
+            $company_new = implode(', ', $company_array);
+            $company_change = "【COMPANY: FROM '$company_orig' TO '$company_new'】";
+        }
+        else{
+            $company_change = NULL;
+        }
+
+        if(($request->type) != array_map('trim', (explode('|', $type_orig)))){
+            $type_orig = Type::where('id', $type_orig)->first()->type;
+            $type_array = array();
+            $type = Type::all();
+            foreach($type as $typekey => $typevalue){
+                if(in_array($typevalue['id'], $request->type)){
+                    array_push($type_array, $typevalue['type']);
+                }
+            }
+            $type_new = implode(', ', $type_array);
+            $type_change = "【STORE TYPE: FROM '$type_orig' TO '$type_new'】";
+        }
+        else{
+            $type_change = NULL;
+        }
+
+        if(($request->setup) != array_map('trim', (explode(',', $setup_orig)))){
+            $setup_orig = Setup::where('id', $setup_orig)->first()->setup;
+            $setup_array = array();
+            $setup = Setup::all();
+            foreach($setup as $setupkey => $setupvalue){
+                if(in_array($setupvalue['id'], $request->setup)){
+                    array_push($setup_array, $setupvalue['setup']);
+                }
+            }
+            $setup_new = implode(', ', $setup_array);
+            $setup_change = "【STORE SETUP: FROM '$setup_orig' TO '$setup_new'】";
+        }
+        else{
+            $setup_change = NULL;
+        }
+
+        if(($request->area) != array_map('trim', (explode('|', $area_orig)))){
+            $area_orig = StoreArea::where('id', $area_orig)->first()->store_area;
+            $area_array = array();
+            $area = StoreArea::all();
+            foreach($area as $areakey => $areavalue){
+                if(in_array($areavalue['id'], $request->area)){
+                    array_push($area_array, $areavalue['store_area']);
+                }
+            }
+            $area_new = implode(', ', $area_array);
+            $area_change = "【STORE AREA: FROM '$area_orig' TO '$area_new'】";
+        }
+        else{
+            $area_change = NULL;
+        }
+
+        if(($request->store) != array_map('trim', (explode('|', $store_orig)))){
+            $store_orig = Store::where('id', $store_orig)->first()->branch_code . ' - ' . Store::where('id', $store_orig)->first()->branch_name;
+            $store_array = array();
+            $store = Store::all();
+            foreach($store as $storekey => $storevalue){
+                if(in_array($storevalue['id'], $request->store)){
+                    array_push($store_array, $storevalue['branch_code'] . ' - ' . $storevalue['branch_name']);
+                }
+            }
+            $store_new = implode(', ', $store_array);
+            $store_change = "【STORE BRANCHES: FROM '$store_orig' TO '$store_new'】";
+        }
+        else{
+            $store_change = NULL;
+        }
+
+        //-
+        if($request->item_code != $item_code_orig){
+            $item_code_new = strtoupper($request->item_code);
+            $item_code_change = "【ITEM CODE: FROM '$item_code_orig' TO '$item_code_new'】";
+        }
+        else{
+            $item_code_change = NULL;
+        }
+
+        if($request->category != $category_orig){
+            $category_orig = Category::where('id', $category_orig)->first()->category;
+            $category_new = Category::where('id', $request->category)->first()->category;
+            $category_change = "【PRODUCT CATEGORY: FROM '$category_orig' TO '$category_new'】";
+        }
+        else{
+            $category_change = NULL;
+        }
+
+        if($request->intro_date != $intro_date_orig){
+            $intro_date1 = Carbon::parse($intro_date_orig)->format('F d, Y');
+            $intro_date2 = Carbon::parse($request->intro_date)->format('F d, Y');
+            $intro_date_change = "【INTRO DATE: FROM '$intro_date1' TO '$intro_date2'】";
+        }
+        else{
+            $intro_date_change = NULL;
+        }
+
+        if($request->short_desc != $short_desc_orig){
+            $short_desc_new = strtoupper($request->short_desc);
+            $short_desc_change = "【SHORT DESCRIPTION: FROM '$short_desc_orig' TO '$short_desc_new'】";
+        }
+        else{
+            $short_desc_change = NULL;
+        }
+
+        if($request->long_desc != $long_desc_orig){
+            $long_desc_new = strtoupper($request->long_desc);
+            $long_desc_change = "【LONG DESCRIPTION: FROM '$long_desc_orig' TO '$long_desc_new'】";
+        }
+        else{
+            $long_desc_change = NULL;
+        }
+
+        if($request->sku != $sku_orig){
+            $sku_new = strtoupper($request->sku);
+            $sku_change = "【SKU: FROM '$sku_orig' TO '$sku_new'】";
+        }
+        else{
+            $sku_change = NULL;
+        }
+
+        if($request->modifier_code != $modifier_code_orig){
+            $modifier_code_new = strtoupper($request->modifier_code);
+            $modifier_code_change = "【MODIFIER CODE: FROM '$modifier_code_orig' TO '$modifier_code_new'】";
+        }
+        else{
+            $modifier_code_change = NULL;
+        }
+        // REGULAR
+        if($request->dine_in != $dine_in_orig){
+            $dine_in_new = strtoupper($request->dine_in);
+            $dine_in_change = "【REGULAR - DINE IN PRICE: FROM '₱$dine_in_orig' TO '₱$dine_in_new'】";
+        }
+        else{
+            $dine_in_change = NULL;
+        }
+
+        if($request->take_out != $take_out_orig){
+            $take_out_new = strtoupper($request->take_out);
+            $take_out_change = "【REGULAR - TAKE OUT PRICE: FROM '₱$take_out_orig' TO '₱$take_out_new'】";
+        }
+        else{
+            $take_out_change = NULL;
+        }
+
+        if($request->pick_up != $pick_up_orig){
+            $pick_up_new = strtoupper($request->pick_up);
+            $pick_up_change = "【REGULAR - PICK UP PRICE: FROM '₱$pick_up_orig' TO '₱$pick_up_new'】";
+        }
+        else{
+            $pick_up_change = NULL;
+        }
+
+        if($request->delivery != $delivery_orig){
+            $delivery_new = strtoupper($request->delivery);
+            $delivery_change = "【REGULAR - DELIVERY PRICE: FROM '₱$delivery_orig' TO '₱$delivery_new'】";
+        }
+        else{
+            $delivery_change = NULL;
+        }
+
+        if($request->bulk_order != $bulk_order_orig){
+            $bulk_order_new = strtoupper($request->bulk_order);
+            $bulk_order_change = "【REGULAR - BULK ORDER PRICE: FROM '₱$bulk_order_orig' TO '₱$bulk_order_new'】";
+        }
+        else{
+            $bulk_order_change = NULL;
+        }
+
+        if($request->fds != $fds_orig){
+            $fds_new = strtoupper($request->fds);
+            $fds_change = "【REGULAR - FDS PRICE: FROM '₱$fds_orig' TO '₱$fds_new'】";
+        }
+        else{
+            $fds_change = NULL;
+        }
+
+        if($request->drive_thru != $drive_thru_orig){
+            $drive_thru_new = strtoupper($request->drive_thru);
+            $drive_thru_change = "【REGULAR - DRIVE THRU PRICE: FROM '₱$drive_thru_orig' TO '₱$drive_thru_new'】";
+        }
+        else{
+            $drive_thru_change = NULL;
+        }
+
+        if($request->meal_type != $meal_type_orig){
+            $meal_type_new = strtoupper($request->meal_type);
+            $meal_type_change = "【REGULAR - MEAL TYPE PRICE: FROM '₱$meal_type_orig' TO '₱$meal_type_new'】";
+        }
+        else{
+            $meal_type_change = NULL;
+        }
+        // AIRPORT
+        if($request->dine_in_airport != $dine_in_airport_orig){
+            $dine_in_airport_new = strtoupper($request->dine_in_airport);
+            $dine_in_airport_change = "【AIRPORT - DINE IN PRICE: FROM '₱$dine_in_airport_orig' TO '₱$dine_in_airport_new'】";
+        }
+        else{
+            $dine_in_airport_change = NULL;
+        }
+
+        if($request->take_out_airport != $take_out_airport_orig){
+            $take_out_airport_new = strtoupper($request->take_out_airport);
+            $take_out_airport_change = "【AIRPORT - TAKE OUT PRICE: FROM '₱$take_out_airport_orig' TO '₱$take_out_airport_new'】";
+        }
+        else{
+            $take_out_airport_change = NULL;
+        }
+
+        if($request->pick_up_airport != $pick_up_airport_orig){
+            $pick_up_airport_new = strtoupper($request->pick_up_airport);
+            $pick_up_airport_change = "【AIRPORT - PICK UP PRICE: FROM '₱$pick_up_airport_orig' TO '₱$pick_up_airport_new'】";
+        }
+        else{
+            $pick_up_airport_change = NULL;
+        }
+
+        if($request->delivery_airport != $delivery_airport_orig){
+            $delivery_airport_new = strtoupper($request->delivery_airport);
+            $delivery_airport_change = "【AIRPORT - DELIVERY PRICE: FROM '₱$delivery_airport_orig' TO '₱$delivery_airport_new'】";
+        }
+        else{
+            $delivery_airport_change = NULL;
+        }
+
+        if($request->bulk_order_airport != $bulk_order_airport_orig){
+            $bulk_order_airport_new = strtoupper($request->bulk_order_airport);
+            $bulk_order_airport_change = "【AIRPORT - BULK ORDER PRICE: FROM '₱$bulk_order_airport_orig' TO '₱$bulk_order_airport_new'】";
+        }
+        else{
+            $bulk_order_airport_change = NULL;
+        }
+
+        if($request->fds_airport != $fds_airport_orig){
+            $fds_airport_new = strtoupper($request->fds_airport);
+            $fds_airport_change = "【AIRPORT - FDS PRICE: FROM '₱$fds_airport_orig' TO '₱$fds_airport_new'】";
+        }
+        else{
+            $fds_airport_change = NULL;
+        }
+
+        if($request->drive_thru_airport != $drive_thru_airport_orig){
+            $drive_thru_airport_new = strtoupper($request->drive_thru_airport);
+            $drive_thru_airport_change = "【AIRPORT - DRIVE THRU PRICE: FROM '₱$drive_thru_airport_orig' TO '₱$drive_thru_airport_new'】";
+        }
+        else{
+            $drive_thru_airport_change = NULL;
+        }
+
+        if($request->meal_type_airport != $meal_type_airport_orig){
+            $meal_type_airport_new = strtoupper($request->meal_type_airport);
+            $meal_type_airport_change = "【AIRPORT - MEAL TYPE PRICE: FROM '₱$meal_type_airport_orig' TO '₱$meal_type_airport_new'】";
+        }
+        else{
+            $meal_type_airport_change = NULL;
+        }
+
+        if($request->product_composition_change == 'CHANGED'){
+            $composition_change = "【PRODUCT COMPOSITION: LIST OF PRODUCT COMPOSITION HAVE BEEN CHANGED】";
+        }
+        else{
+            $composition_change = NULL;
+        }
+
+        $product = Product::find($request->id);
         $product->product_image = $request->product_image == 'N/A' ? '' : $request->product_image;
         $product->item_code = strtoupper($request->item_code);
         $product->category = $request->category;
@@ -294,7 +601,7 @@ class ProductsController extends Controller
         $product->fds = $request->fds;
         $product->drive_thru = $request->drive_thru;
         $product->meal_type = $request->meal_type;
-        $product->dine_in_airport = $request->dine_in;
+        $product->dine_in_airport = $request->dine_in_airport;
         $product->take_out_airport = $request->take_out_airport;
         $product->pick_up_airport = $request->pick_up_airport;
         $product->delivery_airport = $request->delivery_airport;
@@ -351,10 +658,72 @@ class ProductsController extends Controller
         $save = $product->save();
 
         if($save){
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "UPDATED PRODUCT: User successfully updated Product '$product->short_desc' with Item Code '$product->item_code'.";
-            $userlogs->save();
+
+            if($request->item_code != $item_code_orig ||
+                $request->category != $category_orig ||
+                $request->intro_date != $intro_date_orig ||
+                $request->short_desc != $short_desc_orig ||
+                $request->long_desc != $long_desc_orig ||
+                $request->sku != $sku_orig ||
+                $request->modifier_code != $modifier_code_orig ||
+                $request->dine_in != $dine_in_orig ||
+                $request->take_out != $take_out_orig ||
+                $request->pick_up != $pick_up_orig ||
+                $request->delivery != $delivery_orig ||
+                $request->bulk_order != $bulk_order_orig ||
+                $request->fds != $fds_orig ||
+                $request->drive_thru != $drive_thru_orig ||
+                $request->meal_type != $meal_type_orig ||
+                $request->dine_in_airport != $dine_in_airport_orig ||
+                $request->take_out_airport != $take_out_airport_orig ||
+                $request->pick_up_airport != $pick_up_airport_orig ||
+                $request->delivery_airport != $delivery_airport_orig ||
+                $request->bulk_order_airport != $bulk_order_airport_orig ||
+                $request->fds_airport != $fds_airport_orig ||
+                $request->drive_thru_airport != $drive_thru_airport_orig ||
+                $request->meal_type_airport != $meal_type_airport_orig ||
+                $request->product_composition_change == 'CHANGED' ||
+                $request->company != array_map('trim', (explode('|', $company_orig))) ||
+                $request->type != array_map('trim', (explode('|', $type_orig))) ||
+                $request->setup != array_map('trim', (explode(',', $setup_orig))) ||
+                $request->area != array_map('trim', (explode('|', $area_orig))) ||
+                $request->store != array_map('trim', (explode('|', $store_orig)))
+            ){
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "UPDATED PRODUCT: User successfully updated Product '$product->short_desc' with Item Code '$item_code_orig' with the following CHANGES:
+                                        $item_code_change
+                                        $category_change
+                                        $intro_date_change
+                                        $short_desc_change
+                                        $long_desc_change
+                                        $sku_change
+                                        $modifier_code_change
+                                        $dine_in_change
+                                        $take_out_change
+                                        $pick_up_change
+                                        $delivery_change
+                                        $bulk_order_change
+                                        $fds_change
+                                        $drive_thru_change
+                                        $meal_type_change
+                                        $dine_in_airport_change
+                                        $take_out_airport_change
+                                        $pick_up_airport_change
+                                        $delivery_airport_change
+                                        $bulk_order_airport_change
+                                        $fds_airport_change
+                                        $drive_thru_airport_change
+                                        $meal_type_airport_change
+                                        $composition_change
+                                        $company_change
+                                        $type_change
+                                        $setup_change
+                                        $area_change
+                                        $store_change
+                                        ";
+                $userlogs->save();
+            }
 
             $result = 'true';
             $id = $product->id;
