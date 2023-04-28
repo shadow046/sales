@@ -6,6 +6,7 @@ use App\Http\Middleware\CheckUserLevel;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeliveryServingStoreController;
+use App\Http\Controllers\GenerateReportsController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NetworkSetupController;
@@ -68,6 +69,13 @@ Route::controller(DeliveryServingStoreController::class)->group(function(){
     Route::any('/editDeliveryServingStore','editDeliveryServingStore');
     Route::any('/deleteDeliveryServingStore','deleteDeliveryServingStore');
     Route::any('/delivery_serving_store/checkDuplicate','checkDuplicate');
+});
+
+Route::controller(GenerateReportsController::class)->group(function(){
+    Route::get('/sales/reports','reports');
+    Route::get('/sales/reports/branch','byBranch');
+    Route::get('/sales/reports/branch/date','byBranch_Date');
+    Route::get('/sales/reports/branch/product','byBranch_Product');
 });
 
 Route::controller(GroupController::class)->group(function(){
@@ -316,7 +324,7 @@ Route::controller(DiscountController::class)->group(function(){
 });
 
 Route::controller(PdfController::class)->group(function(){
-    Route::any('/pdf','pdf');
+    Route::any('sales/uploads','pdf');
     Route::any('/pdf_data','pdf_data');
 });
 

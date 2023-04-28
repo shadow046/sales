@@ -51,17 +51,12 @@
 					<a class="nav-link {{ Request::is('sales/index') ? 'navactive' : '' }}" href="/sales/index">SALES PERFORMANCE</a>
 				</li>
 			@endcan
-			{{-- @can('reports')
-				<li class="nav-item dropdown mr-1">
-					<a href="#" id="report" class="nav-link dropdown-toggle {{ Request::is('reports') || Request::is('pdf') ? 'navactive' : '' }}" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content='@include("inc.dropdownReports")'>REPORTS</a>
-				</li>
-			@endcan --}}
 			@can('reports')
 				<li class="nav-item dropdown mr-1">
-					<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('reports') || Request::is('pdf') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
+					<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('sales/reports') || Request::is('sales/uploads') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
 					<div class="dropdown-menu" aria-labelledby="dropdownReports" style="width: 200%; zoom: 90%;" onmouseover="$('#dropdownReports').addClass('navhover');" onmouseout="$('#dropdownReports').removeClass('navhover');">
-						<a class="dropdown-item {{ Request::is('reports') ? 'linkactive' : '' }}" href="/reports">Generate Sales Reports</a>
-						<a class="dropdown-item {{ Request::is('pdf') ? 'linkactive' : '' }}" href="/pdf">POS Uploaded Reports</a>
+						<a class="dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
+						<a class="dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
 					</div>
 				</li>
 			@endcan
@@ -85,9 +80,6 @@
 					<a class="nav-link {{ Request::is('price_update') ? 'navactive' : '' }}" href="/price_update">PRICE UPDATE<span style="border: 1px solid white;" class="badge rounded-pill bg-danger ml-2 {{ App\Models\PriceUpdate::where('price_update_status', '0')->count() > 0 ? 'd-inline' : 'd-none' }}">{{ App\Models\PriceUpdate::where('price_update_status', '0')->count() }}</span></a>
 				</li>
 			@endcan
-			{{-- <li class="maintenance_tab nav-item dropdown mr-1">
-				<a href="#" id="maintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content='@include("inc.dropdown")'>MAINTENANCE</a>
-			</li> --}}
 			<li class="maintenance_tab nav-item dropdown mr-1">
 				<a href="#" id="dropdownMaintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MAINTENANCE</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownMaintenance" style="width: 120%; zoom: 90%;" onmouseover="$('#dropdownMaintenance').addClass('navhover');" onmouseout="$('#dropdownMaintenance').removeClass('navhover');">
