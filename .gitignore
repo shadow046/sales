@@ -24,5 +24,3 @@ yarn-error.log
 download-logs
 FSCommand.conf
 FSCommand.conf.sample
-public/js/maintenance/products.js
-app/Http/Controllers/ProductsController.php
