@@ -812,10 +812,14 @@ function accessibility(id){
 
 function formatDate(dateString){
     const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
-    const date = new Date(dateString);
-    const month = months[date.getMonth()];
-    const day = date.getDate();
-    const year = date.getFullYear();
-    const formattedDate = month + " " + day + ", " + year;
+    var date = new Date(dateString);
+    var month = months[date.getMonth()];
+    var day = date.getDate();
+    var year = date.getFullYear();
+
+    if(month < 10) month = '0' + month.toString();
+    if(day < 10) day = '0' + day.toString();
+
+    var formattedDate = month + " " + day + ", " + year;
     return formattedDate;
 }

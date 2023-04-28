@@ -54,4 +54,14 @@ class GenerateReportsController extends Controller
             ->get();
         return DataTables::of($data)->make(true);
     }
+
+    public function byBranch_Product(Request $request){
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, trantype, SUM(unitprice * qty) as gross_sales')
+            ->where('itemcat', '!=', '')
+            ->where('storecode', $request->branchcode)
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->groupBy('tdate','itemcat', 'itemcode', 'desc1', 'desc2','trantype')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
 }

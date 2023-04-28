@@ -5,11 +5,13 @@ $('#btnReset').on('click', function(){
     $('#report_type').change();
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
 });
 
 $('#report_category').on('change', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
 });
 
 $('#start_date').on('change', function(){
@@ -26,10 +28,11 @@ $('#end_date').on('change', function(){
     }
 });
 
-var table, subtable;
+var table1, table2, table3;
 $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
 
     if($('#report_category').val() == 'STORE'){
         $('#loading').show();
@@ -101,7 +104,7 @@ $('#btnGenerate').on('click', function(){
             <br>
         </div>`;
         $('#reportsTable1').append(htmlString);
-        table = $('table.tblReports1').DataTable({
+        table1 = $('table.tblReports1').DataTable({
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -177,7 +180,7 @@ $('#btnGenerate').on('click', function(){
                         typeof i === 'number' ?
                             i : 0;
                 };
-                api.columns('.sum',{page:'current'}).every(function(){
+                api.columns('.sum',{page:'all'}).every(function(){
                 var sum=this
                     .data()
                     .reduce(function(a,b){
@@ -227,21 +230,29 @@ $('#btnGenerate').on('click', function(){
 });
 
 $(document).on('keyup search','.filter-input', function(){
-    table.column($(this).data('column')).search($(this).val()).draw();
+    table1.column($(this).data('column')).search($(this).val()).draw();
 });
 
 $(document).on('keyup search','.filter-input1', function(){
-    subtable.column($(this).data('column')).search($(this).val()).draw();
+    table2.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-input2', function(){
+    table3.column($(this).data('column')).search($(this).val()).draw();
+});
+
+var branchcode, branchname;
 $(document).on('click','table.tblReports1 tbody tr',function(){
+    $('#loading').show();
+    $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
     var report_category = $('#report_category').val();
-    var data = table.row(this).data();
+    var data = table1.row(this).data();
     if(report_category == 'STORE'){
-        $('#loading').show();
+        branchcode = data.branch_code;
+        branchname = data.branch_name;
         var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
-        $('#reportsTable2').empty();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>${data.branch_name} (${display_range})</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${branchname} (${display_range})</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
@@ -279,11 +290,11 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
             <br>
         </div>`;
         $('#reportsTable2').append(htmlString);
-        subtable = $('table.tblReports2').DataTable({
+        table2 = $('table.tblReports2').DataTable({
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: data.branch_name+' ('+display_range+')',
+                title: branchname+' ('+display_range+')',
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -298,7 +309,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
             ajax: {
                 url: '/sales/reports/branch/date',
                 data:{
-                    colData: data.branch_code,
+                    colData: branchcode,
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val()
                 }
@@ -347,7 +358,132 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                         typeof i === 'number' ?
                             i : 0;
                 };
-                api.columns('.sum',{page:'current'}).every(function(){
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports2';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+});
+
+$(document).on('click','table.tblReports2 tbody tr',function(){
+    var report_category = $('#report_category').val();
+    var data = table2.row(this).data();
+    if(report_category == 'STORE'){
+        var branch_date = branchname + ' ('+formatDate(data.date).toUpperCase()+')';
+        $('#loading').show();
+        $('#reportsTable3').empty();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${branch_date}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr class="tbsearch">
+                        <td>
+                            <input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>CATEGORY</th>
+                        <th>ITEM CODE</th>
+                        <th>SHORT DESCRIPTION</th>
+                        <th>LONG DESCRIPTION</th>
+                        <th>TRANSACTION TYPE</th>
+                        <th class="sum">GROSS SALES</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right" colspan="5">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable3').append(htmlString);
+        table3 = $('table.tblReports3').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: branch_date,
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/branch/product',
+                data:{
+                    branchcode: branchcode,
+                    selected_date: data.date,
+                }
+            },
+            columns: [
+                { data: 'itemcat' },
+                { data: 'itemcode' },
+                { data: 'desc1' },
+                { data: 'desc2' },
+                { data: 'trantype' },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
                 var sum=this
                     .data()
                     .reduce(function(a,b){
