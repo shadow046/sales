@@ -28,8 +28,8 @@ class GenerateReportsController extends Controller
     }
 
     public function byBranch(Request $request){
-        $data = Hdr::selectRaw('hdr.storecode AS branch_code, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
-            company.company_name AS company_name, store_area.store_area AS store_area, store.region AS region,
+        $data = Hdr::selectRaw('store.id AS store_id, hdr.storecode AS branch_code, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
+            company.company_name AS company_name, store_area.id AS store_area_id, store_area.store_area AS store_area, store.region AS region,
             type.type AS type, group.group AS store_group, subgroup.subgroup AS subgroup, network_setup.network_setup AS network_setup,
             SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
@@ -40,10 +40,46 @@ class GenerateReportsController extends Controller
             ->join('group', 'group.id', 'store.group')
             ->join('subgroup', 'subgroup.id', 'store.sub_group')
             ->join('network_setup', 'network_setup.id', 'store.network')
-            ->groupBy('hdr.storecode','branch_code','branch_name','company_name','store_area','region','type','store_group','subgroup','network_setup')
+            ->groupBy('store_id','hdr.storecode','branch_code','branch_name','company_name','store_area_id','store_area','region','type','store_group','subgroup','network_setup')
             ->orderBy('net_sales', 'DESC')
             ->get();
-        return DataTables::of($data)->make(true);
+        return DataTables::of($data)
+        ->addColumn('area_manager', function(Hdr $hdr){
+            $area_managers = User::where('userlevel', '4')
+                ->orWhere('area', '=', $hdr->store_area_id)
+                ->orWhere('area', 'LIKE', $hdr->store_area_id.'-"%')
+                ->orWhere('area', 'LIKE', '%-"'.$hdr->store_area_id)
+                ->orWhere('area', 'LIKE', '%-"'.$hdr->store_area_id.'-"%')
+                ->get();
+            foreach($area_managers as $area_manager){
+                if($area_manager->store == $hdr->store_area_id.'-0'){
+                    return $area_manager->name;
+                }
+                else if(substr($area_manager->store, 0, strlen($hdr->store_area_id)+1) === $hdr->store_area_id.'-0|'){
+                    return $area_manager->name;
+                }
+                else if(strpos($area_manager->store, '|'.$hdr->store_area_id.'-0') !== false){
+                    return $area_manager->name;
+                }
+                else if(strpos($area_manager->store, '|'.$hdr->store_area_id.'-0|') !== false){
+                    return $area_manager->name;
+                }
+
+                else if($area_manager->store == $hdr->store_id){
+                    return $area_manager->name;
+                }
+                else if(substr($area_manager->store, 0, strlen($hdr->store_id)+1) === $hdr->store_area_id.'|'){
+                    return $area_manager->name;
+                }
+                else if(strpos($area_manager->store, '|'.$hdr->store_id) !== false){
+                    return $area_manager->name;
+                }
+                else if(strpos($area_manager->store, '|'.$hdr->store_id.'|') !== false){
+                    return $area_manager->name;
+                }
+            }
+        })
+        ->make(true);
     }
 
     public function byBranch_Date(Request $request){

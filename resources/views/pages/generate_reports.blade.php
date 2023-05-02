@@ -54,7 +54,7 @@
     <h4 id="tblReports1Header"></h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button>
     <div class="ml-2">
-        <a href="#" id="tblReportToggle" class="text-default" title="Toggle Visible Columns" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content='@include("inc.columnsReportsStore")'>
+        <a href="#" id="filter" class="text-default" title="Toggle Visible Columns" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content='@include("inc.columnsReportsStore")'>
             <b class="mr-1">TOGGLE COLUMNS</b>
             <i class="fas fa-filter fa-lg" aria-hidden="true"></i>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

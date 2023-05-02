@@ -103,19 +103,6 @@ $(document).ready(function(){
         $('.maintenance_tab').hide();
     }
 
-    $('#tblReportToggle').popover({
-        html: true,
-        sanitize: false
-    });
-
-    $('html').on('click', function(e){
-        $('#tblReportToggle').each(function(){
-            if(!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0){
-                $('#tblReportToggle').popover('hide');
-            }
-        });
-    });
-
     $('#report').popover({
         html: true,
         sanitize: false

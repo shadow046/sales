@@ -21,7 +21,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-2" data-column="2" disabled/> STORE AREA
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-2" data-column="2"/> AREA MANAGER
                 </label>
             </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-3" data-column="3" disabled/> REGION
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-3" data-column="3" disabled/> STORE AREA
                 </label>
             </div>
         </div>
@@ -39,7 +39,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-4" data-column="4" disabled/> STORE TYPE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-4" data-column="4" disabled/> REGION
                 </label>
             </div>
         </div>
@@ -48,7 +48,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-5" data-column="5"/> STORE GROUP
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-5" data-column="5" disabled/> STORE TYPE
                 </label>
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-6" data-column="6"/> MALL SUB-GROUP
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-6" data-column="6"/> STORE GROUP
                 </label>
             </div>
         </div>
@@ -66,7 +66,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-7" data-column="7"/> NETWORK SETUP
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-7" data-column="7"/> MALL SUB-GROUP
                 </label>
             </div>
         </div>
@@ -75,7 +75,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8" disabled/> GROSS SALES
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-8" data-column="8"/> NETWORK SETUP
                 </label>
             </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-9" data-column="9" disabled/> TOTAL SALES
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-9" data-column="9" disabled/> GROSS SALES
                 </label>
             </div>
         </div>
@@ -93,7 +93,16 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-10" data-column="10" disabled/> NET SALES
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-10" data-column="10" disabled/> TOTAL SALES
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-11" data-column="11" disabled/> NET SALES
                 </label>
             </div>
         </div>

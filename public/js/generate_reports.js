@@ -105,10 +105,14 @@ $('#btnGenerate').on('click', function(){
                         <td>
                             <input type="search" class="form-control filter-input1" data-column="10" style="border:1px solid #808080"/>
                         </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="11" style="border:1px solid #808080"/>
+                        </td>
                     </tr>
                     <tr>
                         <th>BRANCH NAME</th>
                         <th>COMPANY NAME</th>
+                        <th>AREA MANAGER</th>
                         <th>STORE AREA</th>
                         <th>REGION</th>
                         <th>STORE TYPE</th>
@@ -122,7 +126,7 @@ $('#btnGenerate').on('click', function(){
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="8">TOTAL:</th>
+                        <th class="text-right" colspan="9">TOTAL:</th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -157,7 +161,7 @@ $('#btnGenerate').on('click', function(){
             },
             columnDefs: [
                 {
-                    "targets": [1,5,6,7],
+                    "targets": [1,2,6,7,8],
                     "visible": false,
                     "searchable": true
                 },
@@ -165,6 +169,7 @@ $('#btnGenerate').on('click', function(){
             columns: [
                 { data: 'branch_name' },
                 { data: 'company_name' },
+                { data: 'area_manager' },
                 { data: 'store_area' },
                 { data: 'region' },
                 { data: 'type' },
@@ -232,16 +237,9 @@ $('#btnGenerate').on('click', function(){
                 }, 200);
             }
         });
-        $('body').on('click', '.checkboxFilter', function(){
-            var column = table1.column($(this).attr('data-column'));
-            var colnum = $(this).attr('data-column');
-            column.visible(!column.visible());
-            $('.fl-'+colnum).val('');
-            table1.column(colnum).search('').draw();
-        });
         setInterval(() => {
             if($('.popover-header').is(':visible')){
-                for(var i=0; i<=10; i++){
+                for(var i=0; i<=11; i++){
                     if(table1.column(i).visible()){
                         $('#filter-'+i).prop('checked', true);
                     }
@@ -338,7 +336,7 @@ $('#btnGenerate').on('click', function(){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${data}</span>`;
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
                     }
                 },
                 {
@@ -471,7 +469,7 @@ $('#btnGenerate').on('click', function(){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${data}</span>`;
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
                     }
                 },
                 {
@@ -911,7 +909,7 @@ function report_datesB(datacode, headername, urlName, colData){
                     if(type === "sort" || type === 'type'){
                         return sortAmount(data);
                     }
-                    return `<span class="float-end">${data}</span>`;
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
                 }
             },
             {
@@ -999,12 +997,12 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                         <th class="sum">GROSS SALES</th>
                     </tr>
                 </thead>
-                <tfoot style="font-size: 14px;">
+                <!-- <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="5">TOTAL:</th>
                         <th class="text-right sum"></th>
                     </tr>
-                </tfoot>
+                </tfoot>-->
             </table>
             <br>
         </div>`;
@@ -1049,7 +1047,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${data}</span>`;
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
                     }
                 },
                 {
@@ -1062,28 +1060,28 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
-                };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
-                });
-            },
+            // footerCallback:function(row,data,start,end,display){
+            //     var api=this.api(),data;
+            //     var intVal = function ( i ) {
+            //         return typeof i === 'string' ?
+            //             i.replace(/[^\d.-]/g, '')*1 :
+            //             typeof i === 'number' ?
+            //                 i : 0;
+            //     };
+            //     api.columns('.sum',{page:'all'}).every(function(){
+            //     var sum=this
+            //         .data()
+            //         .reduce(function(a,b){
+            //             return intVal(a)+intVal(b);
+            //         },0);
+            //         sum=Number(sum).toFixed(2);
+            //         sum=sum.toString();
+            //         var pattern=/(-?\d+)(\d{3})/;
+            //         while(pattern.test(sum))
+            //         sum=sum.replace(pattern,"$1,$2");
+            //         this.footer().innerHTML='₱ '+sum;
+            //     });
+            // },
             initComplete: function(){
                 $('#loading').hide();
                 setTimeout(() => {
@@ -1163,7 +1161,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${data}</span>`;
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
                     }
                 },
                 {
@@ -1277,7 +1275,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${data}</span>`;
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
                     }
                 },
                 {
@@ -1469,4 +1467,12 @@ setInterval(() => {
 
 $('a[href="#"]').click(function(event){
     event.preventDefault();
+});
+
+$('body').on('click', '.checkboxFilter', function(){
+    var column = table1.column($(this).attr('data-column'));
+    var colnum = $(this).attr('data-column');
+    column.visible(!column.visible());
+    $('.fl-'+colnum).val('');
+    table1.column(colnum).search('').draw();
 });
