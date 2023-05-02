@@ -310,6 +310,10 @@ class ProductsController extends Controller
         $store_orig = Product::where('id', $request->id)->first()->store;
         $sales_type_orig = Product::where('id', $request->id)->first()->sales_type;
 
+        $max_modifier_orig = Product::where('id', $request->id)->first()->max_modifier;
+        $seq_orig = Product::where('id', $request->id)->first()->seq;
+        $kitchen_printer_orig = Product::where('id', $request->id)->first()->kitchen_printer;
+
         // Page 2
         $promo_start_orig = Product::where('id', $request->id)->first()->promo_start;
         $promo_end_orig = Product::where('id', $request->id)->first()->promo_end;
@@ -394,6 +398,30 @@ class ProductsController extends Controller
             $sales_type_change = NULL;
         }
         // Page 2 end
+
+        if($request->max_modifier != $max_modifier_orig){
+            $max_modifier_new = strtoupper($request->max_modifier);
+            $max_modifier_change = "【MAX MODIFIER: FROM '$max_modifier_orig' TO '$max_modifier_new'】";
+        }
+        else{
+            $max_modifier_change = NULL;
+        }
+
+        if($request->seq != $seq_orig){
+            $seq_new = strtoupper($request->seq);
+            $seq_change = "【SEQ: FROM '$seq_orig' TO '$seq_new'】";
+        }
+        else{
+            $seq_change = NULL;
+        }
+
+        if($request->kitchen_printer != $kitchen_printer_orig){
+            $kitchen_printer_new = strtoupper($request->kitchen_printer);
+            $kitchen_printer_change = "【KITCHEN PRINTER: FROM '$kitchen_printer_orig' TO '$kitchen_printer_new'】";
+        }
+        else{
+            $kitchen_printer_change = NULL;
+        }
 
         if(($request->company) != array_map('trim', (explode('|', $company_orig)))){
             $company_orig = Company::where('id', $company_orig)->first()->company_name;
@@ -789,7 +817,9 @@ class ProductsController extends Controller
                 $request->start_time != $start_time_orig ||
                 $request->end_date != $end_date_orig ||
                 $request->end_time != $end_time_orig ||
-                $request->sales_type != $sales_type_orig
+                $request->max_modifier != $max_modifier_orig ||
+                $request->seq != $seq_orig ||
+                $request->kitchen_printer != $kitchen_printer_orig
             ){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
@@ -832,6 +862,9 @@ class ProductsController extends Controller
                                         $end_date_change
                                         $end_time_change
                                         $sales_type_change
+                                        $max_modifier_change
+                                        $seq_change
+                                        $kitchen_printer_change
                                         ";
                 $userlogs->save();
             }
