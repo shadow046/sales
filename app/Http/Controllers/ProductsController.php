@@ -1015,11 +1015,19 @@ class ProductsController extends Controller
     }
 
     public function products_stores(Request $request){
+
         if($request->area_id == ['0']){
             $area_array = StoreArea::select('id')->get()->toArray();
             $areas = array_map(function($item) {
                 return $item['id'];
             }, $area_array);
+        }
+        else{
+            $areas = $request->area_id;
+        }
+
+        if($request->area_all){
+            $areas = array_diff($request->area_id, $request->area_all);
         }
         else{
             $areas = $request->area_id;

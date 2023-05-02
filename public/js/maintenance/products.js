@@ -16,6 +16,7 @@ $(document).ready(function(){
 });
 
 $('.addBtn').on('click',function(){
+    area_all = [];
     stores_list = [];
     promo_id = [];
     suspend_id = [];
@@ -917,6 +918,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         stores_list = [];
         promo_id = [];
         suspend_id = [];
+        area_all = [];
 
         if(!current_permissions.includes('3')){
             $('#productsModal').find('input').prop('disabled', true);
@@ -936,7 +938,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         else{
             $('#tabContent').removeClass('mt-8');
         }
-        console.log(data.promo_start);
+
         if(data.status == 'ACTIVE'){
             $('#status').html('<label class="switch"><input type="checkbox" class="tglStatus" id="'+ data.id +'" tgl_item_code="'+data.item_code+'" tgl_short_desc="'+data.short_desc+'" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>');
         }
@@ -1875,6 +1877,7 @@ $(document).on('change', '#store', function(){
     }
 });
 
+var area_all = [];
 var stores_list = [];
 $(document).on('change', '#area', function(){
     if($(this).val().includes('0')){
@@ -1897,7 +1900,8 @@ $(document).on('change', '#area', function(){
                 company_id: $('#company').val(),
                 type_id: $('#type').val(),
                 setup_id: $('#setup').val(),
-                area_id: $('#area').val()
+                area_id: $('#area').val(),
+                area_all: area_all
             },
             success:function(data){
                 var stores = $.map(data, function(value, index) {
@@ -1934,8 +1938,12 @@ $(document).on('change', '#area', function(){
 });
 
 $(document).on('change', '#store', function(){
+    area_all = [];
     stores_list = [];
     $.each($(this).val(), function(index, value){
+        if(value.includes('-0')){
+            area_all.push(value.substring(0, value.length - 2));
+        }
         stores_list.push(value);
     });
     $('#area').change();
