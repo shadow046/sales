@@ -6,7 +6,7 @@
             <input type="hidden" id="filename_delete">
             <img id="product_image_preview" class="text-center" style="display: none;line-height:145px;height:145px;width:145px;margin-right:-8px;" title="VIEW IMAGE" data-bs-target="#modal_product_image_preview" data-bs-toggle="modal" onclick="modal_product_image_preview(this)">
             <span class="remove_image m-1" style="cursor: pointer;"><i class="fas fa-times float-end text-pink" style="zoom: 150%; margin-right: 3px;"></i></span>
-            <span id="span_upload_image" style="line-height: 145px; height: 145px; margin-left: -25px;"><button type="button" id="upload_image" class="btn bg-pink" style="margin-left:15%;" onclick="$('#product_image').click()">Upload Image</button></span>
+            <span id="span_upload_image" style="line-height: 145px; height: 145px; margin-left: -25px;"><button type="button" id="upload_image" class="btn bg-pink" style="margin-left:15%;">Upload Image</button></span>
             <input type="file" id="product_image" name="product_image" accept="image/*" style="display: none;" onchange="ProductImageValidation(product_image)">
         </div>
 

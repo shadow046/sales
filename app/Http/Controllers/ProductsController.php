@@ -207,8 +207,8 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
-        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
-        $product->type = $request->type == '0' ? '0' : implode("|", $request->type);
+        $product->company = !$request->company || $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->type = !$request->type || $request->type == '0' ? '0' : implode("|", $request->type);
         $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
         $product->store = $request->store == '0' ? '0' : implode("|", $request->store);
         $product->store_code = implode(",",$request->store_code);
@@ -308,6 +308,92 @@ class ProductsController extends Controller
         $setup_orig = Product::where('id', $request->id)->first()->setup;
         $area_orig = Product::where('id', $request->id)->first()->area;
         $store_orig = Product::where('id', $request->id)->first()->store;
+        $sales_type_orig = Product::where('id', $request->id)->first()->sales_type;
+
+        // Page 2
+        $promo_start_orig = Product::where('id', $request->id)->first()->promo_start;
+        $promo_end_orig = Product::where('id', $request->id)->first()->promo_end;
+        $promo_price_orig = Product::where('id', $request->id)->first()->promo_price;
+        $start_date_orig = Product::where('id', $request->id)->first()->start_date;
+        $start_time_orig = Product::where('id', $request->id)->first()->start_time;
+        $end_date_orig = Product::where('id', $request->id)->first()->end_date;
+        $end_time_orig = Product::where('id', $request->id)->first()->end_time;
+
+        if($request->promo_start != $promo_start_orig){
+            $promo_start1 = Carbon::parse($promo_start_orig)->format('F d, Y');
+            $promo_start2 = Carbon::parse($request->promo_start)->format('F d, Y');
+            $promo_start_change = "【PROMO START: FROM '$promo_start1' TO '$promo_start2'】";
+        }
+        else{
+            $promo_start_change = NULL;
+        }
+
+        if($request->promo_end != $promo_end_orig){
+            $promo_end1 = Carbon::parse($promo_end_orig)->format('F d, Y');
+            $promo_end2 = Carbon::parse($request->promo_end)->format('F d, Y');
+            $promo_end_change = "【PROMO END: FROM '$promo_end1' TO '$promo_end2'】";
+        }
+        else{
+            $promo_end_change = NULL;
+        }
+
+        if($request->promo_price != $promo_price_orig){
+            $promo_price_new = strtoupper($request->promo_price);
+            $promo_price_change = "【PROMO PRICE: FROM '₱$promo_price_orig' TO '₱$promo_price_new'】";
+        }
+        else{
+            $promo_price_change = NULL;
+        }
+
+        if($request->start_date != $start_date_orig){
+            $start_date1 = Carbon::parse($start_date_orig)->format('F d, Y');
+            $start_date2 = Carbon::parse($request->start_date)->format('F d, Y');
+            $start_date_change = "【START DATE: FROM '$start_date1' TO '$start_date2'】";
+        }
+        else{
+            $start_date_change = NULL;
+        }
+
+        if($request->start_time != $start_time_orig){
+            $start_time_new = strtoupper($request->start_time);
+            if($start_time_orig == null){
+                $start_time_orig = 'N/A';
+            }
+                $start_time_change = "【START TIME: FROM '$start_time_orig' TO '$start_time_new'】";
+        }
+        else{
+            $start_time_change = NULL;
+        }
+
+        if($request->end_date != $end_date_orig){
+            $end_date1 = Carbon::parse($end_date_orig)->format('F d, Y');
+            $end_date2 = Carbon::parse($request->end_date)->format('F d, Y');
+            $end_date_change = "【END DATE: FROM '$end_date1' TO '$end_date2'】";
+        }
+        else{
+            $end_date_change = NULL;
+        }
+
+        if($request->end_time != $end_time_orig){
+            $end_time_new = strtoupper($request->end_time);
+            if($end_time_orig == null){
+                $end_time_orig = 'N/A';
+            }
+                $end_time_change = "【END TIME: FROM '$end_time_orig' TO '$end_time_new'】";
+        }
+        else{
+            $end_time_change = NULL;
+        }
+
+        if($request->sales_type != $sales_type_orig){
+            $sales_type_orig = ($sales_type_orig !== null) ? SalesType::where('id', $sales_type_orig)->first()->sales_type : 'N/A';
+            $sales_type_new = SalesType::where('id', $request->sales_type)->first()->sales_type;
+            $sales_type_change = "【SALES TYPE: FROM '$sales_type_orig' TO '$sales_type_new'】";
+        }
+        else{
+            $sales_type_change = NULL;
+        }
+        // Page 2 end
 
         if(($request->company) != array_map('trim', (explode('|', $company_orig)))){
             $company_orig = Company::where('id', $company_orig)->first()->company_name;
@@ -583,6 +669,13 @@ class ProductsController extends Controller
             $composition_change = NULL;
         }
 
+        if($request->product_image_change == 'CHANGED'){
+            $image_change = "【IMAGE CHANGED: PRODUCT '$request->short_desc' IMAGE HAS BEEN CHANGED】";
+        }
+        else{
+            $image_change = NULL;
+        }
+
         $product = Product::find($request->id);
         $product->product_image = $request->product_image == 'N/A' ? '' : $request->product_image;
         $product->item_code = strtoupper($request->item_code);
@@ -615,8 +708,8 @@ class ProductsController extends Controller
         $product->pos_setup = $request->pos_setup;
         $product->max_modifier = $request->max_modifier;
         $product->setup = $request->setup ? implode(",",$request->setup) : '';
-        $product->company = $request->company == '0' ? '0' : implode("|", $request->company);
-        $product->type = $request->type == '0' ? '0' : implode("|", $request->type);
+        $product->company = !$request->company || $request->company == '0' ? '0' : implode("|", $request->company);
+        $product->type = !$request->type || $request->type == '0' ? '0' : implode("|", $request->type);
         $product->area = $request->area == '0' ? '0' : implode("|", $request->area);
         $product->store = $request->store == '0' || $request->store == '' ? '0' : implode("|", $request->store);
         $product->store_code = implode(",",$request->store_code);
@@ -687,7 +780,16 @@ class ProductsController extends Controller
                 $request->type != array_map('trim', (explode('|', $type_orig))) ||
                 $request->setup != array_map('trim', (explode(',', $setup_orig))) ||
                 $request->area != array_map('trim', (explode('|', $area_orig))) ||
-                $request->store != array_map('trim', (explode('|', $store_orig)))
+                $request->store != array_map('trim', (explode('|', $store_orig))) ||
+                $request->product_image_change == 'CHANGED' ||
+                $request->promo_start != $promo_start_orig ||
+                $request->promo_end != $promo_end_orig ||
+                $request->promo_price != $promo_price_orig ||
+                $request->start_date != $start_date_orig ||
+                $request->start_time != $start_time_orig ||
+                $request->end_date != $end_date_orig ||
+                $request->end_time != $end_time_orig ||
+                $request->sales_type != $sales_type_orig
             ){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
@@ -721,6 +823,15 @@ class ProductsController extends Controller
                                         $setup_change
                                         $area_change
                                         $store_change
+                                        $image_change
+                                        $promo_start_change
+                                        $promo_end_change
+                                        $promo_price_change
+                                        $start_date_change
+                                        $start_time_change
+                                        $end_date_change
+                                        $end_time_change
+                                        $sales_type_change
                                         ";
                 $userlogs->save();
             }

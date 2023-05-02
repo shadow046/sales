@@ -13,7 +13,7 @@
                 <label for="promo_end" class="formlabels form-label">PROMO END <span class="span_promo_end"></span></label>
             </div>
             <div class="col-md-3 f-outline">
-                <input type="number" value="0.00" style="color:black" min="0" name="promo_price" id="promo_price" class="forminput form-control" placeholder=" " autocomplete="off" >
+                <input type="number" value="0.00" style="color:black" min="0" name="promo_price" id="promo_price" class="forminput form-control priceField" placeholder=" " autocomplete="off" >
                 <label for="promo_price" class="formlabels form-label">PROMO PRICE <span class="span_promo_price"></span></label>
             </div>
         </div>

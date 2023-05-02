@@ -860,7 +860,8 @@ $('.saveBtn').on('click',function(){
                         delivery_large:delivery_large,
                         delivery_xl:delivery_xl,
                         delivery_zero:delivery_zero,
-                        product_composition_change:product_composition_change
+                        product_composition_change:product_composition_change,
+                        product_image_change:product_image_change
                     },
                     success:function(data){
                         if(data.result == 'true'){
@@ -891,7 +892,7 @@ $('.saveBtn').on('click',function(){
                             $('#loading').hide();
                             $('#productsModal').modal('hide');
                             Swal.fire("UPDATE SUCCESS", "", "success");
-                            setTimeout(function(){window.location.reload();}, 2000);
+                            // setTimeout(function(){window.location.reload();}, 2000);
                         }
                         else{
                             $('#loading').hide();
@@ -935,6 +936,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         else{
             $('#tabContent').removeClass('mt-8');
         }
+        console.log(data.promo_start);
         if(data.status == 'ACTIVE'){
             $('#status').html('<label class="switch"><input type="checkbox" class="tglStatus" id="'+ data.id +'" tgl_item_code="'+data.item_code+'" tgl_short_desc="'+data.short_desc+'" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>');
         }
@@ -1058,35 +1060,39 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             });
         }, current_timeout);
 
-        var company_array = data.company.split()[0].split('|');
-        $("#company").children("option").each(function(){
-            if(company_array.includes($(this).val().toString())){
-                $(this).prop("selected",true);
-            }
-            else{
-                $(this).prop("selected",false);
-            }
-        });
+        if(data.company){
+            var company_array = data.company.split()[0].split('|');
+            $("#company").children("option").each(function(){
+                if(company_array.includes($(this).val().toString())){
+                    $(this).prop("selected",true);
+                }
+                else{
+                    $(this).prop("selected",false);
+                }
+            });
 
-        setTimeout(() => {
-            $('#company').change();
-            $('#company').trigger('chosen:updated');
-        }, current_timeout);
+            setTimeout(() => {
+                $('#company').change();
+                $('#company').trigger('chosen:updated');
+            }, current_timeout);
+        }
 
-        var type_array = data.type.split()[0].split('|');
-        $("#type").children("option").each(function(){
-            if(type_array.includes($(this).val().toString())){
-                $(this).prop("selected",true);
-            }
-            else{
-                $(this).prop("selected",false);
-            }
-        });
+        if(data.type){
+            var type_array = data.type.split()[0].split('|');
+            $("#type").children("option").each(function(){
+                if(type_array.includes($(this).val().toString())){
+                    $(this).prop("selected",true);
+                }
+                else{
+                    $(this).prop("selected",false);
+                }
+            });
 
-        setTimeout(() => {
-            $('#type').change();
-            $('#type').trigger('chosen:updated');
-        }, current_timeout);
+            setTimeout(() => {
+                $('#type').change();
+                $('#type').trigger('chosen:updated');
+            }, current_timeout);
+        }
 
         var setup_array = data.setup.split()[0].split(',');
         $("#setup").children("option").each(function(){
@@ -1387,6 +1393,7 @@ function ProductImageValidation(product_image) {
     }
 }
 
+var product_image_change;
 $('.remove_image').on('click',function(){
     Swal.fire({
         title: 'Do you want to remove image?',
@@ -1407,6 +1414,8 @@ $('.remove_image').on('click',function(){
             $('#product_image').val('');
             $('#product_image_preview').attr('src','');
             $('#product_image_preview').hide();
+            product_image_change = 'CHANGED';
+            console.log(product_image_change);
         }
     });
 });
@@ -2089,3 +2098,7 @@ setInterval(() => {
         $('.classStore').hide();
     }
 }, 0);
+
+$('#upload_image').on('click',function(){
+    $('#product_image').click();
+});
