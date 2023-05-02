@@ -1024,13 +1024,12 @@ class ProductsController extends Controller
         }
         else{
             $areas = $request->area_id;
-        }
-
-        if($request->area_all){
-            $areas = array_diff($request->area_id, $request->area_all);
-        }
-        else{
-            $areas = $request->area_id;
+            if($request->area_all){
+                $areas = array_diff($request->area_id, $request->area_all);
+            }
+            else{
+                $areas = $request->area_id;
+            }
         }
 
         if($request->company_id == ['0']){
