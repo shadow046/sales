@@ -403,7 +403,13 @@ class StoreController extends Controller
         }
 
         if(($request->setup) != array_map('trim', (explode(',', $setup_orig)))){
-            $setup_orig = Setup::where('id', $setup_orig)->first()->setup;
+            $setup_filter = array_map('trim', (explode(',', $setup_orig)));
+            $setup_array = Setup::selectRaw('setup')->whereIn('id', $setup_filter)->get()->toArray();
+            $setup_orig = array_map(function($item) {
+                return $item['setup'];
+            }, $setup_array);
+            $setup_orig = implode(', ', $setup_orig);
+
             $setup_array = array();
             $setup = Setup::all();
             foreach($setup as $setupkey => $setupvalue){
@@ -412,7 +418,7 @@ class StoreController extends Controller
                 }
             }
             $setup_new = implode(', ', $setup_array);
-            $setup_change = "【Store Setup: FROM '$setup_orig' TO '$setup_new'】";
+            $setup_change = "【STORE SETUP: FROM '$setup_orig' TO '$setup_new'】";
         }
         else{
             $setup_change = NULL;
@@ -423,7 +429,12 @@ class StoreController extends Controller
                 $serving_store_orig = 'N/A';
             }
             else{
-                $serving_store_orig = DeliveryServingStore::where('id', $serving_store_orig)->first()->delivery_serving_store;
+                $serving_store_filter = array_map('trim', (explode(',', $serving_store_orig)));
+                $serving_store_array = DeliveryServingStore::selectRaw('delivery_serving_store')->whereIn('id', $serving_store_filter)->get()->toArray();
+                $serving_store_orig = array_map(function($item) {
+                    return $item['delivery_serving_store'];
+                }, $serving_store_array);
+                $serving_store_orig = implode(', ', $serving_store_orig);
             }
             if($request->serving_store){
                 $serving_store_array = array();

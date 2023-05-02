@@ -1123,18 +1123,23 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             $('#area').change();
 
             setTimeout(() => {
-                $("#store").children("option").each(function(){
-                    if($.inArray($(this).val(),(data.store).split('|')) !== -1){
-                        $(this).prop("selected",true);
-                    }
-                    else{
-                        $(this).prop("selected",false);
-                    }
-                });
-                setTimeout(() => {
+                if(data.store == '0-0'){
+                    $('#store').val(['0-0']);
                     $('#store').trigger('chosen:updated');
                     $('#store').change();
-                }, current_timeout);
+                }
+                else{
+                    $("#store").children("option").each(function(){
+                        if($.inArray($(this).val(),(data.store).split('|')) !== -1){
+                            $(this).prop("selected",true);
+                        }
+                        else{
+                            $(this).prop("selected",false);
+                        }
+                    });
+                    $('#store').trigger('chosen:updated');
+                    $('#store').change();
+                }
             }, current_timeout);
         }, current_timeout);
 

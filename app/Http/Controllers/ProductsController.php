@@ -424,15 +424,35 @@ class ProductsController extends Controller
         }
 
         if(($request->company) != array_map('trim', (explode('|', $company_orig)))){
-            $company_orig = Company::where('id', $company_orig)->first()->company_name;
-            $company_array = array();
-            $company = Company::all();
-            foreach($company as $companykey => $companyvalue){
-                if(in_array($companyvalue['id'], $request->company)){
-                    array_push($company_array, $companyvalue['company_name']);
+            if($company_orig == '0'){
+                $company_orig == 'ALL';
+            }
+            else{
+                if(!$company_orig){
+                    $company_orig = 'N/A';
+                }
+                else{
+                    $company_filter = array_map('trim', (explode('|', $company_orig)));
+                    $company_array = Company::selectRaw('company_name')->whereIn('id', $company_filter)->get()->toArray();
+                    $company_orig = array_map(function($item) {
+                        return $item['company_name'];
+                    }, $company_array);
+                    $company_orig = implode(', ', $company_orig);
                 }
             }
-            $company_new = implode(', ', $company_array);
+            if($request->company == ['0']){
+                $company_new = 'ALL';
+            }
+            else{
+                $company_array = array();
+                $company = Company::all();
+                foreach($company as $companykey => $companyvalue){
+                    if(in_array($companyvalue['id'], $request->company)){
+                        array_push($company_array, $companyvalue['company_name']);
+                    }
+                }
+                $company_new = implode(', ', $company_array);
+            }
             $company_change = "【COMPANY: FROM '$company_orig' TO '$company_new'】";
         }
         else{
@@ -440,15 +460,35 @@ class ProductsController extends Controller
         }
 
         if(($request->type) != array_map('trim', (explode('|', $type_orig)))){
-            $type_orig = Type::where('id', $type_orig)->first()->type;
-            $type_array = array();
-            $type = Type::all();
-            foreach($type as $typekey => $typevalue){
-                if(in_array($typevalue['id'], $request->type)){
-                    array_push($type_array, $typevalue['type']);
+            if($type_orig == '0'){
+                $type_orig == 'ALL';
+            }
+            else{
+                if(!$type_orig){
+                    $type_orig = 'N/A';
+                }
+                else{
+                    $type_filter = array_map('trim', (explode('|', $type_orig)));
+                    $type_array = Type::selectRaw('type')->whereIn('id', $type_filter)->get()->toArray();
+                    $type_orig = array_map(function($item) {
+                        return $item['type'];
+                    }, $type_array);
+                    $type_orig = implode(', ', $type_orig);
                 }
             }
-            $type_new = implode(', ', $type_array);
+            if($request->type == ['0']){
+                $type_new = 'ALL';
+            }
+            else{
+                $type_array = array();
+                $type = Type::all();
+                foreach($type as $typekey => $typevalue){
+                    if(in_array($typevalue['id'], $request->type)){
+                        array_push($type_array, $typevalue['type']);
+                    }
+                }
+                $type_new = implode(', ', $type_array);
+            }
             $type_change = "【STORE TYPE: FROM '$type_orig' TO '$type_new'】";
         }
         else{
@@ -456,15 +496,35 @@ class ProductsController extends Controller
         }
 
         if(($request->setup) != array_map('trim', (explode(',', $setup_orig)))){
-            $setup_orig = Setup::where('id', $setup_orig)->first()->setup;
-            $setup_array = array();
-            $setup = Setup::all();
-            foreach($setup as $setupkey => $setupvalue){
-                if(in_array($setupvalue['id'], $request->setup)){
-                    array_push($setup_array, $setupvalue['setup']);
+            if($setup_orig == '0'){
+                $setup_orig = 'ALL';
+            }
+            else{
+                if(!$setup_orig){
+                    $setup_orig = 'N/A';
+                }
+                else{
+                    $setup_filter = array_map('trim', (explode(',', $setup_orig)));
+                    $setup_array = Setup::selectRaw('setup')->whereIn('id', $setup_filter)->get()->toArray();
+                    $setup_orig = array_map(function($item) {
+                        return $item['setup'];
+                    }, $setup_array);
+                    $setup_orig = implode(', ', $setup_orig);
                 }
             }
-            $setup_new = implode(', ', $setup_array);
+            if($request->setup == ['0']){
+                $setup_new = 'ALL';
+            }
+            else{
+                $setup_array = array();
+                $setup = Setup::all();
+                foreach($setup as $setupkey => $setupvalue){
+                    if(in_array($setupvalue['id'], $request->setup)){
+                        array_push($setup_array, $setupvalue['setup']);
+                    }
+                }
+                $setup_new = implode(', ', $setup_array);
+            }
             $setup_change = "【STORE SETUP: FROM '$setup_orig' TO '$setup_new'】";
         }
         else{
@@ -472,15 +532,35 @@ class ProductsController extends Controller
         }
 
         if(($request->area) != array_map('trim', (explode('|', $area_orig)))){
-            $area_orig = StoreArea::where('id', $area_orig)->first()->store_area;
-            $area_array = array();
-            $area = StoreArea::all();
-            foreach($area as $areakey => $areavalue){
-                if(in_array($areavalue['id'], $request->area)){
-                    array_push($area_array, $areavalue['store_area']);
+            if($area_orig == '0'){
+                $area_orig = 'ALL';
+            }
+            else{
+                if(!$area_orig){
+                    $area_orig = 'N/A';
+                }
+                else{
+                    $area_filter = array_map('trim', (explode('|', $area_orig)));
+                    $area_array = StoreArea::selectRaw('store_area')->whereIn('id', $area_filter)->get()->toArray();
+                    $area_orig = array_map(function($item) {
+                        return $item['store_area'];
+                    }, $area_array);
+                    $area_orig = implode(', ', $area_orig);
                 }
             }
-            $area_new = implode(', ', $area_array);
+            if($request->area == ['0']){
+                $area_new = 'ALL';
+            }
+            else{
+                $area_array = array();
+                $area = StoreArea::all();
+                foreach($area as $areakey => $areavalue){
+                    if(in_array($areavalue['id'], $request->area)){
+                        array_push($area_array, $areavalue['store_area']);
+                    }
+                }
+                $area_new = implode(', ', $area_array);
+            }
             $area_change = "【STORE AREA: FROM '$area_orig' TO '$area_new'】";
         }
         else{
@@ -488,15 +568,58 @@ class ProductsController extends Controller
         }
 
         if(($request->store) != array_map('trim', (explode('|', $store_orig)))){
-            $store_orig = Store::where('id', $store_orig)->first()->branch_code . ' - ' . Store::where('id', $store_orig)->first()->branch_name;
-            $store_array = array();
-            $store = Store::all();
-            foreach($store as $storekey => $storevalue){
-                if(in_array($storevalue['id'], $request->store)){
-                    array_push($store_array, $storevalue['branch_code'] . ' - ' . $storevalue['branch_name']);
+            if($store_orig == '0-0'){
+                $store_orig = 'ALL (ALL BRANCHES)';
+            }
+            else{
+                if(!$store_orig){
+                    $store_orig = 'N/A';
+                }
+                else{
+                    $user_row = '';
+                    $array = array_map('trim', (explode('|', $store_orig)));
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            if($user_row != ''){
+                                $user_row = $user_row.', '.$user->branch_code.': '.$user->branch_name;
+                            }
+                            else{
+                                $user_row = $user->branch_code.': '.$user->branch_name;
+                            }
+                        }
+                        else{
+                            $user = StoreArea::where('id', substr($value, 0, -2))->first();
+                            if($user_row != ''){
+                                $user_row = $user_row.', '.$user->store_area.' (ALL BRANCHES)';
+                            }
+                            else{
+                                $user_row = $user->store_area.' (ALL BRANCHES)';
+                            }
+                        }
+                    }
+                    $store_orig = $user_row;
                 }
             }
-            $store_new = implode(', ', $store_array);
+            if($request->store == ['0-0']){
+                $store_orig = 'ALL (ALL BRANCHES)';
+            }
+            else{
+                $store_array = array();
+                $store = Store::all();
+                foreach($request->store as $value){
+                    if(str_contains($value, '-0')){
+                        $user = StoreArea::where('id', substr($value, 0, -2))->first();
+                        array_push($store_array, $user->store_area.' (ALL BRANCHES)');
+                    }
+                }
+                foreach($store as $storekey => $storevalue){
+                    if(in_array($storevalue['id'], $request->store)){
+                        array_push($store_array, $storevalue['branch_code'] . ': ' . $storevalue['branch_name']);
+                    }
+                }
+                $store_new = implode(', ', $store_array);
+            }
             $store_change = "【STORE BRANCHES: FROM '$store_orig' TO '$store_new'】";
         }
         else{
