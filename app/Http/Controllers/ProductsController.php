@@ -1289,7 +1289,7 @@ class ProductsController extends Controller
                             
                         }
                     }
-                    fwrite($file, nl2br($line));
+                    fwrite($file, $line);
                     fclose($file);
                 }
             }
