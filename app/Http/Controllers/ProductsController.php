@@ -1109,10 +1109,10 @@ class ProductsController extends Controller
                     $filename = '/'.'var/www/html/mary_grace/public/storage/sqlfooditem-'.$date.'-'.$count;
                     $file = fopen($filename.'sql', 'w');
                     $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-                    $numbers = '';
+                    $number = '';
                     foreach ($days as $day) {
                         if (in_array($day, explode(',',$product->days_available))) {
-                            $numbers .= array_search($day, $days) + 1;
+                            $number .= array_search($day, $days) + 1;
                         }
                     }
                     $status = $product->status == 'active' ? 1 : 0;
