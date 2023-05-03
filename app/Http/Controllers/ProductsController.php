@@ -1106,7 +1106,7 @@ class ProductsController extends Controller
                 $count++;
                 $sys = 'MG';
                 if ($sys == 'MG') {
-                    $filename = '/'.'home/marygrace/productupdate/sqlfooditem-'.$date.'-'.$count;
+                    $filename = '/'.'var/www/html/mary_grace/sqlfooditem-'.$date.'-'.$count;
                     $file = fopen($filename.'sql', 'w');
                     $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
                     $numbers = '';
