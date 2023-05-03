@@ -1293,24 +1293,6 @@ class ProductsController extends Controller
                     fclose($file);
                 }
             }
-
-            foreach ($products as $product) {
-                $store_codes = explode(',', $product->store_code);
-                foreach ($store_codes as $store_code) {
-                    $filename = '/'.'home/'.env('APP_SYS').'/'.env('APP_SYS').'/'.$store_code.'.sql';
-                    if (File::exists($filename)) {
-                        // If the file exists, open it in append mode
-                        $file = fopen($filename, 'a');
-                    } else {
-                        // If the file does not exist, create a new file
-                        $file = fopen($filename, 'w');
-                    }
-                    $line = "REPLACE INTO `sqlfooditem` (`fcode`, `skuno`, `desc1`) VALUES ('$product->fcode', '$product->skuno', '$product->desc1');\n";
-                    fwrite($file, $line);
-                    fclose($file);
-                }
-            }
-
             // Close the SQL file
 
             $userlogs = new UserLogs;
