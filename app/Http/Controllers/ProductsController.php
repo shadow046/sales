@@ -1107,7 +1107,7 @@ class ProductsController extends Controller
                 $sys = 'MG';
                 if ($sys == 'MG') {
                     $filename = '/'.'var/www/html/mary_grace/public/storage/sqlfooditem-'.$date.'-'.$count;
-                    $file = fopen($filename.'sql', 'w');
+                    $file = fopen($filename.'.sql', 'w');
                     $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
                     $number = '';
                     foreach ($days as $day) {
@@ -1272,7 +1272,7 @@ class ProductsController extends Controller
                             );\n";
                     fwrite($file, $line);
                     fclose($file);
-                    $file = fopen($filename.'txt', 'w');
+                    $file = fopen($filename.'.txt', 'w');
                     if ($product->store_code == "ALL (ALL BRANCHES)") {
                         $line = "$product->store_code";
                     }
