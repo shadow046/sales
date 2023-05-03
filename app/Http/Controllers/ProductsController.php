@@ -1100,10 +1100,11 @@ class ProductsController extends Controller
     public function sendProductUpdate(Request $request){
         $products = Product::where('product_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
-        $count = Str::random(4);
+        
         if ($products) {
             foreach ($products as $product) {
                 $sys = 'MG';
+                $count = Str::random(4);
                 if ($sys == 'MG') {
                     $filename = '/'.'var/www/html/mary_grace/public/storage/sqlfooditem-'.$date.'-'.$count;
                     $file = fopen($filename.'.sql', 'w');
