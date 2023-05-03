@@ -1104,7 +1104,8 @@ class ProductsController extends Controller
         if ($products) {
             foreach ($products as $product) {
                 $count++;
-                if (env('APP_SYS' == 'MG')) {
+                $sys = 'MG'
+                if ($sys == 'MG')) {
                     $filename = '/'.'home/marygrace/productupdate/sqlfooditem-'.$date.'-'.$count;
                     $file = fopen($filename.'sql', 'w');
                     $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
