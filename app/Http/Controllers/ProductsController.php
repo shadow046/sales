@@ -1284,7 +1284,7 @@ class ProductsController extends Controller
                                 $line .= $store;
                             }
                             else{
-                                $line .= '\n'.$store;
+                                $line .= '\\n'.$store;
                             }
                             
                         }
