@@ -1284,12 +1284,12 @@ class ProductsController extends Controller
                                 $line .= $store;
                             }
                             else{
-                                $line .= '\\n'.$store;
+                                $line .= "\n".$store;
                             }
                             
                         }
                     }
-                    fwrite($file, $line);
+                    fwrite($file, nl2br($line));
                     fclose($file);
                 }
             }
