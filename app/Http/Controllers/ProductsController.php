@@ -22,7 +22,7 @@ use App\Models\StoreArea;
 use App\Models\Store;
 use App\Models\Type;
 use Illuminate\Support\Facades\File;
-
+use Str;
 class ProductsController extends Controller
 {
     public function __construct()
@@ -1100,10 +1100,9 @@ class ProductsController extends Controller
     public function sendProductUpdate(Request $request){
         $products = Product::where('product_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
-        $count = 0;
+        $count = Str::random(4);
         if ($products) {
             foreach ($products as $product) {
-                $count++;
                 $sys = 'MG';
                 if ($sys == 'MG') {
                     $filename = '/'.'var/www/html/mary_grace/public/storage/sqlfooditem-'.$date.'-'.$count;
