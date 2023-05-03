@@ -542,45 +542,52 @@ class PriceUpdateController extends Controller
         $date = Carbon::now()->format('Y-m-d');
 
         if ($products) {
+            $count = Str::random(4);
+            if (Str::contains($request->url(), 'mg')) {
+                $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
+            }
+            else if (Str::contains($request->url(), 'dd')) {
+                $filename = '/'.'var/www/html/dd/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
+            }
             foreach ($products as $product) {
-                $sys = 'MG';
-                $count = Str::random(4);
-                if ($sys == 'MG') {
-                    $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
+                if (File::exists($filename.'.sql')) {
+                    // If the file exists, open it in append mode
+                    $file = fopen($filename.'.sql', 'a');
+                } else {
+                    // If the file does not exist, create a new file
                     $file = fopen($filename.'.sql', 'w');
-
-                    $line = "REPLACE INTO `sqlpriceupdate` (
-                        `fcode`,
-                        `desc1`,
-                        `effdate`,
-                        `upa1`,
-                        `upa2`,
-                        `upa3`,
-                        `upa4`,
-                        `upa5`,
-                        `upa6`,
-                        `upa7`,
-                        `upa8`,
-                        `suspend`,
-                        `recid`)
-                        VALUES (
-                        '$product->fcode',
-                        '$product->desc1',
-                        '$product->effdate',
-                        $product->upa1,
-                        $product->upa2,
-                        $product->upa3,
-                        $product->upa4,
-                        $product->upa5,
-                        $product->upa6,
-                        $product->upa7,
-                        $product->upa8,
-                        0,
-                        $product->recid
-                        );\n";
-                    fwrite($file, $line);
-                    fclose($file);
                 }
+                $line = "REPLACE INTO `sqlpriceupdate` (
+                    `fcode`,
+                    `desc1`,
+                    `effdate`,
+                    `upa1`,
+                    `upa2`,
+                    `upa3`,
+                    `upa4`,
+                    `upa5`,
+                    `upa6`,
+                    `upa7`,
+                    `upa8`,
+                    `suspend`,
+                    `recid`)
+                    VALUES (
+                    '$product->fcode',
+                    '$product->desc1',
+                    '$product->effdate',
+                    $product->upa1,
+                    $product->upa2,
+                    $product->upa3,
+                    $product->upa4,
+                    $product->upa5,
+                    $product->upa6,
+                    $product->upa7,
+                    $product->upa8,
+                    0,
+                    $product->recid
+                    );\n";
+                fwrite($file, $line);
+                fclose($file);
             }
             // Close the SQL file
 
