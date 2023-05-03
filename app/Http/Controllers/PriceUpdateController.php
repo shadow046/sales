@@ -522,14 +522,71 @@ class PriceUpdateController extends Controller
         }
     }
 
+    // public function sendPriceUpdate(Request $request){
+    //     $sql = PriceUpdate::where('price_update_status','=','0')->update(['price_update_status' => '1']);
+    //     if($sql){
+    //         $userlogs = new UserLogs;
+    //         $userlogs->user_id = auth()->user()->id;
+    //         $userlogs->activity = "SENT PRICE UPDATE: User successfully sent Price Updates for processing.";
+    //         $userlogs->save();
+
+    //         return 'true';
+    //     }
+    //     else{
+    //         return 'false';
+    //     }
+    // }
     public function sendPriceUpdate(Request $request){
-        $sql = PriceUpdate::where('price_update_status','=','0')->update(['price_update_status' => '1']);
-        if($sql){
+        $products = PriceUpdate::where('price_update_status', '=', '0')->get();
+        $date = Carbon::now()->format('Y-m-d');
+
+        if ($products) {
+            foreach ($products as $product) {
+                $sys = 'MG';
+                $count = Str::random(4);
+                if ($sys == 'MG') {
+                    $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
+                    $file = fopen($filename.'.sql', 'w');
+
+                    $line = "REPLACE INTO `sqlpriceupdate` (
+                        `fcode`,
+                        `desc1`,
+                        `effdate`,
+                        `upa1`,
+                        `upa2`,
+                        `upa3`,
+                        `upa4`,
+                        `upa5`,
+                        `upa6`,
+                        `upa7`,
+                        `upa8`,
+                        `suspend`,
+                        `recid`)
+                        VALUES (
+                        '$product->fcode',
+                        '$product->desc1',
+                        '$product->effdate',
+                        $product->upa1,
+                        $product->upa2,
+                        $product->upa3,
+                        $product->upa4,
+                        $product->upa5,
+                        $product->upa6,
+                        $product->upa7,
+                        $product->upa8,
+                        0,
+                        $product->recid
+                        );\n";
+                    fwrite($file, $line);
+                    fclose($file);
+                }
+            }
+            // Close the SQL file
+
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "SENT PRICE UPDATE: User successfully sent Price Updates for processing.";
+            $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates for processing.";
             $userlogs->save();
-
             return 'true';
         }
         else{
