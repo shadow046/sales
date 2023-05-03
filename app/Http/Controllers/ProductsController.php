@@ -21,7 +21,7 @@ use App\Models\Company;
 use App\Models\StoreArea;
 use App\Models\Store;
 use App\Models\Type;
-
+use Illuminate\Support\Facades\File;
 
 class ProductsController extends Controller
 {
