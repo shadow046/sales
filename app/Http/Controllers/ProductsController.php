@@ -1129,7 +1129,12 @@ class ProductsController extends Controller
                 $ItemforFree = in_array('Item for Free',explode(',',$product->promo_setup)) ? 1 : 0;
                 $NotSubject = in_array('Not Subject to %',explode(',',$product->promo_setup)) ? 1 : 0;
                 $KioskAddOn = in_array('Kiosk Add-On',explode(',',$product->pos_setup)) ? 1 : 0;
-
+                $promo_price = number_format($product->promo_price,2);
+                $intro_date = $product->intro_date ? $product->intro_date : '0000-00-00';
+                $start_date = $product->start_date ? $product->start_date : '0000-00-00';
+                $end_date = $product->end_date ? $product->end_date : '0000-00-00';
+                $promo_start = $product->promo_start ? $product->promo_start : '0000-00-00';
+                $promo_end = $product->promo_end ? $product->promo_end : '0000-00-00';
                 $line = "REPLACE INTO `sqlfooditem` (
                             `fcode`,
                             `skuno`,
@@ -1221,7 +1226,7 @@ class ProductsController extends Controller
                             $showKiosk,
                             0.00,
                             0.00,
-                            '$product->promo_price',
+                            '$promo_price',
                             '',
                             $SetMealItem,
                             $AllowDiscount,
@@ -1232,11 +1237,11 @@ class ProductsController extends Controller
                             '\r\n',
                             $NeedsManagerAuthorization,
                             $ModifierMenu,
-                            '$product->intro_date',
-                            '$product->start_date',
-                            '$product->end_date',
-                            '$product->promo_start',
-                            '$product->promo_end',
+                            '$intro_date',
+                            '$start_date',
+                            '$end_date',
+                            '$promo_start',
+                            '$promo_end',
                             '$product->start_time',
                             '$product->end_time',
                             0,
