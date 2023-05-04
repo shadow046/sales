@@ -1100,16 +1100,16 @@ class ProductsController extends Controller
     public function sendProductUpdate(Request $request){
         $products = Product::where('product_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
-        if (Str::contains($request->url(), 'mg')) {
-            $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
-        }
-        else if (Str::contains($request->url(), 'dd')) {
-            $filename = '/'.'var/www/html/dd/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
-        }
+
         if ($products) {
-            foreach ($products as $product) {
-                $count = Str::random(4);
+            $count = Str::random(4);
+            if (Str::contains($request->url(), 'mg')) {
                 $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
+            }
+            else if (Str::contains($request->url(), 'dd')) {
+                $filename = '/'.'var/www/html/dd/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
+            }
+            foreach ($products as $product) {
                 $file = fopen($filename.'.sql', 'w');
                 $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
                 $number = '';
@@ -1289,13 +1289,14 @@ class ProductsController extends Controller
                         else{
                             $line .= "\n".$store;
                         }
-                        
+
                     }
                 }
                 fwrite($file, $line);
                 fclose($file);
             }
             // Close the SQL file
+            Product::where('product_update_status','=','0')->update(['product_update_status' => '1']);
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;

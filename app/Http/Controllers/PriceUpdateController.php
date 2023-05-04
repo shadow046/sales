@@ -541,7 +541,7 @@ class PriceUpdateController extends Controller
         $products = PriceUpdate::where('price_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
 
-        if ($products) {
+        if($products) {
             $count = Str::random(4);
             if (Str::contains($request->url(), 'mg')) {
                 $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
@@ -590,6 +590,7 @@ class PriceUpdateController extends Controller
                 fclose($file);
             }
             // Close the SQL file
+            PriceUpdate::where('price_update_status','=','0')->update(['price_update_status' => '1']);
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
