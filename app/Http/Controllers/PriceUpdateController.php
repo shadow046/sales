@@ -588,13 +588,14 @@ class PriceUpdateController extends Controller
                     );\n";
                 fwrite($file, $line);
                 fclose($file);
+
+                PriceUpdate::where('recid',$product->recid)->update(['price_update_status' => '1']);
             }
             // Close the SQL file
-            PriceUpdate::where('price_update_status','=','0')->update(['price_update_status' => '1']);
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates for processing.";
+            $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$count) for processing.";
             $userlogs->save();
             return 'true';
         }

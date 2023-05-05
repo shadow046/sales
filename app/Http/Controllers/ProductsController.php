@@ -1102,14 +1102,14 @@ class ProductsController extends Controller
         $date = Carbon::now()->format('Y-m-d');
 
         if ($products) {
-            $count = Str::random(4);
-            if (Str::contains($request->url(), 'mg')) {
-                $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
-            }
-            else if (Str::contains($request->url(), 'dd')) {
-                $filename = '/'.'var/www/html/dd/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
-            }
             foreach ($products as $product) {
+                $count = Str::random(4);
+                if (Str::contains($request->url(), 'mg')) {
+                    $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
+                }
+                else if (Str::contains($request->url(), 'dd')) {
+                    $filename = '/'.'var/www/html/dd/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
+                }
                 $file = fopen($filename.'.sql', 'w');
                 $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
                 $number = '';
@@ -1299,15 +1299,16 @@ class ProductsController extends Controller
                 }
                 fwrite($file, $line);
                 fclose($file);
+
+                Product::where('id',$product->id)->update(['product_update_status' => '1']);
+
+                $userlogs = new UserLogs;
+                $userlogs->user_id = auth()->user()->id;
+                $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$count) for processing.";
+                $userlogs->save();
+                return 'true';
             }
             // Close the SQL file
-            Product::where('product_update_status','=','0')->update(['product_update_status' => '1']);
-
-            $userlogs = new UserLogs;
-            $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates for processing.";
-            $userlogs->save();
-            return 'true';
         }
         else{
             return 'false';
