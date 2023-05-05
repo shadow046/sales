@@ -42,6 +42,7 @@ class UserController extends Controller
         company.company_name AS branch_name, company.id AS branch, 
         users.company AS company, users.area AS area, users.store AS store,
         users.province AS province, users.district AS district')
+            ->where('users.id', '!=', '0')
             ->join('roles', 'roles.id', 'users.userlevel')
             ->join('company', 'company.id', 'users.branch')
             ->orderBy('user_status', 'ASC')
