@@ -12,17 +12,78 @@
     <div class="row mb-3">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
+            <select id="report_type" name="report_type" class="forminput form-control form-select requiredField" style="color: black">
+                <option value="" selected disabled>SELECT REPORT TYPE</option>
+                <option value="STANDARD">STANDARD REPORT</option>
+                <option value="COMPARATIVE">COMPARATIVE REPORT</option>
+            </select>
+            <label for="report_type" class="formlabels form-label">REPORT TYPE
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
             <select id="report_category" name="report_category" class="forminput form-control form-select requiredField" style="color: black">
                 <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CATEGORY</option>
                 <option value="STORE">STORE SALES</option>
                 <option value="PRODUCT">PRODUCT SALES</option>
                 <option value="COMBO MEAL">COMBO MEAL SALES</option>
+                <option value="PROMO">PROMO SALES</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
                 <option value="TENDER TYPE" class="text-secondary">TENDER TYPE SALES</option>
                 <option value="DISCOUNT" class="text-secondary">DISCOUNT SALES</option>
                 <option value="DELIVERY CHANNEL" class="text-secondary">DELIVERY CHANNEL SALES</option>
             </select>
             <label for="report_category" class="formlabels form-label">SALES REPORT CATEGORY
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3 classBranch classComparative">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="branch" name="branch" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Product/s" multiple>
+                @foreach($stores as $store)
+                    <option value="{{$store->fcode}}" desc="{{$store->desc1}}">{{$store->fcode}}: {{$store->desc1}}</option>
+                @endforeach
+            </select>
+            <label for="branch" class="formlabels form-label">BRANCH CODE / NAME
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3 classProduct classComparative">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="product" name="product" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Product/s" multiple>
+                @foreach($products as $product)
+                    <option value="{{$product->fcode}}" desc="{{$product->desc1}}">{{$product->fcode}}: {{$product->desc1}}</option>
+                @endforeach
+            </select>
+            <label for="product" class="formlabels form-label">PRODUCT CODE / DESCRIPTION
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3 classCombo classComparative">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="combo" name="combo" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Combo Meal Product/s" multiple>
+                @foreach($combos as $combo)
+                    <option value="{{$combo->fcode}}" desc="{{$combo->desc1}}">{{$combo->fcode}}: {{$combo->desc1}}</option>
+                @endforeach
+            </select>
+            <label for="combo" class="formlabels form-label">PRODUCT CODE / DESCRIPTION
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3 classPromo classComparative">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="promo" name="promo" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Promo Product/s" multiple>
+                @foreach($promos as $promo)
+                    <option value="{{$promo->fcode}}" desc="{{$promo->desc1}}">{{$promo->fcode}}: {{$promo->desc1}}</option>
+                @endforeach
+            </select>
+            <label for="promo" class="formlabels form-label">PRODUCT CODE / DESCRIPTION
         </div>
         <div class="col-md-4"></div>
     </div>
@@ -64,6 +125,7 @@
 <div id="reportsTable1" style="min-height: 60vh;"></div>
 <div id="reportsTable2"></div>
 <div id="reportsTable3"></div>
+<div id="reportsTable4"></div>
 <hr>
 <script src={{asset('js/generate_reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

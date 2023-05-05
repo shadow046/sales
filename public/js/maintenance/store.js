@@ -10,38 +10,32 @@ $('.addBtn').on('click',function(){
 var table,contact_person_change;
 $(document).ready(function(){
     if(current_location == '/store?type=coowned'){
-        // var targets = [5,7,9,10,11,12,13,15];
-        var targets = [2,6,8,10,11,12,13,14,16];
+        var targets = [5,7,9,10,11,12,13,14,16];
         var filter = 'coowned';
         $('#post_title').html(' - CO-OWNED');
     }
     else if(current_location == '/store?type=franchise'){
-        // var targets = [5,7,9,10,11,12,13,15];
-        var targets = [2,6,8,10,11,12,13,14,16];
+        var targets = [5,7,9,10,11,12,13,14,16];
         var filter = 'franchise';
         $('#post_title').html(' - FRANCHISE');
     }
     else if(current_location == '/store?setup=full_store'){
-        // var targets = [5,8,10,11,12,13,15];
-        var targets = [2,6,8,9,11,12,13,14,16];
+        var targets = [5,7,8,10,11,12,13,14,16];
         var filter = 'full_store';
         $('#post_title').html(' - FULL STORES');
     }
     else if(current_location == '/store?setup=drive_thru'){
-        // var targets = [5,8,10,11,12,13,15];
-        var targets = [2,6,8,9,11,12,13,14,16];
+        var targets = [5,7,8,10,11,12,13,14,16];
         var filter = 'drive_thru';
         $('#post_title').html(' - DRIVE THRU');
     }
     else if(current_location == '/store?setup=kiosks'){
-        // var targets = [5,8,10,11,12,13,15];
-        var targets = [2,6,8,9,11,12,13,14,16];
+        var targets = [5,7,8,10,11,12,13,14,16];
         var filter = 'kiosks';
         $('#post_title').html(' - KIOSKS');
     }
     else{
-        // var targets = [5,7,8,9,10,11,12,13,15];
-        var targets = [2,6,8,9,10,11,12,13,14,16];
+        var targets = [5,7,8,9,10,11,12,13,14,16];
     }
 
     table = $('table.storeTable').DataTable({
@@ -81,11 +75,15 @@ $(document).ready(function(){
         ],
         columns: [
             { data: 'branch_code', name:'branch_code'},
-            { data: 'comp_name', name:'comp_name'},
-            { data: 'tin', name:'tin'},
             { data: 'branch_name', name:'branch_name'},
+            { data: 'comp_name', name:'comp_name'},
             { data: 'store_area_name', name:'store_area_name'},
-            { data: 'address_name', name:'address_name'},
+            {
+                data: 'address_name', name:'address_name',
+                "render" : function(data, type, row, meta){
+                    return decodeHtml(row.address_name);
+                }
+            },
             { data: 'province_name', name:'province_name'},
             { data: 'city_name', name:'city_name'},
             { data: 'region_name', name:'region_name'},
@@ -95,6 +93,7 @@ $(document).ready(function(){
             { data: 'subgroup_name', name:'subgroup_name'},
             { data: 'network_setup_name', name:'network_setup_name'},
             { data: 'delivery_serving_store_name', name:'delivery_serving_store_name'},
+            { data: 'tin', name:'tin'},
             {
                 data: 'status',
                 "render": function(data, type, row, meta){

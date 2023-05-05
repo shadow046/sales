@@ -80,7 +80,7 @@ $(document).ready(function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,19],
+                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21],
                     "visible": false,
                     "searchable": true
                 },
@@ -186,6 +186,8 @@ $(document).ready(function(){
                 },
                 { data: 'sku', name: 'sku'},
                 { data: 'modifier_code', name: 'modifier_code'},
+                { data: 'company', name: 'company'},
+                { data: 'type', name: 'type'},
                 {
                     data: 'status',
                     "render": function(data, type, row, meta){
@@ -248,7 +250,7 @@ $(document).ready(function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,19],
+                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21],
                     "visible": false,
                     "searchable": true
                 },
@@ -354,6 +356,8 @@ $(document).ready(function(){
                 },
                 { data: 'sku', name: 'sku'},
                 { data: 'modifier_code', name: 'modifier_code'},
+                { data: 'company', name: 'company'},
+                { data: 'type', name: 'type'},
                 {
                     data: 'status',
                     "render": function(data, type, row, meta){
@@ -414,7 +418,7 @@ $(document).ready(function(){
 
     setInterval(() => {
         if($('.popover-header').is(':visible')){
-            for(var i=0; i<=19; i++){
+            for(var i=0; i<=21; i++){
                 if(table.column(i).visible()){
                     $('#filter-'+i).prop('checked', true);
                 }

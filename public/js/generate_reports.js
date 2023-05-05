@@ -1,5 +1,14 @@
 $(document).prop('title', $('#page-name').text());
 $(document).ready(function(){
+    $('#branch').chosen();
+    $('#product').chosen();
+    $('#combo').chosen();
+    $('#promo').chosen();
+    $('#branch_chosen').css({'width':'100%'});
+    $('#product_chosen').css({'width':'100%'});
+    $('#combo_chosen').css({'width':'100%'});
+    $('#promo_chosen').css({'width':'100%'});
+
     var todayDay = new Date();
     var firstDay = new Date(todayDay.getFullYear(), todayDay.getMonth(), 1);
     var lastDay = new Date(todayDay.getFullYear(), todayDay.getMonth() + 1, 0);
@@ -22,10 +31,64 @@ $(document).ready(function(){
     $('#start_date').val(startDateValue);
     $('#end_date').val(endDateValue);
 
+    $('#report_type').val('STANDARD');
     $('#report_category').val('STORE');
     $('#btnGenerate').click();
 });
 
+setInterval(() => {
+    if($('#report_type').val() != 'COMPARATIVE'){
+        $('.classComparative').hide();
+    }
+    else{
+        if($('#report_category').val() == 'STORE'){
+            $('.classBranch').show();
+            $('.classProduct').hide();
+            $('.classCombo').hide();
+            $('.classPromo').hide();
+        }
+        else if($('#report_category').val() == 'PRODUCT'){
+            $('.classBranch').hide();
+            $('.classProduct').show();
+            $('.classCombo').hide();
+            $('.classPromo').hide();
+        }
+        else if($('#report_category').val() == 'COMBO MEAL'){
+            $('.classBranch').hide();
+            $('.classProduct').hide();
+            $('.classCombo').show();
+            $('.classPromo').hide();
+        }
+        else if($('#report_category').val() == 'PROMO'){
+            $('.classBranch').hide();
+            $('.classProduct').hide();
+            $('.classCombo').hide();
+            $('.classPromo').show();
+        }
+        else{
+            $('.classComparative').hide();
+        }
+    }
+}, 0);
+
+setInterval(() => {
+    if($('.classBranch').is(':hidden')){
+        $('#branch').val('');
+        $('#branch').trigger('chosen:updated');
+    }
+    if($('.classProduct').is(':hidden')){
+        $('#product').val('');
+        $('#product').trigger('chosen:updated');
+    }
+    if($('.classCombo').is(':hidden')){
+        $('#combo').val('');
+        $('#combo').trigger('chosen:updated');
+    }
+    if($('.classPromo').is(':hidden')){
+        $('#promo').val('');
+        $('#promo').trigger('chosen:updated');
+    }
+}, 0);
 
 $('#btnReset').on('click', function(){
     $('.req').hide();
@@ -61,6 +124,7 @@ $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
+    $('#reportsTable4').empty();
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var reports_header = $('#report_category option:selected').text()+' ('+display_range+')';
@@ -156,7 +220,8 @@ $('#btnGenerate').on('click', function(){
                 url: '/sales/reports/branch',
                 data:{
                     start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val()
+                    end_date: $('#end_date').val(),
+                    included: $('#branch').val()
                 }
             },
             columnDefs: [
@@ -316,7 +381,8 @@ $('#btnGenerate').on('click', function(){
                 url: '/sales/reports/product',
                 data:{
                     start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val()
+                    end_date: $('#end_date').val(),
+                    included: $('#product').val()
                 }
             },
             autoWidth: false,
@@ -449,7 +515,142 @@ $('#btnGenerate').on('click', function(){
                 url: '/sales/reports/combo',
                 data:{
                     start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val()
+                    end_date: $('#end_date').val(),
+                    included: $('#combo').val()
+                }
+            },
+            autoWidth: false,
+            columns: [
+                { data: 'itemcat' },
+                { data: 'itemcode' },
+                { data: 'desc1' },
+                {
+                    data: 'desc2',
+                    "render": function(data, type, row, meta){
+                        return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
+                    }
+                },
+                {
+                    data: 'quantity',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            order: [],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports1';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+    else if($('#report_category').val() == 'PROMO'){
+        $('#loading').show();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr class="tbsearch">
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>CATEGORY</th>
+                        <th>ITEM CODE</th>
+                        <th>SHORT DESCRIPTION</th>
+                        <th>LONG DESCRIPTION</th>
+                        <th>QTY</th>
+                        <th class="sum">GROSS SALES</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right" colspan="5">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable1').append(htmlString);
+        table1 = $('table.tblReports1').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: reports_header,
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/promo',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    included: $('#promo').val()
                 }
             },
             autoWidth: false,
@@ -686,6 +887,13 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         datacode = data.itemcode;
         headername = data.itemcode+': '+data.desc1;
         urlName = '/sales/reports/combo/date';
+        colData = datacode;
+        report_datesB(datacode, headername, urlName, colData);
+    }
+    else if(report_category == 'PROMO'){
+        datacode = data.itemcode;
+        headername = data.itemcode+': '+data.desc1;
+        urlName = '/sales/reports/promo/date';
         colData = datacode;
         report_datesB(datacode, headername, urlName, colData);
     }
@@ -1261,6 +1469,120 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             serverSide: false,
             ajax: {
                 url: '/sales/reports/combo/branch',
+                data:{
+                    datacode: datacode,
+                    selected_date: data.date,
+                }
+            },
+            autoWidth: false,
+            columns: [
+                { data: 'branch_name' },
+                {
+                    data: 'quantity',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports3';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+    else if(report_category == 'PROMO'){
+        var headerdate = headername + ' ('+formatDate(data.date).toUpperCase()+')';
+        $('#loading').show();
+        $('#reportsTable3').empty();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${headerdate}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr class="tbsearch">
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="0" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="1" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="2" style="border:1px solid #808080"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>BRANCH NAME</th>
+                        <th>QTY</th>
+                        <th class="sum">GROSS SALES</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right" colspan="2">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable3').append(htmlString);
+        table3 = $('table.tblReports3').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: headerdate,
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/promo/branch',
                 data:{
                     datacode: datacode,
                     selected_date: data.date,

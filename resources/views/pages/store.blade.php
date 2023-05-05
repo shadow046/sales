@@ -85,9 +85,8 @@
             </tr>
             <tr>
                 <th>STORE CODE</th>
-                <th>COMPANY NAME</th>
-                <th>TIN #</th>
                 <th>BRANCH NAME</th>
+                <th>COMPANY NAME</th>
                 <th>STORE AREA</th>
                 <th>ADDRESS</th>
                 <th>PROVINCE</th>
@@ -99,6 +98,7 @@
                 <th>MALL SUB-GROUP</th>
                 <th>STORE NETWORK SETUP</th>
                 <th>DELIVERY CHANNEL</th>
+                <th>TIN #</th>
                 <th>STATUS</th>
                 <th>STATUS</th>
             </tr>

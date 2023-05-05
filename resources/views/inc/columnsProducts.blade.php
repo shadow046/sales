@@ -179,7 +179,25 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-20" data-column="20" disabled/> STATUS
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-18" data-column="18" /> COMPANY
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-19" data-column="19" /> TYPE
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-22" data-column="22" disabled/> STATUS
                 </label>
             </div>
         </div>
