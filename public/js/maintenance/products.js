@@ -1980,36 +1980,36 @@ setInterval(() => { //TR CLICK
     }
 }, 0);
 
-$(document).on('change', '#setup, #company, #type', function(){ //ADD BTN
-    if($(this).attr('id') === 'setup'){
-        var chosen = $('#setup_chosen');
-        var className = 'classNamesetup_chosen';
-    }
-    else if($(this).attr('id') === 'company'){
-        var chosen = $('#company_chosen');
-        var className = 'classNamecompany_chosen';
-    }
-    else{
-        var chosen = $('#type_chosen');
-        var className = 'classNametype_chosen';
-    }
+// $(document).on('change', '#setup, #company, #type', function(){ //ADD BTN
+//     if($(this).attr('id') === 'setup'){
+//         var chosen = $('#setup_chosen');
+//         var className = 'classNamesetup_chosen';
+//     }
+//     else if($(this).attr('id') === 'company'){
+//         var chosen = $('#company_chosen');
+//         var className = 'classNamecompany_chosen';
+//     }
+//     else{
+//         var chosen = $('#type_chosen');
+//         var className = 'classNametype_chosen';
+//     }
 
-    if(chosen.is(":visible")){
-        if($(this).val().length > 0){
-            chosen.removeClass('requiredField requiredInput redBorder');
-            $('.' + className).remove();
-        }
-        else{
-            if($('.' + className + ':visible').length == 0){
-                chosen.addClass('requiredField requiredInput redBorder');
-            }
-        }
-    }
+//     if(chosen.is(":visible")){
+//         if($(this).val().length > 0){
+//             chosen.removeClass('requiredField requiredInput redBorder');
+//             $('.' + className).remove();
+//         }
+//         else{
+//             if($('.' + className + ':visible').length == 0){
+//                 chosen.addClass('requiredField requiredInput redBorder');
+//             }
+//         }
+//     }
 
-    if($(this).attr('id') === 'setup') {
-        $('#area').change();
-    }
-  });
+//     if($(this).attr('id') === 'setup') {
+//         $('#area').change();
+//     }
+// });
 
 // $(document).on('change','#setup',function(){
 //     if($('#setup_chosen').is(':visible')){
@@ -2144,3 +2144,18 @@ setInterval(() => {
 $('#upload_image').on('click',function(){
     $('#product_image').click();
 });
+
+// $(document).on('change','.multiple_field', function(){
+//     console.log($(this).attr('id'));
+//     if($(this).val().length > 0){
+//         console.log($(this).next('.chosen-container').attr('id'));
+//         $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
+//         var requiredClass = $(this).attr('id') + '_chosen';
+//         $('.className' + requiredClass).remove();
+//         console.log('f');
+//     }
+//     else{
+//         $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
+//         console.log('d');
+//     }
+// });

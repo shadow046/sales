@@ -75,6 +75,7 @@ Route::controller(GenerateReportsController::class)->group(function(){
     Route::get('/sales/reports','reports');
     Route::get('/sales/reports/branch','byBranch');
     Route::get('/sales/reports/branch/date','byBranch_Date');
+    Route::get('/sales/reports/branch/time','byBranch_Time');
     Route::get('/sales/reports/branch/product','byBranch_Product');
     Route::get('/sales/reports/product','byProduct');
     Route::get('/sales/reports/product/date','byProduct_Date');

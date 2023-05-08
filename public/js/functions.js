@@ -214,7 +214,7 @@ $(document).ready(function(){
 });
 
 $(document).on('click', '.page-reload', function(){
-    window.location.reload();
+    window.location.href = window.location.href.split(/[?#]/)[0];
 });
 
 $('body').on('cut paste', function(){
@@ -810,3 +810,14 @@ function formatDate(dateString){
     var formattedDate = month + " " + day + ", " + year;
     return formattedDate;
 }
+
+$(document).on('change','.multiple_field', function(){
+    if($(this).val().length == 0 && $(this).hasClass('requiredField')){
+        $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
+    }
+    else{
+        $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
+        var requiredClass = $(this).attr('id') + '_chosen';
+        $('.className' + requiredClass).remove();
+    }
+});

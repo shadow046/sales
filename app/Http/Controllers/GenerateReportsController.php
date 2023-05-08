@@ -118,6 +118,35 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byBranch_Time(Request $request){
+        $data = collect();
+        for($i = 0; $i < 24; $i++){
+            $start_hour = sprintf("%02d:00:00", $i);
+            $end_hour = sprintf("%02d:59:59", $i);
+            $hour_range_12hr = date('h:i A', strtotime($start_hour)) . ' - ' . date('h:i A', strtotime($end_hour));
+            $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
+            $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
+                ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
+                ->selectRaw('COALESCE(SUM(gross), 0) AS gross_sales, COALESCE(SUM(totalsales), 0) AS total_sales, COALESCE(SUM(netsales), 0) AS net_sales')
+                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                ->where('storecode', $request->colData)
+                ->whereTime('ttime', '>=', $start_hour)
+                ->whereTime('ttime', '<=', $end_hour)
+                ->first();
+            if(!$result){
+                $result = (object)[
+                    'time_range_12hr' => $hour_range_12hr,
+                    'time_range_24hr' => $hour_range_24hr,
+                    'gross_sales' => 0,
+                    'total_sales' => 0,
+                    'net_sales' => 0,
+                ];
+            }
+            $data->push($result);
+        }
+        return DataTables::of($data)->make(true);
+    }
+
     public function byBranch_Product(Request $request){
         $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
