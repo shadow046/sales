@@ -1953,106 +1953,6 @@ $(document).on('change', '#store', function(){
     $('#area').change();
 });
 
-$(document).on('change','#area',function(){
-    if($('#area_chosen').is(':visible')){
-        if ($("#area").val().length > 0) {
-            $('#area_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamearea_chosen').remove();
-        } else {
-            if($('.classNamearea_chosen:visible').length == 0){
-                $('#area_chosen').addClass('requiredField requiredInput redBorder');
-            }
-        }
-    }
-});
-
-setInterval(() => { //TR CLICK
-    var store_values = $('#store').val();
-    var setup_values = $('#setup').val();
-
-    if(store_values && store_values.length > 0 &&
-        setup_values && setup_values.length > 0){
-        $('#store_chosen, #setup_chosen').removeClass('requiredField requiredInput redBorder');
-        $('.classNamestore_chosen, .classNamesetup_chosen').remove();
-    }
-    else{
-        $('#store_chosen, #setup_chosen').addClass('requiredField requiredInput redBorder');
-    }
-}, 0);
-
-// $(document).on('change', '#setup, #company, #type', function(){ //ADD BTN
-//     if($(this).attr('id') === 'setup'){
-//         var chosen = $('#setup_chosen');
-//         var className = 'classNamesetup_chosen';
-//     }
-//     else if($(this).attr('id') === 'company'){
-//         var chosen = $('#company_chosen');
-//         var className = 'classNamecompany_chosen';
-//     }
-//     else{
-//         var chosen = $('#type_chosen');
-//         var className = 'classNametype_chosen';
-//     }
-
-//     if(chosen.is(":visible")){
-//         if($(this).val().length > 0){
-//             chosen.removeClass('requiredField requiredInput redBorder');
-//             $('.' + className).remove();
-//         }
-//         else{
-//             if($('.' + className + ':visible').length == 0){
-//                 chosen.addClass('requiredField requiredInput redBorder');
-//             }
-//         }
-//     }
-
-//     if($(this).attr('id') === 'setup') {
-//         $('#area').change();
-//     }
-// });
-
-// $(document).on('change','#setup',function(){
-//     if($('#setup_chosen').is(':visible')){
-//         if($("#setup").val().length > 0){
-//             $('#setup_chosen').removeClass('requiredField requiredInput redBorder');
-//             $('.classNamesetup_chosen').remove();
-//         }
-//         else{
-//             if($('.classNamesetup_chosen:visible').length == 0){
-//                 $('#setup_chosen').addClass('requiredField requiredInput redBorder');
-//             }
-//         }
-//         $('#area').change();
-//     }
-// });
-
-// $(document).on('change','#company',function(){
-//     if($('#company_chosen').is(':visible')){
-//         if($("#company").val().length > 0){
-//             $('#company_chosen').removeClass('requiredField requiredInput redBorder');
-//             $('.classNamecompany_chosen').remove();
-//         }
-//         else{
-//             if($('.classNamecompany_chosen:visible').length == 0){
-//                 $('#company_chosen').addClass('requiredField requiredInput redBorder');
-//             }
-//         }
-//     }
-// });
-
-// $(document).on('change','#type',function(){
-//     if($('#type_chosen').is(':visible')){
-//         if($("#type").val().length > 0){
-//             $('#type_chosen').removeClass('requiredField requiredInput redBorder');
-//             $('.classNametype_chosen').remove();
-//         }
-//         else{
-//             if($('.classNametype_chosen:visible').length == 0){
-//                 $('#type_chosen').addClass('requiredField requiredInput redBorder');
-//             }
-//         }
-//     }
-// });
 
 $(document).on('blur','#dine_in',function(){
     Swal.fire({
@@ -2064,9 +1964,9 @@ $(document).on('blur','#dine_in',function(){
         confirmButtonText: 'Autofill',
         denyButtonText: 'Manual',
         customClass: {
-        actions: 'my-actions',
-        confirmButton: 'order-2',
-        denyButton: 'order-3',
+            actions: 'my-actions',
+            confirmButton: 'order-2',
+            denyButton: 'order-3',
         }
     }).then((save) => {
         if (save.isConfirmed) {
@@ -2103,8 +2003,8 @@ $(document).on('blur','#dine_in_airport',function(){
         confirmButtonText: 'Autofill',
         denyButtonText: 'Manual',
         customClass: {
-        actions: 'my-actions',
-        confirmButton: 'order-2',
+            actions: 'my-actions',
+            confirmButton: 'order-2',
         denyButton: 'order-3',
         }
     }).then((save) => {
@@ -2144,18 +2044,3 @@ setInterval(() => {
 $('#upload_image').on('click',function(){
     $('#product_image').click();
 });
-
-// $(document).on('change','.multiple_field', function(){
-//     console.log($(this).attr('id'));
-//     if($(this).val().length > 0){
-//         console.log($(this).next('.chosen-container').attr('id'));
-//         $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
-//         var requiredClass = $(this).attr('id') + '_chosen';
-//         $('.className' + requiredClass).remove();
-//         console.log('f');
-//     }
-//     else{
-//         $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
-//         console.log('d');
-//     }
-// });

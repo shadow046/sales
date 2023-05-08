@@ -100,18 +100,9 @@
                         </select>
                         <label for="type" class="formlabels form-label">STORE TYPE
                     </div>
-                    {{-- <div class="col-md f-outline">
-                        <select id="setup" name="setup" class="forminput form-control form-select requiredField" style="color: black">
-                            <option selected disabled>Select Setup</option>
-                            @foreach($setups as $setup)
-                                <option value="{{$setup->id}}">{{$setup->setup}}</option>
-                            @endforeach
-                        </select>
-                        <label for="setup" class="formlabels form-label">Setup
-                    </div> --}}
 
                     <div class="col-md f-outline">
-                        <select class="forminput form-control form-select" multiple id="setup" name="setup" data-placeholder="Select Setup">
+                        <select class="forminput form-control form-select requiredField multiple_field" multiple id="setup" name="setup" data-placeholder="Select Setup">
                             @foreach($setups as $setup)
                                 <option value="{{$setup->id}}">{{$setup->setup}}</option>
                             @endforeach

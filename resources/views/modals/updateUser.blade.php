@@ -42,7 +42,7 @@
             <div class="mb-4 classBranch classFranchisee" style="display: none;">
                 <br>
                 <div class="f-outline">
-                    <select class="forminput form-control form-select requiredField" id="branch1" name="branch1">
+                    <select class="forminput form-control form-select requiredField multiple_field" id="branch1" name="branch1">
                         <option value="" selected disabled>SELECT COMPANY</option>
                         @foreach($branches as $branch)
                             <option value="{{$branch->id}}">{{$branch->company_name}}</option>
@@ -54,7 +54,7 @@
             <div class="mb-4 classCompany classAreaManager" style="display: none;">
                 <div style="height: 10px;">&nbsp;</div>
                 <div class="f-outline">
-                    <select class="forminput form-control form-select requiredField" id="company1" name="company1" multiple data-placeholder="SELECT COMPANY">
+                    <select class="forminput form-control form-select requiredField multiple_field" id="company1" name="company1" multiple data-placeholder="SELECT COMPANY">
                         @foreach($companies as $company)
                             <option value="{{$company->id}}">{{$company->company_name}}</option>
                         @endforeach
@@ -65,7 +65,7 @@
             <div class="mb-4 classArea classAreaManager" style="display: none;">
                 <div style="height: 10px;">&nbsp;</div>
                 <div class="f-outline">
-                    <select class="forminput form-control form-select requiredField" id="area1" name="area1" multiple data-placeholder="SELECT STORE AREA">
+                    <select class="forminput form-control form-select requiredField multiple_field" id="area1" name="area1" multiple data-placeholder="SELECT STORE AREA">
                         @foreach($areas as $area)
                             <option value="{{$area->id}}">{{$area->store_area}}</option>
                         @endforeach

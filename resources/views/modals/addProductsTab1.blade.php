@@ -73,8 +73,8 @@
             </div>
 
             <div class="col-12 row mb-4">
-                <div class="col-md-4 f-outline classSetup">
-                    <select class="forminput form-control form-select" multiple id="setup" name="setup" data-placeholder="Select Setup">
+                <div class="col-md-4 f-outline">
+                    <select class="forminput form-control form-select requiredField multiple_field" multiple id="setup" name="setup" data-placeholder="Select Setup">
                         <option value="0">ALL</option>
                         @foreach($setups as $setup)
                             <option value="{{$setup->id}}">{{$setup->setup}}</option>
@@ -83,7 +83,7 @@
                     <label for="setup" class="formlabel form-label" style="margin-left: 15px;">STORE SETUP</label>
                 </div>
                 <div class="col-md f-outline classArea">
-                    <select class="forminput form-control form-select" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
+                    <select class="forminput form-control form-select requiredField multiple_field" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
                         <option value="0">ALL</option>
                         @foreach($areas as $area)
                             <option value="{{$area->id}}">{{$area->store_area}}</option>
@@ -94,7 +94,7 @@
             </div>
             <div class="col-12 row mb-4">
                 <div class="col-md f-outline classStore">
-                    <select class="forminput form-control form-select" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
+                    <select class="forminput form-control form-select requiredField multiple_field" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
                     </select>
                     <label for="store" class="formlabel form-label" style="margin-left: 15px;">Store Branches (<span id="store_count">0</span>)</label>
                 </div>

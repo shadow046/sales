@@ -45,7 +45,7 @@
                 <div class="mb-4 classCompany classAreaManager" style="display: none;">
                     <div style="height: 10px;">&nbsp;</div>
                     <div class="f-outline">
-                        <select class="forminput form-control form-select requiredField" id="company" name="company" multiple data-placeholder="SELECT COMPANY">
+                        <select class="forminput form-control form-select requiredField multiple_field" id="company" name="company" multiple data-placeholder="SELECT COMPANY">
                             @foreach($companies as $company)
                                 <option value="{{$company->id}}">{{$company->company_name}}</option>
                             @endforeach
@@ -56,7 +56,7 @@
                 <div class="mb-4 classArea classAreaManager" style="display: none;">
                     <div style="height: 10px;">&nbsp;</div>
                     <div class="f-outline">
-                        <select class="forminput form-control form-select requiredField" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
+                        <select class="forminput form-control form-select requiredField multiple_field" id="area" name="area" multiple data-placeholder="SELECT STORE AREA">
                             @foreach($areas as $area)
                                 <option value="{{$area->id}}">{{$area->store_area}}</option>
                             @endforeach
@@ -72,7 +72,7 @@
                     <div class="hideStore">
                         <div style="height: 10px;">&nbsp;</div>
                         <div class="f-outline">
-                            <select class="forminput form-control form-select requiredField" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
+                            <select class="forminput form-control form-select requiredField multiple_field" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
                             </select>
                             <label for="store" class="formlabel form-label">Store Branches (<span id="store_count">0</span>)</label>
                         </div>

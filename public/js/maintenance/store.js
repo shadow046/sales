@@ -618,14 +618,6 @@ $(document).on('click','table.storeTable tbody tr td',function(){
                     { data: 'status', name:'status'},
                     { data: 'remarks', name:'remarks'}
                 ],
-                // initComplete: function(){
-                //     if(!$('table.storePosInformation_orig').DataTable().data().any()){
-                //         $('#storePosInformation_orig').hide();
-                //     }
-                //     else{
-                //         $('#storePosInformation_orig').show();
-                //     }
-                // }
             });
         }
         else{
@@ -709,14 +701,6 @@ $(document).on('click','table.storeTable tbody tr td',function(){
                     { data: 'status', name:'status'},
                     { data: 'remarks', name:'remarks'}
                 ],
-                // initComplete: function(){
-                //     if(!$('table.storePosInformation_orig').DataTable().data().any()){
-                //         $('#storePosInformation_orig').hide();
-                //     }
-                //     else{
-                //         $('#storePosInformation_orig').show();
-                //     }
-                // }
             });
         }
         $('#storeModal').modal('show');
@@ -1148,19 +1132,9 @@ setInterval(() => {
         $('#storePosInformation_orig_div').hide();
         if($('#storeContactDetails tbody').children().length > 0){
             $('#storeContactDetails').show();
-            // $('#contact_person').removeClass('requiredField requiredInput redBorder');
-            // $('#position').removeClass('requiredField requiredInput redBorder');
-            // $('#email').removeClass('requiredField requiredInput redBorder');
-            // $('#telephone').removeClass('requiredField requiredInput redBorder');
-            // $('#mobile').removeClass('requiredField requiredInput redBorder');
         }
         else{
             $('#storeContactDetails').hide();
-            // $('#contact_person').addClass('requiredField');
-            // $('#position').addClass('requiredField');
-            // $('#email').addClass('requiredField');
-            // $('#telephone').addClass('requiredField');
-            // $('#mobile').addClass('requiredField');
         }
 
         if($('#storePosInformation tbody').children().length > 0){
@@ -1169,13 +1143,6 @@ setInterval(() => {
         else{
             $('#storePosInformation_div').hide();
         }
-
-        // if($('#storeContactDetails tbody').children().length > 0 && $(".requiredInput:visible").length == 0){
-        //     $('#storeRequired').hide();
-        // }
-        // else{
-        //     $('#storeRequired').show();
-        // }
 
         if($(".requiredInput:visible").length == 0){
             $('#storeRequired').hide();
@@ -1197,17 +1164,9 @@ setInterval(() => {
         $('#storePosInformation_div').hide();
         if($('#storeContactDetails_orig tbody').children().length > 0){
             $('#storeContactDetails_orig').show();
-            // $('#contact_person').removeClass('requiredField requiredInput redBorder');
-            // $('#position').removeClass('requiredField requiredInput redBorder');
-            // $('#email').removeClass('requiredField requiredInput redBorder');
-            // $('#mobile').removeClass('requiredField requiredInput redBorder');
         }
         else{
             $('#storeContactDetails_orig').hide();
-            // $('#contact_person').addClass('requiredField');
-            // $('#position').addClass('requiredField');
-            // $('#email').addClass('requiredField');
-            // $('#mobile').addClass('requiredField');
         }
 
         if($('#storePosInformation_tbody').children().length > 0){
@@ -1349,20 +1308,6 @@ $('#addStoreBtn').on('click', function(){
     $('#setup').val('').trigger('chosen:updated');
 
     $('.req').hide();
-});
-
-$(document).on('change','#setup',function(){
-    if($('#setup_chosen').is(':visible')){
-        if ($("#setup").val().length > 0) {
-            $('#setup_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamesetup_chosen').remove();
-        } else {
-            if($('.classNamesetup_chosen:visible').length == 0){
-                $('#setup_chosen').addClass('requiredField requiredInput redBorder');
-                $('#setup_chosen').after('<span class="classNamesetup_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-            }
-        }
-    }
 });
 
 setInterval(() => {

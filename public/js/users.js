@@ -1115,79 +1115,6 @@ $(document).on('change', '#role1',function(){
 });
 
 setInterval(() => {
-    if($('#company1_chosen').is(':visible')){
-        if($("#company1").val().length > 0){
-            $('#company1_chosen').removeClass('redBorder');
-            $('.classNamecompany1_chosen').remove();
-        }
-        else{
-            if($('.classNamecompany1_chosen:visible').length == 0){
-                $('#company1_chosen').addClass('redBorder');
-                $('#company1_chosen').after('<span class="classNamecompany1_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-            }
-        }
-    }
-
-    if($('#area1_chosen').is(':visible')){
-        if ($("#area1").val().length > 0) {
-            $('#area1_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamearea1_chosen').remove();
-        } else {
-            if($('.classNamearea1_chosen:visible').length == 0){
-                $('#area1_chosen').addClass('requiredField requiredInput redBorder');
-                $('#area1_chosen').after('<span class="classNamearea1_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-            }
-        }
-
-        var store1_values = $('#store1').val();
-        if(store1_values && store1_values.length > 0){
-            $('#store1_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamestore1_chosen').remove();
-        } else {
-            $('#store1_chosen').addClass('requiredField requiredInput redBorder');
-        }
-    }
-
-    if($('#area_chosen').is(":visible")){
-        var store_values = $('#store').val();
-        if(store_values && store_values.length > 0){
-            $('#store_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamestore_chosen').remove();
-        } else {
-            $('#store_chosen').addClass('requiredField requiredInput redBorder');
-        }
-    }
-}, 0);
-
-$(document).on('change','#company',function(){
-    if($('#company_chosen').is(':visible')){
-        if ($("#company").val().length > 0) {
-            $('#company_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamecompany_chosen').remove();
-        } else {
-            if($('.classNamecompany_chosen:visible').length == 0){
-                $('#company_chosen').addClass('requiredField requiredInput redBorder');
-                $('#company_chosen').after('<span class="classNamecompany_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-            }
-        }
-    }
-});
-
-$(document).on('change','#area',function(){
-    if($('#area_chosen').is(':visible')){
-        if ($("#area").val().length > 0) {
-            $('#area_chosen').removeClass('requiredField requiredInput redBorder');
-            $('.classNamearea_chosen').remove();
-        } else {
-            if($('.classNamearea_chosen:visible').length == 0){
-                $('#area_chosen').addClass('requiredField requiredInput redBorder');
-                $('#area_chosen').after('<span class="classNamearea_chosen req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-            }
-        }
-    }
-});
-
-setInterval(() => {
     if($('#id1').val() == current_user){
         $('#role1').prop('disabled', true);
     }
@@ -1196,26 +1123,10 @@ setInterval(() => {
     }
 }, 0);
 
-$(document).on('click', '#company_input', function() {
-    $('#company_input').focusout();
+$(document).on('click', '#store_input, #company_chosen, #area_chosen, #store_chosen', function() {
+    $(this).focusout();
 });
 
-$(document).on('click', '#area_input', function() {
-    $('#area_input').focusout();
-});
-
-$(document).on('click', '#store_input', function() {
-    $('#store_input').focusout();
-});
-
-$(document).on('click','#company_chosen', function(){
-    $('#company_chosen').focusout();
-});
-
-$(document).on('click','#area_chosen', function(){
-    $('#area_chosen').focusout();
-});
-
-$(document).on('click','#store_chosen', function(){
-    $('#store_chosen').focusout();
+$(document).on('click', '#company1_chosen, #area1_chosen, #store1_chosen', function() {
+    $(this).focusout();
 });

@@ -817,7 +817,7 @@ $(document).on('change','.multiple_field', function(){
     }
     else{
         $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
-        var requiredClass = $(this).attr('id') + '_chosen';
-        $('.className' + requiredClass).remove();
+        var spanClass = $(this).attr('id') + '_chosen';
+        $('.className' + spanClass).remove();
     }
 });
