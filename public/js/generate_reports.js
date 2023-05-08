@@ -886,14 +886,14 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
     else if(report_category == 'COMBO MEAL'){
         datacode = data.itemcode;
         headername = data.itemcode+': '+data.desc1;
-        urlName = '/sales/reports/combo/date';
+        urlName = '/sales/reports/product/date';
         colData = datacode;
         report_datesB(datacode, headername, urlName, colData);
     }
     else if(report_category == 'PROMO'){
         datacode = data.itemcode;
         headername = data.itemcode+': '+data.desc1;
-        urlName = '/sales/reports/promo/date';
+        urlName = '/sales/reports/product/date';
         colData = datacode;
         report_datesB(datacode, headername, urlName, colData);
     }
@@ -931,9 +931,13 @@ function report_datesA(datacode, headername, urlName, colData){
                     <td>
                         <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="4" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>DATE</th>
+                    <th>DAY</th>
                     <th class="sum">GROSS SALES</th>
                     <th class="sum">TOTAL SALES</th>
                     <th class="sum">NET SALES</th>
@@ -941,7 +945,7 @@ function report_datesA(datacode, headername, urlName, colData){
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
-                    <th class="text-right">TOTAL:</th>
+                    <th class="text-right" colspan="2">TOTAL:</th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
@@ -980,8 +984,13 @@ function report_datesA(datacode, headername, urlName, colData){
                 "targets": [0],
                 "render": $.fn.dataTable.render.moment('YYYY-MM-DD', 'MMMM DD, YYYY')
             },
+            {
+                "targets": [1],
+                "render": $.fn.dataTable.render.moment('YYYY-MM-DD', 'dddd')
+            }
         ],
         columns: [
+            { data: 'date' },
             { data: 'date' },
             {
                 data: 'gross_sales',
@@ -1062,16 +1071,20 @@ function report_datesB(datacode, headername, urlName, colData){
                     <td>
                         <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>DATE</th>
+                    <th>DAY</th>
                     <th>QTY</th>
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
-                    <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right" colspan="3">TOTAL:</th>
                     <th class="text-right sum"></th>
                 </tr>
             </tfoot>
@@ -1108,8 +1121,13 @@ function report_datesB(datacode, headername, urlName, colData){
                 "targets": [0],
                 "render": $.fn.dataTable.render.moment('YYYY-MM-DD', 'MMMM DD, YYYY')
             },
+            {
+                "targets": [1],
+                "render": $.fn.dataTable.render.moment('YYYY-MM-DD', 'dddd')
+            }
         ],
         columns: [
+            { data: 'date' },
             { data: 'date' },
             {
                 data: 'quantity',
@@ -1301,7 +1319,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             }
         });
     }
-    else if(report_category == 'PRODUCT'){
+    else if(report_category == 'PRODUCT' || report_category == 'COMBO MEAL' || report_category == 'PROMO'){
         var headerdate = headername + ' ('+formatDate(data.date).toUpperCase()+')';
         $('#loading').show();
         $('#reportsTable3').empty();
@@ -1355,234 +1373,6 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             serverSide: false,
             ajax: {
                 url: '/sales/reports/product/branch',
-                data:{
-                    datacode: datacode,
-                    selected_date: data.date,
-                }
-            },
-            autoWidth: false,
-            columns: [
-                { data: 'branch_name' },
-                {
-                    data: 'quantity',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${data.toLocaleString()}</span>`;
-                    }
-                },
-                {
-                    data: 'gross_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
-                    }
-                }
-            ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
-                };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
-                });
-            },
-            initComplete: function(){
-                $('#loading').hide();
-                setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports3';
-                    $('html, body').animate({
-                        scrollTop: $($.attr(this, 'href')).offset()
-                    }, 1000);
-                }, 200);
-            }
-        });
-    }
-    else if(report_category == 'COMBO MEAL'){
-        var headerdate = headername + ' ('+formatDate(data.date).toUpperCase()+')';
-        $('#loading').show();
-        $('#reportsTable3').empty();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>${headerdate}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
-        <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
-                <thead style="font-weight:bolder" class="bg-default">
-                    <tr class="tbsearch">
-                        <td>
-                            <input type="search" class="form-control filter-input3" data-column="0" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input3" data-column="1" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input3" data-column="2" style="border:1px solid #808080"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>BRANCH NAME</th>
-                        <th>QTY</th>
-                        <th class="sum">GROSS SALES</th>
-                    </tr>
-                </thead>
-                <tfoot style="font-size: 14px;">
-                    <tr>
-                        <th class="text-right" colspan="2">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        </div>`;
-        $('#reportsTable3').append(htmlString);
-        table3 = $('table.tblReports3').DataTable({
-            dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: headerdate,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
-                },
-            }],
-            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-            processing: true,
-            serverSide: false,
-            ajax: {
-                url: '/sales/reports/combo/branch',
-                data:{
-                    datacode: datacode,
-                    selected_date: data.date,
-                }
-            },
-            autoWidth: false,
-            columns: [
-                { data: 'branch_name' },
-                {
-                    data: 'quantity',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${data.toLocaleString()}</span>`;
-                    }
-                },
-                {
-                    data: 'gross_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
-                    }
-                }
-            ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
-                };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
-                });
-            },
-            initComplete: function(){
-                $('#loading').hide();
-                setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports3';
-                    $('html, body').animate({
-                        scrollTop: $($.attr(this, 'href')).offset()
-                    }, 1000);
-                }, 200);
-            }
-        });
-    }
-    else if(report_category == 'PROMO'){
-        var headerdate = headername + ' ('+formatDate(data.date).toUpperCase()+')';
-        $('#loading').show();
-        $('#reportsTable3').empty();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>${headerdate}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
-        <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
-                <thead style="font-weight:bolder" class="bg-default">
-                    <tr class="tbsearch">
-                        <td>
-                            <input type="search" class="form-control filter-input3" data-column="0" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input3" data-column="1" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input3" data-column="2" style="border:1px solid #808080"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>BRANCH NAME</th>
-                        <th>QTY</th>
-                        <th class="sum">GROSS SALES</th>
-                    </tr>
-                </thead>
-                <tfoot style="font-size: 14px;">
-                    <tr>
-                        <th class="text-right" colspan="2">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        </div>`;
-        $('#reportsTable3').append(htmlString);
-        table3 = $('table.tblReports3').DataTable({
-            dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: headerdate,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
-                },
-            }],
-            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-            processing: true,
-            serverSide: false,
-            ajax: {
-                url: '/sales/reports/promo/branch',
                 data:{
                     datacode: datacode,
                     selected_date: data.date,

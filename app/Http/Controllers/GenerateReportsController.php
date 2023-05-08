@@ -68,7 +68,7 @@ class GenerateReportsController extends Controller
             if($request->included){
                 $data->whereIn('branch_code', $request->included);
             }
-            $data->orderBy('net_sales', 'DESC')->get();
+            $data->orderBy('net_sales', 'DESC');
         return DataTables::of($data)
         ->addColumn('area_manager', function(Hdr $hdr){
             $area_managers = User::where('userlevel', '4')
@@ -144,7 +144,7 @@ class GenerateReportsController extends Controller
             if($request->included){
                 $data->whereIn('itemcode', $request->included);
             }
-            $data->orderBy('quantity', 'DESC')->get();
+            $data->orderBy('quantity', 'DESC');
         return DataTables::of($data)->make(true);
     }
 
@@ -181,27 +181,7 @@ class GenerateReportsController extends Controller
             if($request->included){
                 $data->whereIn('itemcode', $request->included);
             }
-            $data->orderBy('quantity', 'DESC')->get();
-        return DataTables::of($data)->make(true);
-    }
-
-    public function byCombo_Date(Request $request){
-        $data = Dtl::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales")
-            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->where('itemcode', $request->colData)
-            ->where('itemcat', '!=', '')
-            ->groupBy('tdate','date')
-            ->get();
-        return DataTables::of($data)->make(true);
-    }
-
-    public function byCombo_Branch(Request $request){
-        $data = Dtl::selectRaw('CONCAT(dtl.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
-            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
-            ->where('itemcode', $request->datacode)
-            ->leftjoin('store', 'store.branch_code', 'dtl.storecode')
-            ->groupBy('dtl.storecode','branch_name')
-            ->get();
+            $data->orderBy('quantity', 'DESC');
         return DataTables::of($data)->make(true);
     }
 
@@ -218,27 +198,7 @@ class GenerateReportsController extends Controller
             if($request->included){
                 $data->whereIn('itemcode', $request->included);
             }
-            $data->orderBy('quantity', 'DESC')->get();
-        return DataTables::of($data)->make(true);
-    }
-
-    public function byPromo_Date(Request $request){
-        $data = Dtl::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales")
-            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->where('itemcode', $request->colData)
-            ->where('itemcat', '!=', '')
-            ->groupBy('tdate','date')
-            ->get();
-        return DataTables::of($data)->make(true);
-    }
-
-    public function byPromo_Branch(Request $request){
-        $data = Dtl::selectRaw('CONCAT(dtl.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
-            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
-            ->where('itemcode', $request->datacode)
-            ->leftjoin('store', 'store.branch_code', 'dtl.storecode')
-            ->groupBy('dtl.storecode','branch_name')
-            ->get();
+            $data->orderBy('quantity', 'DESC');
         return DataTables::of($data)->make(true);
     }
 
@@ -246,8 +206,7 @@ class GenerateReportsController extends Controller
         $data = Hdr::selectRaw('trantype as transaction_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
                 ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                 ->groupBy('transaction_name')
-                ->orderBy('net_sales', 'DESC')
-                ->get();
+                ->orderBy('net_sales', 'DESC');
         return DataTables::of($data)->make(true);
     }
 

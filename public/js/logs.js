@@ -6,7 +6,7 @@ $(document).ready(function(){
             emptyTable: "No Activities Data Found!",
         },
         processing: true,
-        serverSide: false,
+        serverSide: true,
         ajax:{
             url: '/index/data',
         },

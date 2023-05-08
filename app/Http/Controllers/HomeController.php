@@ -96,13 +96,13 @@ class HomeController extends Controller
     }
 
     public function index_data(){
-        $list = UserLogs::selectRaw('users.id AS user_id, users.name AS username, users.email AS email,
-        UPPER(roles.name) AS role, user_logs.activity AS activity, user_logs.created_at AS date,
-        DATE_FORMAT(user_logs.created_at, "%b. %d, %Y, %h:%i %p") AS datetime')
+        $list = UserLogs::query()
+            ->selectRaw('users.id AS user_id, users.name AS username, users.email AS email,
+                        UPPER(roles.name) AS role, user_logs.activity AS activity, user_logs.created_at AS date,
+                        DATE_FORMAT(user_logs.created_at, "%b. %d, %Y, %h:%i %p") AS datetime')
             ->join('users', 'users.id', 'user_logs.user_id')
             ->join('roles', 'roles.id', 'users.userlevel')
-            ->orderBy('user_logs.id', 'DESC')
-            ->get();
+            ->orderBy('user_logs.id', 'DESC');
         return DataTables::of($list)->make(true);
     }
 
