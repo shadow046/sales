@@ -118,35 +118,6 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byBranch_Time(Request $request){
-        $data = collect();
-        for($i = 0; $i < 24; $i++){
-            $start_hour = sprintf("%02d:00:00", $i);
-            $end_hour = sprintf("%02d:59:59", $i);
-            $hour_range_12hr = date('h:i A', strtotime($start_hour)) . ' - ' . date('h:i A', strtotime($end_hour));
-            $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
-            $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
-                ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
-                ->selectRaw('COALESCE(SUM(gross), 0) AS gross_sales, COALESCE(SUM(totalsales), 0) AS total_sales, COALESCE(SUM(netsales), 0) AS net_sales')
-                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
-                ->where('storecode', $request->colData)
-                ->whereTime('ttime', '>=', $start_hour)
-                ->whereTime('ttime', '<=', $end_hour)
-                ->first();
-            if(!$result){
-                $result = (object)[
-                    'time_range_12hr' => $hour_range_12hr,
-                    'time_range_24hr' => $hour_range_24hr,
-                    'gross_sales' => 0,
-                    'total_sales' => 0,
-                    'net_sales' => 0,
-                ];
-            }
-            $data->push($result);
-        }
-        return DataTables::of($data)->make(true);
-    }
-
     public function byBranch_Product(Request $request){
         $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
@@ -163,16 +134,26 @@ class GenerateReportsController extends Controller
     public function byProduct(Request $request){
         $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->where('itemcat', '!=', '')
-            ->where('category.category', '!=', 'PROMO')
-            ->where('category.enable_combo', 'N')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
-            ->groupBy('itemcat','itemcode','desc1','desc2');
+            ->where('itemcat', '!=', '');
             if($request->included){
                 $data->whereIn('itemcode', $request->included);
             }
+            if($request->byWhat == 'product'){
+                $data->where('category.category', '!=', 'PROMO')
+                    ->where('category.enable_combo', 'N');
+            }
+            if($request->byWhat == 'combo'){
+                $data->where('category.category', '!=', 'PROMO')
+                    ->where('category.enable_combo', 'Y');
+            }
+            if($request->byWhat == 'promo'){
+                $data->where('category.category', '=', 'PROMO')
+                    ->where('category.enable_combo', 'Y');
+            }
+            $data->join('products', 'products.item_code', 'dtl.itemcode')
+                ->join('category', 'category.id', 'products.category')
+                ->groupBy('category.category','short_desc','long_desc')
+                ->groupBy('itemcat','itemcode','desc1','desc2');
             $data->orderBy('quantity', 'DESC');
         return DataTables::of($data)->make(true);
     }
@@ -194,40 +175,6 @@ class GenerateReportsController extends Controller
             ->leftjoin('store', 'store.branch_code', 'dtl.storecode')
             ->groupBy('dtl.storecode','branch_name')
             ->get();
-        return DataTables::of($data)->make(true);
-    }
-
-    public function byCombo(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
-            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->where('itemcat', '!=', '')
-            ->where('category.category', '!=', 'PROMO')
-            ->where('category.enable_combo', 'Y')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
-            ->groupBy('itemcat','itemcode','desc1','desc2');
-            if($request->included){
-                $data->whereIn('itemcode', $request->included);
-            }
-            $data->orderBy('quantity', 'DESC');
-        return DataTables::of($data)->make(true);
-    }
-
-    public function byPromo(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
-            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->where('itemcat', '!=', '')
-            ->where('category.category', '=', 'PROMO')
-            ->where('category.enable_combo', 'Y')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
-            ->groupBy('itemcat','itemcode','desc1','desc2');
-            if($request->included){
-                $data->whereIn('itemcode', $request->included);
-            }
-            $data->orderBy('quantity', 'DESC');
         return DataTables::of($data)->make(true);
     }
 
@@ -257,6 +204,35 @@ class GenerateReportsController extends Controller
             ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
             ->groupBy('hdr.storecode','branch_name')
             ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTimeA(Request $request){
+        $data = collect();
+        for($i = 0; $i < 24; $i++){
+            $start_hour = sprintf("%02d:00:00", $i);
+            $end_hour = sprintf("%02d:59:59", $i);
+            $hour_range_12hr = date('h:i A', strtotime($start_hour)) . ' - ' . date('h:i A', strtotime($end_hour));
+            $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
+            $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
+                ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
+                ->selectRaw('COALESCE(SUM(gross), 0) AS gross_sales, COALESCE(SUM(totalsales), 0) AS total_sales, COALESCE(SUM(netsales), 0) AS net_sales')
+                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                ->where($request->tblType, $request->colData)
+                ->whereTime('ttime', '>=', $start_hour)
+                ->whereTime('ttime', '<=', $end_hour)
+                ->first();
+            if(!$result){
+                $result = (object)[
+                    'time_range_12hr' => $hour_range_12hr,
+                    'time_range_24hr' => $hour_range_24hr,
+                    'gross_sales' => 0,
+                    'total_sales' => 0,
+                    'net_sales' => 0,
+                ];
+            }
+            $data->push($result);
+        }
         return DataTables::of($data)->make(true);
     }
 }

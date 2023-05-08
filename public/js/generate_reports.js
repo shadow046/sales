@@ -396,7 +396,8 @@ $('#btnGenerate').on('click', function(){
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    included: $('#product').val()
+                    included: $('#product').val(),
+                    byWhat: 'product'
                 }
             },
             autoWidth: false,
@@ -526,11 +527,12 @@ $('#btnGenerate').on('click', function(){
             processing: true,
             serverSide: false,
             ajax: {
-                url: '/sales/reports/combo',
+                url: '/sales/reports/product',
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    included: $('#combo').val()
+                    included: $('#combo').val(),
+                    byWhat: 'combo'
                 }
             },
             autoWidth: false,
@@ -660,11 +662,12 @@ $('#btnGenerate').on('click', function(){
             processing: true,
             serverSide: false,
             ajax: {
-                url: '/sales/reports/promo',
+                url: '/sales/reports/product',
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    included: $('#promo').val()
+                    included: $('#promo').val(),
+                    byWhat: 'promo'
                 }
             },
             autoWidth: false,
@@ -1192,8 +1195,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         $('#loading').show();
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerdate">${headername} (${formatDate(data.date).toUpperCase()}) - Per Product</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Product</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1240,7 +1243,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: $('#headerdate').text(),
+                title: $('#headername').text(),
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -1318,13 +1321,11 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
-                    if(report_category == 'STORE'){
-                        headername = $('#headerdate').text();
-                        urlName = '/sales/reports/branch/time';
-                        colData = datacode;
-                        selected_date = data.date;
-                        report_hoursA(headername, urlName, colData, selected_date);
-                    }
+                    urlName = '/sales/reports/time_A';
+                    tblType = 'storecode';
+                    colData = datacode;
+                    selected_date = data.date;
+                    report_hoursA(headername, urlName, tblType, colData, selected_date);
                 }, 200);
             }
         });
@@ -1333,7 +1334,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         $('#loading').show();
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerdate">${headername} (${formatDate(data.date).toUpperCase()}) - Per Product</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
@@ -1369,7 +1370,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: $('#headerdate').text(),
+                title: $('#headername').text(),
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -1446,8 +1447,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
     else if(report_category == 'TRANSACTION TYPE'){
         $('#loading').show();
         $('#reportsTable3').empty();
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerdate">${headername} (${formatDate(data.date).toUpperCase()}) - Per Product</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1488,7 +1489,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: $('#headerdate').text(),
+                title: $('#headername').text(),
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -1567,6 +1568,11 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
+                    urlName = '/sales/reports/time_A';
+                    tblType = 'trantype';
+                    colData = datacode;
+                    selected_date = data.date;
+                    report_hoursA(headername, urlName, tblType, colData, selected_date);
                 }, 200);
             }
         });
@@ -1577,9 +1583,9 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
     }
 });
 
-function report_hoursA(headername, urlName, colData, selected_date){
-    var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+function report_hoursA(headername, urlName, tblType, colData, selected_date){
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports4" id="tblReports4" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1620,7 +1626,7 @@ function report_hoursA(headername, urlName, colData, selected_date){
         dom: 'Blftrip',
         buttons: [{
             extend: 'excelHtml5',
-            title: headername,
+            title: $('#headerlast').text(),
             exportOptions: {
                 modifier : {
                     order : 'index',
@@ -1635,6 +1641,7 @@ function report_hoursA(headername, urlName, colData, selected_date){
         ajax: {
             url: urlName,
             data:{
+                tblType: tblType,
                 colData: colData,
                 selected_date: selected_date
             }
