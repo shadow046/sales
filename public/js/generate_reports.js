@@ -1798,3 +1798,21 @@ $('body').on('click', '.checkboxFilter', function(){
     $('.fl-'+colnum).val('');
     table1.column(colnum).search('').draw();
 });
+
+setInterval(() => {
+    var branch_values = $('#branch').val();
+    var product_values = $('#product').val();
+    var combo_values = $('#combo').val();
+    var promo_values = $('#promo').val();
+
+    if(branch_values && branch_values.length > 0
+    || product_values && product_values.length > 0
+    || combo_values && combo_values.length > 0
+    || promo_values && promo_values.length > 0){
+        $('#branch_chosen, #product_chosen, #combo_chosen, #promo_chosen').removeClass('requiredField requiredInput redBorder');
+        $('.classNamebranch_chosen, .classNameproduct_chosen, .classNamecombo_chosen, .classNamepromo_chosen').remove();
+    }
+    else{
+        $('#branch_chosen, #product_chosen, #combo_chosen, #promo_chosen').addClass('requiredField requiredInput redBorder');
+    }
+}, 0);
