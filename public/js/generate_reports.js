@@ -31,6 +31,8 @@ $(document).ready(function(){
     $('#start_date').val(startDateValue);
     $('#end_date').val(endDateValue);
 
+    changeComparative();
+
     $('#report_type').val('STANDARD');
     $('#report_category').val('STORE');
     $('#btnGenerate').click();
@@ -94,6 +96,15 @@ $('#btnReset').on('click', function(){
     $('.req').hide();
     $('#formReports').trigger('reset');
     $('#report_type').change();
+    changeComparative();
+    $('#reportsTable1').empty();
+    $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
+    $('#reportsTable4').empty();
+});
+
+$('#report_type').on('change', function(){
+    changeComparative();
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
@@ -101,6 +112,7 @@ $('#btnReset').on('click', function(){
 });
 
 $('#report_category').on('change', function(){
+    changeComparative();
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
@@ -1573,16 +1585,16 @@ function report_hoursA(headername, urlName, colData, selected_date){
             <thead style="font-weight:bolder" class="bg-default">
                 <tr class="tbsearch">
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-input4" data-column="0" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-input4" data-column="1" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-input4" data-column="2" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-input4" data-column="3" style="border:1px solid #808080"/>
                     </td>
                 </tr>
                 <tr>
@@ -1733,20 +1745,9 @@ $('body').on('click', '.checkboxFilter', function(){
     table1.column(colnum).search('').draw();
 });
 
-setInterval(() => {
-    var branch_values = $('#branch').val();
-    var product_values = $('#product').val();
-    var combo_values = $('#combo').val();
-    var promo_values = $('#promo').val();
-
-    if(branch_values && branch_values.length > 0
-    || product_values && product_values.length > 0
-    || combo_values && combo_values.length > 0
-    || promo_values && promo_values.length > 0){
-        $('#branch_chosen, #product_chosen, #combo_chosen, #promo_chosen').removeClass('requiredField requiredInput redBorder');
-        $('.classNamebranch_chosen, .classNameproduct_chosen, .classNamecombo_chosen, .classNamepromo_chosen').remove();
-    }
-    else{
-        $('#branch_chosen, #product_chosen, #combo_chosen, #promo_chosen').addClass('requiredField requiredInput redBorder');
-    }
-}, 0);
+function changeComparative(){
+    $('#branch').change();
+    $('#product').change();
+    $('#combo').change();
+    $('#promo').change();
+}

@@ -42,7 +42,7 @@
     <div class="row mb-3 classBranch classComparative">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="branch" name="branch" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Product/s" multiple>
+            <select id="branch" name="branch" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
                 @foreach($stores as $store)
                     <option value="{{$store->fcode}}" desc="{{$store->desc1}}">{{$store->fcode}}: {{$store->desc1}}</option>
                 @endforeach
@@ -54,7 +54,7 @@
     <div class="row mb-3 classProduct classComparative">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="product" name="product" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Product/s" multiple>
+            <select id="product" name="product" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
                 @foreach($products as $product)
                     <option value="{{$product->fcode}}" desc="{{$product->desc1}}">{{$product->fcode}}: {{$product->desc1}}</option>
                 @endforeach
@@ -66,7 +66,7 @@
     <div class="row mb-3 classCombo classComparative">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="combo" name="combo" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Combo Meal Product/s" multiple>
+            <select id="combo" name="combo" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Combo Meal Product/s" multiple>
                 @foreach($combos as $combo)
                     <option value="{{$combo->fcode}}" desc="{{$combo->desc1}}">{{$combo->fcode}}: {{$combo->desc1}}</option>
                 @endforeach
@@ -78,7 +78,7 @@
     <div class="row mb-3 classPromo classComparative">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="promo" name="promo" class="selectComparative forminput form-control form-select requiredField" style="color: black" data-placeholder="Select Promo Product/s" multiple>
+            <select id="promo" name="promo" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Promo Product/s" multiple>
                 @foreach($promos as $promo)
                     <option value="{{$promo->fcode}}" desc="{{$promo->desc1}}">{{$promo->fcode}}: {{$promo->desc1}}</option>
                 @endforeach
