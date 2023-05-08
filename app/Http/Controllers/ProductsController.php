@@ -45,7 +45,8 @@ class ProductsController extends Controller
 
     public function products_data()
     {
-        $products = Product::selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, area, store, status, product_image, product_update_status')
+        $products = Product::query()
+            ->selectRaw('products.id AS id, category.id AS category, category.category AS category_name, item_code, intro_date, short_desc, long_desc, sku, modifier_code, setup, area, store, status, product_image, product_update_status')
             ->selectRaw('dine_in, take_out, pick_up, delivery, bulk_order, fds, drive_thru, meal_type')
             ->selectRaw('dine_in_airport, take_out_airport, pick_up_airport, delivery_airport, bulk_order_airport, fds_airport, drive_thru_airport, meal_type_airport')
             ->selectRaw('pos_setup, max_modifier, seq, kitchen_printer, promo_start, promo_end, promo_price, promo_item_not_allow, sales_type, promo_setup, start_date, start_time, end_date, end_time, days_available')
@@ -55,9 +56,50 @@ class ProductsController extends Controller
             ->join('category','category.id','products.category')
             ->orderBy('product_update_status','DESC')
             ->orderBy('category_name','ASC')
-            ->orderBy('item_code','ASC')
-            ->get();
+            ->orderBy('item_code','ASC');
         return DataTables::of($products)
+        ->addColumn('company_name' ,function(Product $products){
+            if($products->company == '0'){
+                $company_row = Company::where('id','!=','0')->pluck('company_name')->toArray();
+                $company_separated = implode(', ', $company_row);
+                return $company_separated;
+            }
+            else{
+                $company_row = '';
+                $array = explode("|", $products->company);
+                foreach ($array as $value){
+                    $company = Company::where('id',$value)->first();
+                    if($company_row != ''){
+                        $company_row = $company_row.', '.$company->company_name;
+                    }
+                    else{
+                        $company_row = $company->company_name;
+                    }
+                }
+                return $company_row;
+            }
+        })
+        ->addColumn('type_name' ,function(Product $products){
+            if($products->type == '0'){
+                $type_row = Type::where('id','!=','0')->pluck('type')->toArray();
+                $type_separated = implode(', ', $type_row);
+                return $type_separated;
+            }
+            else{
+                $type_row = '';
+                $array = explode("|", $products->type);
+                foreach ($array as $value) {
+                    $type = Type::where('id',$value)->first();
+                    if($type_row != ''){
+                        $type_row = $type_row.', '.$type->type;
+                    }
+                    else{
+                        $type_row = $type->type;
+                    }
+                }
+                return $type_row;
+            }
+        })
         ->addColumn('setup_name', function(Product $products){
             if(!$products->setup){
                 return '';
