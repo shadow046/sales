@@ -31,7 +31,7 @@
                 <option value="COMBO MEAL">COMBO MEAL SALES</option>
                 <option value="PROMO">PROMO SALES</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
-                <option value="TENDER TYPE" class="text-secondary">TENDER TYPE SALES</option>
+                <option value="TENDER TYPE">TENDER TYPE SALES</option>
                 <option value="DISCOUNT" class="text-secondary">DISCOUNT SALES</option>
                 <option value="DELIVERY CHANNEL" class="text-secondary">DELIVERY CHANNEL SALES</option>
             </select>
@@ -39,7 +39,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
-    <div class="row mb-3 classBranch classComparative">
+    <div class="row mb-3 classBranch classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
             <select id="branch" name="branch" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
@@ -51,7 +51,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
-    <div class="row mb-3 classProduct classComparative">
+    <div class="row mb-3 classProduct classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
             <select id="product" name="product" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
@@ -63,7 +63,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
-    <div class="row mb-3 classCombo classComparative">
+    <div class="row mb-3 classCombo classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
             <select id="combo" name="combo" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Combo Meal Product/s" multiple>
@@ -75,7 +75,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
-    <div class="row mb-3 classPromo classComparative">
+    <div class="row mb-3 classPromo classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
             <select id="promo" name="promo" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Promo Product/s" multiple>
@@ -87,7 +87,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
-    <div class="row mb-3 classTransaction classComparative">
+    <div class="row mb-3 classTransaction classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
             <select id="transactiontype" name="transactiontype" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
@@ -96,6 +96,18 @@
                 @endforeach
             </select>
             <label for="transactiontype" class="formlabels form-label">TRANSACTION TYPE
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3 classTender classComparative" style="display: none;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="tendertype" name="tendertype" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Tender Type/s" multiple>
+                @foreach($tenders as $tender)
+                    <option value="{{$tender->tendname}}">{{$tender->tendname}}</option>
+                @endforeach
+            </select>
+            <label for="tendertype" class="formlabels form-label">TENDER TYPE
         </div>
         <div class="col-md-4"></div>
     </div>

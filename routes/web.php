@@ -82,6 +82,9 @@ Route::controller(GenerateReportsController::class)->group(function(){
     Route::get('/sales/reports/transaction','byTransaction');
     Route::get('/sales/reports/transaction/date','byTransaction_Date');
     Route::get('/sales/reports/transaction/branch','byTransaction_Branch');
+    Route::get('/sales/reports/tender','byTender');
+    Route::get('/sales/reports/tender/date','byTender_Date');
+    Route::get('/sales/reports/tender/branch','byTender_Branch');
     Route::get('/sales/reports/time_A','byTimeA');
     Route::get('/sales/reports/time_B','byTimeB');
 });
