@@ -18,8 +18,8 @@
                     <label for="item_code" class="formlabels form-label">Item Code
                 </div>
                 <div class="col-md-4 f-outline">
-                    <select id="category" name="category" class="forminput form-control form-select requiredField" style="color: black">
-                        <option value="" selected disabled>Select Category</option>
+                    <select id="category" name="category" class="forminput form-control form-select requiredField single_field" style="color: black">
+                        <option value="" selected disabled>SELECT CATEGORY</option>
                         @foreach($categories as $category)
                             <option combo="{{$category->enable_combo}}" value="{{$category->id}}" style="color: Black;">{{strtoupper($category->category)}}</option>
                         @endforeach
@@ -376,8 +376,8 @@
     </form>
         <div class="col-md-6">
             <div class="col-md-7 mb-3 f-outline">
-                <select id="sales_type" name="sales_type" class="forminput form-control form-select" style="color: black">
-                    <option value="" selected disabled>Select Sales Type</option>
+                <select id="sales_type" name="sales_type" class="forminput form-control form-select single_field" style="color: black">
+                    <option value="" selected disabled>SELECT SALES TYPE</option>
                     @foreach($sales_types as $sales_type)
                         <option value="{{$sales_type->id}}">{{$sales_type->sales_type}}</option>
                     @endforeach

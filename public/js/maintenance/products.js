@@ -13,6 +13,12 @@ $(document).ready(function(){
 
     $('#store').chosen();
     $('#store_chosen').css('width','100%');
+
+    $('#category').chosen();
+    $('#category_chosen').css('width','100%');
+
+    $('#sales_type').chosen();
+    $('#sales_type_chosen').css('width','100%');
 });
 
 $('.addBtn').on('click',function(){
@@ -38,18 +44,22 @@ $('.addBtn').on('click',function(){
     $('#area_chosen').addClass('requiredField requiredInput redBorder');
     $('#company_chosen').addClass('requiredField requiredInput redBorder');
     $('#type_chosen').addClass('requiredField requiredInput redBorder');
+    $('#category_chosen').addClass('requiredField requiredInput redBorder');
 
     $('#setup').val('').trigger('chosen:updated');
     $('#area').val('').trigger('chosen:updated');
     $('#company').val('').trigger('chosen:updated');
     $('#type').val('').trigger('chosen:updated');
+    $('#category').val('').trigger('chosen:updated');
+    $('#sales_type').val('').trigger('chosen:updated');
 
     $('#company').change();
     $('#type').change();
     $('#setup').change();
     $('#area').change();
     $('#store').change();
-
+    $('#category').change();
+    $('#sales_type').change();
 });
 var table;
 $(document).ready(function(){
@@ -1127,6 +1137,9 @@ $(document).on('click','table.productsTable tbody tr td',function(){
         setTimeout(() => {
             $('#area').trigger('chosen:updated');
             $('#area').change();
+
+            $('#category').trigger('chosen:updated');
+            $('#category').change();
 
             setTimeout(() => {
                 if(data.store == '0-0'){

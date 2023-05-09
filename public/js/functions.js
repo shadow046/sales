@@ -487,45 +487,49 @@ $(document).on('focusout', '.priceField', function(){
 });
 
 $(document).on('change', '#province', function(){
-    var citiesOption = " ";
-    $('#region').val('');
-    $.ajax({
-        url:"/getCities",
-        type:"get",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data:{
-            provCode:$(this).val(),
-        },
-        success:function(data){
-            var cities = $.map(data, function(value, index) {
-                return [value];
-            });
-            citiesOption+='<option selected disabled>SELECT CITY/MUNICIPALITY</option>';
-            cities.forEach(value => {
-                citiesOption+='<option class="city" value="'+value.citymunCode+'">'+value.citymunDesc+'</option>';
-            });
-            $("#city").find('option').remove().end().append(citiesOption);
-        }
-    });
-    $("#city").prop('disabled', false);
+    if($(this).val()){
+        var citiesOption = " ";
+        $('#region').val('');
+        $.ajax({
+            url:"/getCities",
+            type:"get",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{
+                provCode:$(this).val(),
+            },
+            success:function(data){
+                var cities = $.map(data, function(value, index) {
+                    return [value];
+                });
+                citiesOption+='<option selected disabled>SELECT CITY/MUNICIPALITY</option>';
+                cities.forEach(value => {
+                    citiesOption+='<option class="city" value="'+value.citymunCode+'">'+value.citymunDesc+'</option>';
+                });
+                $("#city").find('option').remove().end().append(citiesOption);
+            }
+        });
+        $("#city").prop('disabled', false);
+    }
 });
 
 $(document).on('change', '#city', function(){
-    $.ajax({
-        url:"/getRegion",
-        type:"get",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data:{
-            citymunCode:$(this).val(),
-        },
-        success:function(data){
-            $('#region').val(data[0].regDesc);
-        }
-    });
+    if($(this).val()){
+        $.ajax({
+            url:"/getRegion",
+            type:"get",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{
+                citymunCode:$(this).val(),
+            },
+            success:function(data){
+                $('#region').val(data[0].regDesc);
+            }
+        });
+    }
 });
 
 setInterval(() => {
@@ -816,6 +820,20 @@ $(document).on('change','.multiple_field', function(){
         $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
     }
     else{
+        $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
+        var spanClass = $(this).attr('id') + '_chosen';
+        $('.className' + spanClass).remove();
+    }
+});
+
+$(document).on('change','.single_field', function(){
+    console.log($(this).attr('id'));
+    if(!$(this).val() && $(this).hasClass('requiredField')){
+        console.log($(this).next('.chosen-container').attr('id'));
+        $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
+    }
+    else{
+        console.log($(this).find('option:selected').text());
         $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
         var spanClass = $(this).attr('id') + '_chosen';
         $('.className' + spanClass).remove();

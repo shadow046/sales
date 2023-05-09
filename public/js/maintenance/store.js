@@ -1,4 +1,49 @@
+$(document).ready(function(){
+    $('#company_name').chosen();
+    $('#company_name_chosen').css('width','100%');
+
+    $('#store_area').chosen();
+    $('#store_area_chosen').css('width','100%');
+
+    $('#type').chosen();
+    $('#type_chosen').css('width','100%');
+
+    $('#setup').chosen();
+    $('#setup_chosen').css('width','100%');
+
+    $('#group').chosen();
+    $('#group_chosen').css('width','100%');
+
+    $('#sub_group').chosen();
+    $('#sub_group_chosen').css('width','100%');
+
+    $('#network').chosen();
+    $('#network_chosen').css('width','100%');
+
+    $('#serving_store').chosen();
+    $('#serving_store_chosen').css('width','100%');
+});
+
 $('.addBtn').on('click',function(){
+    $('#company_name_chosen').addClass('requiredField requiredInput redBorder');
+    $('#store_area_chosen').addClass('requiredField requiredInput redBorder');
+    $('#type_chosen').addClass('requiredField requiredInput redBorder');
+    $('#setup_chosen').addClass('requiredField requiredInput redBorder');
+    $('#group_chosen').addClass('requiredField requiredInput redBorder');
+    $('#sub_group_chosen').addClass('requiredField requiredInput redBorder');
+    $('#network_chosen').addClass('requiredField requiredInput redBorder');
+
+    $('#company_name').val('').trigger('chosen:updated');
+    $('#store_area').val('').trigger('chosen:updated');
+    $('#type').val('').trigger('chosen:updated');
+    $('#setup').val('').trigger('chosen:updated');
+    $('#group').val('').trigger('chosen:updated');
+    $('#sub_group').val('').trigger('chosen:updated');
+    $('#network').val('').trigger('chosen:updated');
+    $('#serving_store').val('').trigger('chosen:updated');
+
+    $('.req').hide();
+
     if(!current_permissions.includes('3')){
         $('#storeModal').find('input').prop('disabled', false);
         $('#storeModal').find('select').prop('disabled', false);
@@ -513,15 +558,29 @@ $(document).on('click','table.storeTable tbody tr td',function(){
         });
 
         setTimeout(() => {
+            $('#company_name').change();
+            $('#company_name').trigger('chosen:updated');
+
+            $('#store_area').change();
+            $('#store_area').trigger('chosen:updated');
+
+            $('#type').change();
+            $('#type').trigger('chosen:updated');
+
             $('#setup').change();
-            $('#setup').chosen();
             $('#setup').trigger('chosen:updated');
-            $('#setup_chosen').css('width','100%');
+
+            $('#group').change();
+            $('#group').trigger('chosen:updated');
+
+            $('#sub_group').change();
+            $('#sub_group').trigger('chosen:updated');
+
+            $('#network').change();
+            $('#network').trigger('chosen:updated');
 
             $('#serving_store').change();
-            $('#serving_store').chosen();
             $('#serving_store').trigger('chosen:updated');
-            $('#serving_store_chosen').css('width','100%');
 
         }, current_timeout);
 
@@ -1296,28 +1355,33 @@ $(document).ready(function(){
     }
 });
 
-$('#addStoreBtn').on('click', function(){
-    $('#setup').chosen();
-    $('#setup_chosen').css('width','100%');
-    $('#setup_chosen').addClass('requiredField requiredInput redBorder');
+// $('#addStoreBtn').on('click', function(){
+//     $('#setup').chosen();
+//     $('#setup_chosen').css('width','100%');
+//     $('#setup_chosen').addClass('requiredField requiredInput redBorder');
 
-    $('#serving_store').chosen();
-    $('#serving_store_chosen').css('width','100%');
+//     $('#company_name').chosen();
+//     $('#company_name_chosen').css('width','100%');
+//     $('#company_name_chosen').addClass('requiredField requiredInput redBorder');
 
-    $('#serving_store').val('').trigger('chosen:updated');
-    $('#setup').val('').trigger('chosen:updated');
+//     $('#serving_store').chosen();
+//     $('#serving_store_chosen').css('width','100%');
 
-    $('.req').hide();
-});
+//     $('#company_name').val('').trigger('chosen:updated');
+//     $('#serving_store').val('').trigger('chosen:updated');
+//     $('#setup').val('').trigger('chosen:updated');
+
+//     $('.req').hide();
+// });
 
 setInterval(() => {
-    if($('#group').is(":visible")){
-        if($('#group').val() == '1'){
+    if($('#group').val()){
+        if($('#group option:selected').text() == 'MALL'){
             $('.sub_group_div').show();
         }
         else{
+            $('#sub_group').val('').trigger('chosen:updated');
             $('.sub_group_div').hide();
-            $('#sub_group').val('0');
         }
     }
 }, 0);

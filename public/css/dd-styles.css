@@ -447,3 +447,7 @@ label{
     background-color: #e9409d !important;
     color: white !important;
 }
+
+.chosen-results li:not(:first-child):hover {
+    color: #fff !important;
+}

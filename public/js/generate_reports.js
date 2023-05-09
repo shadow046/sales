@@ -104,8 +104,8 @@ setInterval(() => {
         $('#promo').trigger('chosen:updated');
     }
     if($('.classTransaction').is(':hidden')){
-        $('#transaction').val('');
-        $('#transaction').trigger('chosen:updated');
+        $('#transactiontype').val('');
+        $('#transactiontype').trigger('chosen:updated');
     }
 }, 0);
 

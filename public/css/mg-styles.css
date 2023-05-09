@@ -442,3 +442,12 @@ input[type="date"]{
 label{
     text-transform: uppercase !important;
 }
+
+#upload_image:hover{
+    background-color: #e9409d !important;
+    color: white !important;
+}
+
+.chosen-results li:not(:first-child):hover {
+    color: #fff !important;
+}

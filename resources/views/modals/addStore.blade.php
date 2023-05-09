@@ -25,17 +25,13 @@
 
                 <hr style="margin-top: -4px;">
                 <div class="row pt-1">
-                    {{-- <div class="col-md-4 f-outline">
-                        <input type="search" style="color: black" name="company_name" id="company_name" class="forminput form-control requiredField text-capitalize stringOnly" placeholder=" " autocomplete="off" >
-                        <label for="company_name" class="formlabels form-label">Company Name
-                    </div> --}}
                     <div class="col-md-4 f-outline">
                         <input type="search" style="color: black" name="branch_code" id="branch_code" class="forminput form-control text-uppercase requiredField" placeholder=" " autocomplete="off" onkeyup="alpha_numeric(this)">
                         <p id="duplicate_branch_code" class="validation"><i class="fas fa-exclamation-triangle"></i> STORE CODE ALREADY EXIST!</p>
                         <label for="branch_code" class="formlabels form-label">STORE CODE
                     </div>
                     <div class="col-md f-outline">
-                        <select id="company_name" name="company_name" class="forminput form-control form-select requiredField" style="color: black">
+                        <select id="company_name" name="company_name" class="forminput form-control form-select requiredField single_field" style="color: black">
                             <option value="" selected disabled>SELECT COMPANY NAME</option>
                             @foreach($companies as $company)
                                 <option value="{{$company->id}}">{{$company->company_name}}</option>
@@ -60,7 +56,7 @@
                         <label for="address" class="formlabels form-label">ADDRESS
                     </div>
                     <div class="col-md-4 f-outline">
-                        <select id="store_area" name="store_area" class="forminput form-control form-select requiredField" style="color: black">
+                        <select id="store_area" name="store_area" class="forminput form-control form-select requiredField single_field" style="color: black">
                             <option value="" selected disabled>SELECT STORE AREA</option>
                             @foreach($store_areas as $store_area)
                                 <option value="{{$store_area->id}}">{{$store_area->store_area}}</option>
@@ -92,7 +88,7 @@
                 </div>
                 <div class="row pt-3">
                     <div class="col-md f-outline">
-                        <select id="type" name="type" class="forminput form-control form-select requiredField" style="color: black">
+                        <select id="type" name="type" class="forminput form-control form-select requiredField single_field" style="color: black">
                             <option value="" selected disabled>SELECT STORE TYPE</option>
                             @foreach($types as $type)
                                 <option value="{{$type->id}}">{{$type->type}}</option>
@@ -111,7 +107,7 @@
                     </div>
 
                     <div class="col-md f-outline">
-                        <select id="group" name="group" class="forminput form-control form-select requiredField" style="color: black">
+                        <select id="group" name="group" class="forminput form-control form-select requiredField single_field" style="color: black">
                             <option value="" selected disabled>SELECT STORE GROUP</option>
                             @foreach($groups as $group)
                                 <option value="{{$group->id}}">{{$group->group}}</option>
@@ -122,8 +118,8 @@
                 </div>
 
                 <div class="row pt-3">
-                    <div class="col-md f-outline sub_group_div">
-                        <select id="sub_group" name="sub_group" class="forminput form-control form-select requiredField" style="color: black">
+                    <div class="col-md f-outline sub_group_div" style="display:none;">
+                        <select id="sub_group" name="sub_group" class="forminput form-control form-select requiredField single_field" style="color: black" data-placholder="Select Mall Sub-group">
                             <option value="0" selected disabled>SELECT MALL SUB-GROUP</option>
                             @foreach($subgroups as $subgroup)
                                 <option value="{{$subgroup->id}}">{{$subgroup->subgroup}}</option>
@@ -132,7 +128,7 @@
                         <label for="sub_group" class="formlabels form-label">MALL SUB-GROUP
                     </div>
                     <div class="col-md f-outline">
-                        <select id="network" name="network" class="forminput form-control form-select requiredField" style="color: black">
+                        <select id="network" name="network" class="forminput form-control form-select requiredField single_field" style="color: black">
                             <option value="" selected disabled>SELECT STORE NETWORK SETUP</option>
                             @foreach($network_setups as $network_setup)
                                 <option value="{{$network_setup->id}}">{{$network_setup->network_setup}}</option>
@@ -223,8 +219,6 @@
                 <div class="row pt-3 notUpdate">
                     <div class="col-md-2 f-outline">
                         <select id="model" name="model" class="forminput form-control form-select" style="color: black">
-                            {{-- <option value="" selected disabled>Select POS Model</option>
-                            <option value="Sample">Sample</option> --}}
                             <option value="" disabled selected>SELECT POS Model </option>
                                 @foreach($poss as $pos)
                                     <option value="{{$pos->id}}">{{$pos->model}}</option>
