@@ -87,6 +87,18 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+    <div class="row mb-3 classTransaction classComparative">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="transactiontype" name="transactiontype" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
+                @foreach($transactions as $transaction)
+                    <option value="{{$transaction->trantype}}">{{$transaction->trantype}}</option>
+                @endforeach
+            </select>
+            <label for="transactiontype" class="formlabels form-label">TRANSACTION TYPE
+        </div>
+        <div class="col-md-4"></div>
+    </div>
     <div class="row mb-3">
         <div class="col-md-4"></div>
         <div class="col-md-2 f-outline">

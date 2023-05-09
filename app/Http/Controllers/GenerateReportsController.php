@@ -48,7 +48,11 @@ class GenerateReportsController extends Controller
             ->where('status', 'ACTIVE')
             ->get()
             ->sortBy('item_code');
-        return view('pages.generate_reports', compact('stores','products','combos','promos'));
+        $transactions = Hdr::select('trantype')
+            ->distinct()
+            ->get()
+            ->sortBy('trantype');
+        return view('pages.generate_reports', compact('stores','products','combos','promos','transactions'));
     }
 
     public function byBranch(Request $request){
@@ -180,10 +184,13 @@ class GenerateReportsController extends Controller
 
     public function byTransaction(Request $request){
         $data = Hdr::selectRaw('trantype as transaction_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
-                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-                ->groupBy('transaction_name')
-                ->orderBy('net_sales', 'DESC')
-                ->get();
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date]);
+                if($request->included){
+                    $data->whereIn('trantype', $request->included);
+                }
+                $data->groupBy('transaction_name')
+                    ->orderBy('net_sales', 'DESC')
+                    ->get();
         return DataTables::of($data)->make(true);
     }
 
