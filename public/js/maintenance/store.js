@@ -1,27 +1,24 @@
 $(document).ready(function(){
     $('#company_name').chosen();
-    $('#company_name_chosen').css('width','100%');
-
     $('#store_area').chosen();
-    $('#store_area_chosen').css('width','100%');
-
     $('#type').chosen();
-    $('#type_chosen').css('width','100%');
-
     $('#setup').chosen();
-    $('#setup_chosen').css('width','100%');
-
     $('#group').chosen();
-    $('#group_chosen').css('width','100%');
-
     $('#sub_group').chosen();
-    $('#sub_group_chosen').css('width','100%');
-
     $('#network').chosen();
-    $('#network_chosen').css('width','100%');
-
     $('#serving_store').chosen();
+    $('#model').chosen();
+
+    $('#company_name_chosen').css('width','100%');
+    $('#store_area_chosen').css('width','100%');
+    $('#type_chosen').css('width','100%');
+    $('#setup_chosen').css('width','100%');
+    $('#group_chosen').css('width','100%');
+    $('#sub_group_chosen').css('width','100%');
+    $('#network_chosen').css('width','100%');
     $('#serving_store_chosen').css('width','100%');
+    $('#model_chosen').css('width','100%');
+
 });
 
 $('.addBtn').on('click',function(){
@@ -41,8 +38,10 @@ $('.addBtn').on('click',function(){
     $('#sub_group').val('').trigger('chosen:updated');
     $('#network').val('').trigger('chosen:updated');
     $('#serving_store').val('').trigger('chosen:updated');
+    $('#model').val('').trigger('chosen:updated');
 
     $('.req').hide();
+    $('.sub_group_div').hide();
 
     if(!current_permissions.includes('3')){
         $('#storeModal').find('input').prop('disabled', false);
@@ -379,14 +378,15 @@ $('.addStoreContactDetailsBtn').click(function(e){
 
     var storeDetailsTable =   "<tr class='storeContactDetails_tr'>"+
                                     "<td class='td_1 text-uppercase'>" + contact_person + "</td>" +
-                                    "<td class='td_2'>" + position + "</td>" +
-                                    "<td class='td_3'>" + email + "</td>" +
+                                    "<td class='td_2 text-uppercase'>" + position + "</td>" +
+                                    "<td class='td_3 text-lowercase'>" + email + "</td>" +
                                     "<td class='td_4'>" + telephone + "</td>" +
                                     "<td class='td_5'>" + mobile + "</td>" +
                                     "<td> <button class='btn btn-danger btn-delete btn_store_details' title='DELETE'> <i class='fas fa-trash-alt'></i> DELETE </button> </td>" +
                                 "</tr>";
     if($('.updateBtn').is(":visible") || current_modal == 'UPDATE'){
         $('#storeContactDetails_tbody').append(storeDetailsTable);
+
         contact_person_change = 'CHANGED';
     }
     else{
@@ -445,7 +445,7 @@ $('.addPosInformationBtn').click(function(e){
         $('#storePosInformation tbody').append(posInformationTable);
         $('#storePosInformation').show();
     }
-    $('#model').val("");
+    $('#model').val('').trigger('chosen:updated');
     $('#serial').val("");
     $('#min').val("");
     $('#ptu').val("");
@@ -559,27 +559,21 @@ $(document).on('click','table.storeTable tbody tr td',function(){
 
         setTimeout(() => {
             $('#company_name').change();
-            $('#company_name').trigger('chosen:updated');
-
             $('#store_area').change();
-            $('#store_area').trigger('chosen:updated');
-
             $('#type').change();
-            $('#type').trigger('chosen:updated');
-
             $('#setup').change();
-            $('#setup').trigger('chosen:updated');
-
             $('#group').change();
-            $('#group').trigger('chosen:updated');
-
             $('#sub_group').change();
-            $('#sub_group').trigger('chosen:updated');
-
             $('#network').change();
-            $('#network').trigger('chosen:updated');
-
             $('#serving_store').change();
+
+            $('#company_name').trigger('chosen:updated');
+            $('#store_area').trigger('chosen:updated');
+            $('#type').trigger('chosen:updated');
+            $('#setup').trigger('chosen:updated');
+            $('#group').trigger('chosen:updated');
+            $('#sub_group').trigger('chosen:updated');
+            $('#network').trigger('chosen:updated');
             $('#serving_store').trigger('chosen:updated');
 
         }, current_timeout);

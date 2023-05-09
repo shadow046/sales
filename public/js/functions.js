@@ -450,23 +450,6 @@ function checkRequiredFields(){
     }
 }
 
-$(document).on('focusout', '.requiredField', function(){
-    if(!$(this).val()){
-        alertName = 'className'+$(this).attr('id');
-        if($('.'+alertName+':visible').length == 0){
-            $(this).after('<span class="'+alertName+' req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-        }
-        else if($('.'+alertName+':visible').length > 1){
-            alertName = 'className'+$(this).attr('id');
-            $('.'+alertName).remove();
-        }
-    }
-    else{
-        alertName = 'className'+$(this).attr('id');
-        $('.'+alertName).remove();
-    }
-});
-
 $(document).on('blur', '.priceField', function(){
     if(!$(this).val()){
         $(this).val('0.00');
@@ -829,13 +812,46 @@ $(document).on('change','.multiple_field', function(){
 $(document).on('change','.single_field', function(){
     console.log($(this).attr('id'));
     if(!$(this).val() && $(this).hasClass('requiredField')){
-        console.log($(this).next('.chosen-container').attr('id'));
         $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
     }
     else{
-        console.log($(this).find('option:selected').text());
         $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
         var spanClass = $(this).attr('id') + '_chosen';
         $('.className' + spanClass).remove();
     }
 });
+
+
+$(document).on('focusout', '.requiredField', function(){
+    if(!$(this).val()){
+        var alertName = 'className'+$(this).attr('id');
+        var alertClass = $('.'+alertName+':visible');
+        if(alertClass.length == 0){
+            $(this).after('<span class="'+alertName+' req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
+        }
+        else if(alertClass.length > 1){
+            alertClass.remove();
+        }
+    }
+    else{
+        alertName = 'className'+$(this).attr('id');
+        $('.'+alertName).remove();
+    }
+});
+
+// $(document).on('focusout', '.requiredField', function(){
+//     if(!$(this).val()){
+//         alertName = 'className'+$(this).attr('id');
+//         if($('.'+alertName+':visible').length == 0){
+//             $(this).after('<span class="'+alertName+' req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
+//         }
+//         else if($('.'+alertName+':visible').length > 1){
+//             alertName = 'className'+$(this).attr('id');
+//             $('.'+alertName).remove();
+//         }
+//     }
+//     else{
+//         alertName = 'className'+$(this).attr('id');
+//         $('.'+alertName).remove();
+//     }
+// });

@@ -12,8 +12,8 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-8 f-outline">
-                        <select id="product" name="product" class="forminput form-control form-select requiredField" style="color: black">
-                            <option value="" selected disabled>Select Product</option>
+                        <select id="product" name="product" class="forminput form-control form-select requiredField single_field" style="color: black">
+                            <option value="" selected disabled>SELECT PRODUCT</option>
                             @foreach($products as $product)
                                 <option value="{{$product->fcode}}" desc="{{$product->desc1}}">{{$product->fcode}}: {{$product->desc1}}</option>
                             @endforeach
