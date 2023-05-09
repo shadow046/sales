@@ -400,6 +400,112 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byTender_Branch(Request $request){
+        $data = Hdr::select('temp.branch_name', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
+            ->from(function($query) use($request){
+                $query->select(
+                    DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                    'tendname1 AS tendname', 'tendamnt1 AS tendamnt'
+                )
+                ->from('hdr')
+                ->where('tendname1', '!=', '')
+                ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname2', 'tendamnt2')
+                        ->where('tendname2', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname3', 'tendamnt3')
+                        ->where('tendname3', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname4', 'tendamnt4')
+                        ->where('tendname4', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname5', 'tendamnt5')
+                        ->where('tendname5', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname6', 'tendamnt6')
+                        ->where('tendname6', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname7', 'tendamnt7')
+                        ->where('tendname7', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname8', 'tendamnt8')
+                        ->where('tendname8', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname9', 'tendamnt9')
+                        ->where('tendname9', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname10', 'tendamnt10')
+                        ->where('tendname10', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname11', 'tendamnt11')
+                        ->where('tendname11', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                )
+                ->unionAll(
+                    DB::table('hdr')->select(
+                        DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                        'tendname12', 'tendamnt12')
+                        ->where('tendname12', '!=', '')
+                        ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                        ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+                );
+            }, 'temp')
+            ->where('tendname', $request->datacode)
+            ->groupBy('temp.branch_name','temp.tendname')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
     public function byTimeA(Request $request){
         $data = collect();
         for($i = 0; $i < 24; $i++){
@@ -450,6 +556,114 @@ class GenerateReportsController extends Controller
                     'time_range_24hr' => $hour_range_24hr,
                     'quantity' => 0,
                     'gross_sales' => 0,
+                ];
+            }
+            $data->push($result);
+        }
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTimeC(Request $request){
+        $data = collect();
+        for($i = 0; $i < 24; $i++){
+            $start_hour = sprintf("%02d:00:00", $i);
+            $end_hour = sprintf("%02d:59:59", $i);
+            $hour_range_12hr = date('h:i A', strtotime($start_hour)) . ' - ' . date('h:i A', strtotime($end_hour));
+            $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
+            $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
+                ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
+                ->selectRaw('COALESCE(SUM(t.tendamnt), 0) as total')
+                ->from(function ($query) use ($request, $start_hour, $end_hour) {
+                    $query->select('tendname1 as tendname', 'tendamnt1 as tendamnt')
+                          ->from('hdr')
+                          ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                          ->whereTime('ttime', '>=', $start_hour)
+                          ->whereTime('ttime', '<=', $end_hour)
+                          ->where('tendname1', '=', $request->colData)
+                          ->unionAll(
+                            Hdr::select('tendname2 as tendname', 'tendamnt2 as tendamnt')
+                                ->where('tendname2', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname3 as tendname', 'tendamnt3 as tendamnt')
+                                ->where('tendname3', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname4 as tendname', 'tendamnt4 as tendamnt')
+                                ->where('tendname4', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname5 as tendname', 'tendamnt5 as tendamnt')
+                                ->where('tendname5', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname6 as tendname', 'tendamnt6 as tendamnt')
+                                ->where('tendname6', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname7 as tendname', 'tendamnt7 as tendamnt')
+                                ->where('tendname7', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname8 as tendname', 'tendamnt8 as tendamnt')
+                                ->where('tendname8', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname9 as tendname', 'tendamnt9 as tendamnt')
+                                ->where('tendname9', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname10 as tendname', 'tendamnt10 as tendamnt')
+                                ->where('tendname10', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname11 as tendname', 'tendamnt11 as tendamnt')
+                                ->where('tendname11', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          )
+                          ->unionAll(
+                            Hdr::select('tendname12 as tendname', 'tendamnt12 as tendamnt')
+                                ->where('tendname12', '=', $request->colData)
+                                ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+                                ->whereTime('ttime', '>=', $start_hour)
+                                ->whereTime('ttime', '<=', $end_hour)
+                          );
+                }, 't')
+                ->first();
+            if(!$result){
+                $result = (object)[
+                    'time_range_12hr' => $hour_range_12hr,
+                    'time_range_24hr' => $hour_range_24hr,
+                    'total' => 0,
                 ];
             }
             $data->push($result);

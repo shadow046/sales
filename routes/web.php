@@ -87,6 +87,7 @@ Route::controller(GenerateReportsController::class)->group(function(){
     Route::get('/sales/reports/tender/branch','byTender_Branch');
     Route::get('/sales/reports/time_A','byTimeA');
     Route::get('/sales/reports/time_B','byTimeB');
+    Route::get('/sales/reports/time_C','byTimeC');
 });
 
 Route::controller(GroupController::class)->group(function(){
