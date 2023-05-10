@@ -222,8 +222,12 @@ $('#btnGenerate').on('click', function(){
                         <td>
                             <input type="search" class="form-control filter-input1" data-column="11" style="border:1px solid #808080"/>
                         </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="12" style="border:1px solid #808080"/>
+                        </td>
                     </tr>
                     <tr>
+                        <th>STORE CODE</th>
                         <th>BRANCH NAME</th>
                         <th>COMPANY NAME</th>
                         <th>AREA MANAGER</th>
@@ -240,7 +244,7 @@ $('#btnGenerate').on('click', function(){
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="9">TOTAL:</th>
+                        <th class="text-right" colspan="10">TOTAL:</th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -276,13 +280,14 @@ $('#btnGenerate').on('click', function(){
             },
             columnDefs: [
                 {
-                    "targets": [1,2,6,7,8],
+                    "targets": [2,3,6,7,8,9],
                     "visible": false,
                     "searchable": true
                 },
             ],
             columns: [
-                { data: 'branch_name' },
+                { data: 'branch_code' },
+                { data: 'store_name' },
                 { data: 'company_name' },
                 { data: 'area_manager' },
                 { data: 'store_area' },
@@ -354,7 +359,7 @@ $('#btnGenerate').on('click', function(){
         });
         setInterval(() => {
             if($('.popover-header').is(':visible')){
-                for(var i=0; i<=11; i++){
+                for(var i=0; i<=12; i++){
                     if(table1.column(i).visible()){
                         $('#filter-'+i).prop('checked', true);
                     }
