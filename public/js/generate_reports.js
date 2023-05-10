@@ -13,6 +13,8 @@ $(document).ready(function(){
     $('#transactiontype_chosen').css({'width':'100%'});
     $('#tendertype_chosen').css({'width':'100%'});
 
+    changeComparative();
+
     var todayDay = new Date();
     var firstDay = new Date(todayDay.getFullYear(), todayDay.getMonth(), 1);
     var lastDay = new Date(todayDay.getFullYear(), todayDay.getMonth() + 1, 0);
@@ -32,14 +34,12 @@ $(document).ready(function(){
     var startDateValue = firstDay.getFullYear() + '-' + month1 + '-' + date1;
     var endDateValue = lastDay.getFullYear() + '-' + month2 + '-' + date2;
 
-    $('#start_date').val(startDateValue);
-    $('#end_date').val(endDateValue);
+    // $('#start_date').val(startDateValue);
+    // $('#end_date').val(endDateValue);
 
-    changeComparative();
-
-    $('#report_type').val('STANDARD');
-    $('#report_category').val('STORE');
-    $('#btnGenerate').click();
+    // $('#report_type').val('STANDARD');
+    // $('#report_category').val('STORE');
+    // $('#btnGenerate').click();
 });
 
 setInterval(() => {
@@ -1745,6 +1745,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
             },
         }],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        iDisplayLength: -1,
         processing: true,
         serverSide: false,
         ajax: {
@@ -1871,6 +1872,7 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
             },
         }],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        iDisplayLength: -1,
         processing: true,
         serverSide: false,
         ajax: {
@@ -1984,6 +1986,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
             },
         }],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        iDisplayLength: -1,
         processing: true,
         serverSide: false,
         ajax: {

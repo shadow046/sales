@@ -530,7 +530,9 @@ class GenerateReportsController extends Controller
                     'net_sales' => 0,
                 ];
             }
-            $data->push($result);
+            if($result->gross_sales > 0){
+                $data->push($result);
+            }
         }
         return DataTables::of($data)->make(true);
     }
@@ -558,7 +560,9 @@ class GenerateReportsController extends Controller
                     'gross_sales' => 0,
                 ];
             }
-            $data->push($result);
+            if($result->gross_sales > 0){
+                $data->push($result);
+            }
         }
         return DataTables::of($data)->make(true);
     }
@@ -666,7 +670,9 @@ class GenerateReportsController extends Controller
                     'total' => 0,
                 ];
             }
-            $data->push($result);
+            if($result->total > 0){
+                $data->push($result);
+            }
         }
         return DataTables::of($data)->make(true);
     }
