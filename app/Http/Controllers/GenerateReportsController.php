@@ -160,10 +160,6 @@ class GenerateReportsController extends Controller
             if($request->included){
                 $data->whereIn('itemcode', $request->included);
             }
-            if($request->byWhat == 'product'){
-                $data->where('category.category', '!=', 'PROMO')
-                    ->where('category.enable_combo', 'N');
-            }
             if($request->byWhat == 'combo'){
                 $data->where('category.category', '!=', 'PROMO')
                     ->where('category.enable_combo', 'Y');
