@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\UserLogs;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,6 +47,11 @@ class User extends Authenticatable
 
     public function posts(){
         return $this->hasMany('App\Models\Post');
+    }
+
+    public function UserLogs()
+    {
+        return $this->hasmany('App\Models\UserLogs');
     }
 
     public function sendPasswordResetNotification($token){

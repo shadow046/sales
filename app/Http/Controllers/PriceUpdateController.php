@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserLogs;
+use App\Models\SendUpdate;
 
 use App\Models\PriceUpdate;
 use Str;
@@ -540,15 +541,32 @@ class PriceUpdateController extends Controller
     public function sendPriceUpdate(Request $request){
         $products = PriceUpdate::where('price_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
+        
 
         if($products) {
-            $count = Str::random(4);
+            $sendupdate = SendUpdate::whereDate('date', Carbon::now()->format('Y-m-d'))->latest();
+            if($sendupdate){
+                $seqno = 1;
+                SendUpdate::create([
+                    'date'=> Carbon::now()->format('Y-m-d'),
+                    'seqno'=>$seqno
+                ]);
+            }
+            else{
+                $seqno = $sendupdate->seqno + 1;
+                SendUpdate::create([
+                    'date'=> Carbon::now()->format('Y-m-d'),
+                    'seqno'=> $seqno
+                ]);
+            }
+            // $count = Str::random(4);
             if (Str::contains($request->url(), 'mg')) {
-                $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
+                $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$seqno;
             }
             else if (Str::contains($request->url(), 'dd')) {
-                $filename = '/'.'var/www/html/dd/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$count;
+                $filename = '/'.'var/www/html/dd/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$seqno;
             }
+
             foreach ($products as $product) {
                 if (File::exists($filename.'.sql')) {
                     // If the file exists, open it in append mode
@@ -592,6 +610,8 @@ class PriceUpdateController extends Controller
                 PriceUpdate::where('recid',$product->recid)->update(['price_update_status' => '1']);
             }
             // Close the SQL file
+            
+            
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
