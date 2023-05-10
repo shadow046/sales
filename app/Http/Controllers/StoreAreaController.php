@@ -8,7 +8,7 @@ use Yajra\Datatables\Datatables;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserLogs;
-//Maintenance
+
 use App\Models\StoreArea;
 
 class StoreAreaController extends Controller
@@ -80,8 +80,17 @@ class StoreAreaController extends Controller
     }
 
     public function editStoreArea(Request $request){
+        $store_area_orig = StoreArea::where('id', $request->store_area_id)->first()->store_area;
         $store_area_name = strtoupper(trim($request->store_area));
         if(StoreArea::where('store_area',$store_area_name)->where('store_area_status','DELETED')->count() == 0){
+            if($store_area_name != $store_area_orig){
+                $store_area_new = $store_area_name;
+                $store_area_change = "'FROM '$store_area_orig' TO '$store_area_new'";
+            }
+            else{
+                $store_area_change = NULL;
+            }
+
             $store_area = StoreArea::find($request->store_area_id);
             $store_area->store_area = strtoupper($request->store_area);
             $save = $store_area->save();
@@ -89,7 +98,7 @@ class StoreAreaController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED STORE AREA: User successfully updated Store Area '$store_area->store_area'.";
+                $userlogs->activity = "UPDATED STORE AREA: User successfully updated Store Area '$store_area_change'.";
                 $userlogs->save();
 
                 return 'true';
@@ -99,6 +108,14 @@ class StoreAreaController extends Controller
             }
         }
         else{
+            if($store_area_name != $store_area_orig){
+                $store_area_new = $store_area_name;
+                $store_area_change = "'FROM '$store_area_orig' TO '$store_area_new'";
+            }
+            else{
+                $store_area_change = NULL;
+            }
+
             $store_area = StoreArea::find($request->store_area_id);
             $store_area->store_area_status = 'DELETED';
             $store_area->save();
@@ -110,7 +127,7 @@ class StoreAreaController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED STORE AREA: User successfully updated Store Area '$store_area_name'.";
+                $userlogs->activity = "UPDATED STORE AREA: User successfully updated Store Area '$store_area_change'.";
                 $userlogs->save();
 
                 return 'true';

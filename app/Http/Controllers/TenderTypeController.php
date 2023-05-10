@@ -80,8 +80,17 @@ class TenderTypeController extends Controller
     }
 
     public function editTenderType(Request $request){
+        $tender_name_orig = TenderType::where('id', $request->tender_type_id)->first()->tender_type;
         $tender_name = strtoupper(trim($request->tender_type));
         if(TenderType::where('tender_type',$tender_name)->where('tender_type_status','DELETED')->count() == 0){
+            if($tender_name != $tender_name_orig){
+                $tender_name_new = $tender_name;
+                $tender_name_change = "'FROM '$tender_name_orig' TO '$tender_name_new'";
+            }
+            else{
+                $tender_name_change = NULL;
+            }
+
             $tender_type = TenderType::find($request->tender_type_id);
             $tender_type->tender_type = strtoupper(trim($request->tender_type));
             $save = $tender_type->save();
@@ -89,7 +98,7 @@ class TenderTypeController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$tender_type->tender_type'.";
+                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$tender_name_change'.";
                 $userlogs->save();
 
                 return 'true';
@@ -99,6 +108,14 @@ class TenderTypeController extends Controller
             }
         }
         else{
+            if($tender_name != $tender_name_orig){
+                $tender_name_new = $tender_name;
+                $tender_name_change = "'FROM '$tender_name_orig' TO '$tender_name_new'";
+            }
+            else{
+                $tender_name_change = NULL;
+            }
+
             $tender_type = TenderType::find($request->tender_type_id);
             $tender_type->tender_type_status = 'DELETED';
             $tender_type->save();
@@ -110,7 +127,7 @@ class TenderTypeController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED TENDER TYPE: User successfully updated Tender Type '$tender_name'.";
+                $userlogs->activity = "UPDATED TENDER TYPE: User successfully updated Tender Type '$tender_name_change'.";
                 $userlogs->save();
 
                 return 'true';

@@ -79,8 +79,17 @@ class SubGroupController extends Controller
     }
 
     public function editSubgroup(Request $request){
+        $subgroup_name_orig = Subgroup::where('id', $request->subgroup_id)->first()->subgroup;
         $subgroup_name = strtoupper(trim($request->subgroup));
         if(Subgroup::where('subgroup',$subgroup_name)->where('subgroup_status','DELETED')->count() == 0){
+            if($subgroup_name != $subgroup_name_orig){
+                $subgroup_new = $subgroup_name;
+                $subgroup_change = "'FROM '$subgroup_name_orig' TO '$subgroup_new'";
+            }
+            else{
+                $subgroup_change = NULL;
+            }
+
             $subgroup = Subgroup::find($request->subgroup_id);
             $subgroup->subgroup = strtoupper(trim($request->subgroup));
             $save = $subgroup->save();
@@ -88,7 +97,7 @@ class SubGroupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED MALL SUB-GROUP: User successfully updated Mall Sub-Group '$subgroup->subgroup'.";
+                $userlogs->activity = "UPDATED MALL SUB-GROUP: User successfully updated Mall Sub-Group '$subgroup_change'.";
                 $userlogs->save();
                 return 'true';
             }
@@ -97,6 +106,14 @@ class SubGroupController extends Controller
             }
         }
         else{
+            if($subgroup_name != $subgroup_name_orig){
+                $subgroup_new = $subgroup_name;
+                $subgroup_change = "'FROM '$subgroup_name_orig' TO '$subgroup_new'";
+            }
+            else{
+                $subgroup_change = NULL;
+            }
+
             $subgroup = Subgroup::find($request->subgroup_id);
             $subgroup->subgroup_status = 'DELETED';
             $subgroup->save();
@@ -108,7 +125,7 @@ class SubGroupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED SUB-GROUP: User successfully updated Sub-Group '$subgroup_name'.";
+                $userlogs->activity = "UPDATED SUB-GROUP: User successfully updated Sub-Group '$subgroup_change'.";
                 $userlogs->save();
 
                 return 'true';

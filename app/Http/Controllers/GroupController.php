@@ -78,8 +78,17 @@ class GroupController extends Controller
     }
 
     public function editGroup(Request $request){
+        $group_orig = Group::where('id', $request->group_id)->first()->group;
         $group_name = strtoupper(trim($request->group));
         if(Group::where('group',$group_name)->where('group_status','DELETED')->count() == 0){
+            if($group_name != $group_orig){
+                $group_new = $group_name;
+                $group_change = "'FROM '$group_orig' TO '$group_new'";
+            }
+            else{
+                $group_change = NULL;
+            }
+
             $group = Group::find($request->group_id);
             $group->group = strtoupper(trim($request->group));
             $save = $group->save();
@@ -87,7 +96,7 @@ class GroupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED GROUP: User successfully updated Group '$group->group'.";
+                $userlogs->activity = "UPDATED GROUP: User successfully updated Group '$group_change'.";
                 $userlogs->save();
                 return 'true';
             }
@@ -96,6 +105,14 @@ class GroupController extends Controller
             }
         }
         else{
+            if($group_name != $group_orig){
+                $group_new = $group_name;
+                $group_change = "'FROM '$group_orig' TO '$group_new'";
+            }
+            else{
+                $group_change = NULL;
+            }
+
             $group = Group::find($request->group_id);
             $group->group_status = 'DELETED';
             $group->save();
@@ -107,7 +124,7 @@ class GroupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED GROUP: User successfully added Group '$group_name'.";
+                $userlogs->activity = "UPDATED GROUP: User successfully added Group '$group_change'.";
                 $userlogs->save();
 
                 return 'true';

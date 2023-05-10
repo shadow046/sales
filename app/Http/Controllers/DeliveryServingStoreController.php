@@ -8,9 +8,8 @@ use Yajra\Datatables\Datatables;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserLogs;
-//Maintenance
-use App\Models\DeliveryServingStore;
 
+use App\Models\DeliveryServingStore;
 
 class DeliveryServingStoreController extends Controller
 {
@@ -80,8 +79,17 @@ class DeliveryServingStoreController extends Controller
     }
 
     public function editDeliveryServingStore(Request $request){
+        $delivery_name_orig = DeliveryServingStore::where('id', $request->delivery_serving_store_id)->first()->delivery_serving_store;
         $delivery_name = strtoupper(trim($request->delivery_serving_store));
         if(DeliveryServingStore::where('delivery_serving_store',$request->delivery_serving_store)->where('delivery_serving_store_status','DELETED')->count() == 0){
+            if($delivery_name != $delivery_name_orig){
+                $delivery_name_new = $delivery_name;
+                $delivery_name_change = "'FROM '$delivery_name_orig' TO '$delivery_name_new'";
+            }
+            else{
+                $delivery_name_change = NULL;
+            }
+
             $delivery_serving_store = DeliveryServingStore::find($request->delivery_serving_store_id);
             $delivery_serving_store->delivery_serving_store = strtoupper(trim($request->delivery_serving_store));
             $save = $delivery_serving_store->save();
@@ -89,7 +97,7 @@ class DeliveryServingStoreController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED DELIVERY CHANNEL: User successfully updated Delivery Channel  '$delivery_serving_store->delivery_serving_store'.";
+                $userlogs->activity = "UPDATED DELIVERY CHANNEL: User successfully updated Delivery Channel  '$delivery_name_change'.";
                 $userlogs->save();
                 return 'true';
             }
@@ -98,6 +106,14 @@ class DeliveryServingStoreController extends Controller
             }
         }
         else{
+            if($delivery_name != $delivery_name_orig){
+                $delivery_name_new = $delivery_name;
+                $delivery_name_change = "'FROM '$delivery_name_orig' TO '$delivery_name_new'";
+            }
+            else{
+                $delivery_name_change = NULL;
+            }
+
             $delivery_serving_store = DeliveryServingStore::find($request->delivery_serving_store_id);
             $delivery_serving_store->delivery_serving_store_status = 'DELETED';
             $delivery_serving_store->save();
@@ -109,7 +125,7 @@ class DeliveryServingStoreController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED DELIVERY CHANNEL: User successfully updated Delivery Channel '$delivery_name'.";
+                $userlogs->activity = "UPDATED DELIVERY CHANNEL: User successfully updated Delivery Channel '$delivery_name_change'.";
                 $userlogs->save();
 
                 return 'true';

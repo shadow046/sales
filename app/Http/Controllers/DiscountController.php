@@ -81,8 +81,17 @@ class DiscountController extends Controller
     }
 
     public function editDiscount(Request $request){
+        $discount_orig = Discount::where('id', $request->discount_id)->first()->discount;
         $discount_name = strtoupper(trim($request->discount));
         if(Discount::where('discount',$discount_name)->where('discount_status','DELETED')->count() == 0){
+            if($discount_name != $discount_orig){
+                $discount_new = $discount_name;
+                $discount_change = "'FROM '$discount_orig' TO '$discount_new'";
+            }
+            else{
+                $discount_change = NULL;
+            }
+
             $discount = Discount::find($request->discount_id);
             $discount->discount = strtoupper(trim($request->discount));
             $save = $discount->save();
@@ -90,7 +99,7 @@ class DiscountController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED DISCOUNT: User successfully updated Discount '$discount->discount'.";
+                $userlogs->activity = "UPDATED DISCOUNT: User successfully updated Discount '$discount_change'.";
                 $userlogs->save();
 
                 return 'true';
@@ -100,6 +109,14 @@ class DiscountController extends Controller
             }
         }
         else{
+            if($discount_name != $discount_orig){
+                $discount_new = $discount_name;
+                $discount_change = "'FROM '$discount_orig' TO '$discount_new'";
+            }
+            else{
+                $discount_change = NULL;
+            }
+
             $discount = Discount::find($request->discount_id);
             $discount->discount_status = 'DELETED';
             $discount->save();
@@ -111,7 +128,7 @@ class DiscountController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED DISCOUNT: User successfully updated Discount '$discount_name'.";
+                $userlogs->activity = "UPDATED DISCOUNT: User successfully updated Discount '$discount_change'.";
                 $userlogs->save();
 
                 return 'true';

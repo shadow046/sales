@@ -81,8 +81,17 @@ class TransactionTypeController extends Controller
     }
 
     public function editTransactionType(Request $request){
+        $tran_type_orig = TransactionType::where('id', $request->transaction_type_id)->first()->transaction_type;
         $tran_type = strtoupper(trim($request->transaction_type));
         if(TransactionType::where('transaction_type',$request->transaction_type)->where('transaction_type_status','DELETED')->count() == 0){
+            if($tran_type != $tran_type_orig){
+                $tran_type_new = $tran_type;
+                $tran_type_change = "'FROM '$tran_type_orig' TO '$tran_type_new'";
+            }
+            else{
+                $tran_type_change = NULL;
+            }
+
             $transaction_type = TransactionType::find($request->transaction_type_id);
             $transaction_type->transaction_type = strtoupper(trim($request->transaction_type));
             $save = $transaction_type->save();
@@ -90,7 +99,7 @@ class TransactionTypeController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED TRANSACTION TYPE: User successfully updated Transaction Type '$transaction_type->transaction_type'.";
+                $userlogs->activity = "UPDATED TRANSACTION TYPE: User successfully updated Transaction Type '$tran_type_change'.";
                 $userlogs->save();
 
                 return 'true';
@@ -100,6 +109,14 @@ class TransactionTypeController extends Controller
             }
         }
         else{
+            if($tran_type != $tran_type_orig){
+                $tran_type_new = $tran_type;
+                $tran_type_change = "'FROM '$tran_type_orig' TO '$tran_type_new'";
+            }
+            else{
+                $tran_type_change = NULL;
+            }
+
             $transaction_type = TransactionType::find($request->transaction_type_id);
             $transaction_type->transaction_type_status = 'DELETED';
             $transaction_type->save();
@@ -111,7 +128,7 @@ class TransactionTypeController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED TRANSACTION TYPE: User successfully added Transaction Type '$tran_type'.";
+                $userlogs->activity = "UPDATED TRANSACTION TYPE: User successfully added Transaction Type '$tran_type_change'.";
                 $userlogs->save();
 
                 return 'true';

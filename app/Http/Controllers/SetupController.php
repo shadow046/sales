@@ -11,7 +11,6 @@ use App\Models\UserLogs;
 
 use App\Models\Setup;
 
-
 class SetupController extends Controller
 {
     public function __construct()
@@ -79,8 +78,17 @@ class SetupController extends Controller
     }
 
     public function editSetup(Request $request){
+        $setup_orig = Setup::where('id', $request->setup_id)->first()->setup;
         $setup_name = strtoupper(trim($request->setup));
         if(Setup::where('setup',$request->setup)->where('setup_status','DELETED')->count() == 0){
+            if($setup_name != $setup_orig){
+                $setup_new = $setup_name;
+                $setup_change = "'FROM '$setup_orig' TO '$setup_new'";
+            }
+            else{
+                $setup_change = NULL;
+            }
+
             $setup = Setup::find($request->setup_id);
             $setup->setup = strtoupper(trim($request->setup));
             $save = $setup->save();
@@ -88,7 +96,7 @@ class SetupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UDPATED SETUP: User successfully updated Setup '$setup->setup'.";
+                $userlogs->activity = "UDPATED SETUP: User successfully updated Setup '$setup_change'.";
                 $userlogs->save();
                 return 'true';
             }
@@ -97,6 +105,14 @@ class SetupController extends Controller
             }
         }
         else{
+            if($setup_name != $setup_orig){
+                $setup_new = $setup_name;
+                $setup_change = "'FROM '$setup_orig' TO '$setup_new'";
+            }
+            else{
+                $setup_change = NULL;
+            }
+
             $setup = Setup::find($request->setup_id);
             $setup->setup_status = 'DELETED';
             $setup->save();
@@ -108,7 +124,7 @@ class SetupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "ADDED SETUP: User successfully added Setup '$setup_name'.";
+                $userlogs->activity = "ADDED SETUP: User successfully added Setup '$setup_change'.";
                 $userlogs->save();
 
                 return 'true';

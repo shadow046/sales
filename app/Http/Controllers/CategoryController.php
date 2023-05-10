@@ -105,8 +105,17 @@ class CategoryController extends Controller
         }
     }
     public function editCategory(Request $request){
+        $category_orig = Category::where('id',$request->category_id)->first()->category;
         $category_name = strtoupper(trim($request->category));
         if(Category::where('category',$category_name)->where('category_status','DELETED')->count() == 0){
+            if($category_name != $category_orig){
+                $category_new = $category_name;
+                $category_change = "'FROM '$category_orig' TO '$category_new'";
+            }
+            else{
+                $category_change = NULL;
+            }
+
             $category = Category::find($request->category_id);
             $category->category = strtoupper(trim($request->category));
             $save = $category->save();
@@ -114,7 +123,7 @@ class CategoryController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED CATEGORY: User successfully updated Category '$request->category'.";
+                $userlogs->activity = "UPDATED CATEGORY: User successfully updated Category '$category_change'.";
                 $userlogs->save();
                 return 'true';
             }
@@ -123,6 +132,14 @@ class CategoryController extends Controller
             }
         }
         else{
+            if($category_name != $category_orig){
+                $category_new = $category_name;
+                $category_change = "'FROM '$category_orig' TO '$category_new'";
+            }
+            else{
+                $category_change = NULL;
+            }
+
             $category = Category::find($request->category_id);
             $category->category_status = 'DELETED';
             $category->save();
@@ -134,7 +151,7 @@ class CategoryController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED CATEGORY: User successfully updated Category '$category_name'.";
+                $userlogs->activity = "UPDATED CATEGORY: User successfully updated Categoryx '$category_change'.";
                 $userlogs->save();
 
                 return 'true';

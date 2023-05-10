@@ -80,8 +80,17 @@ class TypeController extends Controller
     }
 
     public function editType(Request $request){
+        $type_orig = Type::where('id', $request->type_id)->first()->type;
         $type_name = strtoupper(trim($request->type));
         if(Type::where('type',$type_name)->where('type_status','DELETED')->count() == 0){
+            if($type_name != $type_orig){
+                $type_new = $type_name;
+                $type_change = "'FROM '$type_orig' TO '$type_new'";
+            }
+            else{
+                $type_change = NULL;
+            }
+
             $type = Type::find($request->type_id);
             $type->type = strtoupper(trim($request->type));
             $save = $type->save();
@@ -89,7 +98,7 @@ class TypeController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$type->type'.";
+                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$type_change'.";
                 $userlogs->save();
 
                 return 'true';
@@ -99,6 +108,14 @@ class TypeController extends Controller
             }
         }
         else{
+            if($type_name != $type_orig){
+                $type_new = $type_name;
+                $type_change = "'FROM '$type_orig' TO '$type_new'";
+            }
+            else{
+                $type_change = NULL;
+            }
+
             $type = Type::find($request->type_id);
             $type->type_status = 'DELETED';
             $type->save();
@@ -110,7 +127,7 @@ class TypeController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$type_name'.";
+                $userlogs->activity = "UPDATED TYPE: User successfully updated Type '$type_change'.";
                 $userlogs->save();
 
                 return 'true';

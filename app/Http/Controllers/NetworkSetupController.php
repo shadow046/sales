@@ -8,7 +8,7 @@ use Yajra\Datatables\Datatables;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserLogs;
-//Maintenance
+
 use App\Models\NetworkSetup;
 
 
@@ -79,8 +79,17 @@ class NetworkSetupController extends Controller
     }
 
     public function editNetworkSetup(Request $request){
+        $network_name_orig = NetworkSetup::where('id',$request->network_setup_id)->first()->network_setup;
         $network_name = strtoupper(trim($request->network_setup));
         if(NetworkSetup::where('network_setup',$network_name)->where('network_setup_status','DELETED')->count() == 0){
+            if($network_name != $network_name_orig){
+                $network_new = $network_name;
+                $network_change = "'FROM '$network_name_orig' TO '$network_new'";
+            }
+            else{
+                $network_change = NULL;
+            }
+
             $network_setup = NetworkSetup::find($request->network_setup_id);
             $network_setup->network_setup = strtoupper(trim($request->network_setup));
             $save = $network_setup->save();
@@ -88,7 +97,7 @@ class NetworkSetupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED NETWORK SETUP: User successfully updated Network Setup '$network_setup->network_setup'.";
+                $userlogs->activity = "UPDATED NETWORK SETUP: User successfully updated Network Setup '$network_change'.";
                 $userlogs->save();
                 return 'true';
             }
@@ -97,6 +106,14 @@ class NetworkSetupController extends Controller
             }
         }
         else{
+            if($network_name != $network_name_orig){
+                $network_new = $network_name;
+                $network_change = "'FROM '$network_name_orig' TO '$network_new'";
+            }
+            else{
+                $network_change = NULL;
+            }
+
             $network_setup = NetworkSetup::find($request->network_setup_id);
             $network_setup->network_setup_status = 'DELETED';
             $network_setup->save();
@@ -108,7 +125,7 @@ class NetworkSetupController extends Controller
             if($save){
                 $userlogs = new UserLogs;
                 $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "UPDATED NETWORK SETUP: User successfully updated Network Setup '$network_name'.";
+                $userlogs->activity = "UPDATED NETWORK SETUP: User successfully updated Network Setup '$network_change'.";
                 $userlogs->save();
 
                 return 'true';
