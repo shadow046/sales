@@ -1,7 +1,7 @@
 function quantitative_report(reports_header){
     if($('#report_filter').val() == 'stores by day'){
         $('#loading').show();
-        var reports_header5 = reports_header +' - '+ $('#sales_type').val()
+        var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
@@ -136,6 +136,365 @@ function quantitative_report(reports_header){
                         return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
                     }
                 },
+            ],
+            order: [],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports5';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+    else if($('#report_filter').val() == 'stores by time'){
+        $('#loading').show();
+        var reports_header5 = reports_header +' - '+ $('#sales_type').val();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr>
+                        <th>STORE CODE</th>
+                        <th>BRANCH NAME</th>
+                        <th class="sum">12:00AM - 12:59AM</th>
+                        <th class="sum">1:00AM - 1:59AM</th>
+                        <th class="sum">2:00AM - 2:59AM</th>
+                        <th class="sum">3:00AM - 3:59AM</th>
+                        <th class="sum">4:00AM - 4:59AM</th>
+                        <th class="sum">5:00AM - 5:59AM</th>
+                        <th class="sum">6:00AM - 6:59AM</th>
+                        <th class="sum">7:00AM - 7:59AM</th>
+                        <th class="sum">8:00AM - 8:59AM</th>
+                        <th class="sum">9:00AM - 9:59AM</th>
+                        <th class="sum">10:00AM - 10:59AM</th>
+                        <th class="sum">11:00AM - 11:59AM</th>
+                        <th class="sum">12:00PM - 12:59PM</th>
+                        <th class="sum">1:00PM - 1:59PM</th>
+                        <th class="sum">2:00PM - 2:59PM</th>
+                        <th class="sum">3:00PM - 3:59PM</th>
+                        <th class="sum">4:00PM - 4:59PM</th>
+                        <th class="sum">5:00PM - 5:59PM</th>
+                        <th class="sum">6:00PM - 6:59PM</th>
+                        <th class="sum">7:00PM - 7:59PM</th>
+                        <th class="sum">8:00PM - 8:59PM</th>
+                        <th class="sum">9:00PM - 9:59PM</th>
+                        <th class="sum">10:00PM - 10:59PM</th>
+                        <th class="sum">11:00PM - 11:59PM</th>
+                        <th class="sum">TOTAL</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right" colspan="2">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable5').append(htmlString);
+        table5 = $('table.tblReports5').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: reports_header5,
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/time/branch',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val()
+                }
+            },
+            columns: [
+                { data: 'branch_code' },
+                { data: 'store_name' },
+                {
+                    data: 'sales0',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales1',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales2',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales3',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales4',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales5',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales6',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales7',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales8',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales9',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales10',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales11',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales12',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales13',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales14',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales15',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales16',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales17',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales18',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales19',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales20',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales21',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales22',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales23',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                }
             ],
             order: [],
             footerCallback:function(row,data,start,end,display){
@@ -306,6 +665,363 @@ function quantitative_report(reports_header){
                         return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
                     }
                 },
+            ],
+            order: [],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports5';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+    else if($('#report_filter').val() == 'products by time'){
+        $('#loading').show();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr>
+                        <th>PRODUCT CODE</th>
+                        <th>SHORT DESCRIPTION</th>
+                        <th class="sum">12:00AM - 12:59AM</th>
+                        <th class="sum">1:00AM - 1:59AM</th>
+                        <th class="sum">2:00AM - 2:59AM</th>
+                        <th class="sum">3:00AM - 3:59AM</th>
+                        <th class="sum">4:00AM - 4:59AM</th>
+                        <th class="sum">5:00AM - 5:59AM</th>
+                        <th class="sum">6:00AM - 6:59AM</th>
+                        <th class="sum">7:00AM - 7:59AM</th>
+                        <th class="sum">8:00AM - 8:59AM</th>
+                        <th class="sum">9:00AM - 9:59AM</th>
+                        <th class="sum">10:00AM - 10:59AM</th>
+                        <th class="sum">11:00AM - 11:59AM</th>
+                        <th class="sum">12:00PM - 12:59PM</th>
+                        <th class="sum">1:00PM - 1:59PM</th>
+                        <th class="sum">2:00PM - 2:59PM</th>
+                        <th class="sum">3:00PM - 3:59PM</th>
+                        <th class="sum">4:00PM - 4:59PM</th>
+                        <th class="sum">5:00PM - 5:59PM</th>
+                        <th class="sum">6:00PM - 6:59PM</th>
+                        <th class="sum">7:00PM - 7:59PM</th>
+                        <th class="sum">8:00PM - 8:59PM</th>
+                        <th class="sum">9:00PM - 9:59PM</th>
+                        <th class="sum">10:00PM - 10:59PM</th>
+                        <th class="sum">11:00PM - 11:59PM</th>
+                        <th class="sum">TOTAL</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right" colspan="2">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable5').append(htmlString);
+        table5 = $('table.tblReports5').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: reports_header,
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/time/product',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val()
+                }
+            },
+            columns: [
+                { data: 'product_code' },
+                { data: 'product_name' },
+                {
+                    data: 'sales0',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales1',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales2',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales3',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales4',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales5',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales6',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales7',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales8',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales9',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales10',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales11',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales12',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales13',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales14',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales15',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales16',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales17',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales18',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales19',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales20',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales21',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales22',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'sales23',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                }
             ],
             order: [],
             footerCallback:function(row,data,start,end,display){

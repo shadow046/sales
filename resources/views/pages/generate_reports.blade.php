@@ -29,9 +29,9 @@
             <select id="report_filter" name="report_filter" class="forminput form-control form-select requiredField" style="color: black">
                 <option value="" class="text-dark" selected disabled>SELECT SALES REPORT FILTER</option>
                 <option value="stores by day">STORES SALES BY DAY</option>
-                <option value="stores by time" class="text-secondary">STORES SALES BY TIME</option>
+                <option value="stores by time">STORES SALES BY TIME</option>
                 <option value="products by day">PRODUCTS SALES BY DAY</option>
-                <option value="products by time" class="text-secondary">PRODUCTS SALES BY TIME</option>
+                <option value="products by time">PRODUCTS SALES BY TIME</option>
             </select>
             <label for="report_filter" class="formlabels form-label">SALES REPORT FILTER
         </div>

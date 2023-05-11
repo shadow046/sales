@@ -714,4 +714,80 @@ class GenerateReportsController extends Controller
             ->get();
         return DataTables::of($data)->make(true);
     }
+
+    public function byTimeBranch(Request $request){
+        if($request->sales_type == 'GROSS SALES'){
+            $sales = 'gross';
+        }
+        if($request->sales_type == 'TOTAL SALES'){
+            $sales = 'totalsales';
+        }
+        if($request->sales_type == 'NET SALES'){
+            $sales = 'netsales';
+        }
+        $data = Hdr::selectRaw('hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name')
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 0 THEN ".$sales." ELSE 0 END) AS sales0")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 1 THEN ".$sales." ELSE 0 END) AS sales1")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 2 THEN ".$sales." ELSE 0 END) AS sales2")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 3 THEN ".$sales." ELSE 0 END) AS sales3")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 4 THEN ".$sales." ELSE 0 END) AS sales4")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 5 THEN ".$sales." ELSE 0 END) AS sales5")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 6 THEN ".$sales." ELSE 0 END) AS sales6")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 7 THEN ".$sales." ELSE 0 END) AS sales7")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 8 THEN ".$sales." ELSE 0 END) AS sales8")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 9 THEN ".$sales." ELSE 0 END) AS sales9")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 10 THEN ".$sales." ELSE 0 END) AS sales10")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 11 THEN ".$sales." ELSE 0 END) AS sales11")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 12 THEN ".$sales." ELSE 0 END) AS sales12")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 13 THEN ".$sales." ELSE 0 END) AS sales13")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 14 THEN ".$sales." ELSE 0 END) AS sales14")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 15 THEN ".$sales." ELSE 0 END) AS sales15")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 16 THEN ".$sales." ELSE 0 END) AS sales16")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 17 THEN ".$sales." ELSE 0 END) AS sales17")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 18 THEN ".$sales." ELSE 0 END) AS sales18")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 19 THEN ".$sales." ELSE 0 END) AS sales19")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 20 THEN ".$sales." ELSE 0 END) AS sales20")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 21 THEN ".$sales." ELSE 0 END) AS sales21")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 22 THEN ".$sales." ELSE 0 END) AS sales22")
+            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 23 THEN ".$sales." ELSE 0 END) AS sales23")
+            ->selectRaw("SUM(".$sales.") AS total_sales")
+            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->groupBy('hdr.storecode','branch_code','store_name','branch_name')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTimeProduct(Request $request){
+        $data = Dtl::selectRaw('itemcode AS product_code, desc1 AS product_name')
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 0 THEN unitprice * qty ELSE 0 END) AS sales0")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 1 THEN unitprice * qty ELSE 0 END) AS sales1")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 2 THEN unitprice * qty ELSE 0 END) AS sales2")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 3 THEN unitprice * qty ELSE 0 END) AS sales3")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 4 THEN unitprice * qty ELSE 0 END) AS sales4")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 5 THEN unitprice * qty ELSE 0 END) AS sales5")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 6 THEN unitprice * qty ELSE 0 END) AS sales6")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 7 THEN unitprice * qty ELSE 0 END) AS sales7")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 8 THEN unitprice * qty ELSE 0 END) AS sales8")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 9 THEN unitprice * qty ELSE 0 END) AS sales9")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 10 THEN unitprice * qty ELSE 0 END) AS sales10")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 11 THEN unitprice * qty ELSE 0 END) AS sales11")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 12 THEN unitprice * qty ELSE 0 END) AS sales12")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 13 THEN unitprice * qty ELSE 0 END) AS sales13")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 14 THEN unitprice * qty ELSE 0 END) AS sales14")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 15 THEN unitprice * qty ELSE 0 END) AS sales15")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 16 THEN unitprice * qty ELSE 0 END) AS sales16")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 17 THEN unitprice * qty ELSE 0 END) AS sales17")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 18 THEN unitprice * qty ELSE 0 END) AS sales18")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 19 THEN unitprice * qty ELSE 0 END) AS sales19")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 20 THEN unitprice * qty ELSE 0 END) AS sales20")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 21 THEN unitprice * qty ELSE 0 END) AS sales21")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 22 THEN unitprice * qty ELSE 0 END) AS sales22")
+        ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 23 THEN unitprice * qty ELSE 0 END) AS sales23")
+        ->selectRaw("SUM(unitprice * qty) AS total_sales")
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->groupBy('product_code','product_name')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
 }
