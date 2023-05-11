@@ -105,6 +105,9 @@ $(document).ready(function(){
             {
                 data: 'user_status',
                 "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return data;
+                    }
                     if(row.user_status == 'ACTIVE'){
                         return '<label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="'+ meta.row +'" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label>';
                     }

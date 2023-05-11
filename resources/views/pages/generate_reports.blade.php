@@ -129,6 +129,19 @@
         <div class="col-md-4"></div>
     </div>
 </form>
+<div class="row mb-3 classSales" style="display: none;">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 f-outline">
+        <select id="sales_type" name="sales_type" class="forminput form-control form-select requiredField" style="color: black">
+            <option value="" selected disabled>SELECT SALES TYPE</option>
+            <option value="GROSS SALES">GROSS SALES</option>
+            <option value="TOTAL SALES">TOTAL SALES</option>
+            <option value="NET SALES">NET SALES</option>
+        </select>
+        <label for="sales_type" class="formlabels form-label">SALES TYPE
+    </div>
+    <div class="col-md-4"></div>
+</div>
 <div class="row mb-3">
     <div class="col-md-4"></div>
     <div class="col-md-2 f-outline">

@@ -1,7 +1,8 @@
 function quantitative_report(reports_header){
     if($('#report_filter').val() == 'stores by day'){
         $('#loading').show();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
+        var reports_header5 = reports_header +' - '+ $('#sales_type').val()
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -40,7 +41,7 @@ function quantitative_report(reports_header){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: reports_header,
+                title: reports_header5,
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -56,7 +57,8 @@ function quantitative_report(reports_header){
                 url: '/sales/reports/day/branch',
                 data:{
                     start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val()
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val()
                 }
             },
             columns: [
@@ -343,3 +345,13 @@ function quantitative_report(reports_header){
         Swal.fire('UNAVAILABLE', 'This Report Filter is not yet available!', 'error');
     }
 }
+
+setInterval(() => {
+    if($('#report_type').val() == 'QUANTITATIVE' && ($('#report_filter').val() == 'stores by day' || $('#report_filter').val() == 'stores by time')){
+        $('.classSales').show();
+    }
+    else{
+        $('#sales_type').val('');
+        $('.classSales').hide();
+    }
+}, 0);

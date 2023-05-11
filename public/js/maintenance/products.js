@@ -201,6 +201,9 @@ $(document).ready(function(){
                 {
                     data: 'status',
                     "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return data;
+                        }
                         if(row.product_update_status == '0'){
                             var update_status = 'visible';
                         }
@@ -371,6 +374,9 @@ $(document).ready(function(){
                 {
                     data: 'status',
                     "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return data;
+                        }
                         if(row.product_update_status == '0'){
                             var update_status = 'visible';
                         }

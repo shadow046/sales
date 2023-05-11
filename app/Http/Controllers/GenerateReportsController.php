@@ -674,15 +674,24 @@ class GenerateReportsController extends Controller
     }
 
     public function byDayBranch(Request $request){
+        if($request->sales_type == 'GROSS SALES'){
+            $sales = 'gross';
+        }
+        if($request->sales_type == 'TOTAL SALES'){
+            $sales = 'totalsales';
+        }
+        if($request->sales_type == 'NET SALES'){
+            $sales = 'netsales';
+        }
         $data = Hdr::selectRaw('hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name')
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN gross ELSE 0 END) AS sunday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN gross ELSE 0 END) AS monday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN gross ELSE 0 END) AS tuesday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN gross ELSE 0 END) AS wednesday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN gross ELSE 0 END) AS thursday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN gross ELSE 0 END) AS friday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN gross ELSE 0 END) AS saturday_sales")
-            ->selectRaw("SUM(gross) AS total_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN ".$sales." ELSE 0 END) AS sunday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN ".$sales." ELSE 0 END) AS monday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN ".$sales." ELSE 0 END) AS tuesday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN ".$sales." ELSE 0 END) AS wednesday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN ".$sales." ELSE 0 END) AS thursday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN ".$sales." ELSE 0 END) AS friday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN ".$sales." ELSE 0 END) AS saturday_sales")
+            ->selectRaw("SUM(".$sales.") AS total_sales")
             ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->groupBy('hdr.storecode','branch_code','store_name','branch_name')
