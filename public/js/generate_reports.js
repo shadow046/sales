@@ -159,6 +159,7 @@ $('#report_type').on('change', function(){
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
+    $('#reportsTable5').empty();
 });
 
 $('#report_category').on('change', function(){
@@ -168,10 +169,12 @@ $('#report_category').on('change', function(){
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
+    $('#reportsTable5').empty();
 });
 
 $('#start_date').on('change', function(){
     $('#formReportsQuantitative').trigger('reset');
+    $('#reportsTable5').empty();
     $('#end_date').val('');
     if($(this).val()){
         $('#end_date').attr('min', $(this).val());
@@ -180,6 +183,7 @@ $('#start_date').on('change', function(){
 
 $('#end_date').on('change', function(){
     $('#formReportsQuantitative').trigger('reset');
+    $('#reportsTable5').empty();
     if($(this).val() < $('#start_date').val()){
         $(this).val('');
         Swal.fire('INVALID DATE', '', 'error');
