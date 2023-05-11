@@ -130,6 +130,9 @@ setInterval(() => {
 
 $('#btnReset').on('click', function(){
     $('.req').hide();
+    $('#start_date').val('');
+    $('#end_date').val('');
+    $('#end_date').attr('min', '');
     $('#formReports').trigger('reset');
     $('#formReportsQuantitative').trigger('reset');
     $('#report_type').val('')
@@ -173,17 +176,16 @@ $('#report_category').on('change', function(){
 });
 
 $('#start_date').on('change', function(){
-    $('#formReportsQuantitative').trigger('reset');
-    $('#reportsTable5').empty();
     $('#end_date').val('');
     if($(this).val()){
         $('#end_date').attr('min', $(this).val());
     }
+    else{
+        $('#end_date').attr('min', '');
+    }
 });
 
 $('#end_date').on('change', function(){
-    $('#formReportsQuantitative').trigger('reset');
-    $('#reportsTable5').empty();
     if($(this).val() < $('#start_date').val()){
         $(this).val('');
         Swal.fire('INVALID DATE', '', 'error');
@@ -198,13 +200,16 @@ $('#btnGenerate').on('click', function(){
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
 
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     if($('#report_filter').val()){
-        quantitative_report();
+        var reports_header = $('#report_filter option:selected').text()+' ('+display_range+')';
+        quantitative_report(reports_header);
         return false;
     }
+    else{
+        var reports_header = $('#report_category option:selected').text()+' ('+display_range+')';
+    }
 
-    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
-    var reports_header = $('#report_category option:selected').text()+' ('+display_range+')';
     if($('#report_category').val() == 'STORE'){
         $('#loading').show();
         $('#tblReports1Header').text(reports_header);

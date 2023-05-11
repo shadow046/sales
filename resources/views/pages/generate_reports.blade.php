@@ -128,19 +128,19 @@
         </div>
         <div class="col-md-4"></div>
     </div>
-    <div class="row mb-3">
-        <div class="col-md-4"></div>
-        <div class="col-md-2 f-outline">
-            <input type="date" style="color: black" name="start_date" id="start_date" class="forminput form-control inputDates requiredField" placeholder=" " autocomplete="off">
-            <label for="start_date" class="formlabels form-label">START DATE</label>
-        </div>
-        <div class="col-md-2 f-outline">
-            <input type="date" style="color: black" name="end_date" id="end_date" class="forminput form-control inputDates requiredField" placeholder=" " autocomplete="off">
-            <label for="end_date" class="formlabels form-label">END DATE</label>
-        </div>
-        <div class="col-md-4"></div>
-    </div>
 </form>
+<div class="row mb-3">
+    <div class="col-md-4"></div>
+    <div class="col-md-2 f-outline">
+        <input type="date" style="color: black" name="start_date" id="start_date" class="forminput form-control inputDates requiredField" placeholder=" " autocomplete="off">
+        <label for="start_date" class="formlabels form-label">START DATE</label>
+    </div>
+    <div class="col-md-2 f-outline">
+        <input type="date" style="color: black" name="end_date" id="end_date" class="forminput form-control inputDates requiredField" placeholder=" " autocomplete="off">
+        <label for="end_date" class="formlabels form-label">END DATE</label>
+    </div>
+    <div class="col-md-4"></div>
+</div>
 <div class="row mb-3">
     <div class="col-md-4"></div>
     <div class="col-md-2 f-outline">

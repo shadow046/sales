@@ -1,7 +1,7 @@
-function quantitative_report(){
+function quantitative_report(reports_header){
     if($('#report_filter').val() == 'stores by day'){
         $('#loading').show();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>STORES SALES BY DAY</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -40,7 +40,7 @@ function quantitative_report(){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: 'STORES SALES BY DAY',
+                title: reports_header,
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -53,7 +53,11 @@ function quantitative_report(){
             processing: true,
             serverSide: false,
             ajax: {
-                url: '/sales/reports/day/branch'
+                url: '/sales/reports/day/branch',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val()
+                }
             },
             columns: [
                 { data: 'branch_code' },
@@ -167,7 +171,7 @@ function quantitative_report(){
     }
     else if($('#report_filter').val() == 'products by day'){
         $('#loading').show();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>PRODUCTS SALES BY DAY</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -206,7 +210,7 @@ function quantitative_report(){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: 'PRODUCTS SALES BY DAY',
+                title: reports_header,
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -219,7 +223,11 @@ function quantitative_report(){
             processing: true,
             serverSide: false,
             ajax: {
-                url: '/sales/reports/day/product'
+                url: '/sales/reports/day/product',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val()
+                }
             },
             columns: [
                 { data: 'product_code' },

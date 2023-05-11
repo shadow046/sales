@@ -684,6 +684,7 @@ class GenerateReportsController extends Controller
             ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN gross ELSE 0 END) AS saturday_sales")
             ->selectRaw("SUM(gross) AS total_sales")
             ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->groupBy('hdr.storecode','branch_code','store_name','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
@@ -699,6 +700,7 @@ class GenerateReportsController extends Controller
             ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN unitprice * qty ELSE 0 END) AS friday_sales")
             ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN unitprice * qty ELSE 0 END) AS saturday_sales")
             ->selectRaw("SUM(unitprice * qty) AS total_sales")
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->groupBy('product_code','product_name')
             ->get();
         return DataTables::of($data)->make(true);
