@@ -141,6 +141,7 @@ $('#btnReset').on('click', function(){
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
+    $('#reportsTable5').empty();
 });
 
 $('#report_type').on('change', function(){
