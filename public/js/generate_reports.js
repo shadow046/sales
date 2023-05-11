@@ -43,7 +43,7 @@ $(document).ready(function(){
 });
 
 setInterval(() => {
-    if($('#report_type').val() != 'COMPARATIVE'){
+    if($('#report_type').val() == 'STANDARD' || $('#report_type').val() == 'QUANTITATIVE'){
         $('.classComparative').hide();
     }
     else{
@@ -131,8 +131,12 @@ setInterval(() => {
 $('#btnReset').on('click', function(){
     $('.req').hide();
     $('#formReports').trigger('reset');
+    $('#formReportsQuantitative').trigger('reset');
+    $('#report_type').val('')
     $('#report_type').change();
     changeComparative();
+    $('#formReports').show();
+    $('#formReportsQuantitative').hide();
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
@@ -140,6 +144,15 @@ $('#btnReset').on('click', function(){
 });
 
 $('#report_type').on('change', function(){
+    $('#formReportsQuantitative').trigger('reset');
+    if($('#report_type').val() == 'QUANTITATIVE'){
+        $('#formReports').hide();
+        $('#formReportsQuantitative').show();
+    }
+    else{
+        $('#formReports').show();
+        $('#formReportsQuantitative').hide();
+    }
     changeComparative();
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
@@ -148,6 +161,7 @@ $('#report_type').on('change', function(){
 });
 
 $('#report_category').on('change', function(){
+    $('#formReportsQuantitative').trigger('reset');
     changeComparative();
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
@@ -156,6 +170,7 @@ $('#report_category').on('change', function(){
 });
 
 $('#start_date').on('change', function(){
+    $('#formReportsQuantitative').trigger('reset');
     $('#end_date').val('');
     if($(this).val()){
         $('#end_date').attr('min', $(this).val());
@@ -163,18 +178,25 @@ $('#start_date').on('change', function(){
 });
 
 $('#end_date').on('change', function(){
+    $('#formReportsQuantitative').trigger('reset');
     if($(this).val() < $('#start_date').val()){
         $(this).val('');
         Swal.fire('INVALID DATE', '', 'error');
     }
 });
 
-var table1, table2, table3;
+var table1, table2, table3, table4, table5;
 $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
+    $('#reportsTable5').empty();
+
+    if($('#report_filter').val()){
+        quantitative_report();
+        return false;
+    }
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var reports_header = $('#report_category option:selected').text()+' ('+display_range+')';
@@ -2075,6 +2097,17 @@ setInterval(() => {
     }
     else{
         $('.reportsTable1').hide();
+    }
+}, 0);
+
+setInterval(() => {
+    if(!$('#reportsTable5').is(':empty')){
+        $('#reportsTable5').show();
+        $('#reportsTypeA').hide();
+    }
+    else{
+        $('#reportsTable5').hide();
+        $('#reportsTypeA').show();
     }
 }, 0);
 

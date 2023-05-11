@@ -86,7 +86,7 @@ class GenerateReportsController extends Controller
             ->join('group', 'group.id', 'store.group')
             ->join('subgroup', 'subgroup.id', 'store.sub_group')
             ->join('network_setup', 'network_setup.id', 'store.network')
-            ->groupBy('store_id','hdr.storecode','branch_code','branch_name','company_name','store_area_id','store_area','region','type','store_group','subgroup','network_setup');
+            ->groupBy('store_id','hdr.storecode','branch_code','store_name','branch_name','company_name','store_area_id','store_area','region','type','store_group','subgroup','network_setup');
             if($request->included){
                 $data->whereIn('branch_code', $request->included);
             }
@@ -670,6 +670,37 @@ class GenerateReportsController extends Controller
                 $data->push($result);
             }
         }
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byDayBranch(Request $request){
+        $data = Hdr::selectRaw('hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name')
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN gross ELSE 0 END) AS sunday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN gross ELSE 0 END) AS monday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN gross ELSE 0 END) AS tuesday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN gross ELSE 0 END) AS wednesday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN gross ELSE 0 END) AS thursday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN gross ELSE 0 END) AS friday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN gross ELSE 0 END) AS saturday_sales")
+            ->selectRaw("SUM(gross) AS total_sales")
+            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+            ->groupBy('hdr.storecode','branch_code','store_name','branch_name')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byDayProduct(Request $request){
+        $data = Dtl::selectRaw('itemcode AS product_code, desc1 AS product_name')
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN unitprice * qty ELSE 0 END) AS sunday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN unitprice * qty ELSE 0 END) AS monday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN unitprice * qty ELSE 0 END) AS tuesday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN unitprice * qty ELSE 0 END) AS wednesday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN unitprice * qty ELSE 0 END) AS thursday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN unitprice * qty ELSE 0 END) AS friday_sales")
+            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN unitprice * qty ELSE 0 END) AS saturday_sales")
+            ->selectRaw("SUM(unitprice * qty) AS total_sales")
+            ->groupBy('product_code','product_name')
+            ->get();
         return DataTables::of($data)->make(true);
     }
 }
