@@ -532,7 +532,8 @@ function quantitative_report(reports_header){
     }
     else if($('#report_filter').val() == 'products by day'){
         $('#loading').show();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
+        var reports_header5 = reports_header +' - '+ $('#sales_type').val();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -571,7 +572,7 @@ function quantitative_report(reports_header){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: reports_header,
+                title: reports_header5,
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -587,7 +588,8 @@ function quantitative_report(reports_header){
                 url: '/sales/reports/day/product',
                 data:{
                     start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val()
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val()
                 }
             },
             columns: [
@@ -599,7 +601,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -608,7 +610,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -617,7 +619,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -626,7 +628,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -635,7 +637,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -644,7 +646,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -653,7 +655,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -662,18 +664,26 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
             ],
             order: [],
             footerCallback:function(row,data,start,end,display){
                 var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
+                var intVal = function (i) {
+                    if($('#sales_type').val() == 'SALES QUANTITY'){
+                        return typeof i === 'string' ?
+                        i.match(/-?\d+(?:\.\d+)?/)[0] * 1 :
                         typeof i === 'number' ?
                             i : 0;
+                    }
+                    else{
+                        return typeof i === 'string' ?
+                            i.replace(/[^\d.-]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    }
                 };
                 api.columns('.sum',{page:'all'}).every(function(){
                 var sum=this
@@ -686,7 +696,12 @@ function quantitative_report(reports_header){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    if($('#sales_type').val() == 'SALES QUANTITY'){
+                        this.footer().innerHTML=sum;
+                    }
+                    else{
+                        this.footer().innerHTML='₱ '+sum;
+                    }
                 });
             },
             initComplete: function(){
@@ -702,7 +717,8 @@ function quantitative_report(reports_header){
     }
     else if($('#report_filter').val() == 'products by time'){
         $('#loading').show();
-        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
+        var reports_header5 = reports_header +' - '+ $('#sales_type').val();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -775,7 +791,7 @@ function quantitative_report(reports_header){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: reports_header,
+                title: reports_header5,
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -791,7 +807,8 @@ function quantitative_report(reports_header){
                 url: '/sales/reports/time/product',
                 data:{
                     start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val()
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val()
                 }
             },
             columns: [
@@ -803,7 +820,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -812,7 +829,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -821,7 +838,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -830,7 +847,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -839,7 +856,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -848,7 +865,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -857,7 +874,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -866,7 +883,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -875,7 +892,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -884,7 +901,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -893,7 +910,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -902,7 +919,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -911,7 +928,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -920,7 +937,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -929,7 +946,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -938,7 +955,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -947,7 +964,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -956,7 +973,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -965,7 +982,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -974,7 +991,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -983,7 +1000,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -992,7 +1009,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1001,7 +1018,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1010,7 +1027,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1019,18 +1036,26 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 }
             ],
             order: [],
             footerCallback:function(row,data,start,end,display){
                 var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
+                var intVal = function (i) {
+                    if($('#sales_type').val() == 'SALES QUANTITY'){
+                        return typeof i === 'string' ?
+                        i.match(/-?\d+(?:\.\d+)?/)[0] * 1 :
                         typeof i === 'number' ?
                             i : 0;
+                    }
+                    else{
+                        return typeof i === 'string' ?
+                            i.replace(/[^\d.-]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    }
                 };
                 api.columns('.sum',{page:'all'}).every(function(){
                 var sum=this
@@ -1043,7 +1068,12 @@ function quantitative_report(reports_header){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    if($('#sales_type').val() == 'SALES QUANTITY'){
+                        this.footer().innerHTML=sum;
+                    }
+                    else{
+                        this.footer().innerHTML='₱ '+sum;
+                    }
                 });
             },
             initComplete: function(){
@@ -1063,11 +1093,28 @@ function quantitative_report(reports_header){
 }
 
 setInterval(() => {
-    if($('#report_type').val() == 'QUANTITATIVE' && ($('#report_filter').val() == 'stores by day' || $('#report_filter').val() == 'stores by time')){
+    if($('#report_type').val() == 'QUANTITATIVE'){
         $('.classSales').show();
+        if($('#report_filter').val() == 'stores by day' || $('#report_filter').val() == 'stores by time'){
+            $('.salesStore').show();
+            $('.salesProduct').hide();
+        }
+        if($('#report_filter').val() == 'products by day' || $('#report_filter').val() == 'products by time'){
+            $('.salesStore').hide();
+            $('.salesProduct').show();
+        }
     }
     else{
         $('#sales_type').val('');
         $('.classSales').hide();
     }
 }, 0);
+
+function amountType(data){
+    if($('#sales_type').val() == 'SALES QUANTITY'){
+        return `<span class="float-end">${data.toLocaleString()}</span>`;
+    }
+    else{
+        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+    }
+}
