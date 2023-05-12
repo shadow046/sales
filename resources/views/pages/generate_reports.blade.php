@@ -50,7 +50,7 @@
                 <option value="PROMO">PROMO SALES</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
                 <option value="TENDER TYPE">TENDER TYPE SALES</option>
-                <option value="DISCOUNT" class="text-secondary">DISCOUNT SALES</option>
+                <option value="DISCOUNT">DISCOUNT SALES</option>
             </select>
             <label for="report_category" class="formlabels form-label">SALES REPORT CATEGORY
         </div>
@@ -125,6 +125,18 @@
                 @endforeach
             </select>
             <label for="tendertype" class="formlabels form-label">TENDER TYPE
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3 classDiscount classComparative" style="display: none;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="discounttype" name="discounttype" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Discount Type/s" multiple>
+                @foreach($discounts as $discount)
+                    <option value="{{$discount->discname}}">{{$discount->discname}}</option>
+                @endforeach
+            </select>
+            <label for="discounttype" class="formlabels form-label">DISCOUNT TYPE
         </div>
         <div class="col-md-4"></div>
     </div>

@@ -50,6 +50,8 @@ class GenerateReportsController extends Controller
             ->sortBy('item_code');
         $transactions = Hdr::select('trantype')
             ->distinct()
+            ->whereNotNull('trantype')
+            ->where('trantype', '!=', '')
             ->get()
             ->sortBy('trantype');
         $tenders = Hdr::select('tendname')
@@ -70,7 +72,13 @@ class GenerateReportsController extends Controller
             ->distinct()
             ->get()
             ->sortBy('tendname');
-        return view('pages.generate_reports', compact('stores','products','combos','promos','transactions','tenders'));
+        $discounts = Hdr::select('discname')
+            ->distinct()
+            ->whereNotNull('discname')
+            ->where('discname', '!=', '')
+            ->get()
+            ->sortBy('discname');
+        return view('pages.generate_reports', compact('stores','products','combos','promos','transactions','tenders','discounts'));
     }
 
     public function byBranch(Request $request){
@@ -498,6 +506,40 @@ class GenerateReportsController extends Controller
             }, 'temp')
             ->where('tendname', $request->datacode)
             ->groupBy('temp.branch_name','temp.tendname')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byDiscount(Request $request){
+        $data = Hdr::selectRaw('discname as discount_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('discname', '!=', '');
+                if($request->included){
+                    $data->whereIn('discname', $request->included);
+                }
+                $data->groupBy('discount_name')
+                    ->orderBy('net_sales', 'DESC')
+                    ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byDiscount_Date(Request $request){
+        $data = Hdr::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date")
+            ->selectRaw('SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('discname', $request->colData)
+            ->groupBy('tdate','date')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byDiscount_Branch(Request $request){
+        $data = Hdr::selectRaw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
+            SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->where('discname', $request->datacode)
+            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+            ->groupBy('hdr.storecode','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
     }

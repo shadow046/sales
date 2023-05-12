@@ -6,12 +6,14 @@ $(document).ready(function(){
     $('#promo').chosen();
     $('#transactiontype').chosen();
     $('#tendertype').chosen();
+    $('#discounttype').chosen();
     $('#branch_chosen').css({'width':'100%'});
     $('#product_chosen').css({'width':'100%'});
     $('#combo_chosen').css({'width':'100%'});
     $('#promo_chosen').css({'width':'100%'});
     $('#transactiontype_chosen').css({'width':'100%'});
     $('#tendertype_chosen').css({'width':'100%'});
+    $('#discounttype_chosen').css({'width':'100%'});
 
     changeComparative();
 
@@ -54,6 +56,7 @@ setInterval(() => {
             $('.classPromo').hide();
             $('.classTransaction').hide();
             $('.classTender').hide();
+            $('.classDiscount').hide();
         }
         else if($('#report_category').val() == 'PRODUCT'){
             $('.classBranch').hide();
@@ -62,6 +65,7 @@ setInterval(() => {
             $('.classPromo').hide();
             $('.classTransaction').hide();
             $('.classTender').hide();
+            $('.classDiscount').hide();
         }
         else if($('#report_category').val() == 'COMBO MEAL'){
             $('.classBranch').hide();
@@ -70,6 +74,7 @@ setInterval(() => {
             $('.classPromo').hide();
             $('.classTransaction').hide();
             $('.classTender').hide();
+            $('.classDiscount').hide();
         }
         else if($('#report_category').val() == 'PROMO'){
             $('.classBranch').hide();
@@ -78,6 +83,7 @@ setInterval(() => {
             $('.classPromo').show();
             $('.classTransaction').hide();
             $('.classTender').hide();
+            $('.classDiscount').hide();
         }
         else if($('#report_category').val() == 'TRANSACTION TYPE'){
             $('.classBranch').hide();
@@ -86,6 +92,7 @@ setInterval(() => {
             $('.classPromo').hide();
             $('.classTransaction').show();
             $('.classTender').hide();
+            $('.classDiscount').hide();
         }
         else if($('#report_category').val() == 'TENDER TYPE'){
             $('.classBranch').hide();
@@ -94,6 +101,16 @@ setInterval(() => {
             $('.classPromo').hide();
             $('.classTransaction').hide();
             $('.classTender').show();
+            $('.classDiscount').hide();
+        }
+        else if($('#report_category').val() == 'DISCOUNT'){
+            $('.classBranch').hide();
+            $('.classProduct').hide();
+            $('.classCombo').hide();
+            $('.classPromo').hide();
+            $('.classTransaction').hide();
+            $('.classTender').hide();
+            $('.classDiscount').show();
         }
         else{
             $('.classComparative').hide();
@@ -125,6 +142,10 @@ setInterval(() => {
     if($('.classTender').is(':hidden')){
         $('#tendertype').val('');
         $('#tendertype').trigger('chosen:updated');
+    }
+    if($('.classDiscount').is(':hidden')){
+        $('#discounttype').val('');
+        $('#discounttype').trigger('chosen:updated');
     }
 }, 0);
 
@@ -779,6 +800,135 @@ $('#btnGenerate').on('click', function(){
             }
         });
     }
+    else if($('#report_category').val() == 'DISCOUNT'){
+        $('#loading').show();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr class="tbsearch">
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>DISCOUNT TYPE</th>
+                        <th class="sum">GROSS SALES</th>
+                        <th class="sum">TOTAL SALES</th>
+                        <th class="sum">NET SALES</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable1').append(htmlString);
+        table1 = $('table.tblReports1').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: reports_header,
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/discount',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    included: $('#discounttype').val()
+                }
+            },
+            autoWidth: false,
+            columns: [
+                { data: 'discount_name' },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'net_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            order: [],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports1';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
     else{
         Swal.fire('UNAVAILABLE', 'This Report Category is not yet available!', 'error');
     }
@@ -833,6 +983,13 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         urlName = '/sales/reports/tender/date';
         colData = datacode;
         report_datesC(datacode, headername, urlName, colData);
+    }
+    else if(report_category == 'DISCOUNT'){
+        datacode = data.discount_name;
+        headername = data.discount_name;
+        urlName = '/sales/reports/discount/date';
+        colData = datacode;
+        report_datesA(datacode, headername, urlName, colData);
     }
     else{
         $('#loading').hide();
@@ -1723,6 +1880,138 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             }
         });
     }
+    else if(report_category == 'DISCOUNT'){
+        $('#loading').show();
+        $('#reportsTable3').empty();
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr class="tbsearch">
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="0" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="1" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="2" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>BRANCH NAME</th>
+                        <th class="sum">GROSS SALES</th>
+                        <th class="sum">TOTAL SALES</th>
+                        <th class="sum">NET SALES</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable3').append(htmlString);
+        table3 = $('table.tblReports3').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: $('#headername').text(),
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/discount/branch',
+                data:{
+                    datacode: datacode,
+                    selected_date: data.date,
+                }
+            },
+            autoWidth: false,
+            columns: [
+                { data: 'branch_name' },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'net_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports3';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                    urlName = '/sales/reports/time_A';
+                    tblType = 'discname';
+                    colData = datacode;
+                    selected_date = data.date;
+                    report_hoursA(headername, urlName, tblType, colData, selected_date);
+                }, 200);
+            }
+        });
+    }
     else{
         Swal.fire('UNAVAILABLE', 'This data breakdown is not yet available!', 'error');
         return false;
@@ -2140,4 +2429,5 @@ function changeComparative(){
     $('#promo').change();
     $('#transactiontype').change();
     $('#tendertype').change();
+    $('#discounttype').change();
 }
