@@ -2121,7 +2121,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                     if(type === "sort" || type === 'type'){
                         return sortAmount(data);
                     }
-                    return `<span class="text-center">${data}</span>`;
+                    return `<span class="float-end">${data}</span>`;
                 }
             },
             {
@@ -2381,7 +2381,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                     if(type === "sort" || type === 'type'){
                         return sortAmount(data);
                     }
-                    return `<span class="text-center">${data}</span>`;
+                    return `<span class="float-end">${data}</span>`;
                 }
             },
             {
