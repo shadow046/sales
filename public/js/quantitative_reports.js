@@ -1110,6 +1110,10 @@ setInterval(() => {
     }
 }, 0);
 
+$('#report_filter').on('change', function(){
+    $('#sales_type').val('');
+});
+
 function amountType(data){
     if($('#sales_type').val() == 'SALES QUANTITY'){
         return `<span class="float-end">${data.toLocaleString()}</span>`;
