@@ -195,8 +195,8 @@
     </div>
     <div id="reportsTable1" style="min-height: 60vh;"></div>
     <div id="reportsTable2"></div>
-    <div id="reportsTable4"></div>
     <div id="reportsTable3"></div>
+    <div id="reportsTable4"></div>
 </div>
 <div id="reportsTable5"></div>
 <hr>
