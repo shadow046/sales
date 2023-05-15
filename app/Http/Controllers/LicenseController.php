@@ -48,7 +48,7 @@ class LicenseController extends Controller
             else{
                 App::create(['key' => Crypt::encrypt(Crypt::encrypt(Crypt::encrypt($licenseKey))), 'exp_date' => $expiryDate]);
             }
-            return 'success';
+            return redirect()->route('login');
         } else {
             // Invalid license key
             return redirect()->back()->withErrors(['license_key' => 'Invalid license key']);
