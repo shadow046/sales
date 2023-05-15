@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\App;
+use Carbon\Carbon;
+use File;
+use Str;
 
 class LicenseController extends Controller
 {   
@@ -47,8 +50,18 @@ class LicenseController extends Controller
             }
             else{
                 App::create(['key' => Crypt::encrypt(Crypt::encrypt(Crypt::encrypt($licenseKey))), 'exp_date' => $expiryDate]);
+
             }
-            return 'success';
+            if (Str::contains($request->url(), 'mg')) {
+                $filename = '/'.'var/www/html/mary_grace/public/storage/check';
+            }
+            else if (Str::contains($request->url(), 'dd')) {
+                $filename = '/'.'var/www/html/encrypted/dunkin/dunkin/public/storage/check';
+            }
+            $file = fopen($filename, 'w');
+            fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
+            fclose($file);
+            return redirect()->route('login');
         } else {
             // Invalid license key
             return redirect()->back()->withErrors(['license_key' => 'Invalid license key']);
