@@ -1094,19 +1094,27 @@ function quantitative_report(reports_header){
 
 setInterval(() => {
     if($('#report_type').val() == 'QUANTITATIVE'){
-        $('.classSales').show();
-        if($('#report_filter').val() == 'stores by day' || $('#report_filter').val() == 'stores by time'){
-            $('.salesStore').show();
-            $('.salesProduct').hide();
-        }
-        if($('#report_filter').val() == 'products by day' || $('#report_filter').val() == 'products by time'){
+        if(!$('#report_filter').val()){
+            $('.classSales').hide();
             $('.salesStore').hide();
-            $('.salesProduct').show();
+            $('.salesProduct').hide();
+            $('#sales_type').val('');
+        }
+        else{
+            $('.classSales').show();
+            if($('#report_filter').val() == 'stores by day' || $('#report_filter').val() == 'stores by time'){
+                $('.salesStore').show();
+                $('.salesProduct').hide();
+            }
+            if($('#report_filter').val() == 'products by day' || $('#report_filter').val() == 'products by time'){
+                $('.salesStore').hide();
+                $('.salesProduct').show();
+            }
         }
     }
     else{
-        $('#sales_type').val('');
         $('.classSales').hide();
+        $('#sales_type').val('');
     }
 }, 0);
 
