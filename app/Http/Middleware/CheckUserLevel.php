@@ -4,8 +4,12 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Session;
 use App\Models\User;
+use DB;
+
 class CheckUserLevel
 {
     /**
@@ -17,9 +21,31 @@ class CheckUserLevel
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->userlevel == '1' || auth()->user()->userlevel == '2'){
+        if (env('APP_SERVER') == 'LOCAL') {
+            try {
+                $licenseKey = DB::table('licensed')->first();
+                if (empty($licenseKey)) {
+                    return redirect()->route('license-page');
+                }
+                else{
+                    $interface = trim(shell_exec("ip -o link show | awk -F': ' '!/lo/{print $2; exit}'"));
+                    $macAddress = trim(shell_exec("ip -o link show $interface | awk '{print $17}'"));
+                    $serialNumber = trim(shell_exec("lsblk -no SERIAL /dev/sda"));
+                    $expiryDate = $licenseKey->exp_date;
+                    $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
+                    if(Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($licenseKey->key))))){
+                        return $next($request);
+                    }
+                    else{
+                        return redirect()->route('invalid');
+                    }
+                }
+            } catch (\Throwable $th) {
+                return redirect()->route('invalid');
+            }
+        }
+        else{
             return $next($request);
         }
-        return redirect('/');
     }
 }
