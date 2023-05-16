@@ -38,13 +38,12 @@ RUN service php8.1-fpm restart
 RUN chown -R www-data:www-data /opt/app/tmp/app
 RUN chmod -R 750 /opt/app/tmp/app
 
-RUN composer self-update
 # Install the Laravel dependencies
-RUN composer install
+#RUN composer install
 
 # Expose the Laravel port
 EXPOSE 8001
 
 # Start the Laravel server
-CMD php artisan serve --host 0.0.0.0 --port 8001
+#CMD php artisan serve --host 0.0.0.0 --port 8001
 WORKDIR /home/laravel
