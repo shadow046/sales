@@ -20,7 +20,7 @@ RUN apt-get install php8.1 php8.1-fpm php8.1-curl php8.1-ldap php8.1-mysql php8.
 RUN apt-get purge apache2 apache* -y
 RUN apt-get remove --purge php8.2* -y
 RUN echo "extension='/usr/lib/php/20190902/bolt.so'" >> /etc/php/8.1/fpm/php.ini 
-RUN service php8.1-fpm restart
+
 # Create a new directory for the Laravel files
 RUN mkdir /home/jerome
 RUN mkdir /home/laravel
@@ -31,7 +31,8 @@ WORKDIR /opt/app/tmp/app
 
 # Copy the Laravel files into the new directory
 COPY . .
-
+RUN cp bolt.so /usr/lib/php/20190902/
+RUN service php8.1-fpm restart
 # Set the ownership and permissions for the new directory
 RUN chown -R www-data:www-data /opt/app/tmp/app
 RUN chmod -R 750 /opt/app/tmp/app
