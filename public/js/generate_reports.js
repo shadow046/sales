@@ -2797,7 +2797,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
                 </tr>
                 <tr>
                     <th>TIME</th>
-                    <th>TRANSACTION CODE</th>
+                    <th>REFERENCE NUMBER</th>
                     <th class="sum">GROSS SALES</th>
                     <th class="sum">TOTAL SALES</th>
                     <th class="sum">NET SALES</th>
@@ -2921,7 +2921,7 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
     $('#reportsTable7').empty();
     emptyQuantitative();
 
-    var htmlString = `<hr><div class="px-2 align-content"><h4 id="header7"><span id="subheader7">${headername} (${formatDate(selected_date).toUpperCase()}) (TNO: ${data.transcode})</span></h4>
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id="header7"><span id="subheader7">${headername} (${formatDate(selected_date).toUpperCase()}) (REF#: ${data.transcode})</span></h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(6).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports7" id="tblReports7" style="width:100%;">
