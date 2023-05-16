@@ -5,7 +5,7 @@ function quantitative_report(reports_header){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
+            <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
                         <th>STORE CODE</th>
@@ -36,8 +36,8 @@ function quantitative_report(reports_header){
             </table>
             <br>
         </div>`;
-        $('#reportsTable5').append(htmlString);
-        table5 = $('table.tblReports5').DataTable({
+        $('#reportsTableX').append(htmlString);
+        tableX = $('table.tblReportsX').DataTable({
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -163,7 +163,7 @@ function quantitative_report(reports_header){
             initComplete: function(){
                 $('#loading').hide();
                 setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports5';
+                    window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
@@ -177,7 +177,7 @@ function quantitative_report(reports_header){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
+            <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
                         <th>STORE CODE</th>
@@ -242,8 +242,8 @@ function quantitative_report(reports_header){
             </table>
             <br>
         </div>`;
-        $('#reportsTable5').append(htmlString);
-        table5 = $('table.tblReports5').DataTable({
+        $('#reportsTableX').append(htmlString);
+        tableX = $('table.tblReportsX').DataTable({
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -522,7 +522,7 @@ function quantitative_report(reports_header){
             initComplete: function(){
                 $('#loading').hide();
                 setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports5';
+                    window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
@@ -536,7 +536,7 @@ function quantitative_report(reports_header){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
+            <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
                         <th>PRODUCT CODE</th>
@@ -567,8 +567,8 @@ function quantitative_report(reports_header){
             </table>
             <br>
         </div>`;
-        $('#reportsTable5').append(htmlString);
-        table5 = $('table.tblReports5').DataTable({
+        $('#reportsTableX').append(htmlString);
+        tableX = $('table.tblReportsX').DataTable({
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -707,7 +707,7 @@ function quantitative_report(reports_header){
             initComplete: function(){
                 $('#loading').hide();
                 setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports5';
+                    window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
@@ -721,7 +721,7 @@ function quantitative_report(reports_header){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
+            <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
                         <th>PRODUCT CODE</th>
@@ -786,8 +786,8 @@ function quantitative_report(reports_header){
             </table>
             <br>
         </div>`;
-        $('#reportsTable5').append(htmlString);
-        table5 = $('table.tblReports5').DataTable({
+        $('#reportsTableX').append(htmlString);
+        tableX = $('table.tblReportsX').DataTable({
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -1079,7 +1079,7 @@ function quantitative_report(reports_header){
             initComplete: function(){
                 $('#loading').hide();
                 setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports5';
+                    window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);

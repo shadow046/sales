@@ -161,6 +161,21 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byBranch_DateTimeSales(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->whereTime('ttime', '>=', $request->start_hour)
+            ->whereTime('ttime', '<=', $request->end_hour)
+            ->where('itemcat', '!=', '')
+            ->where('storecode', $request->datacode)
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
     public function byProduct(Request $request){
         $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
@@ -226,13 +241,30 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTransaction_Branch(Request $request){
-        $data = Hdr::selectRaw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
-            SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+    public function byTransaction_Product(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->where('itemcat', '!=', '')
             ->where('trantype', $request->datacode)
-            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
-            ->groupBy('hdr.storecode','branch_name')
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTransaction_DateTimeSales(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->whereTime('ttime', '>=', $request->start_hour)
+            ->whereTime('ttime', '<=', $request->end_hour)
+            ->where('itemcat', '!=', '')
+            ->where('trantype', $request->datacode)
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -554,6 +586,7 @@ class GenerateReportsController extends Controller
             $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
                 ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
                 ->selectRaw('COALESCE(SUM(gross), 0) AS gross_sales, COALESCE(SUM(totalsales), 0) AS total_sales, COALESCE(SUM(netsales), 0) AS net_sales')
+                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                 ->where($request->tblType, $request->colData)
                 ->whereTime('ttime', '>=', $start_hour)
@@ -566,6 +599,7 @@ class GenerateReportsController extends Controller
                     'gross_sales' => 0,
                     'total_sales' => 0,
                     'net_sales' => 0,
+                    'tno' => 0,
                 ];
             }
             if($result->gross_sales > 0){
@@ -585,6 +619,7 @@ class GenerateReportsController extends Controller
             $result = Dtl::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
                 ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
                 ->selectRaw('COALESCE(SUM(qty), 0) AS quantity, COALESCE(SUM(unitprice * qty), 0) AS gross_sales')
+                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                 ->where($request->tblType, $request->colData)
                 ->whereTime('ttime', '>=', $start_hour)
@@ -596,6 +631,7 @@ class GenerateReportsController extends Controller
                     'time_range_24hr' => $hour_range_24hr,
                     'quantity' => 0,
                     'gross_sales' => 0,
+                    'tno' => 0,
                 ];
             }
             if($result->gross_sales > 0){
@@ -614,6 +650,7 @@ class GenerateReportsController extends Controller
             $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
             $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
                 ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
+                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
                 ->selectRaw('COALESCE(SUM(t.tendamnt), 0) as total')
                 ->from(function ($query) use ($request, $start_hour, $end_hour) {
                     $query->select('tendname1 as tendname', 'tendamnt1 as tendamnt')
@@ -706,6 +743,7 @@ class GenerateReportsController extends Controller
                     'time_range_12hr' => $hour_range_12hr,
                     'time_range_24hr' => $hour_range_24hr,
                     'total' => 0,
+                    'tno' => 0,
                 ];
             }
             if($result->total > 0){
