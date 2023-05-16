@@ -2843,7 +2843,15 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
             }
         },
         columns: [
-            { data: 'ttime' },
+            {
+                data: 'ttime',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return data;
+                    }
+                    return `<span>${moment(data, 'HH:mm:ss').format('hh:mm:ss A')}</span>`;
+                }
+            },
             {
                 data: 'transcode',
                 "render": function(data, type, row, meta){
@@ -3138,6 +3146,8 @@ function emptyQuantitative(){
     $('#reportsTableY').empty();
     $('#reportsTableZ').empty();
     $('#reportsTableA').empty();
+    $('#reportsTableB').empty();
+    $('#reportsTableC').empty();
 }
 
 function emptyStandard(){
