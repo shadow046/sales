@@ -2752,6 +2752,10 @@ $(document).on('keyup search','.filter-inputZ', function(){
     tableZ.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-inputA', function(){
+    tableA.column($(this).data('column')).search($(this).val()).draw();
+});
+
 setInterval(() => {
     if(!$('#reportsTable1').is(':empty') && $('#report_category').val() == 'STORE'){
         $('.reportsTable1').show();
@@ -2798,6 +2802,7 @@ function emptyQuantitative(){
     $('#reportsTableX').empty();
     $('#reportsTableY').empty();
     $('#reportsTableZ').empty();
+    $('#reportsTableA').empty();
 }
 
 function emptyStandard(){
