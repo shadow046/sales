@@ -16,9 +16,7 @@
             <option value="" selected disabled>SELECT REPORT TYPE</option>
             <option value="STANDARD">STANDARD REPORT</option>
             <option value="COMPARATIVE">COMPARATIVE REPORT</option>
-            @if(env('APP_SERVER') == 'LOCAL')
-                <option value="QUANTITATIVE">QUANTITATIVE REPORT</option>
-            @endif
+            <option value="QUANTITATIVE">QUANTITATIVE REPORT</option>
         </select>
         <label for="report_type" class="formlabels form-label">REPORT TYPE
     </div>
