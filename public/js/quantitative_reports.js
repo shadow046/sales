@@ -1736,7 +1736,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
         $('#loading').show();
         $('#reportsTableA').empty();
 
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA"><span id="subheaderA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsA" id="tblReportsA" style="width:100%;">

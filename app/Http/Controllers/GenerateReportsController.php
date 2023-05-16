@@ -753,6 +753,29 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byTransactionA(Request $request){
+        $data = Hdr::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date, ttime, tnumber AS transcode")
+            ->selectRaw('SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->whereTime('ttime', '>=', $request->start_hour)
+            ->whereTime('ttime', '<=', $request->end_hour)
+            ->where($request->tblType, $request->colData)
+            ->groupBy('tdate','date','ttime','transcode')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTransactionDetails(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where('tnumber', $request->transcode)
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
     public function byDayBranch(Request $request){
         if($request->sales_type == 'GROSS SALES'){
             $sales = 'gross';

@@ -95,6 +95,8 @@ Route::middleware(['license', 'check_user_level'])->group(function () {
         Route::get('/sales/reports/time_A','byTimeA');
         Route::get('/sales/reports/time_B','byTimeB');
         Route::get('/sales/reports/time_C','byTimeC');
+        Route::get('/sales/reports/transaction_A','byTransactionA');
+        Route::get('/sales/reports/transaction_details','byTransactionDetails');
         Route::get('/sales/reports/day/branch','byDayBranch');
         Route::get('/sales/reports/day/product','byDayProduct');
         Route::get('/sales/reports/time/branch','byTimeBranch');

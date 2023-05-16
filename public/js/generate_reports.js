@@ -2481,7 +2481,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
         $('#reportsTable7').empty();
         emptyQuantitative();
 
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(4).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -2603,12 +2603,19 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports5';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
+                    header6 = $('#subheader5').text();
+                    urlName = '/sales/reports/transaction_A';
+                    tblType = 'storecode';
+                    colData = datacode;
+                    selected_date = selected_date;
+                    start_hour = start_hour;
+                    end_hour = end_hour;
+                    report_transactionsA(header6, urlName, tblType, colData, selected_date, start_hour, end_hour);
                 }, 200);
             }
         });
@@ -2620,7 +2627,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
         $('#reportsTable7').empty();
         emptyQuantitative();
 
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(4).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -2742,16 +2749,306 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports5';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
+                    header6 = $('#subheader5').text();
+                    urlName = '/sales/reports/transaction_A';
+                    tblType = 'trantype';
+                    colData = datacode;
+                    selected_date = selected_date;
+                    start_hour = start_hour;
+                    end_hour = end_hour;
+                    report_transactionsA(header6, urlName, tblType, colData, selected_date, start_hour, end_hour);
                 }, 200);
             }
         });
     }
+});
+
+function report_transactionsA(header6, urlName, tblType, colData, selected_date, start_hour, end_hour){
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
+    emptyQuantitative();
+
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id="header6">${header6} - Per Transaction</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(5).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReports6" id="tblReports6" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-input6" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input6" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input6" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input6" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input6" data-column="4" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>TIME</th>
+                    <th>TRANSACTION CODE</th>
+                    <th class="sum">GROSS SALES</th>
+                    <th class="sum">TOTAL SALES</th>
+                    <th class="sum">NET SALES</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable6').append(htmlString);
+    table6 = $('table.tblReports6').DataTable({
+        dom: 'Blftrip',
+        buttons: [{
+            extend: 'excelHtml5',
+            title: $('#header6').text(),
+            exportOptions: {
+                modifier : {
+                    order : 'index',
+                    page : 'all',
+                    search : 'none'
+                },
+            },
+        }],
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        iDisplayLength: -1,
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: urlName,
+            data:{
+                tblType: tblType,
+                colData: colData,
+                selected_date: selected_date,
+                start_hour: start_hour,
+                end_hour: end_hour,
+            }
+        },
+        columns: [
+            { data: 'ttime' },
+            {
+                data: 'transcode',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'total_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'net_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        footerCallback:function(row,data,start,end,display){
+            var api=this.api(),data;
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[^\d.-]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+            api.columns('.sum',{page:'all'}).every(function(){
+            var sum=this
+                .data()
+                .reduce(function(a,b){
+                    return intVal(a)+intVal(b);
+                },0);
+                sum=Number(sum).toFixed(2);
+                sum=sum.toString();
+                var pattern=/(-?\d+)(\d{3})/;
+                while(pattern.test(sum))
+                sum=sum.replace(pattern,"$1,$2");
+                this.footer().innerHTML='₱ '+sum;
+            });
+        },
+        initComplete: function(){
+            $('#loading').hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReports6';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
+}
+
+$(document).on('click','table.tblReports6 tbody tr',function(){
+    var data = table6.row(this).data();
+    $('#loading').show();
+    $('#reportsTable7').empty();
+    emptyQuantitative();
+
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id="header7"><span id="subheader7">${headername} (${formatDate(selected_date).toUpperCase()}) (TNO: ${data.transcode})</span></h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(6).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReports7" id="tblReports7" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-input7" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input7" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input7" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input7" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input7" data-column="4" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input7" data-column="5" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>CATEGORY</th>
+                    <th>ITEM CODE</th>
+                    <th>SHORT DESCRIPTION</th>
+                    <th>LONG DESCRIPTION</th>
+                    <th>QTY</th>
+                    <th class="sum">GROSS SALES</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right" colspan="5">TOTAL:</th>
+                    <th class="text-right sum"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable7').append(htmlString);
+    table7 = $('table.tblReports7').DataTable({
+        dom: 'Blftrip',
+        buttons: [{
+            extend: 'excelHtml5',
+            title: $('#header7').text(),
+            exportOptions: {
+                modifier : {
+                    order : 'index',
+                    page : 'all',
+                    search : 'none'
+                },
+            },
+        }],
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '/sales/reports/transaction_details',
+            data:{
+                transcode: data.transcode
+            }
+        },
+        autoWidth: false,
+        columns: [
+            { data: 'itemcat' },
+            { data: 'itemcode' },
+            { data: 'desc1' },
+            {
+                data: 'desc2',
+                "render": function(data, type, row, meta){
+                    return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
+                }
+            },
+            {
+                data: 'quantity',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        footerCallback:function(row,data,start,end,display){
+            var api=this.api(),data;
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[^\d.-]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+            api.columns('.sum',{page:'all'}).every(function(){
+            var sum=this
+                .data()
+                .reduce(function(a,b){
+                    return intVal(a)+intVal(b);
+                },0);
+                sum=Number(sum).toFixed(2);
+                sum=sum.toString();
+                var pattern=/(-?\d+)(\d{3})/;
+                while(pattern.test(sum))
+                sum=sum.replace(pattern,"$1,$2");
+                this.footer().innerHTML='₱ '+sum;
+            });
+        },
+        initComplete: function(){
+            $('#loading').hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReports7';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
 });
 
 $(document).on('keyup search','.filter-input1', function(){
