@@ -31,7 +31,9 @@ WORKDIR /opt/app/tmp/app
 
 # Copy the Laravel files into the new directory
 COPY . .
-RUN cp bolt.so /usr/lib/php/20190902/
+RUN php -i | grep 'extension_dir' | awk '{print $NF}' > /tmp/extension_dir
+RUN cp bolt.so $(cat /tmp/extension_dir)/bolt.so
+RUN echo "extension=bolt.so" >> $(php -i | awk '/^Loaded Configuration File/ {print $NF}')
 RUN service php8.1-fpm restart
 # Set the ownership and permissions for the new directory
 RUN chown -R www-data:www-data /opt/app/tmp/app
