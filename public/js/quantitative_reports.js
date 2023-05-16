@@ -1135,8 +1135,10 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
     var data = tableX.row(this).data();
     var report_filter = $('#report_filter').val();
     $('#loading').show();
+    emptyStandard();
     if(report_filter == 'stores by day' || report_filter == 'stores by time'){
         $('#reportsTableY').empty();
+        $('#reportsTableZ').empty();
         datacode = data.branch_code;
         headername = data.branch_name;
         urlName = '/sales/reports/branch/date';
@@ -1145,6 +1147,7 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
     }
     else if(report_filter == 'products by day' || report_filter == 'products by time'){
         $('#reportsTableY').empty();
+        $('#reportsTableZ').empty();
         datacode = data.product_code;
         headername = data.product_code+': '+data.product_name;
         urlName = '/sales/reports/product/date';
@@ -1452,6 +1455,7 @@ $(document).on('click','table.tblReportsY tbody tr',function(){
 });
 
 function report_hoursX(headername, urlName, tblType, colData, selected_date){
+    emptyStandard();
     $('#reportsTableZ').empty();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
@@ -1599,6 +1603,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
 }
 
 function report_hoursY(headername, urlName, tblType, colData, selected_date){
+    emptyStandard();
     $('#reportsTableZ').empty();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
