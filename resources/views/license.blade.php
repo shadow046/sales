@@ -33,7 +33,7 @@
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                    <li style="color:red">{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
@@ -48,10 +48,15 @@
             <button class="copy-button" type="button" onclick="copyToClipboard()">Copy</button></center>
         </div>
         <br>
+        
         <label for="license_key">Enter License Key:</label>
-            <center><textarea name="license_key" id="license_key" rows="3" cols="120"></textarea><br>
+        <div class="container-fluid row">
+        <center><textarea name="license_key" id="license_key" rows="3" cols="120"></textarea><br><br>
+        <div class="container-fluid row"><center><label for="expiry">Valid until:</label>
+        <input type="date" id="expiry" name="expiry"></center></div>
         <br>
         <button type="submit">Verify License</button>
+        </div>
     </form>
 </body>
 </html>

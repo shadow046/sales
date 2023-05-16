@@ -37,7 +37,7 @@ class LicenseController extends Controller
         $interface = trim(shell_exec("ip -o link show | awk -F': ' '!/lo/{print $2; exit}'"));
         $macAddress = trim(shell_exec("ip -o link show $interface | awk '{print $17}'"));
         $serialNumber = trim(shell_exec("lsblk -no SERIAL /dev/sda"));
-        $expiryDate = '2023-05-20';
+        $expiryDate = Carbon::createFromFormat('Y-m-d', $request->input('expiry'))->format('Y-m-d');
         // $expectedHash = '$2y$10$NPoAi/Yw7Vh6A/VKv8KZheIb5ocbME/ACkNr.8PUWMzId5r6c9DEO'; // Example hashed value
         $licenseKey = $request->input('license_key');
         $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
