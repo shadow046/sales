@@ -241,13 +241,30 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTransaction_Branch(Request $request){
-        $data = Hdr::selectRaw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
-            SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+    public function byTransaction_Product(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->where('itemcat', '!=', '')
             ->where('trantype', $request->datacode)
-            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
-            ->groupBy('hdr.storecode','branch_name')
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    public function byTransaction_DateTimeSales(Request $request){
+        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->whereTime('ttime', '>=', $request->start_hour)
+            ->whereTime('ttime', '<=', $request->end_hour)
+            ->where('itemcat', '!=', '')
+            ->where('trantype', $request->datacode)
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category','short_desc','long_desc')
+            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
     }

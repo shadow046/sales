@@ -200,6 +200,8 @@
     <div id="reportsTable5"></div>
 </div>
 <div id="reportsTableX"></div>
+<div id="reportsTableY"></div>
+<div id="reportsTableZ"></div>
 <hr>
 <script src={{asset('js/generate_reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 <script src={{asset('js/quantitative_reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
