@@ -38,7 +38,7 @@ RUN chown -R www-data:www-data /opt/app/tmp/app
 RUN chmod -R 750 /opt/app/tmp/app
 
 # Install the Laravel dependencies
-RUN composer install --ignore-platform-req=ext-bolt
+RUN composer install --ignore-platform-reqs
 
 # Expose the Laravel port
 EXPOSE 8001
