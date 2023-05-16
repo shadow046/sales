@@ -19,7 +19,8 @@ RUN apt-get install php8.0 php8.0-fpm php8.0-curl php8.0-ldap php8.0-mysql php8.
 RUN apt-get install php8.1 php8.1-fpm php8.1-curl php8.1-ldap php8.1-mysql php8.1-gd php8.1-xml php8.1-mbstring php8.1-zip php8.1-bcmath -y
 RUN apt-get purge apache2 apache* -y
 RUN apt-get remove --purge php8.2* -y
-
+RUN echo "extension='/usr/lib/php/20190902/bolt.so'" >> /etc/php/8.1/fpm/php.ini 
+RUN service php8.1-fpm restart
 # Create a new directory for the Laravel files
 RUN mkdir /home/jerome
 RUN mkdir /home/laravel
