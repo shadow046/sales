@@ -38,6 +38,7 @@ RUN service php8.1-fpm restart
 RUN chown -R www-data:www-data /opt/app/tmp/app
 RUN chmod -R 750 /opt/app/tmp/app
 
+RUN composer self-update
 # Install the Laravel dependencies
 RUN composer install
 
