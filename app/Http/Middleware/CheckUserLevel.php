@@ -76,9 +76,8 @@ class CheckUserLevel
                     return redirect()->route('invalid');
                 }
             }
-        }
-        else{
             return $next($request);
         }
+        return $next($request);
     }
 }
