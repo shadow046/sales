@@ -196,6 +196,8 @@
     <div id="reportsTable3"></div>
     <div id="reportsTable4"></div>
     <div id="reportsTable5"></div>
+    <div id="reportsTable6"></div>
+    <div id="reportsTable7"></div>
 </div>
 <div id="reportsTableX"></div>
 <div id="reportsTableY"></div>

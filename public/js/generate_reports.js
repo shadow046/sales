@@ -166,6 +166,8 @@ $('#btnReset').on('click', function(){
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 });
 
@@ -185,6 +187,8 @@ $('#report_type').on('change', function(){
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 });
 
@@ -196,6 +200,8 @@ $('#report_category').on('change', function(){
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 });
 
@@ -216,13 +222,15 @@ $('#end_date').on('change', function(){
     }
 });
 
-var table1, table2, table3, table4, table5, tableX, tableY, tableZ;
+var table1, table2, table3, table4, table5, table6, table7, tableX, tableY, tableZ, tableA;
 $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
@@ -945,6 +953,8 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 
     var report_category = $('#report_category').val();
@@ -1400,6 +1410,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
+        $('#reportsTable6').empty();
+        $('#reportsTable7').empty();
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Product</h4>
@@ -1541,6 +1553,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
+        $('#reportsTable6').empty();
+        $('#reportsTable7').empty();
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
@@ -1662,6 +1676,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
+        $('#reportsTable6').empty();
+        $('#reportsTable7').empty();
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Product</h4>
@@ -1803,6 +1819,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
+        $('#reportsTable6').empty();
+        $('#reportsTable7').empty();
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.tdate).toUpperCase()})</span> - Per Store</h4>
@@ -1911,6 +1929,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
+        $('#reportsTable6').empty();
+        $('#reportsTable7').empty();
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
@@ -2051,6 +2071,8 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
 function report_hoursA(headername, urlName, tblType, colData, selected_date){
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
@@ -2201,6 +2223,8 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
 function report_hoursB(headername, urlName, tblType, colData, selected_date){
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
@@ -2323,6 +2347,8 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
 function report_hoursC(headername, urlName, tblType, colData, selected_date){
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
@@ -2451,9 +2477,11 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
     if(report_category == 'STORE'){
         $('#loading').show();
         $('#reportsTable5').empty();
+        $('#reportsTable6').empty();
+        $('#reportsTable7').empty();
         emptyQuantitative();
 
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header6">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(4).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -2501,7 +2529,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: $('#header6').text(),
+                title: $('#header5').text(),
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -2588,9 +2616,11 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
     else if(report_category == 'TRANSACTION TYPE'){
         $('#loading').show();
         $('#reportsTable5').empty();
+        $('#reportsTable6').empty();
+        $('#reportsTable7').empty();
         emptyQuantitative();
 
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header6">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
+        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(4).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
@@ -2638,7 +2668,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
-                title: $('#header6').text(),
+                title: $('#header5').text(),
                 exportOptions: {
                     modifier : {
                         order : 'index',
@@ -2744,6 +2774,14 @@ $(document).on('keyup search','.filter-input5', function(){
     table5.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-input6', function(){
+    table6.column($(this).data('column')).search($(this).val()).draw();
+});
+
+$(document).on('keyup search','.filter-input7', function(){
+    table7.column($(this).data('column')).search($(this).val()).draw();
+});
+
 $(document).on('keyup search','.filter-inputY', function(){
     tableY.column($(this).data('column')).search($(this).val()).draw();
 });
@@ -2811,4 +2849,6 @@ function emptyStandard(){
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
     $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
 }
