@@ -1158,6 +1158,7 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
     }
 });
 
+
 function report_dates1(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
@@ -1167,19 +1168,19 @@ function report_dates1(datacode, headername, urlName, colData){
             <thead style="font-weight:bolder" class="bg-default">
                 <tr class="tbsearch">
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="0" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="1" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="2" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="3" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="4" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="4" style="border:1px solid #808080"/>
                     </td>
                 </tr>
                 <tr>
@@ -1310,16 +1311,16 @@ function report_dates2(datacode, headername, urlName, colData){
             <thead style="font-weight:bolder" class="bg-default">
                 <tr class="tbsearch">
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="0" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="1" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="2" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-inputY" data-column="3" style="border:1px solid #808080"/>
                     </td>
                 </tr>
                 <tr>
@@ -1421,6 +1422,293 @@ function report_dates2(datacode, headername, urlName, colData){
             $('#loading').hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsY';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
+}
+
+$(document).on('click','table.tblReportsY tbody tr',function(){
+    var report_filter = $('#report_filter').val();
+    var data = tableY.row(this).data();
+    selected_date = data.date;
+    $('#loading').show();
+    if(report_filter == 'stores by day' || report_filter == 'stores by time'){
+        urlName = '/sales/reports/time_A';
+        tblType = 'storecode';
+        colData = datacode;
+        selected_date = data.date;
+        report_hoursX(headername, urlName, tblType, colData, selected_date);
+    }
+    if(report_filter == 'products by day' || report_filter == 'products by time'){
+        urlName = '/sales/reports/time_B';
+        tblType = 'itemcode';
+        colData = datacode;
+        selected_date = data.date;
+        report_hoursY(headername, urlName, tblType, colData, selected_date);
+    }
+});
+
+function report_hoursX(headername, urlName, tblType, colData, selected_date){
+    $('#reportsTableZ').empty();
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReportsZ" id="tblReportsZ" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="4" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>TIME</th>
+                    <th>NO. OF TRANSACTIONS</th>
+                    <th class="sum">GROSS SALES</th>
+                    <th class="sum">TOTAL SALES</th>
+                    <th class="sum">NET SALES</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTableZ').append(htmlString);
+    tableZ = $('table.tblReportsZ').DataTable({
+        dom: 'Blftrip',
+        buttons: [{
+            extend: 'excelHtml5',
+            title: $('#headerlast').text(),
+            exportOptions: {
+                modifier : {
+                    order : 'index',
+                    page : 'all',
+                    search : 'none'
+                },
+            },
+        }],
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        iDisplayLength: -1,
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: urlName,
+            data:{
+                tblType: tblType,
+                colData: colData,
+                selected_date: selected_date
+            }
+        },
+        columns: [
+            {
+                data: 'time_range_12hr',
+                "render": function(data, type, row, meta){
+                    return `<span class="d-none">${row.time_range_24hr}</span>`+row.time_range_12hr;
+                }
+            },
+            {
+                data: 'tno',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'total_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'net_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        footerCallback:function(row,data,start,end,display){
+            var api=this.api(),data;
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[^\d.-]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+            api.columns('.sum',{page:'all'}).every(function(){
+            var sum=this
+                .data()
+                .reduce(function(a,b){
+                    return intVal(a)+intVal(b);
+                },0);
+                sum=Number(sum).toFixed(2);
+                sum=sum.toString();
+                var pattern=/(-?\d+)(\d{3})/;
+                while(pattern.test(sum))
+                sum=sum.replace(pattern,"$1,$2");
+                this.footer().innerHTML='₱ '+sum;
+            });
+        },
+        initComplete: function(){
+            $('#loading').hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReportsZ';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
+}
+
+function report_hoursY(headername, urlName, tblType, colData, selected_date){
+    $('#reportsTableZ').empty();
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReportsZ" id="tblReportsZ" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-inputZ" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>TIME</th>
+                    <th>QTY</th>
+                    <th class="sum">GROSS SALES</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right sum"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTableZ').append(htmlString);
+    tableZ = $('table.tblReportsZ').DataTable({
+        dom: 'Blftrip',
+        buttons: [{
+            extend: 'excelHtml5',
+            title: $('#headerlast').text(),
+            exportOptions: {
+                modifier : {
+                    order : 'index',
+                    page : 'all',
+                    search : 'none'
+                },
+            },
+        }],
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        iDisplayLength: -1,
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: urlName,
+            data:{
+                tblType: tblType,
+                colData: colData,
+                selected_date: selected_date
+            }
+        },
+        columns: [
+            {
+                data: 'time_range_12hr',
+                "render": function(data, type, row, meta){
+                    return `<span class="d-none">${row.time_range_24hr}</span>`+row.time_range_12hr;
+                }
+            },
+            {
+                data: 'quantity',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        footerCallback:function(row,data,start,end,display){
+            var api=this.api(),data;
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[^\d.-]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+            api.columns('.sum',{page:'all'}).every(function(){
+            var sum=this
+                .data()
+                .reduce(function(a,b){
+                    return intVal(a)+intVal(b);
+                },0);
+                sum=Number(sum).toFixed(2);
+                sum=sum.toString();
+                var pattern=/(-?\d+)(\d{3})/;
+                while(pattern.test(sum))
+                sum=sum.replace(pattern,"$1,$2");
+                this.footer().innerHTML='₱ '+sum;
+            });
+        },
+        initComplete: function(){
+            $('#loading').hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReportsZ';
                 $('html, body').animate({
                     scrollTop: $($.attr(this, 'href')).offset()
                 }, 1000);

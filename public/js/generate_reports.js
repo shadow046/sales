@@ -2735,6 +2735,14 @@ $(document).on('keyup search','.filter-input5', function(){
     table5.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-inputY', function(){
+    tableY.column($(this).data('column')).search($(this).val()).draw();
+});
+
+$(document).on('keyup search','.filter-inputZ', function(){
+    tableZ.column($(this).data('column')).search($(this).val()).draw();
+});
+
 setInterval(() => {
     if(!$('#reportsTable1').is(':empty') && $('#report_category').val() == 'STORE'){
         $('.reportsTable1').show();
