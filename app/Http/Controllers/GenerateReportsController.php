@@ -155,23 +155,20 @@ class GenerateReportsController extends Controller
     }
 
     public function byBranch_Product(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
             ->where('itemcat', '!=', '')
             ->where('storecode', $request->datacode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
             ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
     }
 
     public function byBranch_DateTimeSales(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
             ->whereTime('ttime', '>=', $request->start_hour)
             ->whereTime('ttime', '<=', $request->end_hour)
@@ -180,16 +177,13 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
             ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
     }
 
     public function byProduct(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('itemcat', '!=', '')
             ->where('refund', '=', '0')
@@ -206,10 +200,7 @@ class GenerateReportsController extends Controller
                 $data->where('category.category', '=', 'PROMO')
                     ->where('category.enable_combo', 'Y');
             }
-            $data->join('products', 'products.item_code', 'dtl.itemcode')
-                ->join('category', 'category.id', 'products.category')
-                ->groupBy('category.category','short_desc','long_desc')
-                ->groupBy('itemcat','itemcode','desc1','desc2');
+            $data->groupBy('itemcat','itemcode','desc1','desc2');
             $data->orderBy('quantity', 'DESC')->get();
         return DataTables::of($data)->make(true);
     }
@@ -269,23 +260,19 @@ class GenerateReportsController extends Controller
     }
 
     public function byTransaction_Product(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
-            ->where('itemcat', '!=', '')
             ->where('trantype', $request->datacode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
             ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
     }
 
     public function byTransaction_DateTimeSales(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
             ->whereTime('ttime', '>=', $request->start_hour)
             ->whereTime('ttime', '<=', $request->end_hour)
@@ -294,9 +281,6 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
             ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
@@ -829,14 +813,11 @@ class GenerateReportsController extends Controller
     }
 
     public function byTransactionDetails(Request $request){
-        $data = Dtl::selectRaw('category.category AS itemcat, itemcode AS itemcode, short_desc AS desc1, long_desc AS desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where('tnumber', $request->transcode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
-            ->join('products', 'products.item_code', 'dtl.itemcode')
-            ->join('category', 'category.id', 'products.category')
-            ->groupBy('category.category','short_desc','long_desc')
             ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
