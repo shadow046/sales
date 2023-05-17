@@ -2363,19 +2363,15 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                     <td>
                         <input type="search" class="form-control filter-input4" data-column="1" style="border:1px solid #808080"/>
                     </td>
-                    <td>
-                        <input type="search" class="form-control filter-input4" data-column="2" style="border:1px solid #808080"/>
-                    </td>
                 </tr>
                 <tr>
                     <th>TIME</th>
-                    <th>NO. OF TRANSACTIONS</th>
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
-                    <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right">TOTAL:</th>
                     <th class="text-right sum"></th>
                 </tr>
             </tfoot>
@@ -2413,15 +2409,6 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                 data: 'time_range_12hr',
                 "render": function(data, type, row, meta){
                     return `<span class="d-none">${row.time_range_24hr}</span>`+row.time_range_12hr;
-                }
-            },
-            {
-                data: 'tno',
-                "render": function(data, type, row, meta){
-                    if(type === "sort" || type === 'type'){
-                        return sortAmount(data);
-                    }
-                    return `<span class="float-end">${data}</span>`;
                 }
             },
             {

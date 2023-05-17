@@ -790,7 +790,6 @@ class GenerateReportsController extends Controller
             $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
             $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
                 ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
-                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
                 ->selectRaw('COALESCE(SUM(t.tendamnt), 0) as total')
                 ->from(function ($query) use ($request, $start_hour, $end_hour) {
                     $query->select('tendname1 as tendname', 'tendamnt1 as tendamnt')
@@ -918,8 +917,7 @@ class GenerateReportsController extends Controller
                 $result = (object)[
                     'time_range_12hr' => $hour_range_12hr,
                     'time_range_24hr' => $hour_range_24hr,
-                    'total' => 0,
-                    'tno' => 0,
+                    'total' => 0
                 ];
             }
             if($result->total > 0){
