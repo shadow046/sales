@@ -913,7 +913,7 @@ $('.saveBtn').on('click',function(){
                             $('#loading').hide();
                             $('#productsModal').modal('hide');
                             Swal.fire("UPDATE SUCCESS", "", "success");
-                            // setTimeout(function(){window.location.reload();}, 2000);
+                            setTimeout(function(){window.location.reload();}, 2000);
                         }
                         else{
                             $('#loading').hide();

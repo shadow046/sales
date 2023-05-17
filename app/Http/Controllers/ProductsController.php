@@ -54,7 +54,7 @@ class ProductsController extends Controller
             ->selectRaw('company, type, store_code')
             ->selectRaw('dine_sml, dine_med, dine_large, dine_xl, dine_zero, takeout_sml, takeout_med, takeout_large, takeout_xl, takeout_zero, pickup_sml, pickup_med, pickup_large, pickup_xl, pickup_zero, delivery_sml, delivery_med, delivery_large, delivery_xl, delivery_zero')
             ->join('category','category.id','products.category')
-            ->orderBy('product_update_status','DESC')
+            ->orderBy('product_update_status','ASC')
             ->orderBy('category_name','ASC')
             ->orderBy('item_code','ASC');
         return DataTables::of($products)
@@ -1172,6 +1172,7 @@ class ProductsController extends Controller
                 $NotSubject = in_array('Not Subject to %',explode(',',$product->promo_setup)) ? 1 : 0;
                 $KioskAddOn = in_array('Kiosk Add-On',explode(',',$product->pos_setup)) ? 1 : 0;
                 $promo_price = number_format($product->promo_price,2);
+                // $promo_price = $product->promo_price ? number_format($product->promo_price,2) : '0.00';
                 $intro_date = $product->intro_date ? $product->intro_date : '0000-00-00';
                 $start_date = $product->start_date ? $product->start_date : '0000-00-00';
                 $end_date = $product->end_date ? $product->end_date : '0000-00-00';

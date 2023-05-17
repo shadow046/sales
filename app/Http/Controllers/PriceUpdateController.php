@@ -541,7 +541,7 @@ class PriceUpdateController extends Controller
     public function sendPriceUpdate(Request $request){
         $products = PriceUpdate::where('price_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
-        
+
 
         if($products) {
             $sendupdate = SendUpdate::whereDate('date', Carbon::now()->format('Y-m-d'))->latest();
@@ -610,8 +610,8 @@ class PriceUpdateController extends Controller
                 PriceUpdate::where('recid',$product->recid)->update(['price_update_status' => '1']);
             }
             // Close the SQL file
-            
-            
+
+
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;

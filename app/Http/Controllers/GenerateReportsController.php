@@ -29,9 +29,6 @@ class GenerateReportsController extends Controller
             ->get()
             ->sortBy('branch_code');
         $products = Product::selectRaw('item_code AS fcode, short_desc AS desc1')
-            ->where('category.enable_combo', 'N')
-            ->where('category.category', '!=', 'PROMO')
-            ->join('category', 'category.id', 'products.category')
             ->where('status', 'ACTIVE')
             ->get()
             ->sortBy('item_code');
@@ -194,11 +191,17 @@ class GenerateReportsController extends Controller
             }
             if($request->byWhat == 'combo'){
                 $data->where('category.category', '!=', 'PROMO')
-                    ->where('category.enable_combo', 'Y');
+                    ->where('category.enable_combo', 'Y')
+                    ->join('products', 'products.item_code', 'dtl.itemcode')
+                    ->join('category', 'category.id', 'products.category')
+                    ->groupBy('category.category','short_desc','long_desc');
             }
             if($request->byWhat == 'promo'){
                 $data->where('category.category', '=', 'PROMO')
-                    ->where('category.enable_combo', 'Y');
+                    ->where('category.enable_combo', 'Y')
+                    ->join('products', 'products.item_code', 'dtl.itemcode')
+                    ->join('category', 'category.id', 'products.category')
+                    ->groupBy('category.category','short_desc','long_desc');
             }
             $data->groupBy('itemcat','itemcode','desc1','desc2');
             $data->orderBy('quantity', 'DESC')->get();
