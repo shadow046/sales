@@ -1102,7 +1102,7 @@ setInterval(() => {
         }
         else{
             $('.classSales').show();
-            if($('#report_filter').val() == 'stores by day' || $('#report_filter').val() == 'stores by time'){
+            if(['stores by day', 'stores by time', 'transactions by day', 'transactions by time'].includes($('#report_filter').val())){
                 $('.salesStore').show();
                 $('.salesProduct').hide();
             }

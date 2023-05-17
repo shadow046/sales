@@ -99,8 +99,10 @@ Route::middleware(['license', 'check_user_level'])->group(function () {
         Route::get('/sales/reports/transaction_details','byTransactionDetails');
         Route::get('/sales/reports/day/branch','byDayBranch');
         Route::get('/sales/reports/day/product','byDayProduct');
+        Route::get('/sales/reports/day/transaction','byDayTransaction');
         Route::get('/sales/reports/time/branch','byTimeBranch');
         Route::get('/sales/reports/time/product','byTimeProduct');
+        Route::get('/sales/reports/time/transaction','byTimeTransaction');
     });
 
     Route::controller(GroupController::class)->group(function(){

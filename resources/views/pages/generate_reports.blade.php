@@ -32,6 +32,8 @@
                 <option value="stores by time">STORES SALES BY TIME</option>
                 <option value="products by day">PRODUCTS SALES BY DAY</option>
                 <option value="products by time">PRODUCTS SALES BY TIME</option>
+                <option value="transactions by day">TRANSACTIONS SALES BY DAY</option>
+                <option value="transactions by time">TRANSACTIONS SALES BY TIME</option>
             </select>
             <label for="report_filter" class="formlabels form-label">SALES REPORT FILTER
         </div>
