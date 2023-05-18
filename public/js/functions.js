@@ -881,3 +881,7 @@ $(document).on('focusout', '.requiredField', function(){
 //         $('.'+alertName).remove();
 //     }
 // });
+
+function btnExportClick(tblID){
+    $('.buttons-excel[aria-controls='+tblID+']').click();
+}

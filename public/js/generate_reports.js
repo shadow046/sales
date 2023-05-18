@@ -454,7 +454,7 @@ $('#btnGenerate').on('click', function(){
             byWhat = 'promo';
         }
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -589,7 +589,7 @@ $('#btnGenerate').on('click', function(){
     else if($('#report_category').val() == 'TRANSACTION TYPE'){
         $('#loading').show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -718,7 +718,7 @@ $('#btnGenerate').on('click', function(){
     else if($('#report_category').val() == 'TENDER TYPE'){
         $('#loading').show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -819,7 +819,7 @@ $('#btnGenerate').on('click', function(){
     else if($('#report_category').val() == 'DISCOUNT'){
         $('#loading').show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1215,7 +1215,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
 function report_datesA(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports2\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports2')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1358,7 +1358,7 @@ function report_datesA(datacode, headername, urlName, colData){
 function report_datesB(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports2\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports2')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1486,7 +1486,7 @@ function report_datesB(datacode, headername, urlName, colData){
 function report_datesC(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports2\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports2')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1612,7 +1612,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Product</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports3')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1755,7 +1755,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports3')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1878,7 +1878,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Product</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports3')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2021,7 +2021,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.tdate).toUpperCase()})</span> - Per Store</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports3')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2131,7 +2131,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports3')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2273,7 +2273,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports4\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports4')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports4" id="tblReports4" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2425,7 +2425,7 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports4\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports4')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports4" id="tblReports4" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2549,7 +2549,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports4\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports4')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports4" id="tblReports4" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2666,7 +2666,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports5\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports5')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2812,7 +2812,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports5\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports5')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2958,7 +2958,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="header6">${header6} - Per Transaction</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports6\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports6')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports6" id="tblReports6" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -3114,7 +3114,7 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="header7"><span id="subheader7">${headername} (${formatDate(selected_date).toUpperCase()}) (REF#: ${data.transcode})</span></h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports7\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports7')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports7" id="tblReports7" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
