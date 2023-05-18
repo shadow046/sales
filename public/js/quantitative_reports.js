@@ -1683,7 +1683,7 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
         colData = datacode;
         report_dates2(datacode, headername, urlName, colData);
     }
-    if(report_filter == 'transactions by day' || report_filter == 'transactions by time'){
+    else if(report_filter == 'transactions by day' || report_filter == 'transactions by time'){
         $('#reportsTableY').empty();
         $('#reportsTableZ').empty();
         $('#reportsTableA').empty();
