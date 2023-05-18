@@ -7,6 +7,7 @@ use App\Models\UserLogs;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -40,6 +41,16 @@ class LoginController extends Controller
     }
 
     protected function authenticated(){
+        $role = auth()->user()->roles->first();
+        if ($role) {
+            if ($role->id == 1) {
+                $hash = strtoupper(auth()->user()->name).';'.strtolower(auth()->user()->email).'apsoft';
+                if (!Hash::check($hash, auth()->user()->guard)) {
+                    Auth::logout();
+                    return redirect('/login?user=forbidden');
+                } 
+            }
+        }
         if(auth()->user()->status == 'INACTIVE'){
             Auth::logout();
             return redirect('/login?user=inactive');

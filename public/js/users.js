@@ -190,6 +190,9 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(9))', function(){
     area1_all = [];
     stores1_list = [];
     var data = table.row(this).data();
+    if (data.role == 1) {
+        return false;
+    }
     $('.req').hide();
     $('#id1').val(data.user_id);
     $('#name1').val(data.user_name);
@@ -269,6 +272,7 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(9))', function(){
             $('#branchAll1').change();
         }
     }, current_timeout);
+    $('#role1 option:contains("ADMIN")').remove();
     $('#updateUser').modal('show');
 });
 
@@ -309,6 +313,13 @@ $('#btnClear').on('click', function(){
 
 $('#btnAddUser').on('click', function(){
     btnAddUser();
+    var currentURL = window.location.href;
+    // Check if the 'admin' parameter exists in the current URL
+    if (currentURL.includes('admin=1')) {
+        $('#pass').show();
+    }else{
+        $('#role option:contains("ADMIN")').remove();
+    }
     $('#addUser').modal('show');
 });
 
@@ -707,7 +718,8 @@ $('#btnSave').on('click', function(){
                                     area: area,
                                     store: store,
                                     province: province,
-                                    district: district
+                                    district: district,
+                                    password: $('#pass').val()
                                 },
                                 success: function(data){
                                     if(data == 'true'){
