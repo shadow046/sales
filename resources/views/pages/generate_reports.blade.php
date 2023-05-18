@@ -186,7 +186,7 @@
         <h4 id="tblReports1Header"></h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button>
         <div class="ml-2">
-            <a href="#" id="filter" class="text-default" title="Toggle Visible Columns" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content='@include("inc.columnsReportsStore")'>
+            <a href="#" id="filter1" class="text-default" title="Toggle Visible Columns" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content='@include("inc.columnsReportsStore1")'>
                 <b class="mr-1">TOGGLE COLUMNS</b>
                 <i class="fas fa-filter fa-lg" aria-hidden="true"></i>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -194,6 +194,19 @@
         </div>
     </div>
     <div id="reportsTable1" style="min-height: 60vh;"></div>
+    <div class="reportsTable2A" style="display: none;">
+        <hr>
+        <h4 id="tblReports2AHeader"></h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports2A\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button>
+        <div class="ml-2">
+            <a href="#" id="filter2A" class="text-default" title="Toggle Visible Columns" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content='@include("inc.columnsReportsStore2A")'>
+                <b class="mr-1">TOGGLE COLUMNS</b>
+                <i class="fas fa-filter fa-lg" aria-hidden="true"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+        </div>
+    </div>
+    <div id="reportsTable2A"></div>
     <div id="reportsTable2"></div>
     <div id="reportsTable3"></div>
     <div id="reportsTable4"></div>

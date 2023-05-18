@@ -162,6 +162,7 @@ $('#btnReset').on('click', function(){
     $('#formReports').show();
     $('#formReportsQuantitative').hide();
     $('#reportsTable1').empty();
+    $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -183,6 +184,7 @@ $('#report_type').on('change', function(){
     }
     changeComparative();
     $('#reportsTable1').empty();
+    $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -196,6 +198,7 @@ $('#report_category').on('change', function(){
     $('#formReportsQuantitative').trigger('reset');
     changeComparative();
     $('#reportsTable1').empty();
+    $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -206,7 +209,7 @@ $('#report_category').on('change', function(){
 });
 
 $('#start_date').on('change', function(){
-    $('#end_date').val('');
+    $('#end_date').val($(this).val());
     if($(this).val()){
         $('#end_date').attr('min', $(this).val());
     }
@@ -222,9 +225,10 @@ $('#end_date').on('change', function(){
     }
 });
 
-var table1, table2, table3, table4, table5, table6, table7, tableX, tableY, tableZ, tableA;
+var table1, table2A, table2, table3, table4, table5, table6, table7, tableX, tableY, tableZ, tableA;
 $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
+    $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -450,7 +454,7 @@ $('#btnGenerate').on('click', function(){
             byWhat = 'promo';
         }
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -585,7 +589,7 @@ $('#btnGenerate').on('click', function(){
     else if($('#report_category').val() == 'TRANSACTION TYPE'){
         $('#loading').show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -714,7 +718,7 @@ $('#btnGenerate').on('click', function(){
     else if($('#report_category').val() == 'TENDER TYPE'){
         $('#loading').show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -815,7 +819,7 @@ $('#btnGenerate').on('click', function(){
     else if($('#report_category').val() == 'DISCOUNT'){
         $('#loading').show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports1\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -949,6 +953,7 @@ $('#btnGenerate').on('click', function(){
 var headername, datacode, selected_date;
 $(document).on('click','table.tblReports1 tbody tr',function(){
     $('#loading').show();
+    $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -988,6 +993,198 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         report_datesB(datacode, headername, urlName, colData);
     }
     else if(report_category == 'TRANSACTION TYPE'){
+        $('#loading').show();
+        var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+        var reports_header = data.transaction_name+' ('+display_range+') - Per Store';
+        $('#tblReports2AHeader').text(reports_header);
+        var htmlString = `
+        <div class="table-responsive container-fluid pt-2 w-100">
+            <table class="table table-hover table-bordered table-striped tblReports2A" id="tblReports2A" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr class="tbsearch">
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="0" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="1" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="2" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="3" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="4" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="5" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="6" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="7" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="8" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="9" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/>
+                        </td>
+                        <td>
+                            <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>STORE CODE</th>
+                        <th>BRANCH NAME</th>
+                        <th>COMPANY NAME</th>
+                        <th>AREA MANAGER</th>
+                        <th>STORE AREA</th>
+                        <th>REGION</th>
+                        <th>STORE TYPE</th>
+                        <th>STORE GROUP</th>
+                        <th>MALL SUB-GROUP</th>
+                        <th>NETWORK SETUP</th>
+                        <th class="sum">GROSS SALES</th>
+                        <th class="sum">TOTAL SALES</th>
+                        <th class="sum">NET SALES</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right" colspan="10">TOTAL:</th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                        <th class="text-right sum"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTable2A').append(htmlString);
+        table2A = $('table.tblReports2A').DataTable({
+            dom: 'Blftrip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: reports_header,
+                exportOptions: {
+                    modifier : {
+                        order : 'index',
+                        page : 'all',
+                        search : 'none'
+                    },
+                },
+            }],
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/transaction/branch',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    datacode: data.transaction_name
+                }
+            },
+            columnDefs: [
+                {
+                    "targets": [2,3,6,7,8,9],
+                    "visible": false,
+                    "searchable": true
+                },
+            ],
+            columns: [
+                { data: 'branch_code' },
+                { data: 'store_name' },
+                { data: 'company_name' },
+                { data: 'area_manager' },
+                { data: 'store_area' },
+                { data: 'region' },
+                { data: 'type' },
+                { data: 'store_group' },
+                { data: 'subgroup' },
+                { data: 'network_setup' },
+                {
+                    data: 'gross_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                    }
+                },
+                {
+                    data: 'net_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            order: [],
+            footerCallback:function(row,data,start,end,display){
+                var api=this.api(),data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[^\d.-]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                api.columns('.sum',{page:'all'}).every(function(){
+                var sum=this
+                    .data()
+                    .reduce(function(a,b){
+                        return intVal(a)+intVal(b);
+                    },0);
+                    sum=Number(sum).toFixed(2);
+                    sum=sum.toString();
+                    var pattern=/(-?\d+)(\d{3})/;
+                    while(pattern.test(sum))
+                    sum=sum.replace(pattern,"$1,$2");
+                    this.footer().innerHTML='₱ '+sum;
+                });
+            },
+            initComplete: function(){
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports1';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+        setInterval(() => {
+            if($('.popover-header').is(':visible')){
+                for(var i=0; i<=12; i++){
+                    if(table1.column(i).visible()){
+                        $('#filter-'+i).prop('checked', true);
+                    }
+                    else{
+                        $('#filter-'+i).prop('checked', false);
+                    }
+                }
+            }
+        }, 0);
         datacode = data.transaction_name;
         headername = data.transaction_name;
         urlName = '/sales/reports/transaction/date';
@@ -1018,7 +1215,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
 function report_datesA(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports2\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1161,7 +1358,7 @@ function report_datesA(datacode, headername, urlName, colData){
 function report_datesB(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports2\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1289,7 +1486,7 @@ function report_datesB(datacode, headername, urlName, colData){
 function report_datesC(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports2\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1415,7 +1612,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Product</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1558,7 +1755,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1681,7 +1878,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Product</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1824,7 +2021,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.tdate).toUpperCase()})</span> - Per Store</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1934,7 +2131,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headername">${headername} <span id="headerdate">(${formatDate(data.date).toUpperCase()})</span> - Per Store</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports3\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2076,7 +2273,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports4\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports4" id="tblReports4" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2228,7 +2425,7 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports4\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports4" id="tblReports4" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2352,7 +2549,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports4\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports4" id="tblReports4" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2469,7 +2666,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(4).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports5\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2615,7 +2812,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
         emptyQuantitative();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(4).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports5\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2761,7 +2958,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="header6">${header6} - Per Transaction</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(5).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports6\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports6" id="tblReports6" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2917,7 +3114,7 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
     emptyQuantitative();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="header7"><span id="subheader7">${headername} (${formatDate(selected_date).toUpperCase()}) (REF#: ${data.transcode})</span></h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(6).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick='$(".buttons-excel[aria-controls=\"tblReports7\"]").click();'><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports7" id="tblReports7" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -3050,6 +3247,10 @@ $(document).on('keyup search','.filter-input1', function(){
     table1.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-input2A', function(){
+    table2A.column($(this).data('column')).search($(this).val()).draw();
+});
+
 $(document).on('keyup search','.filter-input2', function(){
     table2.column($(this).data('column')).search($(this).val()).draw();
 });
@@ -3092,6 +3293,13 @@ setInterval(() => {
     }
     else{
         $('.reportsTable1').hide();
+    }
+
+    if(!$('#reportsTable2A').is(':empty') && $('#report_category').val() == 'TRANSACTION TYPE'){
+        $('.reportsTable2A').show();
+    }
+    else{
+        $('.reportsTable2A').hide();
     }
 }, 0);
 
@@ -3139,6 +3347,7 @@ function emptyQuantitative(){
 
 function emptyStandard(){
     $('#reportsTable1').empty();
+    $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();

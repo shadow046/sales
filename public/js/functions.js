@@ -193,6 +193,32 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('#filter1').popover({
+        html: true,
+        sanitize: false
+    });
+
+    $('html').on('click', function(e){
+        $('#filter1').each(function(){
+            if(!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0){
+                $('#filter1').popover('hide');
+            }
+        });
+    });
+
+    $('#filter2A').popover({
+        html: true,
+        sanitize: false
+    });
+
+    $('html').on('click', function(e){
+        $('#filter2A').each(function(){
+            if(!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0){
+                $('#filter2A').popover('hide');
+            }
+        });
+    });
 });
 
 $(document).ready(function(){
