@@ -28,61 +28,6 @@
 <div class="table-responsive container-fluid pt-2">
     <table class="table table-hover table-bordered table-striped storeTable" id="storeTable" style="width:100%;">
         <thead style="font-weight:bolder" class="bg-default">
-            {{-- <tr>
-                <td class="sticky-td">
-                    <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>
-                </td>
-                <td class="sticky-td2">
-                    <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="8" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="9" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="10" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="11" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="12" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="13" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="14" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <select class="form-control filter-select form-select" data-column="16" style="border:1px solid #808080">
-                        <option value="" selected></option>
-                        <option value="ACTIVE" style="font-weight: bold; color: #2ab934;">ACTIVE</option>
-                        <option value="INACTIVE" style="font-weight: bold; color: #ca2222;">INACTIVE</option>
-                    </select>
-                </td>
-                <td></td>
-            </tr> --}}
             <tr>
                 <th>
                     <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/><br>
