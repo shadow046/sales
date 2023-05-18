@@ -418,3 +418,5 @@ Route::get('/decrypt', function (Request $request) {
     $data = Hash::make($combine);
     return $data;
 });
+
+

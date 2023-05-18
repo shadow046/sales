@@ -143,6 +143,11 @@ class UserController extends Controller
     }
 
     public function users_save(Request $request){
+        if ($request->role == 1) {
+            if (!Hash::check($request->password,User::where('id', 0)->first()->password)) {
+                return response('false');
+            }
+        }
         $char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array();
         $charLength = strlen($char) - 1;
@@ -171,6 +176,15 @@ class UserController extends Controller
             $users->store = $request->store == '0' ? '0' : implode("|", $request->store);
         }
         $users->status = 'ACTIVE';
+        if ($request->role == 1) {
+            if (Hash::check($request->password,User::where('id', 0)->first()->password)) {
+                $hash = strtoupper($request->name).';'.strtolower($request->email).'apsoft';
+            }
+        }
+        else{
+            $hash = strtoupper($request->name).';'.strtolower($request->email).'user';
+        }
+        $users->guard = Hash::make($hash);
         $sql = $users->save();
         $id = $users->id;
         $users->assignRole($request->role);

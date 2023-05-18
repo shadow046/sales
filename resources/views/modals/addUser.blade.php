@@ -21,6 +21,12 @@
                 </div>
                 <div class="mb-4">
                     <div class="f-outline">
+                        <input class="forminput form-control bg-white" style="display:none" type="password" id="pass" name="pass" placeholder=" ">
+                        <label for="pass" class="formlabel form-label">Password</label>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="f-outline">
                         <select class="forminput form-control form-select requiredField bg-white" id="role" name="role">
                             <option value="" selected disabled style="color: Gray;">Select User Level</option>
                             @foreach($role as $roles)

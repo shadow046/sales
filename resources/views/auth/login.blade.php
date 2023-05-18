@@ -75,6 +75,19 @@ $(document).ready(function(){
             }
         });
     }
+    else if ($(location).attr('pathname')+window.location.search == '/login?user=forbidden'){
+        Swal.fire({
+            title: "FORBIDDEN ACCESS",
+            html: "<strong>Warning:</strong> Tampering with the database is strictly prohibited and may result in severe consequences.",
+            icon: "warning",
+            allowOutsideClick: false
+        })
+        .then((result) => {
+            if(result.isConfirmed){
+                window.location.href = "/login";
+            }
+        });
+    }
 });
 </script>
 @endsection
