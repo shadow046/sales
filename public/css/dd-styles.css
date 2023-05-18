@@ -451,3 +451,9 @@ label{
 .chosen-results li:not(:first-child):hover {
     color: #fff !important;
 }
+
+.dtfc-fixed-left{
+    background-color: #683817 !important;
+    color: white !important;
+    z-index: 999 !important;
+}

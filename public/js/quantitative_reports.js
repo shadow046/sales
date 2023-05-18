@@ -22,7 +22,8 @@ function quantitative_report(reports_header){
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="2">TOTAL:</th>
+                        <th class="text-right"></th>
+                        <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -38,6 +39,11 @@ function quantitative_report(reports_header){
         </div>`;
         $('#reportsTableX').append(htmlString);
         tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 2,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -211,7 +217,8 @@ function quantitative_report(reports_header){
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="2">TOTAL:</th>
+                        <th class="text-right"></th>
+                        <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -244,6 +251,11 @@ function quantitative_report(reports_header){
         </div>`;
         $('#reportsTableX').append(htmlString);
         tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 2,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -553,7 +565,8 @@ function quantitative_report(reports_header){
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="2">TOTAL:</th>
+                        <th class="text-right"></th>
+                        <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -569,6 +582,11 @@ function quantitative_report(reports_header){
         </div>`;
         $('#reportsTableX').append(htmlString);
         tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 2,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -755,7 +773,8 @@ function quantitative_report(reports_header){
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="2">TOTAL:</th>
+                        <th class="text-right"></th>
+                        <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -788,6 +807,11 @@ function quantitative_report(reports_header){
         </div>`;
         $('#reportsTableX').append(htmlString);
         tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 2,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -1125,6 +1149,11 @@ function quantitative_report(reports_header){
         </div>`;
         $('#reportsTableX').append(htmlString);
         tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 1,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -1329,6 +1358,11 @@ function quantitative_report(reports_header){
         </div>`;
         $('#reportsTableX').append(htmlString);
         tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 1,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',

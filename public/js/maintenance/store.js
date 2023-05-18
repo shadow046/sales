@@ -83,6 +83,11 @@ $(document).ready(function(){
     }
 
     table = $('table.storeTable').DataTable({
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:{
+            left: 2,
+        },
         dom: 'Blftrip',
         buttons: [{
             extend: 'excelHtml5',
@@ -1382,3 +1387,4 @@ setInterval(() => {
         }
     }
 }, 0);
+

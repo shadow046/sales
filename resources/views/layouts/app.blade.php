@@ -34,6 +34,7 @@
     <link href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css" rel="stylesheet">
     <link href="https://code.jquery.com/ui/{{$jquery_ui_version}}/themes/base/jquery-ui.css" rel="stylesheet">
     <link href="/css/inc/chosen.css" rel="stylesheet" type="text/css"/>
+
     @if(env('APP_SYS') == 'DD')
         <link href="/css/dd-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
         <script>
@@ -106,6 +107,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap{{$bootstrap_version}}/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/{{$datatables_version}}/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+
     <script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>

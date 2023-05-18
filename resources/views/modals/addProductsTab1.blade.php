@@ -41,17 +41,21 @@
                     <label for="long_desc" class="formlabels form-label">Long Description
                 </div>
             </div>
+
             <div class="col-12 row mb-4">
-                <div class="col-md-2 f-outline">
+                <div class="col-md-6 f-outline">
                     <input type="search" style="color: black" name="sku" id="sku" class="forminput form-control text-uppercase" placeholder=" " autocomplete="off" >
                     <p id="duplicate_sku" class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                     <label for="sku" class="formlabels form-label">SKU
                 </div>
-                <div class="col-md-3 f-outline">
+                <div class="col-md-6 f-outline">
                     <input type="number" style="color: black" name="modifier_code" id="modifier_code" class="forminput form-control numberOnly" placeholder=" " autocomplete="off" >
                     <p id="duplicate_modifier_code" class="validation"><i class="fas fa-exclamation-triangle"></i> ALREADY EXIST!</p>
                     <label for="modifier_code" class="formlabels form-label">SI / Modifier Code
                 </div>
+            </div>
+
+            <div class="col-12 row mb-4">
                 <div class="col-md f-outline">
                     <select id="company" name="company" class="forminput form-control form-select requiredField multiple_field" multiple style="color: black" data-placeholder="Select Company">
                         <option value="0">ALL</option>
@@ -73,7 +77,7 @@
             </div>
 
             <div class="col-12 row mb-4">
-                <div class="col-md-4 f-outline">
+                <div class="col-md f-outline">
                     <select class="forminput form-control form-select requiredField multiple_field" multiple id="setup" name="setup" data-placeholder="Select Setup">
                         <option value="0">ALL</option>
                         @foreach($setups as $setup)
@@ -92,6 +96,7 @@
                     <label for="area" class="formlabel form-label" style="margin-left: 15px;">Store Area</label>
                 </div>
             </div>
+
             <div class="col-12 row mb-4">
                 <div class="col-md f-outline classStore">
                     <select class="forminput form-control form-select requiredField multiple_field" id="store" name="store" multiple data-placeholder="SELECT STORE BRANCHES">
