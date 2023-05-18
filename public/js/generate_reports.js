@@ -1176,11 +1176,11 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         setInterval(() => {
             if($('.popover-header').is(':visible')){
                 for(var i=0; i<=12; i++){
-                    if(table1.column(i).visible()){
-                        $('#filter-'+i).prop('checked', true);
+                    if(table2A.column(i).visible()){
+                        $('#filter2-'+i).prop('checked', true);
                     }
                     else{
-                        $('#filter-'+i).prop('checked', false);
+                        $('#filter2-'+i).prop('checked', false);
                     }
                 }
             }
@@ -3324,6 +3324,14 @@ $('body').on('click', '.checkboxFilter', function(){
     column.visible(!column.visible());
     $('.fl-'+colnum).val('');
     table1.column(colnum).search('').draw();
+});
+
+$('body').on('click', '.checkboxFilter2', function(){
+    var column = table2A.column($(this).attr('data-column'));
+    var colnum = $(this).attr('data-column');
+    column.visible(!column.visible());
+    $('.fl-'+colnum).val('');
+    table2A.column(colnum).search('').draw();
 });
 
 function changeComparative(){
