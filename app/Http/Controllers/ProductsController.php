@@ -1145,12 +1145,29 @@ class ProductsController extends Controller
 
         if ($products) {
             foreach ($products as $product) {
+                $sendupdate = SendUpdate::where('type', 'product')->whereDate('date', Carbon::now()->format('Y-m-d'))->latest();
+                if($sendupdate){
+                    $seqno = 1;
+                    SendUpdate::create([
+                        'date'=> Carbon::now()->format('Y-m-d'),
+                        'type'=> 'product',
+                        'seqno'=>$seqno
+                    ]);
+                }
+                else{
+                    $seqno = $sendupdate->seqno + 1;
+                    SendUpdate::create([
+                        'date'=> Carbon::now()->format('Y-m-d'),
+                        'type'=> 'product',
+                        'seqno'=> $seqno
+                    ]);
+                }
                 $count = Str::random(4);
                 if (Str::contains($request->url(), 'mg')) {
-                    $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
+                    $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/sqlfooditem-'.$date.'-'.$seqno.'-'.$count;
                 }
                 else if (Str::contains($request->url(), 'dd')) {
-                    $filename = '/'.'var/www/html/dd/public/storage/productupdate/sqlfooditem-'.$date.'-'.$count;
+                    $filename = '/'.'var/www/html/dd/public/storage/productupdate/sqlfooditem-'.$date.'-'.$seqno.'-'.$count;
                 }
                 $file = fopen($filename.'.sql', 'w');
                 $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];

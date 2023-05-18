@@ -50,7 +50,6 @@ class LicenseController extends Controller
             }
             else{
                 App::create(['key' => Crypt::encrypt(Crypt::encrypt(Crypt::encrypt($licenseKey))), 'exp_date' => $expiryDate]);
-
             }
             if (Str::contains($request->url(), 'mg')) {
                 $filename = '/'.'var/www/html/mary_grace/public/storage/check';
