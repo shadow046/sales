@@ -21,7 +21,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-2" data-column="2"/> INTRO DATE
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-2" data-column="2" disabled/> SHORT DESCRIPTION
                 </label>
             </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-3" data-column="3" disabled/> SHORT DESCRIPTION
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-3" data-column="3"/> LONG DESCRIPTION
                 </label>
             </div>
         </div>
@@ -39,7 +39,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter" id="filter-4" data-column="4"/> LONG DESCRIPTION
+                    <input checked type="checkbox" class="checkboxFilter" id="filter-4" data-column="4"/> INTRO DATE
                 </label>
             </div>
         </div>

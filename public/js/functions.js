@@ -885,3 +885,7 @@ $(document).on('focusout', '.requiredField', function(){
 function btnExportClick(tblID){
     $('.buttons-excel[aria-controls='+tblID+']').click();
 }
+
+setInterval(() => {
+    $('.always-default').removeClass('dtfc-fixed-left');
+}, 0);

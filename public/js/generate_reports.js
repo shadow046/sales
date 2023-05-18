@@ -254,66 +254,73 @@ $('#btnGenerate').on('click', function(){
         <div class="table-responsive container-fluid pt-2 w-100">
             <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
-                    <tr class="tbsearch">
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="4" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="5" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="6" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="7" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="8" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="9" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="10" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="11" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input1" data-column="12" style="border:1px solid #808080"/>
-                        </td>
-                    </tr>
                     <tr>
-                        <th>STORE CODE</th>
-                        <th>BRANCH NAME</th>
-                        <th>COMPANY NAME</th>
-                        <th>AREA MANAGER</th>
-                        <th>STORE AREA</th>
-                        <th>REGION</th>
-                        <th>STORE TYPE</th>
-                        <th>STORE GROUP</th>
-                        <th>MALL SUB-GROUP</th>
-                        <th>NETWORK SETUP</th>
-                        <th class="sum">GROSS SALES</th>
-                        <th class="sum">TOTAL SALES</th>
-                        <th class="sum">NET SALES</th>
+                        <th class="always-default">
+                            <input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/><br>
+                            STORE CODE
+                        </th>
+                        <th class="always-default">
+                            <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/><br>
+                            BRANCH NAME
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/><br>
+                            COMPANY NAME
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/><br>
+                            AREA MANAGER
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="4" style="border:1px solid #808080"/><br>
+                            STORE AREA
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="5" style="border:1px solid #808080"/><br>
+                            REGION
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="6" style="border:1px solid #808080"/><br>
+                            STORE TYPE
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="7" style="border:1px solid #808080"/><br>
+                            STORE GROUP
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="8" style="border:1px solid #808080"/><br>
+                            MALL SUB-GROUP
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="9" style="border:1px solid #808080"/><br>
+                            NETWORK SETUP
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input1" data-column="10" style="border:1px solid #808080"/><br>
+                            GROSS SALES
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input1" data-column="11" style="border:1px solid #808080"/><br>
+                            TOTAL SALES
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input1" data-column="12" style="border:1px solid #808080"/><br>
+                            NET SALES
+                        </th>
                     </tr>
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="10">TOTAL:</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -324,6 +331,11 @@ $('#btnGenerate').on('click', function(){
         </div>`;
         $('#reportsTable1').append(htmlString);
         table1 = $('table.tblReports1').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 2,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -1001,66 +1013,73 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         <div class="table-responsive container-fluid pt-2 w-100">
             <table class="table table-hover table-bordered table-striped tblReports2A" id="tblReports2A" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
-                    <tr class="tbsearch">
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="0" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="1" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="2" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="3" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="4" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="5" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="6" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="7" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="8" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="9" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/>
-                        </td>
-                    </tr>
                     <tr>
-                        <th>STORE CODE</th>
-                        <th>BRANCH NAME</th>
-                        <th>COMPANY NAME</th>
-                        <th>AREA MANAGER</th>
-                        <th>STORE AREA</th>
-                        <th>REGION</th>
-                        <th>STORE TYPE</th>
-                        <th>STORE GROUP</th>
-                        <th>MALL SUB-GROUP</th>
-                        <th>NETWORK SETUP</th>
-                        <th class="sum">GROSS SALES</th>
-                        <th class="sum">TOTAL SALES</th>
-                        <th class="sum">NET SALES</th>
+                        <th class="always-default">
+                            <input type="search" class="form-control filter-input2A" data-column="0" style="border:1px solid #808080"/><br>
+                            STORE CODE
+                        </th>
+                        <th class="always-default">
+                            <input type="search" class="form-control filter-input2A" data-column="1" style="border:1px solid #808080"/><br>
+                            BRANCH NAME
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="2" style="border:1px solid #808080"/><br>
+                            COMPANY NAME
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="3" style="border:1px solid #808080"/><br>
+                            AREA MANAGER
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="4" style="border:1px solid #808080"/><br>
+                            STORE AREA
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="5" style="border:1px solid #808080"/><br>
+                            REGION
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="6" style="border:1px solid #808080"/><br>
+                            STORE TYPE
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="7" style="border:1px solid #808080"/><br>
+                            STORE GROUP
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="8" style="border:1px solid #808080"/><br>
+                            MALL SUB-GROUP
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="9" style="border:1px solid #808080"/><br>
+                            NETWORK SETUP
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/><br>
+                            GROSS SALES
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/><br>
+                            TOTAL SALES
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/><br>
+                            NET SALES
+                        </th>
                     </tr>
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
-                        <th class="text-right" colspan="10">TOTAL:</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -1071,6 +1090,11 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         </div>`;
         $('#reportsTable2A').append(htmlString);
         table2A = $('table.tblReports2A').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 2,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',

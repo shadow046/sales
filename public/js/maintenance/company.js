@@ -10,6 +10,11 @@ $('.addBtn').on('click',function(){
 var table, contact_person_change;
 $(document).ready(function(){
     table = $('table.companyTable').DataTable({
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:{
+            left: 2,
+        },
         dom: 'Blftrip',
         buttons: [{
             extend: 'excelHtml5',

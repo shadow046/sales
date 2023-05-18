@@ -30,104 +30,105 @@
     <table class="table table-hover table-bordered table-striped productsTable" id="productsTable" style="width:100%;">
         <thead style="font-weight:bolder" class="bg-default">
             <tr>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="8" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="9" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="10" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="11" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="12" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="13" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="14" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="15" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="16" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="17" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="18" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="19" style="border:1px solid #808080"/>
-                </td>
-                <td>
+                <th class="always-default">
+                    <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/><br>
+                    CATEGORY
+                </th>
+                <th class="always-default">
+                    <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/><br>
+                    ITEM CODE
+                </th>
+                <th class="always-default">
+                    <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/><br>
+                    SHORT DESCRIPTION
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/><br>
+                    LONG DESCRIPTION
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #808080"/><br>
+                    INTRO DATE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/><br>
+                    STORE SETUP
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #808080"/><br>
+                    STORE AREA
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #808080"/><br>
+                    STORE BRANCH
+                </th>
+                @if(env('APP_SYS') == 'DD')
+                    <th>
+                        <input type="search" class="form-control filter-input" data-column="8" style="border:1px solid #808080"/><br>
+                        REGULAR | AIRPORT PRICE
+                    </th>
+                @else
+                    <th>
+                        <input type="search" class="form-control filter-input" data-column="8" style="border:1px solid #808080"/><br>
+                        REGULAR PRICE
+                    </th>
+                @endif
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="9" style="border:1px solid #808080"/><br>
+                    TAKE-OUT PRICE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="10" style="border:1px solid #808080"/><br>
+                    PICK-UP PRICE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="11" style="border:1px solid #808080"/><br>
+                    DELIVERY PRICE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="12" style="border:1px solid #808080"/><br>
+                    BULK ORDER PRICE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="13" style="border:1px solid #808080"/><br>
+                    FDS PRICE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="14" style="border:1px solid #808080"/><br>
+                    DRIVE-THRU
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="15" style="border:1px solid #808080"/><br>
+                    ADD MEAL TYPE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="16" style="border:1px solid #808080"/><br>
+                    SKU
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="17" style="border:1px solid #808080"/><br>
+                    SI / MODIFIER CODE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="18" style="border:1px solid #808080"/><br>
+                    COMPANY
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="19" style="border:1px solid #808080"/><br>
+                    TYPE
+                </th>
+                <th>
                     <select class="form-control filter-select form-select" data-column="21" style="border:1px solid #808080">
                         <option value="" selected></option>
                         <option value="ACTIVE" style="font-weight: bold; color: #2ab934;">ACTIVE</option>
                         <option value="INACTIVE" style="font-weight: bold; color: #ca2222;">INACTIVE</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="21" style="border:1px solid #808080"/>
-                </td>
-            </tr>
-            <tr>
-                <th>CATEGORY</th>
-                <th>ITEM CODE</th>
-                <th>INTRO DATE</th>
-                <th>SHORT DESCRIPTION</th>
-                <th>LONG DESCRIPTION</th>
-                <th>STORE SETUP</th>
-                <th>STORE AREA</th>
-                <th>STORE BRANCH</th>
-                @if(env('APP_SYS') == 'DD')
-                    <th>REGULAR | AIRPORT PRICE</th>
-                @else
-                    <th>REGULAR PRICE</th>
-                @endif
-                <th>TAKE-OUT PRICE</th>
-                <th>PICK-UP PRICE</th>
-                <th>DELIVERY PRICE</th>
-                <th>BULK ORDER PRICE</th>
-                <th>FDS PRICE</th>
-                <th>DRIVE-THRU</th>
-                <th>ADD MEAL TYPE</th>
-                <th>SKU</th>
-                <th>SI / MODIFIER CODE</th>
-                <th>COMPANY</th>
-                <th>TYPE</th>
-                <th>STATUS</th>
-                <th>STATUS</th>
+                    </select><br>
+                    STATUS
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="21" style="border:1px solid #808080"/><br>
+                    STATUS
+                </th>
             </tr>
         </thead>
     </table>

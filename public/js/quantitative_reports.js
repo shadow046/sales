@@ -8,8 +8,8 @@ function quantitative_report(reports_header){
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
-                        <th>STORE CODE</th>
-                        <th>BRANCH NAME</th>
+                        <th class="always-default">STORE CODE</th>
+                        <th class="always-default">BRANCH NAME</th>
                         <th class="sum">SUNDAY</th>
                         <th class="sum">MONDAY</th>
                         <th class="sum">TUESDAY</th>
@@ -186,8 +186,8 @@ function quantitative_report(reports_header){
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
-                        <th>STORE CODE</th>
-                        <th>BRANCH NAME</th>
+                        <th class="always-default">STORE CODE</th>
+                        <th class="always-default">BRANCH NAME</th>
                         <th class="sum">12:00AM - 12:59AM</th>
                         <th class="sum">1:00AM - 1:59AM</th>
                         <th class="sum">2:00AM - 2:59AM</th>
@@ -551,8 +551,8 @@ function quantitative_report(reports_header){
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
-                        <th>PRODUCT CODE</th>
-                        <th>SHORT DESCRIPTION</th>
+                        <th class="always-default">PRODUCT CODE</th>
+                        <th class="always-default">SHORT DESCRIPTION</th>
                         <th class="sum">SUNDAY</th>
                         <th class="sum">MONDAY</th>
                         <th class="sum">TUESDAY</th>
@@ -742,8 +742,8 @@ function quantitative_report(reports_header){
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
-                        <th>PRODUCT CODE</th>
-                        <th>SHORT DESCRIPTION</th>
+                        <th class="always-default">PRODUCT CODE</th>
+                        <th class="always-default">SHORT DESCRIPTION</th>
                         <th class="sum">12:00AM - 12:59AM</th>
                         <th class="sum">1:00AM - 1:59AM</th>
                         <th class="sum">2:00AM - 2:59AM</th>
@@ -1120,7 +1120,7 @@ function quantitative_report(reports_header){
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
-                        <th>TRANSACTION TYPE</th>
+                        <th class="always-default">TRANSACTION TYPE</th>
                         <th class="sum">SUNDAY</th>
                         <th class="sum">MONDAY</th>
                         <th class="sum">TUESDAY</th>
@@ -1295,7 +1295,7 @@ function quantitative_report(reports_header){
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
                     <tr>
-                        <th>TRANSACTION TYPE</th>
+                        <th class="always-default">TRANSACTION TYPE</th>
                         <th class="sum">12:00AM - 12:59AM</th>
                         <th class="sum">1:00AM - 1:59AM</th>
                         <th class="sum">2:00AM - 2:59AM</th>

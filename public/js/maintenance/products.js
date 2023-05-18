@@ -65,6 +65,11 @@ var table;
 $(document).ready(function(){
     if(current_system == 'DD'){
         table = $('table.productsTable').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 3,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -90,7 +95,7 @@ $(document).ready(function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21],
+                    "targets": [3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21],
                     "visible": false,
                     "searchable": true
                 },
@@ -99,14 +104,14 @@ $(document).ready(function(){
             columns: [
                 { data: 'category_name', name: 'category_name'},
                 { data: 'item_code', name: 'item_code'},
+                { data: 'short_desc', name: 'short_desc'},
+                { data: 'long_desc', name: 'long_desc'},
                 {
                     data: 'intro_date', name: 'intro_date',
                     "render":function(data,type,row){
                         return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
                     }
                 },
-                { data: 'short_desc', name: 'short_desc'},
-                { data: 'long_desc', name: 'long_desc'},
                 { data: 'setup_name', name: 'setup_name'},
                 {
                     data: 'area_name',
@@ -238,6 +243,11 @@ $(document).ready(function(){
     }
     else{
         table = $('table.productsTable').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 3,
+            },
             dom: 'Blftrip',
             buttons: [{
                 extend: 'excelHtml5',
@@ -263,7 +273,7 @@ $(document).ready(function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21],
+                    "targets": [3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21],
                     "visible": false,
                     "searchable": true
                 },
@@ -272,14 +282,14 @@ $(document).ready(function(){
             columns: [
                 { data: 'category_name', name: 'category_name'},
                 { data: 'item_code', name: 'item_code'},
+                { data: 'short_desc', name: 'short_desc'},
+                { data: 'long_desc', name: 'long_desc'},
                 {
                     data: 'intro_date', name: 'intro_date',
                     "render":function(data,type,row){
                         return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
                     }
                 },
-                { data: 'short_desc', name: 'short_desc'},
-                { data: 'long_desc', name: 'long_desc'},
                 { data: 'setup_name', name: 'setup_name'},
                 {
                     data: 'area_name',

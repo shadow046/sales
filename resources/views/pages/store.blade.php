@@ -29,15 +29,15 @@
     <table class="table table-hover table-bordered table-striped storeTable" id="storeTable" style="width:100%;">
         <thead style="font-weight:bolder" class="bg-default">
             <tr>
-                <th>
+                <th class="always-default">
                     <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/><br>
                     STORE CODE
                 </th>
-                <th>
+                <th class="always-default">
                     <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/><br>
                     BRANCH NAME
                 </th>
-                <th>
+                <th class="always-default">
                     <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/><br>
                     COMPANY NAME
                 </th>

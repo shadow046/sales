@@ -19,6 +19,11 @@ $('.addBtn').on('click', function(){
 var table;
 $(document).ready(function(){
     table = $('table.priceUpdateTable').DataTable({
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:{
+            left: 3,
+        },
         dom: 'lftrip',
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         language: {

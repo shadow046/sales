@@ -29,50 +29,49 @@
     <table class="table table-hover table-bordered table-striped companyTable" id="companyTable" style="width:100%;">
         <thead style="font-weight:bolder" class="bg-default">
             <tr>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #808080"/>
-                </td>
-                <td>
-                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #808080"/>
-                </td>
-                <td>
+                <th class="always-default">
+                    <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/><br>
+                    COMPANY CODE
+                </th>
+                <th class="always-default">
+                    <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/><br>
+                    COMPANY NAME
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/><br>
+                    TRADE NAME
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/><br>
+                    TIN #
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #808080"/><br>
+                    ADDRESS
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/><br>
+                    PROVINCE
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #808080"/><br>
+                    CITY/MUNICIPALITY
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #808080"/><br>
+                    REGION
+                </th>
+                <th>
                     <select class="form-control filter-select form-select" data-column="9" style="border:1px solid #808080">
                         <option value="" selected></option>
                         <option value="ACTIVE" style="font-weight: bold; color: #2ab934;">ACTIVE</option>
                         <option value="INACTIVE" style="font-weight: bold; color: #ca2222;">INACTIVE</option>
-                    </select>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>COMPANY CODE</th>
-                <th>COMPANY NAME</th>
-                <th>TRADE NAME</th>
-                <th>TIN #</th>
-                <th>ADDRESS</th>
-                <th>PROVINCE</th>
-                <th>CITY/MUNICIPALITY</th>
-                <th>REGION</th>
-                <th>STATUS</th>
-                <th>STATUS</th>
+                    </select><br>
+                    STATUS
+                </th>
+                <th>
+                    STATUS
+                </th>
             </tr>
         </thead>
     </table>

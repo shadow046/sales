@@ -453,7 +453,17 @@ label{
 }
 
 .dtfc-fixed-left{
+    background-color: white !important;
+    color: black !important;
+    z-index: 999 !important;
+}
+
+.always-default{
     background-color: #683817 !important;
     color: white !important;
     z-index: 999 !important;
+}
+
+.dataTables_scrollBody {
+    cursor: pointer;
 }

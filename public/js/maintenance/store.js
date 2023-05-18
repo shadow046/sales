@@ -86,7 +86,7 @@ $(document).ready(function(){
         scrollX:        true,
         scrollCollapse: true,
         fixedColumns:{
-            left: 2,
+            left: 3,
         },
         dom: 'Blftrip',
         buttons: [{

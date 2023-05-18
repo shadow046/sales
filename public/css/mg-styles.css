@@ -451,3 +451,19 @@ label{
 .chosen-results li:not(:first-child):hover {
     color: #fff !important;
 }
+
+.dtfc-fixed-left{
+    background-color: white !important;
+    color: black !important;
+    z-index: 999 !important;
+}
+
+.always-default{
+    background-color: #850708 !important;
+    color: white !important;
+    z-index: 999 !important;
+}
+
+.dataTables_scrollBody {
+    cursor: pointer;
+}
