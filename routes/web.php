@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Middleware\CheckUserLevel;
 use App\Http\Controllers\CategoryController;
@@ -403,3 +404,17 @@ Route::get('/txt-to-pdf', function () {
     return response($pdf, 200, $headers);
 });
 
+Route::get('/decrypt', function (Request $request) {
+    $key = $request->key;
+    $iterations = 3;
+    for ($i = 0; $i < $iterations; $i++) {
+        $key = Crypt::decrypt($key);
+    }
+    $macAddress = $key['mac_address'];
+    $serialNumber = $key['serial_number'];
+    $expiryDate = "2023-12-31";
+    $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
+    // Encrypt the data
+    $data = Hash::make($combine);
+    return $data;
+});
