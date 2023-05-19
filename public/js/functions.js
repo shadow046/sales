@@ -881,8 +881,25 @@ $(document).on('focusout', '.requiredField', function(){
 //     }
 // });
 
-function btnExportClick(tblID){
-    $('.buttons-excel[aria-controls='+tblID+']').click();
+// function btnExportClick(tblID){
+//     $('.buttons-pdf[aria-controls='+tblID+']').click();
+// }
+
+function btnExportClick(tblID) {
+    Swal.fire({
+        title: 'Export Table as?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'EXCEL',
+        denyButtonText: `PDF`,
+      }).then((result) => {
+        if(result.isConfirmed){
+            $('.buttons-excel[aria-controls=' + tblID + ']').click();
+        }
+        else if(result.isDenied){
+            $('.buttons-pdf[aria-controls=' + tblID + ']').click();
+        }
+    });
 }
 
 setInterval(() => {

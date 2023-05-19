@@ -34,7 +34,7 @@ use App\Http\Controllers\LicenseController;
 
 Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::fallback(function(){return redirect("/login");});
-Route::middleware(['license', 'check_user_level'])->group(function () {
+Route::middleware(['license', 'check_user_level', 'session'])->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -404,19 +404,62 @@ Route::get('/txt-to-pdf', function () {
     return response($pdf, 200, $headers);
 });
 
-Route::get('/decrypt', function (Request $request) {
+Route::get('/licensekey', function (Request $request) {
+    // if ($request->key) {
+    //     $key = $request->key;
+    //     $iterations = 3;
+    //     for ($i = 0; $i < $iterations; $i++) {
+    //         $key = Crypt::decrypt($key);
+    //     }
+    //     $macAddress = $key['mac_address'];
+    //     $serialNumber = $key['serial_number'];
+    //     $expiryDate = $request->expiry_date; // Get the expiry date from the request
+    //     $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
+    //     // Encrypt the data
+    //     $data = Hash::make($combine);
+    //     // return redirect()->back()->with('decryptedData', $data);
+    //     return back()->with('decryptedData', $data);
+    // }
+    return view('decrypt');
+});
+
+Route::any('/gkey', function (Request $request) {
     $key = $request->key;
     $iterations = 3;
     for ($i = 0; $i < $iterations; $i++) {
         $key = Crypt::decrypt($key);
     }
-    $macAddress = $key['mac_address'];
-    $serialNumber = $key['serial_number'];
-    $expiryDate = "2023-12-31";
-    $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
-    // Encrypt the data
-    $data = Hash::make($combine);
+    // $key['instanceid'];
+    if (array_key_exists('instanceid', $key)) {
+        $instanceid = $key['instanceid'];
+        $expiryDate = $request->expiry_date; // Get the expiry date from the request
+        $combine = $instanceid .';'. $expiryDate .';'.'apsoft';
+        // Encrypt the data
+        $data = Hash::make($combine);
+    }
+    else if (array_key_exists('mac_address', $key)) {
+        $macAddress = $key['mac_address'];
+        $serialNumber = $key['serial_number'];
+        $expiryDate = $request->expiry_date; // Get the expiry date from the request
+        $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
+        // Encrypt the data
+        $data = Hash::make($combine);
+    }
+    else{
+        $data = 'Incorrect Code';
+    }
     return $data;
 });
 
+Route::get('/adminkey', function (Request $request) {
+    return view('key-modal');
+});
 
+Route::any('/genkey', function (Request $request) {
+    $count = $request->admin+1;
+    $hash = "apsoft;$count;apsoft";
+    $key = Hash::make($hash);
+    $data = Crypt::encrypt($key);
+    // return view('key-modal');
+    return $data;
+})->name('generateKey');

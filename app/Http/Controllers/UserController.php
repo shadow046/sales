@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
 use Yajra\Datatables\Datatables;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -144,7 +145,9 @@ class UserController extends Controller
 
     public function users_save(Request $request){
         if ($request->role == 1) {
-            if (!Hash::check($request->password,User::where('id', 0)->first()->password)) {
+            $count = User::where('userlevel', 1)->count()+1;
+            $hashs = "apsoft;$count;apsoft";
+            if (!Hash::check($hashs, Crypt::decrypt($request->password))) {
                 return response('false');
             }
         }
@@ -177,9 +180,7 @@ class UserController extends Controller
         }
         $users->status = 'ACTIVE';
         if ($request->role == 1) {
-            if (Hash::check($request->password,User::where('id', 0)->first()->password)) {
-                $hash = strtoupper($request->name).';'.strtolower($request->email).'apsoft';
-            }
+            $hash = strtoupper($request->name).';'.strtolower($request->email).'apsoft';
         }
         else{
             $hash = strtoupper($request->name).';'.strtolower($request->email).'user';

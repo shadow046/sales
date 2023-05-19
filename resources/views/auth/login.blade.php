@@ -88,6 +88,19 @@ $(document).ready(function(){
             }
         });
     }
+    else if ($(location).attr('pathname')+window.location.search == '/login?user=session'){
+        Swal.fire({
+            title: "SESSION CONFLICT",
+            html: "<strong>Warning:</strong> You are being kicked out because someone else is logging in.",
+            icon: "warning",
+            allowOutsideClick: false
+        })
+        .then((result) => {
+            if(result.isConfirmed){
+                window.location.href = "/login";
+            }
+        });
+    }
 });
 </script>
 @endsection

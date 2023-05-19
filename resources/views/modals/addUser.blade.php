@@ -21,8 +21,8 @@
                 </div>
                 <div class="mb-4">
                     <div class="f-outline">
-                        <input class="forminput form-control bg-white" style="display:none" type="password" id="pass" name="pass" placeholder=" ">
-                        <label for="pass" class="formlabel form-label">Password</label>
+                        <input class="forminput form-control bg-white" style="display:none" type="search" id="pass" name="pass" placeholder=" " autocomplete="off">
+                        <label for="pass" class="formlabel form-label">Verification key</label>
                     </div>
                 </div>
                 <div class="mb-4">

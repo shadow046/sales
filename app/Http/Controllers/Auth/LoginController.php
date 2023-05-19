@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Session;
 
 class LoginController extends Controller
 {
@@ -48,14 +50,16 @@ class LoginController extends Controller
                 if (!Hash::check($hash, auth()->user()->guard)) {
                     Auth::logout();
                     return redirect('/login?user=forbidden');
-                } 
+                }
             }
         }
         if(auth()->user()->status == 'INACTIVE'){
             Auth::logout();
             return redirect('/login?user=inactive');
         }
-
+        User::where('id',auth()->user()->id)->update([
+            'session_id' => Session::getId()
+        ]);
         $userlogs = new UserLogs;
         $userlogs->user_id = auth()->user()->id;
         $userlogs->activity = 'LOG-IN: User successfully logged in!';

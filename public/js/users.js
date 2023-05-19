@@ -281,6 +281,7 @@ function btnAddUser(){
     stores_list = [];
     $('.req').hide();
     $('#name').val('');
+    $('#pass').val('');
     $('#email').val('');
     $('#role').val('');
     $('#role').change();
@@ -313,13 +314,13 @@ $('#btnClear').on('click', function(){
 
 $('#btnAddUser').on('click', function(){
     btnAddUser();
-    var currentURL = window.location.href;
+    // var currentURL = window.location.href;
     // Check if the 'admin' parameter exists in the current URL
-    if (currentURL.includes('admin=1')) {
-        $('#pass').show();
-    }else{
-        $('#role option:contains("ADMIN")').remove();
-    }
+    // if (currentURL.includes('admin=1')) {
+    //     $('#pass').show();
+    // }else{
+    //     $('#role option:contains("ADMIN")').remove();
+    // }
     $('#addUser').modal('show');
 });
 
@@ -1032,6 +1033,13 @@ $(document).on('change', '#role',function(){
     $('#branchAll').prop('checked', false);
     $('#store').val('');
     $('#store').trigger('chosen:updated');
+    if($(this).val() == '1'){
+        $('#pass').show();
+    }
+    else{
+        $('#pass').hide();
+    }
+
     if($(this).val() == '6'){
         $('.classFranchisee').hide();
         $('.classAreaManager').hide();
