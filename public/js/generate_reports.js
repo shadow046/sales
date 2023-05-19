@@ -443,14 +443,11 @@ $('#btnGenerate').on('click', function(){
                   var sum = this.data().reduce(function(a, b){
                     return intVal(a) + intVal(b);
                   }, 0);
-                  sum = Number(sum).toFixed(2);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
                   sum = sum.toString();
                   var pattern = /(-?\d+)(\d{3})/;
                   while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
                   this.footer().innerHTML = sum;
-                  if(this.footer().hasClass('trimDec')){
-                    this.footer().innerHTML.slice(0, -3);
-                  }
                 });
             },
             initComplete: function(){
@@ -590,26 +587,34 @@ $('#btnGenerate').on('click', function(){
                 }
             ],
             order: [],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -719,26 +724,34 @@ $('#btnGenerate').on('click', function(){
                 }
             ],
             order: [],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -820,26 +833,34 @@ $('#btnGenerate').on('click', function(){
                 }
             ],
             order: [],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -949,26 +970,34 @@ $('#btnGenerate').on('click', function(){
                 }
             ],
             order: [],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -1081,14 +1110,18 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                         </th>
                         <th class="sum">
                             <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/><br>
-                            GROSS SALES
+                            NO. OF TRANSACTIONS
                         </th>
                         <th class="sum">
                             <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/><br>
-                            TOTAL SALES
+                            GROSS SALES
                         </th>
                         <th class="sum">
                             <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/><br>
+                            TOTAL SALES
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input2A" data-column="13" style="border:1px solid #808080"/><br>
                             NET SALES
                         </th>
                     </tr>
@@ -1105,6 +1138,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -1162,6 +1196,15 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                 { data: 'subgroup' },
                 { data: 'network_setup' },
                 {
+                    data: 'tno',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
+                {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
                         if(type === "sort" || type === 'type'){
@@ -1190,26 +1233,34 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                 }
             ],
             order: [],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -1224,7 +1275,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         });
         setInterval(() => {
             if($('.popover-header').is(':visible')){
-                for(var i=0; i<=12; i++){
+                for(var i=0; i<=13; i++){
                     if(table2A.column(i).visible()){
                         $('#filter2-'+i).prop('checked', true);
                     }
@@ -1384,26 +1435,34 @@ function report_datesA(datacode, headername, urlName, colData){
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
@@ -1512,26 +1571,34 @@ function report_datesB(datacode, headername, urlName, colData){
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
@@ -1641,26 +1708,34 @@ function report_datesC(datacode, headername, urlName, colData){
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
@@ -1785,26 +1860,34 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -1908,26 +1991,34 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -2051,26 +2142,34 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -2161,26 +2260,34 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -2299,26 +2406,34 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -2461,26 +2576,34 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
@@ -2585,26 +2708,34 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
@@ -2696,26 +2827,34 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
@@ -2842,26 +2981,34 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -2988,26 +3135,34 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
                     }
                 }
             ],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
                 });
             },
             initComplete: function(){
@@ -3151,26 +3306,34 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
@@ -3287,26 +3450,34 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
                 }
             }
         ],
-        footerCallback:function(row,data,start,end,display){
-            var api=this.api(),data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[^\d.-]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
             };
-            api.columns('.sum',{page:'all'}).every(function(){
-            var sum=this
-                .data()
-                .reduce(function(a,b){
-                    return intVal(a)+intVal(b);
-                },0);
-                sum=Number(sum).toFixed(2);
-                sum=sum.toString();
-                var pattern=/(-?\d+)(\d{3})/;
-                while(pattern.test(sum))
-                sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML=sum;
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
             });
         },
         initComplete: function(){
