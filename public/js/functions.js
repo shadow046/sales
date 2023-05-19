@@ -476,19 +476,6 @@ function checkRequiredFields(){
     }
 }
 
-function debuggerFunction() {
-    if(current_server == 'BETA'){
-        $('#loading').show();
-        var randomNumber = Math.floor(Math.random() * 100) + 1;
-        if(randomNumber % 2 === 0){
-            setTimeout(() => {
-                alert('DataTables warning: table id=tblReports1 - Ajax error. For more information about this error, please see http://datatables.net/tn/7');
-            }, 2000);
-            return false;
-        }
-    }
-}
-
 $(document).on('blur', '.priceField', function(){
     if(!$(this).val()){
         $(this).val('0.00');
