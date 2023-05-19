@@ -93,7 +93,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter2" id="filter2-10" data-column="10" disabled/> GROSS SALES
+                    <input checked type="checkbox" class="checkboxFilter2" id="filter2-10" data-column="10"/> NO. OF TRANSACTIONS
                 </label>
             </div>
         </div>
@@ -102,7 +102,7 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter2" id="filter2-11" data-column="11" disabled/> TOTAL SALES
+                    <input checked type="checkbox" class="checkboxFilter2" id="filter2-11" data-column="11" disabled/> GROSS SALES
                 </label>
             </div>
         </div>
@@ -111,7 +111,16 @@
         <div class="col">
             <div class="checkbox">
                 <label>
-                    <input checked type="checkbox" class="checkboxFilter2" id="filter2-12" data-column="12" disabled/> NET SALES
+                    <input checked type="checkbox" class="checkboxFilter2" id="filter2-12" data-column="12" disabled/> TOTAL SALES
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input checked type="checkbox" class="checkboxFilter2" id="filter2-13" data-column="13" disabled/> NET SALES
                 </label>
             </div>
         </div>

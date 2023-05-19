@@ -149,6 +149,7 @@ class GenerateReportsController extends Controller
                 'network_setup.network_setup AS network_setup', DB::raw('SUM(gross) AS gross_sales'),
                 DB::raw('SUM(totalsales) AS total_sales'), DB::raw('SUM(netsales) AS net_sales')
             )
+            ->selectRaw('COUNT(DISTINCT tnumber) as tno')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')

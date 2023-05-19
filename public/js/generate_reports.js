@@ -295,7 +295,7 @@ $('#btnGenerate').on('click', function(){
                             <input type="search" class="form-control filter-input1" data-column="9" style="border:1px solid #808080"/><br>
                             NETWORK SETUP
                         </th>
-                        <th>
+                        <th class="sum">
                             <input type="search" class="form-control filter-input1" data-column="10" style="border:1px solid #808080"/><br>
                             NO. OF TRANSACTIONS
                         </th>
@@ -325,7 +325,7 @@ $('#btnGenerate').on('click', function(){
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum trimDec"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -420,26 +420,37 @@ $('#btnGenerate').on('click', function(){
                 }
             ],
             order: [],
-            footerCallback:function(row,data,start,end,display){
-                var api=this.api(),data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[^\d.-]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
                 };
-                api.columns('.sum',{page:'all'}).every(function(){
-                var sum=this
-                    .data()
-                    .reduce(function(a,b){
-                        return intVal(a)+intVal(b);
-                    },0);
-                    sum=Number(sum).toFixed(2);
-                    sum=sum.toString();
-                    var pattern=/(-?\d+)(\d{3})/;
-                    while(pattern.test(sum))
-                    sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML=sum;
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = Number(sum).toFixed(2);
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
+                  if(this.footer().hasClass('trimDec')){
+                    this.footer().innerHTML.slice(0, -3);
+                  }
                 });
             },
             initComplete: function(){
@@ -454,7 +465,7 @@ $('#btnGenerate').on('click', function(){
         });
         setInterval(() => {
             if($('.popover-header').is(':visible')){
-                for(var i=0; i<=12; i++){
+                for(var i=0; i<=13; i++){
                     if(table1.column(i).visible()){
                         $('#filter-'+i).prop('checked', true);
                     }
