@@ -210,7 +210,6 @@ $(document).on('click','table.posTable tbody tr',function(){
 
     $('#model').val(data.model);
     model_orig = data.model;
-    console.log(model_orig);
     $('#brand').val(data.brand);
     $('#vendor').val(data.vendor);
 

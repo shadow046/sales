@@ -1455,7 +1455,6 @@ $('.remove_image').on('click',function(){
             $('#product_image_preview').attr('src','');
             $('#product_image_preview').hide();
             product_image_change = 'CHANGED';
-            console.log(product_image_change);
         }
     });
 });

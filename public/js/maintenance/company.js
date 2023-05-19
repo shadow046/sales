@@ -142,7 +142,6 @@ $(document).on('change', '.togBtn', function(){
     else{
         var status = 'INACTIVE';
     }
-    console.log(status);
     $.ajax({
         url: '/company_status',
         data:{

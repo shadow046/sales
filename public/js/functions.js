@@ -836,7 +836,6 @@ $(document).on('change','.multiple_field', function(){
 });
 
 $(document).on('change','.single_field', function(){
-    console.log($(this).attr('id'));
     if(!$(this).val() && $(this).hasClass('requiredField')){
         $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
     }

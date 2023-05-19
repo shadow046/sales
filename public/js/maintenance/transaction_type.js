@@ -194,7 +194,6 @@ $('.updateBtn').on('click',function(){
 $('.deleteBtn').on('click',function(){
     var transaction_type_id = $('#transaction_type_id').val();
     var transaction_type = $.trim($('#transaction_type').val());
-    console.log(transaction_type);
     Swal.fire({
         title: 'Do you want to delete?',
         allowOutsideClick: false,
@@ -250,7 +249,6 @@ $('.deleteBtn').on('click',function(){
 });
 
 $('#transaction_type').on('keyup',function(){
-    console.log(transaction_type_orig);
     if(transaction_type_orig != $.trim($('#transaction_type').val()).toUpperCase()){
         $.ajax({
             url: "/transaction_type/checkDuplicate",
