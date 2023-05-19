@@ -881,11 +881,7 @@ $(document).on('focusout', '.requiredField', function(){
 //     }
 // });
 
-// function btnExportClick(tblID){
-//     $('.buttons-pdf[aria-controls='+tblID+']').click();
-// }
-
-function btnExportClick(tblID) {
+function btnExportClick(tblID){
     Swal.fire({
         title: 'Export Table as?',
         showDenyButton: true,
@@ -894,10 +890,10 @@ function btnExportClick(tblID) {
         denyButtonText: `PDF`,
       }).then((result) => {
         if(result.isConfirmed){
-            $('.buttons-excel[aria-controls=' + tblID + ']').click();
+            $('.buttons-excel[aria-controls='+tblID+']').click();
         }
         else if(result.isDenied){
-            $('.buttons-pdf[aria-controls=' + tblID + ']').click();
+            $('.buttons-pdf[aria-controls='+tblID+']').click();
         }
     });
 }
