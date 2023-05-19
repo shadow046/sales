@@ -44,6 +44,11 @@ $(document).ready(function(){
     // $('#btnGenerate').click();
 });
 
+$('.debug-reports').on('click', function(){
+    $('#start_date').val('2023-01-01');
+    $('#end_date').val('2023-01-31');
+});
+
 setInterval(() => {
     if($('#report_type').val() == 'STANDARD' || $('#report_type').val() == 'QUANTITATIVE'){
         $('.classComparative').hide();
