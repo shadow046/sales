@@ -76,7 +76,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -85,7 +85,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -94,7 +94,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -103,7 +103,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -112,7 +112,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -121,7 +121,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -130,7 +130,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -139,7 +139,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
             ],
@@ -296,7 +296,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -305,7 +305,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -314,7 +314,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -323,7 +323,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -332,7 +332,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -341,7 +341,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -350,7 +350,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -359,7 +359,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -368,7 +368,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -377,7 +377,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -386,7 +386,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -395,7 +395,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -404,7 +404,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -413,7 +413,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -422,7 +422,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -431,7 +431,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -440,7 +440,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -449,7 +449,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -458,7 +458,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -467,7 +467,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -476,7 +476,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -485,7 +485,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -494,7 +494,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -503,7 +503,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -512,7 +512,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 }
             ],
@@ -1191,7 +1191,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1200,7 +1200,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1209,7 +1209,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1218,7 +1218,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1227,7 +1227,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1236,7 +1236,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1245,7 +1245,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1254,7 +1254,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
             ],
@@ -1408,7 +1408,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1417,7 +1417,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1426,7 +1426,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1435,7 +1435,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1444,7 +1444,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1453,7 +1453,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1462,7 +1462,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1471,7 +1471,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1480,7 +1480,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1489,7 +1489,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1498,7 +1498,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1507,7 +1507,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1516,7 +1516,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1525,7 +1525,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1534,7 +1534,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1543,7 +1543,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1552,7 +1552,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1561,7 +1561,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1570,7 +1570,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1579,7 +1579,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1588,7 +1588,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1597,7 +1597,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1606,7 +1606,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1615,7 +1615,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 },
                 {
@@ -1624,7 +1624,7 @@ function quantitative_report(reports_header){
                         if(type === "sort" || type === 'type'){
                             return sortAmount(data);
                         }
-                        return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                        return amountType(data);
                     }
                 }
             ],
@@ -1706,7 +1706,7 @@ $('#report_filter').on('change', function(){
 });
 
 function amountType(data){
-    if($('#sales_type').val() == 'SALES QUANTITY'){
+    if($('#sales_type').val() == 'SALES QUANTITY' || $('#sales_type').val() == 'NO. OF TRANSACTIONS'){
         return `<span class="float-end">${data.toLocaleString()}</span>`;
     }
     else{
