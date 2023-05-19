@@ -45,17 +45,32 @@ function quantitative_report(reports_header){
                 left: 2,
             },
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: reports_header5,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
