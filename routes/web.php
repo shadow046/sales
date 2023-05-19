@@ -105,6 +105,7 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::get('/sales/reports/time/branch','byTimeBranch');
         Route::get('/sales/reports/time/product','byTimeProduct');
         Route::get('/sales/reports/time/transaction','byTimeTransaction');
+        Route::get('/sales/reports/reference','byReference');
     });
 
     Route::controller(GroupController::class)->group(function(){

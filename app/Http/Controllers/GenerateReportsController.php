@@ -1262,4 +1262,22 @@ class GenerateReportsController extends Controller
             ->get();
         return DataTables::of($data)->make(true);
     }
+
+    public function byReference(Request $request){
+        if(strpos($request->datatype, 'TRANSACTION') !== false){
+            $data = Hdr::select(DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'))
+                    ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+                    ->where('tnumber', $request->tnumber)
+                    ->first()
+                    ->branch_name;
+            return $data;
+        }
+        else{
+            $data = Hdr::select('trantype')
+                    ->where('tnumber', $request->tnumber)
+                    ->first()
+                    ->trantype;
+            return $data;
+        }
+    }
 }

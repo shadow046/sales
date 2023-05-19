@@ -3056,156 +3056,169 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
     $('#reportsTableC').empty();
     emptyStandard();
 
-    var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerC"><span id="subheaderC">${headername} (${formatDate(selected_date).toUpperCase()}) (REF#: ${data.transcode})</span></h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsC')"><i class="fas fa-file-export"></i> EXPORT</button></div>
-    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsC" type="button"><span>PDF</span></button>
-    <div class="table-responsive container-fluid pt-2">
-        <table class="table table-hover table-bordered table-striped tblReportsC" id="tblReportsC" style="width:100%;">
-            <thead style="font-weight:bolder" class="bg-default">
-                <tr class="tbsearch">
-                    <td>
-                        <input type="search" class="form-control filter-inputC" data-column="0" style="border:1px solid #808080"/>
-                    </td>
-                    <td>
-                        <input type="search" class="form-control filter-inputC" data-column="1" style="border:1px solid #808080"/>
-                    </td>
-                    <td>
-                        <input type="search" class="form-control filter-inputC" data-column="2" style="border:1px solid #808080"/>
-                    </td>
-                    <td>
-                        <input type="search" class="form-control filter-inputC" data-column="3" style="border:1px solid #808080"/>
-                    </td>
-                    <td>
-                        <input type="search" class="form-control filter-inputC" data-column="4" style="border:1px solid #808080"/>
-                    </td>
-                    <td>
-                        <input type="search" class="form-control filter-inputC" data-column="5" style="border:1px solid #808080"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>CATEGORY</th>
-                    <th>ITEM CODE</th>
-                    <th>SHORT DESCRIPTION</th>
-                    <th>LONG DESCRIPTION</th>
-                    <th>QTY</th>
-                    <th class="sum">GROSS SALES</th>
-                </tr>
-            </thead>
-            <tfoot style="font-size: 14px;">
-                <tr>
-                    <th class="text-right" colspan="5">TOTAL:</th>
-                    <th class="text-right sum"></th>
-                </tr>
-            </tfoot>
-        </table>
-        <br>
-    </div>`;
-    $('#reportsTableC').append(htmlString);
-    tableC = $('table.tblReportsC').DataTable({
-        dom: 'Blftrip',
-        buttons: [
-            {
-                extend: 'excelHtml5',
-                text: 'Excel',
-                title: $('#headerC').text(),
-                exportOptions: {
-                    modifier: {
-                    order: 'index',
-                    page: 'all',
-                    search: 'none'
-                    }
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: 'PDF',
-                title: $('#headerC').text(),
-                exportOptions: {
-                    modifier: {
-                    order: 'index',
-                    page: 'all',
-                    search: 'none'
-                    }
-                }
-            }
-        ],
-        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-        processing: true,
-        serverSide: false,
-        ajax: {
-            url: '/sales/reports/transaction_details',
-            data:{
-                transcode: data.transcode
-            }
+    $.ajax({
+        url: "/sales/reports/reference",
+        type: "get",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        autoWidth: false,
-        columns: [
-            { data: 'itemcat' },
-            { data: 'itemcode' },
-            { data: 'desc1' },
-            {
-                data: 'desc2',
-                "render": function(data, type, row, meta){
-                    return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
-                }
-            },
-            {
-                data: 'quantity',
-                "render": function(data, type, row, meta){
-                    if(type === "sort" || type === 'type'){
-                        return sortAmount(data);
+        data:{
+            tnumber: data.transcode,
+            datatype: $('#report_filter').val().toUpperCase()
+        },
+        success:function(response){
+            var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerC"><span id="subheaderC">${headername} (${formatDate(selected_date).toUpperCase()}) (REF#: ${data.transcode}) (${response})</span></h4>
+            <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsC')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+            <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsC" type="button"><span>PDF</span></button>
+            <div class="table-responsive container-fluid pt-2">
+                <table class="table table-hover table-bordered table-striped tblReportsC" id="tblReportsC" style="width:100%;">
+                    <thead style="font-weight:bolder" class="bg-default">
+                        <tr class="tbsearch">
+                            <td>
+                                <input type="search" class="form-control filter-inputC" data-column="0" style="border:1px solid #808080"/>
+                            </td>
+                            <td>
+                                <input type="search" class="form-control filter-inputC" data-column="1" style="border:1px solid #808080"/>
+                            </td>
+                            <td>
+                                <input type="search" class="form-control filter-inputC" data-column="2" style="border:1px solid #808080"/>
+                            </td>
+                            <td>
+                                <input type="search" class="form-control filter-inputC" data-column="3" style="border:1px solid #808080"/>
+                            </td>
+                            <td>
+                                <input type="search" class="form-control filter-inputC" data-column="4" style="border:1px solid #808080"/>
+                            </td>
+                            <td>
+                                <input type="search" class="form-control filter-inputC" data-column="5" style="border:1px solid #808080"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>CATEGORY</th>
+                            <th>ITEM CODE</th>
+                            <th>SHORT DESCRIPTION</th>
+                            <th>LONG DESCRIPTION</th>
+                            <th>QTY</th>
+                            <th class="sum">GROSS SALES</th>
+                        </tr>
+                    </thead>
+                    <tfoot style="font-size: 14px;">
+                        <tr>
+                            <th class="text-right" colspan="5">TOTAL:</th>
+                            <th class="text-right sum"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br>
+            </div>`;
+            $('#reportsTableC').append(htmlString);
+            tableC = $('table.tblReportsC').DataTable({
+                dom: 'Blftrip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excel',
+                        title: $('#headerC').text(),
+                        exportOptions: {
+                            modifier: {
+                            order: 'index',
+                            page: 'all',
+                            search: 'none'
+                            }
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'PDF',
+                        title: $('#headerC').text(),
+                        exportOptions: {
+                            modifier: {
+                            order: 'index',
+                            page: 'all',
+                            search: 'none'
+                            }
+                        }
                     }
-                    return `<span class="float-end">${data.toLocaleString()}</span>`;
-                }
-            },
-            {
-                data: 'gross_sales',
-                "render": function(data, type, row, meta){
-                    if(type === "sort" || type === 'type'){
-                        return sortAmount(data);
+                ],
+                aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: '/sales/reports/transaction_details',
+                    data:{
+                        transcode: data.transcode
                     }
-                    return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                },
+                autoWidth: false,
+                columns: [
+                    { data: 'itemcat' },
+                    { data: 'itemcode' },
+                    { data: 'desc1' },
+                    {
+                        data: 'desc2',
+                        "render": function(data, type, row, meta){
+                            return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
+                        }
+                    },
+                    {
+                        data: 'quantity',
+                        "render": function(data, type, row, meta){
+                            if(type === "sort" || type === 'type'){
+                                return sortAmount(data);
+                            }
+                            return `<span class="float-end">${data.toLocaleString()}</span>`;
+                        }
+                    },
+                    {
+                        data: 'gross_sales',
+                        "render": function(data, type, row, meta){
+                            if(type === "sort" || type === 'type'){
+                                return sortAmount(data);
+                            }
+                            return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                        }
+                    }
+                ],
+                footerCallback: function (row, data, start, end, display){
+                    var api = this.api();
+                    var intVal = function(i){
+                      if(typeof i === 'string'){
+                        var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                        if(/\.\d{2}$/.test(cleanValue)){
+                          return parseFloat(cleanValue);
+                        }
+                        else{
+                          return parseInt(cleanValue);
+                        }
+                      }
+                      else if(typeof i === 'number'){
+                        return i;
+                      }
+                      else{
+                        return 0;
+                      }
+                    };
+                    api.columns('.sum', { page: 'all' }).every(function(){
+                      var sum = this.data().reduce(function(a, b){
+                        return intVal(a) + intVal(b);
+                      }, 0);
+                      sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                      sum = sum.toString();
+                      var pattern = /(-?\d+)(\d{3})/;
+                      while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                      this.footer().innerHTML = sum;
+                    });
+                },
+                initComplete: function(){
+                    $('#loading').hide();
+                    setTimeout(() => {
+                        window.location.href = '/sales/reports#tblReportsC';
+                        $('html, body').animate({
+                            scrollTop: $($.attr(this, 'href')).offset()
+                        }, 1000);
+                    }, 200);
                 }
-            }
-        ],
-        footerCallback: function (row, data, start, end, display){
-            var api = this.api();
-            var intVal = function(i){
-              if(typeof i === 'string'){
-                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
-                if(/\.\d{2}$/.test(cleanValue)){
-                  return parseFloat(cleanValue);
-                }
-                else{
-                  return parseInt(cleanValue);
-                }
-              }
-              else if(typeof i === 'number'){
-                return i;
-              }
-              else{
-                return 0;
-              }
-            };
-            api.columns('.sum', { page: 'all' }).every(function(){
-              var sum = this.data().reduce(function(a, b){
-                return intVal(a) + intVal(b);
-              }, 0);
-              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
-              sum = sum.toString();
-              var pattern = /(-?\d+)(\d{3})/;
-              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
-              this.footer().innerHTML = sum;
             });
-        },
-        initComplete: function(){
-            $('#loading').hide();
-            setTimeout(() => {
-                window.location.href = '/sales/reports#tblReportsC';
-                $('html, body').animate({
-                    scrollTop: $($.attr(this, 'href')).offset()
-                }, 1000);
-            }, 200);
         }
     });
 });
