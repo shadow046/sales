@@ -787,10 +787,6 @@ $('#btnChangePassword').on('click', function(){
     }
 });
 
-$(document).on('click','.btnExport',function(){
-    $('.buttons-excel').click();
-});
-
 function alpha_numeric(input){
     var letters_only = /[^- ñ a-z _ (0-9)]/gi;
     input.value = input.value.replace(letters_only,"");
@@ -864,22 +860,9 @@ $(document).on('focusout', '.requiredField', function(){
     }
 });
 
-// $(document).on('focusout', '.requiredField', function(){
-//     if(!$(this).val()){
-//         alertName = 'className'+$(this).attr('id');
-//         if($('.'+alertName+':visible').length == 0){
-//             $(this).after('<span class="'+alertName+' req"><div style="height: 18px !important;">&nbsp;</div><p class="requiredValidation"><i class="fas fa-exclamation-triangle"></i> Required Field</p></span>');
-//         }
-//         else if($('.'+alertName+':visible').length > 1){
-//             alertName = 'className'+$(this).attr('id');
-//             $('.'+alertName).remove();
-//         }
-//     }
-//     else{
-//         alertName = 'className'+$(this).attr('id');
-//         $('.'+alertName).remove();
-//     }
-// });
+$(document).on('click','.btnExport',function(){
+    $('.buttons-excel').click();
+});
 
 function btnExportClick(tblID){
     Swal.fire({
@@ -891,10 +874,17 @@ function btnExportClick(tblID){
       }).then((result) => {
         if(result.isConfirmed){
             $('.buttons-excel[aria-controls='+tblID+']').click();
+            $('#loading').show();
+            setTimeout(() => {
+                $('#loading').hide();
+            }, 3000);
         }
         else if(result.isDenied){
-            console.log('pdf');
             $('.buttons-pdf[aria-controls='+tblID+']').click();
+            $('#loading').show();
+            setTimeout(() => {
+                $('#loading').hide();
+            }, 3000);
         }
     });
 }
