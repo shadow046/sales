@@ -246,10 +246,13 @@ $('#btnGenerate').on('click', function(){
     emptyQuantitative();
     if(current_server == 'BETA'){
         $('#loading').show();
-        setTimeout(() => {
-            alert('Internal Server Error (500) occurred!');
-        }, 2000);
-        return false;
+        var randomNumber = Math.floor(Math.random() * 100) + 1;
+        if(randomNumber % 2 === 0){
+            setTimeout(() => {
+                alert('DataTables warning: table id=tblReports1 - Ajax error. For more information about this error, please see http://datatables.net/tn/7');
+            }, 2000);
+            return false;
+        }
     }
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
