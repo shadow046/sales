@@ -148,6 +148,7 @@
     <div class="col-md-4 f-outline">
         <select id="sales_type" name="sales_type" class="forminput form-control form-select requiredField" style="color: black">
             <option value="" selected disabled>SELECT SALES TYPE</option>
+            <option value="NO. OF TRANSACTIONS" class="salesStore">NO. OF TRANSACTIONS</option>
             <option value="GROSS SALES" class="salesStore">GROSS SALES</option>
             <option value="TOTAL SALES" class="salesStore">TOTAL SALES</option>
             <option value="NET SALES" class="salesStore">NET SALES</option>

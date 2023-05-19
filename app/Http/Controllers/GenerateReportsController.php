@@ -240,6 +240,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    //ORIGINAL CODE
     public function byProduct(Request $request){
         $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
@@ -266,6 +267,39 @@ class GenerateReportsController extends Controller
             }
             $data->groupBy('itemcat','itemcode','desc1','desc2');
             $data->orderBy('quantity', 'DESC')->get();
+        return DataTables::of($data)->make(true);
+    }
+
+    //OPTIMIZED CODE
+    public function byProduct_OPTIMIZED(Request $request)
+    {
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('itemcat', '!=', '')
+            ->where('refund', '=', '0')
+            ->where('cancelled', '=', '0')
+            ->where('void', '=', '0');
+
+        if($request->included){
+            $data->whereIn('itemcode', $request->included);
+        }
+
+        if($request->byWhat == 'combo'){
+            $data->whereHas('product.category', function($data){
+                $data->where('category', '!=', 'PROMO')
+                    ->where('enable_combo', 'Y');
+            });
+        } elseif ($request->byWhat == 'promo'){
+            $data->whereHas('product.category', function($data){
+                $data->where('category', 'PROMO')
+                    ->where('enable_combo', 'Y');
+            });
+        }
+
+        $data->groupBy('itemcat', 'itemcode', 'desc1', 'desc2')
+            ->orderBy('quantity', 'DESC')
+            ->get();
+
         return DataTables::of($data)->make(true);
     }
 

@@ -295,16 +295,20 @@ $('#btnGenerate').on('click', function(){
                             <input type="search" class="form-control filter-input1" data-column="9" style="border:1px solid #808080"/><br>
                             NETWORK SETUP
                         </th>
-                        <th class="sum">
+                        <th>
                             <input type="search" class="form-control filter-input1" data-column="10" style="border:1px solid #808080"/><br>
-                            GROSS SALES
+                            NO. OF TRANSACTIONS
                         </th>
                         <th class="sum">
                             <input type="search" class="form-control filter-input1" data-column="11" style="border:1px solid #808080"/><br>
-                            TOTAL SALES
+                            GROSS SALES
                         </th>
                         <th class="sum">
                             <input type="search" class="form-control filter-input1" data-column="12" style="border:1px solid #808080"/><br>
+                            TOTAL SALES
+                        </th>
+                        <th class="sum">
+                            <input type="search" class="form-control filter-input1" data-column="13" style="border:1px solid #808080"/><br>
                             NET SALES
                         </th>
                     </tr>
@@ -321,6 +325,7 @@ $('#btnGenerate').on('click', function(){
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -378,6 +383,15 @@ $('#btnGenerate').on('click', function(){
                 { data: 'subgroup' },
                 { data: 'network_setup' },
                 {
+                    data: 'tno',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
+                {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
                         if(type === "sort" || type === 'type'){
@@ -425,7 +439,7 @@ $('#btnGenerate').on('click', function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -584,7 +598,7 @@ $('#btnGenerate').on('click', function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -713,7 +727,7 @@ $('#btnGenerate').on('click', function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -814,7 +828,7 @@ $('#btnGenerate').on('click', function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -943,7 +957,7 @@ $('#btnGenerate').on('click', function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -1184,7 +1198,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -1259,10 +1273,14 @@ function report_datesA(datacode, headername, urlName, colData){
                     <td>
                         <input type="search" class="form-control filter-input2" data-column="4" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="5" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>DATE</th>
                     <th>DAY</th>
+                    <th class="sum">NO. OF TRANSACTIONS</th>
                     <th class="sum">GROSS SALES</th>
                     <th class="sum">TOTAL SALES</th>
                     <th class="sum">NET SALES</th>
@@ -1271,6 +1289,7 @@ function report_datesA(datacode, headername, urlName, colData){
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
@@ -1318,6 +1337,15 @@ function report_datesA(datacode, headername, urlName, colData){
             { data: 'date' },
             { data: 'date' },
             {
+                data: 'tno',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
                 data: 'gross_sales',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
@@ -1364,7 +1392,7 @@ function report_datesA(datacode, headername, urlName, colData){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -1492,7 +1520,7 @@ function report_datesB(datacode, headername, urlName, colData){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -1524,16 +1552,21 @@ function report_datesC(datacode, headername, urlName, colData){
                     <td>
                         <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>DATE</th>
                     <th>DAY</th>
+                    <th class="sum">NO. OF TRANSACTIONS</th>
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                 </tr>
             </tfoot>
@@ -1579,6 +1612,15 @@ function report_datesC(datacode, headername, urlName, colData){
             { data: 'tdate' },
             { data: 'tdate' },
             {
+                data: 'tno',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
                 data: 'total',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
@@ -1607,7 +1649,7 @@ function report_datesC(datacode, headername, urlName, colData){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -1751,7 +1793,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -1874,7 +1916,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -2017,7 +2059,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -2127,7 +2169,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -2265,7 +2307,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -2320,7 +2362,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                 </tr>
                 <tr>
                     <th>TIME</th>
-                    <th>NO. OF TRANSACTIONS</th>
+                    <th class="sum">NO. OF TRANSACTIONS</th>
                     <th class="sum">GROSS SALES</th>
                     <th class="sum">TOTAL SALES</th>
                     <th class="sum">NET SALES</th>
@@ -2328,7 +2370,8 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
-                    <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right">TOTAL:</th>
+                    <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
@@ -2376,7 +2419,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                     if(type === "sort" || type === 'type'){
                         return sortAmount(data);
                     }
-                    return `<span class="float-end">${data}</span>`;
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
                 }
             },
             {
@@ -2426,7 +2469,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -2550,7 +2593,7 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -2661,7 +2704,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -2807,7 +2850,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -2953,7 +2996,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -3116,7 +3159,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -3252,7 +3295,7 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){

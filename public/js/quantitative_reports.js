@@ -163,7 +163,7 @@ function quantitative_report(reports_header){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -528,7 +528,7 @@ function quantitative_report(reports_header){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -718,7 +718,7 @@ function quantitative_report(reports_header){
                         this.footer().innerHTML=sum;
                     }
                     else{
-                        this.footer().innerHTML='₱ '+sum;
+                        this.footer().innerHTML=sum;
                     }
                 });
             },
@@ -1096,7 +1096,7 @@ function quantitative_report(reports_header){
                         this.footer().innerHTML=sum;
                     }
                     else{
-                        this.footer().innerHTML='₱ '+sum;
+                        this.footer().innerHTML=sum;
                     }
                 });
             },
@@ -1272,7 +1272,7 @@ function quantitative_report(reports_header){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -1634,7 +1634,7 @@ function quantitative_report(reports_header){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -1758,10 +1758,14 @@ function report_dates1(datacode, headername, urlName, colData){
                     <td>
                         <input type="search" class="form-control filter-inputY" data-column="4" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-inputY" data-column="5" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>DATE</th>
                     <th>DAY</th>
+                    <th class="sum">NO. OF TRANSACTIONS</th>
                     <th class="sum">GROSS SALES</th>
                     <th class="sum">TOTAL SALES</th>
                     <th class="sum">NET SALES</th>
@@ -1770,6 +1774,7 @@ function report_dates1(datacode, headername, urlName, colData){
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
@@ -1817,6 +1822,15 @@ function report_dates1(datacode, headername, urlName, colData){
             { data: 'date' },
             { data: 'date' },
             {
+                data: 'tno',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
                 data: 'gross_sales',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
@@ -1863,7 +1877,7 @@ function report_dates1(datacode, headername, urlName, colData){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -1991,7 +2005,7 @@ function report_dates2(datacode, headername, urlName, colData){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -2062,7 +2076,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
                 </tr>
                 <tr>
                     <th>TIME</th>
-                    <th>NO. OF TRANSACTIONS</th>
+                    <th class="sum">NO. OF TRANSACTIONS</th>
                     <th class="sum">GROSS SALES</th>
                     <th class="sum">TOTAL SALES</th>
                     <th class="sum">NET SALES</th>
@@ -2070,7 +2084,8 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
-                    <th class="text-right" colspan="2">TOTAL:</th>
+                    <th class="text-right">TOTAL:</th>
+                    <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
@@ -2168,7 +2183,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -2289,7 +2304,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -2432,7 +2447,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -2576,7 +2591,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                     var pattern=/(-?\d+)(\d{3})/;
                     while(pattern.test(sum))
                     sum=sum.replace(pattern,"$1,$2");
-                    this.footer().innerHTML='₱ '+sum;
+                    this.footer().innerHTML=sum;
                 });
             },
             initComplete: function(){
@@ -2739,7 +2754,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
@@ -2876,7 +2891,7 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
                 var pattern=/(-?\d+)(\d{3})/;
                 while(pattern.test(sum))
                 sum=sum.replace(pattern,"$1,$2");
-                this.footer().innerHTML='₱ '+sum;
+                this.footer().innerHTML=sum;
             });
         },
         initComplete: function(){
