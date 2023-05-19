@@ -3,7 +3,7 @@ function quantitative_report(reports_header){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -181,7 +181,7 @@ function quantitative_report(reports_header){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -546,7 +546,7 @@ function quantitative_report(reports_header){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -737,7 +737,7 @@ function quantitative_report(reports_header){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1115,7 +1115,7 @@ function quantitative_report(reports_header){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1290,7 +1290,7 @@ function quantitative_report(reports_header){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -1738,7 +1738,7 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
 function report_dates1(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsY')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsY" id="tblReportsY" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1881,7 +1881,7 @@ function report_dates1(datacode, headername, urlName, colData){
 function report_dates2(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsY')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsY" id="tblReportsY" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2039,7 +2039,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
     $('#reportsTableZ').empty();
     $('#reportsTableA').empty();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsZ')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsZ" id="tblReportsZ" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2188,7 +2188,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
     $('#reportsTableZ').empty();
     $('#reportsTableA').empty();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(2).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsZ')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsZ" id="tblReportsZ" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2315,7 +2315,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
         $('#reportsTableA').empty();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA"><span id="subheaderA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsA')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsA" id="tblReportsA" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2459,7 +2459,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
         $('#reportsTableA').empty();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA"><span id="subheaderA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(3).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsA')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsA" id="tblReportsA" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2605,7 +2605,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
     emptyStandard();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerB">${headerA} - Per Transaction</h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(4).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsB')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsB" id="tblReportsB" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2762,7 +2762,7 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
     emptyStandard();
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerC"><span id="subheaderC">${headername} (${formatDate(selected_date).toUpperCase()}) (REF#: ${data.transcode})</span></h4>
-    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(5).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsC')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsC" id="tblReportsC" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
