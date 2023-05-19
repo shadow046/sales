@@ -79,68 +79,6 @@ class GenerateReportsController extends Controller
         return view('pages.generate_reports', compact('stores','products','combos','promos','transactions','tenders','discounts'));
     }
 
-    //ORIGINAL CODE
-    public function byBranch_ORIGINAL(Request $request){
-        $data = Hdr::selectRaw('store.id AS store_id, hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
-            company.company_name AS company_name, store_area.id AS store_area_id, store_area.store_area AS store_area, store.region AS region,
-            type.type AS type, group.group AS store_group, subgroup.subgroup AS subgroup, network_setup.network_setup AS network_setup,
-            SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
-            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->where('refund', '=', '0')
-            ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
-            ->join('company', 'company.id', 'store.company_name')
-            ->join('store_area', 'store_area.id', 'store.store_area')
-            ->join('type', 'type.id', 'store.type')
-            ->join('group', 'group.id', 'store.group')
-            ->join('subgroup', 'subgroup.id', 'store.sub_group')
-            ->join('network_setup', 'network_setup.id', 'store.network')
-            ->groupBy('store_id','hdr.storecode','branch_code','store_name','branch_name','company_name','store_area_id','store_area','region','type','store_group','subgroup','network_setup');
-            if($request->included){
-                $data->whereIn('branch_code', $request->included);
-            }
-            $data->orderBy('net_sales', 'DESC')->get();
-        return DataTables::of($data)
-        ->addColumn('area_manager', function(Hdr $hdr){
-            $area_managers = User::where('userlevel', '4')
-                ->orWhere('area', '=', $hdr->store_area_id)
-                ->orWhere('area', 'LIKE', $hdr->store_area_id.'-"%')
-                ->orWhere('area', 'LIKE', '%-"'.$hdr->store_area_id)
-                ->orWhere('area', 'LIKE', '%-"'.$hdr->store_area_id.'-"%')
-                ->get();
-            foreach($area_managers as $area_manager){
-                if($area_manager->store == $hdr->store_area_id.'-0'){
-                    return $area_manager->name;
-                }
-                else if(substr($area_manager->store, 0, strlen($hdr->store_area_id)+1) === $hdr->store_area_id.'-0|'){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_area_id.'-0') !== false){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_area_id.'-0|') !== false){
-                    return $area_manager->name;
-                }
-
-                else if($area_manager->store == $hdr->store_id){
-                    return $area_manager->name;
-                }
-                else if(substr($area_manager->store, 0, strlen($hdr->store_id)+1) === $hdr->store_area_id.'|'){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_id) !== false){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_id.'|') !== false){
-                    return $area_manager->name;
-                }
-            }
-        })
-        ->make(true);
-    }
-
-    //OPTIMIZED CODE
     public function byBranch(Request $request){
         $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
             ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name',
@@ -319,67 +257,6 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    //ORIGINAL CODE
-    public function byTransaction_Branch_ORIGINAL(Request $request){
-        $data = Hdr::selectRaw('store.id AS store_id, hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
-            company.company_name AS company_name, store_area.id AS store_area_id, store_area.store_area AS store_area, store.region AS region,
-            type.type AS type, group.group AS store_group, subgroup.subgroup AS subgroup, network_setup.network_setup AS network_setup,
-            SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
-            ->where('trantype', $request->datacode)
-            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
-            ->where('refund', '=', '0')
-            ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
-            ->join('company', 'company.id', 'store.company_name')
-            ->join('store_area', 'store_area.id', 'store.store_area')
-            ->join('type', 'type.id', 'store.type')
-            ->join('group', 'group.id', 'store.group')
-            ->join('subgroup', 'subgroup.id', 'store.sub_group')
-            ->join('network_setup', 'network_setup.id', 'store.network')
-            ->groupBy('store_id','hdr.storecode','branch_code','store_name','branch_name','company_name','store_area_id','store_area','region','type','store_group','subgroup','network_setup')
-            ->orderBy('net_sales', 'DESC')
-            ->get();
-        return DataTables::of($data)
-        ->addColumn('area_manager', function(Hdr $hdr){
-            $area_managers = User::where('userlevel', '4')
-                ->orWhere('area', '=', $hdr->store_area_id)
-                ->orWhere('area', 'LIKE', $hdr->store_area_id.'-"%')
-                ->orWhere('area', 'LIKE', '%-"'.$hdr->store_area_id)
-                ->orWhere('area', 'LIKE', '%-"'.$hdr->store_area_id.'-"%')
-                ->get();
-            foreach($area_managers as $area_manager){
-                if($area_manager->store == $hdr->store_area_id.'-0'){
-                    return $area_manager->name;
-                }
-                else if(substr($area_manager->store, 0, strlen($hdr->store_area_id)+1) === $hdr->store_area_id.'-0|'){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_area_id.'-0') !== false){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_area_id.'-0|') !== false){
-                    return $area_manager->name;
-                }
-
-                else if($area_manager->store == $hdr->store_id){
-                    return $area_manager->name;
-                }
-                else if(substr($area_manager->store, 0, strlen($hdr->store_id)+1) === $hdr->store_area_id.'|'){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_id) !== false){
-                    return $area_manager->name;
-                }
-                else if(strpos($area_manager->store, '|'.$hdr->store_id.'|') !== false){
-                    return $area_manager->name;
-                }
-            }
-        })
-        ->make(true);
-    }
-
-    //OPTIMIZED CODE
     public function byTransaction_Branch(Request $request){
         $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
             ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name',
@@ -1144,24 +1021,31 @@ class GenerateReportsController extends Controller
     }
 
     public function byDayBranch(Request $request){
+        if($request->sales_type == 'NO. OF TRANSACTIONS'){
+            $func = 'COUNT(DISTINCT ';
+            $sales = 'tnumber';
+        }
         if($request->sales_type == 'GROSS SALES'){
+            $func = 'SUM(';
             $sales = 'gross';
         }
         if($request->sales_type == 'TOTAL SALES'){
+            $func = 'SUM(';
             $sales = 'totalsales';
         }
         if($request->sales_type == 'NET SALES'){
+            $func = 'SUM(';
             $sales = 'netsales';
         }
         $data = Hdr::selectRaw('hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name')
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN ".$sales." ELSE 0 END) AS sunday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN ".$sales." ELSE 0 END) AS monday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN ".$sales." ELSE 0 END) AS tuesday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN ".$sales." ELSE 0 END) AS wednesday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN ".$sales." ELSE 0 END) AS thursday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN ".$sales." ELSE 0 END) AS friday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN ".$sales." ELSE 0 END) AS saturday_sales")
-            ->selectRaw("SUM(".$sales.") AS total_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN ".$sales." ELSE 0 END) AS sunday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN ".$sales." ELSE 0 END) AS monday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN ".$sales." ELSE 0 END) AS tuesday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN ".$sales." ELSE 0 END) AS wednesday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN ".$sales." ELSE 0 END) AS thursday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN ".$sales." ELSE 0 END) AS friday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN ".$sales." ELSE 0 END) AS saturday_sales")
+            ->selectRaw("".$func."".$sales.") AS total_sales")
             ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
@@ -1198,24 +1082,31 @@ class GenerateReportsController extends Controller
     }
 
     public function byDayTransaction(Request $request){
+        if($request->sales_type == 'NO. OF TRANSACTIONS'){
+            $func = 'COUNT(DISTINCT ';
+            $sales = 'tnumber';
+        }
         if($request->sales_type == 'GROSS SALES'){
+            $func = 'SUM(';
             $sales = 'gross';
         }
         if($request->sales_type == 'TOTAL SALES'){
+            $func = 'SUM(';
             $sales = 'totalsales';
         }
         if($request->sales_type == 'NET SALES'){
+            $func = 'SUM(';
             $sales = 'netsales';
         }
         $data = Hdr::selectRaw('trantype')
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN ".$sales." ELSE 0 END) AS sunday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN ".$sales." ELSE 0 END) AS monday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN ".$sales." ELSE 0 END) AS tuesday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN ".$sales." ELSE 0 END) AS wednesday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN ".$sales." ELSE 0 END) AS thursday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN ".$sales." ELSE 0 END) AS friday_sales")
-            ->selectRaw("SUM(CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN ".$sales." ELSE 0 END) AS saturday_sales")
-            ->selectRaw("SUM(".$sales.") AS total_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 1 THEN ".$sales." ELSE 0 END) AS sunday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 2 THEN ".$sales." ELSE 0 END) AS monday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 3 THEN ".$sales." ELSE 0 END) AS tuesday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 4 THEN ".$sales." ELSE 0 END) AS wednesday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 5 THEN ".$sales." ELSE 0 END) AS thursday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 6 THEN ".$sales." ELSE 0 END) AS friday_sales")
+            ->selectRaw("".$func."CASE WHEN DAYOFWEEK(STR_TO_DATE(tdate,'%m/%d/%Y')) = 7 THEN ".$sales." ELSE 0 END) AS saturday_sales")
+            ->selectRaw("".$func."".$sales.") AS total_sales")
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
@@ -1226,41 +1117,48 @@ class GenerateReportsController extends Controller
     }
 
     public function byTimeBranch(Request $request){
+        if($request->sales_type == 'NO. OF TRANSACTIONS'){
+            $func = 'COUNT(DISTINCT ';
+            $sales = 'tnumber';
+        }
         if($request->sales_type == 'GROSS SALES'){
+            $func = 'SUM(';
             $sales = 'gross';
         }
         if($request->sales_type == 'TOTAL SALES'){
+            $func = 'SUM(';
             $sales = 'totalsales';
         }
         if($request->sales_type == 'NET SALES'){
+            $func = 'SUM(';
             $sales = 'netsales';
         }
         $data = Hdr::selectRaw('hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name')
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 0 THEN ".$sales." ELSE 0 END) AS sales0")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 1 THEN ".$sales." ELSE 0 END) AS sales1")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 2 THEN ".$sales." ELSE 0 END) AS sales2")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 3 THEN ".$sales." ELSE 0 END) AS sales3")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 4 THEN ".$sales." ELSE 0 END) AS sales4")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 5 THEN ".$sales." ELSE 0 END) AS sales5")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 6 THEN ".$sales." ELSE 0 END) AS sales6")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 7 THEN ".$sales." ELSE 0 END) AS sales7")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 8 THEN ".$sales." ELSE 0 END) AS sales8")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 9 THEN ".$sales." ELSE 0 END) AS sales9")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 10 THEN ".$sales." ELSE 0 END) AS sales10")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 11 THEN ".$sales." ELSE 0 END) AS sales11")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 12 THEN ".$sales." ELSE 0 END) AS sales12")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 13 THEN ".$sales." ELSE 0 END) AS sales13")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 14 THEN ".$sales." ELSE 0 END) AS sales14")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 15 THEN ".$sales." ELSE 0 END) AS sales15")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 16 THEN ".$sales." ELSE 0 END) AS sales16")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 17 THEN ".$sales." ELSE 0 END) AS sales17")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 18 THEN ".$sales." ELSE 0 END) AS sales18")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 19 THEN ".$sales." ELSE 0 END) AS sales19")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 20 THEN ".$sales." ELSE 0 END) AS sales20")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 21 THEN ".$sales." ELSE 0 END) AS sales21")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 22 THEN ".$sales." ELSE 0 END) AS sales22")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 23 THEN ".$sales." ELSE 0 END) AS sales23")
-            ->selectRaw("SUM(".$sales.") AS total_sales")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 0 THEN ".$sales." ELSE 0 END) AS sales0")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 1 THEN ".$sales." ELSE 0 END) AS sales1")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 2 THEN ".$sales." ELSE 0 END) AS sales2")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 3 THEN ".$sales." ELSE 0 END) AS sales3")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 4 THEN ".$sales." ELSE 0 END) AS sales4")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 5 THEN ".$sales." ELSE 0 END) AS sales5")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 6 THEN ".$sales." ELSE 0 END) AS sales6")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 7 THEN ".$sales." ELSE 0 END) AS sales7")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 8 THEN ".$sales." ELSE 0 END) AS sales8")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 9 THEN ".$sales." ELSE 0 END) AS sales9")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 10 THEN ".$sales." ELSE 0 END) AS sales10")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 11 THEN ".$sales." ELSE 0 END) AS sales11")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 12 THEN ".$sales." ELSE 0 END) AS sales12")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 13 THEN ".$sales." ELSE 0 END) AS sales13")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 14 THEN ".$sales." ELSE 0 END) AS sales14")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 15 THEN ".$sales." ELSE 0 END) AS sales15")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 16 THEN ".$sales." ELSE 0 END) AS sales16")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 17 THEN ".$sales." ELSE 0 END) AS sales17")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 18 THEN ".$sales." ELSE 0 END) AS sales18")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 19 THEN ".$sales." ELSE 0 END) AS sales19")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 20 THEN ".$sales." ELSE 0 END) AS sales20")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 21 THEN ".$sales." ELSE 0 END) AS sales21")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 22 THEN ".$sales." ELSE 0 END) AS sales22")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 23 THEN ".$sales." ELSE 0 END) AS sales23")
+            ->selectRaw("".$func."".$sales.") AS total_sales")
             ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
@@ -1314,41 +1212,48 @@ class GenerateReportsController extends Controller
     }
 
     public function byTimeTransaction(Request $request){
+        if($request->sales_type == 'NO. OF TRANSACTIONS'){
+            $func = 'COUNT(DISTINCT ';
+            $sales = 'tnumber';
+        }
         if($request->sales_type == 'GROSS SALES'){
+            $func = 'SUM(';
             $sales = 'gross';
         }
         if($request->sales_type == 'TOTAL SALES'){
+            $func = 'SUM(';
             $sales = 'totalsales';
         }
         if($request->sales_type == 'NET SALES'){
+            $func = 'SUM(';
             $sales = 'netsales';
         }
         $data = Hdr::selectRaw('trantype')
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 0 THEN ".$sales." ELSE 0 END) AS sales0")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 1 THEN ".$sales." ELSE 0 END) AS sales1")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 2 THEN ".$sales." ELSE 0 END) AS sales2")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 3 THEN ".$sales." ELSE 0 END) AS sales3")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 4 THEN ".$sales." ELSE 0 END) AS sales4")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 5 THEN ".$sales." ELSE 0 END) AS sales5")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 6 THEN ".$sales." ELSE 0 END) AS sales6")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 7 THEN ".$sales." ELSE 0 END) AS sales7")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 8 THEN ".$sales." ELSE 0 END) AS sales8")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 9 THEN ".$sales." ELSE 0 END) AS sales9")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 10 THEN ".$sales." ELSE 0 END) AS sales10")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 11 THEN ".$sales." ELSE 0 END) AS sales11")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 12 THEN ".$sales." ELSE 0 END) AS sales12")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 13 THEN ".$sales." ELSE 0 END) AS sales13")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 14 THEN ".$sales." ELSE 0 END) AS sales14")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 15 THEN ".$sales." ELSE 0 END) AS sales15")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 16 THEN ".$sales." ELSE 0 END) AS sales16")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 17 THEN ".$sales." ELSE 0 END) AS sales17")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 18 THEN ".$sales." ELSE 0 END) AS sales18")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 19 THEN ".$sales." ELSE 0 END) AS sales19")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 20 THEN ".$sales." ELSE 0 END) AS sales20")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 21 THEN ".$sales." ELSE 0 END) AS sales21")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 22 THEN ".$sales." ELSE 0 END) AS sales22")
-            ->selectRaw("SUM(CASE WHEN HOUR(ttime) = 23 THEN ".$sales." ELSE 0 END) AS sales23")
-            ->selectRaw("SUM(".$sales.") AS total_sales")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 0 THEN ".$sales." ELSE 0 END) AS sales0")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 1 THEN ".$sales." ELSE 0 END) AS sales1")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 2 THEN ".$sales." ELSE 0 END) AS sales2")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 3 THEN ".$sales." ELSE 0 END) AS sales3")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 4 THEN ".$sales." ELSE 0 END) AS sales4")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 5 THEN ".$sales." ELSE 0 END) AS sales5")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 6 THEN ".$sales." ELSE 0 END) AS sales6")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 7 THEN ".$sales." ELSE 0 END) AS sales7")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 8 THEN ".$sales." ELSE 0 END) AS sales8")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 9 THEN ".$sales." ELSE 0 END) AS sales9")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 10 THEN ".$sales." ELSE 0 END) AS sales10")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 11 THEN ".$sales." ELSE 0 END) AS sales11")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 12 THEN ".$sales." ELSE 0 END) AS sales12")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 13 THEN ".$sales." ELSE 0 END) AS sales13")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 14 THEN ".$sales." ELSE 0 END) AS sales14")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 15 THEN ".$sales." ELSE 0 END) AS sales15")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 16 THEN ".$sales." ELSE 0 END) AS sales16")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 17 THEN ".$sales." ELSE 0 END) AS sales17")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 18 THEN ".$sales." ELSE 0 END) AS sales18")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 19 THEN ".$sales." ELSE 0 END) AS sales19")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 20 THEN ".$sales." ELSE 0 END) AS sales20")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 21 THEN ".$sales." ELSE 0 END) AS sales21")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 22 THEN ".$sales." ELSE 0 END) AS sales22")
+            ->selectRaw("".$func."CASE WHEN HOUR(ttime) = 23 THEN ".$sales." ELSE 0 END) AS sales23")
+            ->selectRaw("".$func."".$sales.") AS total_sales")
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
