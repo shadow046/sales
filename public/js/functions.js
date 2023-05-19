@@ -893,6 +893,7 @@ function btnExportClick(tblID){
             $('.buttons-excel[aria-controls='+tblID+']').click();
         }
         else if(result.isDenied){
+            console.log('pdf');
             $('.buttons-pdf[aria-controls='+tblID+']').click();
         }
     });

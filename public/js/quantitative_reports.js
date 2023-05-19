@@ -280,17 +280,32 @@ function quantitative_report(reports_header){
                 left: 2,
             },
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: reports_header5,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -619,17 +634,32 @@ function quantitative_report(reports_header){
                 left: 2,
             },
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: reports_header5,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -839,17 +869,32 @@ function quantitative_report(reports_header){
                 left: 2,
             },
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: reports_header5,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1176,17 +1221,32 @@ function quantitative_report(reports_header){
                 left: 1,
             },
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: reports_header5,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1393,17 +1453,32 @@ function quantitative_report(reports_header){
                 left: 1,
             },
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: reports_header5,
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1776,6 +1851,7 @@ function report_dates1(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsY')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsY" type="button"><span>PDF</span></button>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsY" id="tblReportsY" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1823,17 +1899,32 @@ function report_dates1(datacode, headername, urlName, colData){
     $('#reportsTableY').append(htmlString);
     tableY = $('table.tblReportsY').DataTable({
         dom: 'Blftrip',
-        buttons: [{
-            extend: 'excelHtml5',
-            title: headername+' ('+display_range+')',
-            exportOptions: {
-                modifier : {
-                    order : 'index',
-                    page : 'all',
-                    search : 'none'
-                },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: headername+' ('+display_range+')',
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
             },
-        }],
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: headername+' ('+display_range+')',
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -1941,6 +2032,7 @@ function report_dates2(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var htmlString = `<hr><div class="px-2 align-content"><h4>${headername} (${display_range})</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsY')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsY" type="button"><span>PDF</span></button>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsY" id="tblReportsY" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -1977,17 +2069,32 @@ function report_dates2(datacode, headername, urlName, colData){
     $('#reportsTableY').append(htmlString);
     tableY = $('table.tblReportsY').DataTable({
         dom: 'Blftrip',
-        buttons: [{
-            extend: 'excelHtml5',
-            title: headername+' ('+display_range+')',
-            exportOptions: {
-                modifier : {
-                    order : 'index',
-                    page : 'all',
-                    search : 'none'
-                },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: headername+' ('+display_range+')',
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
             },
-        }],
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: headername+' ('+display_range+')',
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -2107,6 +2214,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
     $('#reportsTableA').empty();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsZ')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsZ" type="button"><span>PDF</span></button>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsZ" id="tblReportsZ" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2150,17 +2258,32 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
     $('#reportsTableZ').append(htmlString);
     tableZ = $('table.tblReportsZ').DataTable({
         dom: 'Blftrip',
-        buttons: [{
-            extend: 'excelHtml5',
-            title: $('#headerlast').text(),
-            exportOptions: {
-                modifier : {
-                    order : 'index',
-                    page : 'all',
-                    search : 'none'
-                },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: $('#headerlast').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
             },
-        }],
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: $('#headerlast').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -2265,6 +2388,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
     $('#reportsTableA').empty();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerlast">${headername} (${moment(selected_date, 'YYYY-MM-DD').format('MMM. DD, YYYY').toUpperCase()}) ${$('#headerdate').text()} - Per Hour</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsZ')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsZ" type="button"><span>PDF</span></button>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsZ" id="tblReportsZ" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2297,17 +2421,32 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
     $('#reportsTableZ').append(htmlString);
     tableZ = $('table.tblReportsZ').DataTable({
         dom: 'Blftrip',
-        buttons: [{
-            extend: 'excelHtml5',
-            title: $('#headerlast').text(),
-            exportOptions: {
-                modifier : {
-                    order : 'index',
-                    page : 'all',
-                    search : 'none'
-                },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: $('#headerlast').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
             },
-        }],
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: $('#headerlast').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -2400,6 +2539,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA"><span id="subheaderA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsA')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsA" type="button"><span>PDF</span></button>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsA" id="tblReportsA" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2444,17 +2584,32 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
         $('#reportsTableA').append(htmlString);
         tableA = $('table.tblReportsA').DataTable({
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: $('#headerA').text(),
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: $('#headerA').text(),
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: $('#headerA').text(),
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2552,6 +2707,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA"><span id="subheaderA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsA')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsA" type="button"><span>PDF</span></button>
         <div class="table-responsive container-fluid pt-2">
             <table class="table table-hover table-bordered table-striped tblReportsA" id="tblReportsA" style="width:100%;">
                 <thead style="font-weight:bolder" class="bg-default">
@@ -2596,17 +2752,32 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
         $('#reportsTableA').append(htmlString);
         tableA = $('table.tblReportsA').DataTable({
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: $('#headerA').text(),
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
-                    },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: $('#headerA').text(),
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
                 },
-            }],
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: $('#headerA').text(),
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2706,6 +2877,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerB">${headerA} - Per Transaction</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsB')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsB" type="button"><span>PDF</span></button>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsB" id="tblReportsB" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2748,17 +2920,32 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
     $('#reportsTableB').append(htmlString);
     tableB = $('table.tblReportsB').DataTable({
         dom: 'Blftrip',
-        buttons: [{
-            extend: 'excelHtml5',
-            title: $('#headerB').text(),
-            exportOptions: {
-                modifier : {
-                    order : 'index',
-                    page : 'all',
-                    search : 'none'
-                },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: $('#headerB').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
             },
-        }],
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: $('#headerB').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -2871,6 +3058,7 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
 
     var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerC"><span id="subheaderC">${headername} (${formatDate(selected_date).toUpperCase()}) (REF#: ${data.transcode})</span></h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsC')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsC" type="button"><span>PDF</span></button>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReportsC" id="tblReportsC" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
@@ -2915,17 +3103,32 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
     $('#reportsTableC').append(htmlString);
     tableC = $('table.tblReportsC').DataTable({
         dom: 'Blftrip',
-        buttons: [{
-            extend: 'excelHtml5',
-            title: $('#headerC').text(),
-            exportOptions: {
-                modifier : {
-                    order : 'index',
-                    page : 'all',
-                    search : 'none'
-                },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: $('#headerC').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
             },
-        }],
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: $('#headerC').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
