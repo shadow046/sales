@@ -244,6 +244,13 @@ $('#btnGenerate').on('click', function(){
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
     emptyQuantitative();
+    if(current_server == 'BETA'){
+        $('#loading').show();
+        setTimeout(() => {
+            alert('Internal Server Error (500) occurred!');
+        }, 2000);
+        return false;
+    }
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     if($('#report_filter').val()){
