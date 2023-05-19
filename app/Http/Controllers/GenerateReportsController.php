@@ -78,7 +78,8 @@ class GenerateReportsController extends Controller
         return view('pages.generate_reports', compact('stores','products','combos','promos','transactions','tenders','discounts'));
     }
 
-    public function byBranch(Request $request){
+    //ORIGINAL CODE
+    public function byBranch_ORIGINAL(Request $request){
         $data = Hdr::selectRaw('store.id AS store_id, hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
             company.company_name AS company_name, store_area.id AS store_area_id, store_area.store_area AS store_area, store.region AS region,
             type.type AS type, group.group AS store_group, subgroup.subgroup AS subgroup, network_setup.network_setup AS network_setup,
@@ -136,6 +137,66 @@ class GenerateReportsController extends Controller
             }
         })
         ->make(true);
+    }
+
+    //OPTIMIZED CODE
+    public function byBranch(Request $request){
+        $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
+            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name',
+                DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
+                'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
+                'network_setup.network_setup AS network_setup', DB::raw('SUM(gross) AS gross_sales'),
+                DB::raw('SUM(totalsales) AS total_sales'), DB::raw('SUM(netsales) AS net_sales')
+            )
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('refund', '=', '0')
+            ->where('cancelled', '=', '0')
+            ->where('void', '=', '0')
+            ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+            ->join('company', 'company.id', 'store.company_name')
+            ->join('store_area', 'store_area.id', 'store.store_area')
+            ->join('type', 'type.id', 'store.type')
+            ->join('group', 'group.id', 'store.group')
+            ->join('subgroup', 'subgroup.id', 'store.sub_group')
+            ->join('network_setup', 'network_setup.id', 'store.network')
+            ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
+                'store_area_id', 'store_area', 'region', 'type', 'store_group', 'subgroup', 'network_setup');
+
+        if ($request->included) {
+            $data->whereIn('branch_code', $request->included);
+        }
+
+        $data->orderBy('net_sales', 'DESC');
+
+        $results = $data->get();
+
+        return DataTables::of($results)
+            ->addColumn('area_manager', function (Hdr $hdr) {
+                $area_managers = User::where('userlevel', '4')
+                    ->where(function ($query) use ($hdr) {
+                        $query->where('area', '=', $hdr->store_area_id)
+                            ->orWhere('area', 'LIKE', $hdr->store_area_id . '-%"')
+                            ->orWhere('area', 'LIKE', '%"-' . $hdr->store_area_id)
+                            ->orWhere('area', 'LIKE', '%"-' . $hdr->store_area_id . '-%"');
+                    })
+                    ->get();
+
+                foreach ($area_managers as $area_manager) {
+                    if ($area_manager->store == $hdr->store_area_id . '-0' ||
+                        substr($area_manager->store, 0, strlen($hdr->store_area_id) + 1) === $hdr->store_area_id . '-0|' ||
+                        strpos($area_manager->store, '|' . $hdr->store_area_id . '-0') !== false ||
+                        strpos($area_manager->store, '|' . $hdr->store_area_id . '-0|') !== false) {
+                        return $area_manager->name;
+                    } else if ($area_manager->store == $hdr->store_id ||
+                        substr($area_manager->store, 0, strlen($hdr->store_id) + 1) === $hdr->store_area_id . '|' ||
+                        strpos($area_manager->store, '|' . $hdr->store_id) !== false ||
+                        strpos($area_manager->store, '|' . $hdr->store_id . '|') !== false) {
+                        return $area_manager->name;
+                    }
+                }
+            })
+            ->make(true);
     }
 
     public function byBranch_Date(Request $request){
@@ -249,7 +310,8 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTransaction_Branch(Request $request){
+    //ORIGINAL CODE
+    public function byTransaction_Branch_ORIGINAL(Request $request){
         $data = Hdr::selectRaw('store.id AS store_id, hdr.storecode AS branch_code, store.branch_name AS store_name, CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
             company.company_name AS company_name, store_area.id AS store_area_id, store_area.store_area AS store_area, store.region AS region,
             type.type AS type, group.group AS store_group, subgroup.subgroup AS subgroup, network_setup.network_setup AS network_setup,
@@ -306,6 +368,61 @@ class GenerateReportsController extends Controller
             }
         })
         ->make(true);
+    }
+
+    //OPTIMIZED CODE
+    public function byTransaction_Branch(Request $request){
+        $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
+            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name',
+                DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
+                'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
+                'network_setup.network_setup AS network_setup', DB::raw('SUM(gross) AS gross_sales'),
+                DB::raw('SUM(totalsales) AS total_sales'), DB::raw('SUM(netsales) AS net_sales')
+            )
+            ->where('trantype', $request->datacode)
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('refund', '=', '0')
+            ->where('cancelled', '=', '0')
+            ->where('void', '=', '0')
+            ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+            ->join('company', 'company.id', 'store.company_name')
+            ->join('store_area', 'store_area.id', 'store.store_area')
+            ->join('type', 'type.id', 'store.type')
+            ->join('group', 'group.id', 'store.group')
+            ->join('subgroup', 'subgroup.id', 'store.sub_group')
+            ->join('network_setup', 'network_setup.id', 'store.network')
+            ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
+                'store_area_id', 'store_area', 'region', 'type', 'store_group', 'subgroup', 'network_setup')
+            ->orderBy('net_sales', 'DESC')
+            ->get();
+
+        return DataTables::of($data)
+            ->addColumn('area_manager', function (Hdr $hdr) {
+                $area_managers = User::where('userlevel', '4')
+                    ->where(function ($query) use ($hdr) {
+                        $query->where('area', '=', $hdr->store_area_id)
+                            ->orWhere('area', 'LIKE', $hdr->store_area_id . '-%"')
+                            ->orWhere('area', 'LIKE', '%"-' . $hdr->store_area_id)
+                            ->orWhere('area', 'LIKE', '%"-' . $hdr->store_area_id . '-%"');
+                    })
+                    ->get();
+
+                foreach ($area_managers as $area_manager) {
+                    if ($area_manager->store == $hdr->store_area_id . '-0' ||
+                        substr($area_manager->store, 0, strlen($hdr->store_area_id) + 1) === $hdr->store_area_id . '-0|' ||
+                        strpos($area_manager->store, '|' . $hdr->store_area_id . '-0') !== false ||
+                        strpos($area_manager->store, '|' . $hdr->store_area_id . '-0|') !== false) {
+                        return $area_manager->name;
+                    } else if ($area_manager->store == $hdr->store_id ||
+                        substr($area_manager->store, 0, strlen($hdr->store_id) + 1) === $hdr->store_area_id . '|' ||
+                        strpos($area_manager->store, '|' . $hdr->store_id) !== false ||
+                        strpos($area_manager->store, '|' . $hdr->store_id . '|') !== false) {
+                        return $area_manager->name;
+                    }
+                }
+            })
+            ->make(true);
     }
 
     public function byTransaction_Date(Request $request){

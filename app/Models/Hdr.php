@@ -11,4 +11,9 @@ class Hdr extends Model
     protected $guarded = [];
     protected $table = 'hdr';
     public $timestamps = false;
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'storecode', 'branch_code');
+    }
 }

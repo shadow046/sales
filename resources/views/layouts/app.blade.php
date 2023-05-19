@@ -38,11 +38,9 @@
     @if(env('APP_SYS') == 'DD')
         <link href="/css/dd-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
         <script>
-            $(document).ready(function(){
-                const brown = '#683817';
-                const orange = '#f5821f';
-                const pink = '#e11383';
-            });
+            const brown = '#683817';
+            const orange = '#f5821f';
+            const pink = '#e11383';
         </script>
         @php
             $brown = '#683817';
@@ -52,11 +50,9 @@
     @else
         <link href="/css/mg-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
         <script>
-            $(document).ready(function(){
-                const brown = '#850708'; //Maroon
-                const orange = '#fbb12d'; //Gold
-                const pink = '#850708'; //Maroon
-            });
+            const brown = '#850708'; //Maroon
+            const orange = '#fbb12d'; //Gold
+            const pink = '#850708'; //Maroon
         </script>
         @php
             $brown = '#850708'; //Maroon
