@@ -334,10 +334,10 @@ $('#btnGenerate').on('click', function(){
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th class="text-right sum trimDec"></th>
                         <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -548,7 +548,7 @@ $('#btnGenerate').on('click', function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="5">TOTAL:</th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -687,9 +687,13 @@ $('#btnGenerate').on('click', function(){
                         <td>
                             <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
                         </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="4" style="border:1px solid #808080"/>
+                        </td>
                     </tr>
                     <tr>
                         <th>TRANSACTION TYPE</th>
+                        <th class="sum">NO. OF TRANSACTIONS</th>
                         <th class="sum">GROSS SALES</th>
                         <th class="sum">TOTAL SALES</th>
                         <th class="sum">NET SALES</th>
@@ -699,8 +703,9 @@ $('#btnGenerate').on('click', function(){
                     <tr>
                         <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -749,6 +754,15 @@ $('#btnGenerate').on('click', function(){
             autoWidth: false,
             columns: [
                 { data: 'transaction_name' },
+                {
+                    data: 'tno',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
                 {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
@@ -847,7 +861,7 @@ $('#btnGenerate').on('click', function(){
                     <tr>
                         <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -993,9 +1007,9 @@ $('#btnGenerate').on('click', function(){
                     <tr>
                         <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -1252,9 +1266,9 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                         <th></th>
                         <th></th>
                         <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -1481,9 +1495,9 @@ function report_datesA(datacode, headername, urlName, colData){
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
                     <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -1653,7 +1667,7 @@ function report_datesB(datacode, headername, urlName, colData){
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="3">TOTAL:</th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -1806,7 +1820,7 @@ function report_datesC(datacode, headername, urlName, colData){
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
                     <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -1977,7 +1991,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="5">TOTAL:</th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -2132,7 +2146,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="2">TOTAL:</th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -2291,7 +2305,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="5">TOTAL:</th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -2447,7 +2461,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     <tr>
                         <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -2603,9 +2617,9 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     <tr>
                         <th class="text-right">TOTAL:</th>
                         <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -2783,9 +2797,9 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                 <tr>
                     <th class="text-right">TOTAL:</th>
                     <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -2951,7 +2965,7 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -3100,7 +3114,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                 <tr>
                     <th class="text-right">TOTAL:</th>
                     <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -3222,345 +3236,187 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
     var start_hour = selected_time[0];
     var end_hour = selected_time[1];
     if(report_category == 'STORE'){
-        $('#loading').show();
-        $('#reportsTable5').empty();
-        $('#reportsTable6').empty();
-        $('#reportsTable7').empty();
-        emptyQuantitative();
-
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports5')"><i class="fas fa-file-export"></i> EXPORT</button></div>
-        <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports5" type="button"><span>PDF</span></button>
-        <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
-                <thead style="font-weight:bolder" class="bg-default">
-                    <tr class="tbsearch">
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="0" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="1" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="2" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="3" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="4" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="5" style="border:1px solid #808080"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>CATEGORY</th>
-                        <th>ITEM CODE</th>
-                        <th>SHORT DESCRIPTION</th>
-                        <th>LONG DESCRIPTION</th>
-                        <th>QTY</th>
-                        <th class="sum">GROSS SALES</th>
-                    </tr>
-                </thead>
-                <tfoot style="font-size: 14px;">
-                    <tr>
-                        <th class="text-right" colspan="5">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        </div>`;
-        $('#reportsTable5').append(htmlString);
-        table5 = $('table.tblReports5').DataTable({
-            dom: 'Blftrip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: 'Excel',
-                    title: $('#header5').text(),
-                    exportOptions: {
-                        modifier: {
-                        order: 'index',
-                        page: 'all',
-                        search: 'none'
-                        }
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'PDF',
-                    title: $('#header5').text(),
-                    exportOptions: {
-                        modifier: {
-                        order: 'index',
-                        page: 'all',
-                        search: 'none'
-                        }
-                    }
-                }
-            ],
-            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-            processing: true,
-            serverSide: false,
-            ajax: {
-                url: '/sales/reports/branch/datetime/product',
-                data:{
-                    datacode: datacode,
-                    selected_date: selected_date,
-                    start_hour: start_hour,
-                    end_hour: end_hour
-                }
-            },
-            autoWidth: false,
-            columns: [
-                { data: 'itemcat' },
-                { data: 'itemcode' },
-                { data: 'desc1' },
-                {
-                    data: 'desc2',
-                    "render": function(data, type, row, meta){
-                        return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
-                    }
-                },
-                {
-                    data: 'quantity',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${data.toLocaleString()}</span>`;
-                    }
-                },
-                {
-                    data: 'gross_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
-                    }
-                }
-            ],
-            footerCallback: function (row, data, start, end, display){
-                var api = this.api();
-                var intVal = function(i){
-                  if(typeof i === 'string'){
-                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
-                    if(/\.\d{2}$/.test(cleanValue)){
-                      return parseFloat(cleanValue);
-                    }
-                    else{
-                      return parseInt(cleanValue);
-                    }
-                  }
-                  else if(typeof i === 'number'){
-                    return i;
-                  }
-                  else{
-                    return 0;
-                  }
-                };
-                api.columns('.sum', { page: 'all' }).every(function(){
-                  var sum = this.data().reduce(function(a, b){
-                    return intVal(a) + intVal(b);
-                  }, 0);
-                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
-                  sum = sum.toString();
-                  var pattern = /(-?\d+)(\d{3})/;
-                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
-                  this.footer().innerHTML = sum;
-                });
-            },
-            initComplete: function(){
-                setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports5';
-                    $('html, body').animate({
-                        scrollTop: $($.attr(this, 'href')).offset()
-                    }, 1000);
-                    header6 = $('#subheader5').text();
-                    urlName = '/sales/reports/transaction_A';
-                    tblType = 'storecode';
-                    colData = datacode;
-                    selected_date = selected_date;
-                    start_hour = start_hour;
-                    end_hour = end_hour;
-                    report_transactionsA(header6, urlName, tblType, colData, selected_date, start_hour, end_hour);
-                }, 200);
-            }
-        });
+        tblType5 = 'storecode';
     }
     else if(report_category == 'TRANSACTION TYPE'){
-        $('#loading').show();
-        $('#reportsTable5').empty();
-        $('#reportsTable6').empty();
-        $('#reportsTable7').empty();
-        emptyQuantitative();
-
-        var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
-        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports5')"><i class="fas fa-file-export"></i> EXPORT</button></div>
-        <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports5" type="button"><span>PDF</span></button>
-        <div class="table-responsive container-fluid pt-2">
-            <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
-                <thead style="font-weight:bolder" class="bg-default">
-                    <tr class="tbsearch">
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="0" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="1" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="2" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="3" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="4" style="border:1px solid #808080"/>
-                        </td>
-                        <td>
-                            <input type="search" class="form-control filter-input5" data-column="5" style="border:1px solid #808080"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>CATEGORY</th>
-                        <th>ITEM CODE</th>
-                        <th>SHORT DESCRIPTION</th>
-                        <th>LONG DESCRIPTION</th>
-                        <th>QTY</th>
-                        <th class="sum">GROSS SALES</th>
-                    </tr>
-                </thead>
-                <tfoot style="font-size: 14px;">
-                    <tr>
-                        <th class="text-right" colspan="5">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        </div>`;
-        $('#reportsTable5').append(htmlString);
-        table5 = $('table.tblReports5').DataTable({
-            dom: 'Blftrip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: 'Excel',
-                    title: $('#header5').text(),
-                    exportOptions: {
-                        modifier: {
-                        order: 'index',
-                        page: 'all',
-                        search: 'none'
-                        }
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'PDF',
-                    title: $('#header5').text(),
-                    exportOptions: {
-                        modifier: {
-                        order: 'index',
-                        page: 'all',
-                        search: 'none'
-                        }
-                    }
-                }
-            ],
-            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-            processing: true,
-            serverSide: false,
-            ajax: {
-                url: '/sales/reports/transaction/datetime/product',
-                data:{
-                    datacode: datacode,
-                    selected_date: selected_date,
-                    start_hour: start_hour,
-                    end_hour: end_hour
-                }
-            },
-            autoWidth: false,
-            columns: [
-                { data: 'itemcat' },
-                { data: 'itemcode' },
-                { data: 'desc1' },
-                {
-                    data: 'desc2',
-                    "render": function(data, type, row, meta){
-                        return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
-                    }
-                },
-                {
-                    data: 'quantity',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${data.toLocaleString()}</span>`;
-                    }
-                },
-                {
-                    data: 'gross_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
-                    }
-                }
-            ],
-            footerCallback: function (row, data, start, end, display){
-                var api = this.api();
-                var intVal = function(i){
-                  if(typeof i === 'string'){
-                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
-                    if(/\.\d{2}$/.test(cleanValue)){
-                      return parseFloat(cleanValue);
-                    }
-                    else{
-                      return parseInt(cleanValue);
-                    }
-                  }
-                  else if(typeof i === 'number'){
-                    return i;
-                  }
-                  else{
-                    return 0;
-                  }
-                };
-                api.columns('.sum', { page: 'all' }).every(function(){
-                  var sum = this.data().reduce(function(a, b){
-                    return intVal(a) + intVal(b);
-                  }, 0);
-                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
-                  sum = sum.toString();
-                  var pattern = /(-?\d+)(\d{3})/;
-                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
-                  this.footer().innerHTML = sum;
-                });
-            },
-            initComplete: function(){
-                setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports5';
-                    $('html, body').animate({
-                        scrollTop: $($.attr(this, 'href')).offset()
-                    }, 1000);
-                    header6 = $('#subheader5').text();
-                    urlName = '/sales/reports/transaction_A';
-                    tblType = 'trantype';
-                    colData = datacode;
-                    selected_date = selected_date;
-                    start_hour = start_hour;
-                    end_hour = end_hour;
-                    report_transactionsA(header6, urlName, tblType, colData, selected_date, start_hour, end_hour);
-                }, 200);
-            }
-        });
+        tblType5 = 'trantype';
     }
+    else if(report_category == 'DISCOUNT'){
+        tblType5 = 'discname';
+    }
+    else{
+        Swal.fire('UNAVAILABLE', 'This data breakdown is not available!', 'error');
+        return false;
+    }
+    $('#loading').show();
+    $('#reportsTable5').empty();
+    $('#reportsTable6').empty();
+    $('#reportsTable7').empty();
+    emptyQuantitative();
+
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id="header5"><span id="subheader5">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports5')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports5" type="button"><span>PDF</span></button>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReports5" id="tblReports5" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-input5" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input5" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input5" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input5" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input5" data-column="4" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input5" data-column="5" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>CATEGORY</th>
+                    <th>ITEM CODE</th>
+                    <th>SHORT DESCRIPTION</th>
+                    <th>LONG DESCRIPTION</th>
+                    <th>QTY</th>
+                    <th class="sum">GROSS SALES</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right" colspan="5">TOTAL:</th>
+                    <th class="text-right sum sumamt"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable5').append(htmlString);
+    table5 = $('table.tblReports5').DataTable({
+        dom: 'Blftrip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: $('#header5').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: $('#header5').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '/sales/reports/datetime_A',
+            data:{
+                datacode: datacode,
+                selected_date: selected_date,
+                start_hour: start_hour,
+                end_hour: end_hour,
+                tblType: tblType5
+            }
+        },
+        autoWidth: false,
+        columns: [
+            { data: 'itemcat' },
+            { data: 'itemcode' },
+            { data: 'desc1' },
+            {
+                data: 'desc2',
+                "render": function(data, type, row, meta){
+                    return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
+                }
+            },
+            {
+                data: 'quantity',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+                if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                    return parseFloat(cleanValue);
+                }
+                else{
+                    return parseInt(cleanValue);
+                }
+                }
+                else if(typeof i === 'number'){
+                return i;
+                }
+                else{
+                return 0;
+                }
+            };
+            api.columns('.sum', { page: 'all' }).every(function(){
+                var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+                }, 0);
+                sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                sum = sum.toString();
+                var pattern = /(-?\d+)(\d{3})/;
+                while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                this.footer().innerHTML = sum;
+            });
+        },
+        initComplete: function(){
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReports5';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+                header6 = $('#subheader5').text();
+                urlName = '/sales/reports/transaction_A';
+                tblType = tblType5;
+                colData = datacode;
+                selected_date = selected_date;
+                start_hour = start_hour;
+                end_hour = end_hour;
+                report_transactionsA(header6, urlName, tblType, colData, selected_date, start_hour, end_hour);
+            }, 200);
+        }
+    });
 });
 
 function report_transactionsA(header6, urlName, tblType, colData, selected_date, start_hour, end_hour){
@@ -3602,9 +3458,9 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -3797,7 +3653,7 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
                     <tfoot style="font-size: 14px;">
                         <tr>
                             <th class="text-right" colspan="5">TOTAL:</th>
-                            <th class="text-right sum"></th>
+                            <th class="text-right sum sumamt"></th>
                         </tr>
                     </tfoot>
                 </table>

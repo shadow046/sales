@@ -79,7 +79,6 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::get('/sales/reports/branch','byBranch');
         Route::get('/sales/reports/branch/product','byBranch_Product');
         Route::get('/sales/reports/branch/date','byBranch_Date');
-        Route::get('/sales/reports/branch/datetime/product','byBranch_DateTimeSales');
         Route::get('/sales/reports/product','byProduct');
         Route::get('/sales/reports/product/date','byProduct_Date');
         Route::get('/sales/reports/product/branch','byProduct_Branch');
@@ -87,7 +86,6 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::get('/sales/reports/transaction/branch','byTransaction_Branch');
         Route::get('/sales/reports/transaction/product','byTransaction_Product');
         Route::get('/sales/reports/transaction/date','byTransaction_Date');
-        Route::get('/sales/reports/transaction/datetime/product','byTransaction_DateTimeSales');
         Route::get('/sales/reports/tender','byTender');
         Route::get('/sales/reports/tender/date','byTender_Date');
         Route::get('/sales/reports/tender/branch','byTender_Branch');
@@ -97,6 +95,7 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::get('/sales/reports/time_A','byTimeA');
         Route::get('/sales/reports/time_B','byTimeB');
         Route::get('/sales/reports/time_C','byTimeC');
+        Route::get('/sales/reports/datetime_A','byDateTimeA');
         Route::get('/sales/reports/transaction_A','byTransactionA');
         Route::get('/sales/reports/transaction_details','byTransactionDetails');
         Route::get('/sales/reports/day/branch','byDayBranch');

@@ -166,21 +166,6 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byBranch_DateTimeSales(Request $request){
-        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
-            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
-            ->whereTime('ttime', '>=', $request->start_hour)
-            ->whereTime('ttime', '<=', $request->end_hour)
-            ->where('itemcat', '!=', '')
-            ->where('storecode', $request->datacode)
-            ->where('refund', '=', '0')
-            ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
-            ->get();
-        return DataTables::of($data)->make(true);
-    }
-
     public function byProduct(Request $request){
         if(($request->byWhat == 'combo') || ($request->byWhat == 'promo')){
             $item_code_array = Product::select('item_code')
@@ -244,6 +229,7 @@ class GenerateReportsController extends Controller
 
     public function byTransaction(Request $request){
         $data = Hdr::selectRaw('trantype as transaction_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
                 ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
@@ -329,21 +315,6 @@ class GenerateReportsController extends Controller
     public function byTransaction_Product(Request $request){
         $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
-            ->where('trantype', $request->datacode)
-            ->where('refund', '=', '0')
-            ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
-            ->get();
-        return DataTables::of($data)->make(true);
-    }
-
-    public function byTransaction_DateTimeSales(Request $request){
-        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
-            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
-            ->whereTime('ttime', '>=', $request->start_hour)
-            ->whereTime('ttime', '<=', $request->end_hour)
-            ->where('itemcat', '!=', '')
             ->where('trantype', $request->datacode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
@@ -1001,6 +972,21 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byDateTimeA(Request $request){
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
+            ->whereTime('ttime', '>=', $request->start_hour)
+            ->whereTime('ttime', '<=', $request->end_hour)
+            ->where('itemcat', '!=', '')
+            ->where($request->tblType, $request->datacode)
+            ->where('refund', '=', '0')
+            ->where('cancelled', '=', '0')
+            ->where('void', '=', '0')
+            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
+            ->get();
+        return DataTables::of($data)->make(true);
+    }
+
     public function byTransactionA(Request $request){
         $data = Hdr::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date, ttime, tnumber AS transcode")
             ->selectRaw('SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
@@ -1271,7 +1257,7 @@ class GenerateReportsController extends Controller
     }
 
     public function byReference(Request $request){
-        if(strpos($request->datatype, 'TRANSACTION') !== false){
+        if(strpos($request->datatype, 'TRANSACTION') !== false || $request->datatype == 'DISCOUNT'){
             $data = Hdr::select(DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'))
                     ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
                     ->where('tnumber', $request->tnumber)
