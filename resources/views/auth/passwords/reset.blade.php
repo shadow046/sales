@@ -9,6 +9,9 @@
             <div class="card">
                 <div class="card-header">CREATE / RESET PASSWORD</div>
                 <div class="card-body">
+                    <div class="alert alert-info mb-4" role="alert" style="word-wrap: break-word !important;">
+                        <div class="text-wrap"><b>The password reset link will expire after 1 hour.</b><br>If so, kindly click the <b>Forgot Your Password?</b> button in Login page to send a new password reset link.</div>
+                    </div>
                     <form method="POST" action="/password/reset">
                         @csrf
                         <input type="hidden" name="token" value="{{ $token }}">
@@ -19,7 +22,7 @@
                             </div>
                             @error('email')
                                 <span role="alert" style="zoom: 80%; color: red;">
-                                    <b>{{ $message }}</b>
+                                    <b class="text-wrap">{{ $message }}</b>
                                 </span>
                             @enderror
                         </div>
