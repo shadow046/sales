@@ -355,9 +355,10 @@ class GenerateReportsController extends Controller
 
     public function byTender(Request $request){
         $data = Hdr::select('temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
+            ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
                 $query->select(
-                    'tendname1 AS tendname', 'tendamnt1 AS tendamnt'
+                    'tendname1 AS tendname', 'tendamnt1 AS tendamnt', 'tnumber AS tnumber'
                 )
                 ->from('hdr')
                 ->where('tendname1', '!=', '')
@@ -366,7 +367,7 @@ class GenerateReportsController extends Controller
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0')
                 ->unionAll(
-                    DB::table('hdr')->select('tendname2', 'tendamnt2')
+                    DB::table('hdr')->select('tendname2', 'tendamnt2', 'tnumber')
                         ->where('tendname2', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -374,7 +375,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname3', 'tendamnt3')
+                    DB::table('hdr')->select('tendname3', 'tendamnt3', 'tnumber')
                         ->where('tendname3', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -382,7 +383,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname4', 'tendamnt4')
+                    DB::table('hdr')->select('tendname4', 'tendamnt4', 'tnumber')
                         ->where('tendname4', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -390,7 +391,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname5', 'tendamnt5')
+                    DB::table('hdr')->select('tendname5', 'tendamnt5', 'tnumber')
                         ->where('tendname5', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -398,7 +399,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname6', 'tendamnt6')
+                    DB::table('hdr')->select('tendname6', 'tendamnt6', 'tnumber')
                         ->where('tendname6', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -406,7 +407,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname7', 'tendamnt7')
+                    DB::table('hdr')->select('tendname7', 'tendamnt7', 'tnumber')
                         ->where('tendname7', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -414,7 +415,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname8', 'tendamnt8')
+                    DB::table('hdr')->select('tendname8', 'tendamnt8', 'tnumber')
                         ->where('tendname8', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -422,7 +423,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname9', 'tendamnt9')
+                    DB::table('hdr')->select('tendname9', 'tendamnt9', 'tnumber')
                         ->where('tendname9', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -430,7 +431,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname10', 'tendamnt10')
+                    DB::table('hdr')->select('tendname10', 'tendamnt10', 'tnumber')
                         ->where('tendname10', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -438,7 +439,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname11', 'tendamnt11')
+                    DB::table('hdr')->select('tendname11', 'tendamnt11', 'tnumber')
                         ->where('tendname11', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -446,7 +447,7 @@ class GenerateReportsController extends Controller
                         ->where('void', '=', '0')
                 )
                 ->unionAll(
-                    DB::table('hdr')->select('tendname12', 'tendamnt12')
+                    DB::table('hdr')->select('tendname12', 'tendamnt12', 'tnumber')
                         ->where('tendname12', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -464,10 +465,11 @@ class GenerateReportsController extends Controller
 
     public function byTender_Date(Request $request){
         $data = Hdr::select('temp.tdate', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
+            ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
                 $query->select(
                     DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                    'tendname1 AS tendname', 'tendamnt1 AS tendamnt'
+                    'tendname1 AS tendname', 'tendamnt1 AS tendamnt', 'tnumber AS tnumber'
                 )
                 ->from('hdr')
                 ->where('tendname1', '!=', '')
@@ -478,7 +480,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname2', 'tendamnt2')
+                        'tendname2', 'tendamnt2', 'tnumber')
                         ->where('tendname2', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -488,7 +490,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname3', 'tendamnt3')
+                        'tendname3', 'tendamnt3', 'tnumber')
                         ->where('tendname3', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -498,7 +500,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname4', 'tendamnt4')
+                        'tendname4', 'tendamnt4', 'tnumber')
                         ->where('tendname4', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -508,7 +510,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname5', 'tendamnt5')
+                        'tendname5', 'tendamnt5', 'tnumber')
                         ->where('tendname5', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -518,7 +520,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname6', 'tendamnt6')
+                        'tendname6', 'tendamnt6', 'tnumber')
                         ->where('tendname6', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -528,7 +530,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname7', 'tendamnt7')
+                        'tendname7', 'tendamnt7', 'tnumber')
                         ->where('tendname7', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -538,7 +540,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname8', 'tendamnt8')
+                        'tendname8', 'tendamnt8', 'tnumber')
                         ->where('tendname8', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -548,7 +550,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname9', 'tendamnt9')
+                        'tendname9', 'tendamnt9', 'tnumber')
                         ->where('tendname9', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -558,7 +560,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname10', 'tendamnt10')
+                        'tendname10', 'tendamnt10', 'tnumber')
                         ->where('tendname10', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -568,7 +570,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname11', 'tendamnt11')
+                        'tendname11', 'tendamnt11', 'tnumber')
                         ->where('tendname11', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -578,7 +580,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
-                        'tendname12', 'tendamnt12')
+                        'tendname12', 'tendamnt12', 'tnumber')
                         ->where('tendname12', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
@@ -594,10 +596,11 @@ class GenerateReportsController extends Controller
 
     public function byTender_Branch(Request $request){
         $data = Hdr::select('temp.branch_name', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
+            ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
                 $query->select(
                     DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                    'tendname1 AS tendname', 'tendamnt1 AS tendamnt'
+                    'tendname1 AS tendname', 'tendamnt1 AS tendamnt', 'tnumber AS tnumber'
                 )
                 ->from('hdr')
                 ->where('tendname1', '!=', '')
@@ -609,7 +612,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname2', 'tendamnt2')
+                        'tendname2', 'tendamnt2', 'tnumber')
                         ->where('tendname2', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -620,7 +623,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname3', 'tendamnt3')
+                        'tendname3', 'tendamnt3', 'tnumber')
                         ->where('tendname3', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -631,7 +634,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname4', 'tendamnt4')
+                        'tendname4', 'tendamnt4', 'tnumber')
                         ->where('tendname4', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -642,7 +645,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname5', 'tendamnt5')
+                        'tendname5', 'tendamnt5', 'tnumber')
                         ->where('tendname5', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -653,7 +656,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname6', 'tendamnt6')
+                        'tendname6', 'tendamnt6', 'tnumber')
                         ->where('tendname6', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -664,7 +667,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname7', 'tendamnt7')
+                        'tendname7', 'tendamnt7', 'tnumber')
                         ->where('tendname7', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -675,7 +678,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname8', 'tendamnt8')
+                        'tendname8', 'tendamnt8', 'tnumber')
                         ->where('tendname8', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -686,7 +689,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname9', 'tendamnt9')
+                        'tendname9', 'tendamnt9', 'tnumber')
                         ->where('tendname9', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -697,7 +700,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname10', 'tendamnt10')
+                        'tendname10', 'tendamnt10', 'tnumber')
                         ->where('tendname10', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -708,7 +711,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname11', 'tendamnt11')
+                        'tendname11', 'tendamnt11', 'tnumber')
                         ->where('tendname11', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -719,7 +722,7 @@ class GenerateReportsController extends Controller
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
-                        'tendname12', 'tendamnt12')
+                        'tendname12', 'tendamnt12', 'tnumber')
                         ->where('tendname12', '!=', '')
                         ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                         ->where('refund', '=', '0')
@@ -736,6 +739,7 @@ class GenerateReportsController extends Controller
 
     public function byDiscount(Request $request){
         $data = Hdr::selectRaw('discname as discount_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
+                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
                 ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                 ->where('discname', '!=', '')
                 ->where('refund', '=', '0')
@@ -750,9 +754,10 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byDiscount_Date(Request $request){
+    public function byDiscount_Date(Request $request){//
         $data = Hdr::selectRaw("(STR_TO_DATE(tdate,'%m/%d/%Y')) AS date")
             ->selectRaw('SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+            ->selectRaw('COUNT(DISTINCT tnumber) as tno')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('discname', $request->colData)
             ->where('refund', '=', '0')
@@ -766,6 +771,7 @@ class GenerateReportsController extends Controller
     public function byDiscount_Branch(Request $request){
         $data = Hdr::selectRaw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name,
             SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
+            ->selectRaw('COUNT(DISTINCT tnumber) as tno')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
             ->where('discname', $request->datacode)
             ->where('refund', '=', '0')
@@ -857,9 +863,10 @@ class GenerateReportsController extends Controller
             $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
             $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
                 ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
+                ->selectRaw('COUNT(DISTINCT t.tnumber) as tno')
                 ->selectRaw('COALESCE(SUM(t.tendamnt), 0) as total')
                 ->from(function ($query) use ($request, $start_hour, $end_hour) {
-                    $query->select('tendname1 as tendname', 'tendamnt1 as tendamnt')
+                    $query->select('tendname1 as tendname', 'tendamnt1 as tendamnt', 'tnumber as tnumber')
                           ->from('hdr')
                           ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                           ->whereTime('ttime', '>=', $start_hour)
@@ -869,7 +876,7 @@ class GenerateReportsController extends Controller
                           ->where('cancelled', '=', '0')
                           ->where('void', '=', '0')
                           ->unionAll(
-                            Hdr::select('tendname2 as tendname', 'tendamnt2 as tendamnt')
+                            Hdr::select('tendname2 as tendname', 'tendamnt2 as tendamnt', 'tnumber')
                                 ->where('tendname2', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -879,7 +886,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname3 as tendname', 'tendamnt3 as tendamnt')
+                            Hdr::select('tendname3 as tendname', 'tendamnt3 as tendamnt', 'tnumber')
                                 ->where('tendname3', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -889,7 +896,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname4 as tendname', 'tendamnt4 as tendamnt')
+                            Hdr::select('tendname4 as tendname', 'tendamnt4 as tendamnt', 'tnumber')
                                 ->where('tendname4', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -899,7 +906,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname5 as tendname', 'tendamnt5 as tendamnt')
+                            Hdr::select('tendname5 as tendname', 'tendamnt5 as tendamnt', 'tnumber')
                                 ->where('tendname5', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -909,7 +916,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname6 as tendname', 'tendamnt6 as tendamnt')
+                            Hdr::select('tendname6 as tendname', 'tendamnt6 as tendamnt', 'tnumber')
                                 ->where('tendname6', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -919,7 +926,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname7 as tendname', 'tendamnt7 as tendamnt')
+                            Hdr::select('tendname7 as tendname', 'tendamnt7 as tendamnt', 'tnumber')
                                 ->where('tendname7', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -929,7 +936,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname8 as tendname', 'tendamnt8 as tendamnt')
+                            Hdr::select('tendname8 as tendname', 'tendamnt8 as tendamnt', 'tnumber')
                                 ->where('tendname8', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -939,7 +946,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname9 as tendname', 'tendamnt9 as tendamnt')
+                            Hdr::select('tendname9 as tendname', 'tendamnt9 as tendamnt', 'tnumber')
                                 ->where('tendname9', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -949,7 +956,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname10 as tendname', 'tendamnt10 as tendamnt')
+                            Hdr::select('tendname10 as tendname', 'tendamnt10 as tendamnt', 'tnumber')
                                 ->where('tendname10', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -959,7 +966,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname11 as tendname', 'tendamnt11 as tendamnt')
+                            Hdr::select('tendname11 as tendname', 'tendamnt11 as tendamnt', 'tnumber')
                                 ->where('tendname11', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)
@@ -969,7 +976,7 @@ class GenerateReportsController extends Controller
                                 ->where('void', '=', '0')
                           )
                           ->unionAll(
-                            Hdr::select('tendname12 as tendname', 'tendamnt12 as tendamnt')
+                            Hdr::select('tendname12 as tendname', 'tendamnt12 as tendamnt', 'tnumber')
                                 ->where('tendname12', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
                                 ->whereTime('ttime', '>=', $start_hour)

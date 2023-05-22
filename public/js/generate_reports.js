@@ -833,15 +833,20 @@ $('#btnGenerate').on('click', function(){
                         <td>
                             <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>
                         </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>
+                        </td>
                     </tr>
                     <tr>
                         <th>TENDER TYPE</th>
+                        <th class="sum">NO. OF TRANSACTIONS</th>
                         <th class="sum">GROSS SALES</th>
                     </tr>
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                     </tr>
                 </tfoot>
@@ -891,6 +896,15 @@ $('#btnGenerate').on('click', function(){
             autoWidth: false,
             columns: [
                 { data: 'tendname' },
+                {
+                    data: 'tno',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
                 {
                     data: 'total',
                     "render": function(data, type, row, meta){
@@ -963,9 +977,13 @@ $('#btnGenerate').on('click', function(){
                         <td>
                             <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
                         </td>
+                        <td>
+                            <input type="search" class="form-control filter-input1" data-column="4" style="border:1px solid #808080"/>
+                        </td>
                     </tr>
                     <tr>
                         <th>DISCOUNT TYPE</th>
+                        <th class="sum">NO. OF TRANSACTIONS</th>
                         <th class="sum">GROSS SALES</th>
                         <th class="sum">TOTAL SALES</th>
                         <th class="sum">NET SALES</th>
@@ -974,6 +992,7 @@ $('#btnGenerate').on('click', function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -1025,6 +1044,15 @@ $('#btnGenerate').on('click', function(){
             autoWidth: false,
             columns: [
                 { data: 'discount_name' },
+                {
+                    data: 'tno',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
                 {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
@@ -2405,15 +2433,20 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                         <td>
                             <input type="search" class="form-control filter-input3" data-column="1" style="border:1px solid #808080"/>
                         </td>
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="2" style="border:1px solid #808080"/>
+                        </td>
                     </tr>
                     <tr>
                         <th>BRANCH NAME</th>
+                        <th class="sum">NO. OF TRANSACTIONS</th>
                         <th class="sum">GROSS SALES</th>
                     </tr>
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                     </tr>
                 </tfoot>
@@ -2462,6 +2495,15 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             autoWidth: false,
             columns: [
                 { data: 'branch_name' },
+                {
+                    data: 'tno',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
                 {
                     data: 'total',
                     "render": function(data, type, row, meta){
@@ -2545,9 +2587,13 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                         <td>
                             <input type="search" class="form-control filter-input3" data-column="3" style="border:1px solid #808080"/>
                         </td>
+                        <td>
+                            <input type="search" class="form-control filter-input3" data-column="4" style="border:1px solid #808080"/>
+                        </td>
                     </tr>
                     <tr>
                         <th>BRANCH NAME</th>
+                        <th class="sum">NO. OF TRANSACTIONS</th>
                         <th class="sum">GROSS SALES</th>
                         <th class="sum">TOTAL SALES</th>
                         <th class="sum">NET SALES</th>
@@ -2556,6 +2602,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
                         <th class="text-right sum"></th>
@@ -2606,6 +2653,15 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
             autoWidth: false,
             columns: [
                 { data: 'branch_name' },
+                {
+                    data: 'tno',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return `<span class="float-end">${data.toLocaleString()}</span>`;
+                    }
+                },
                 {
                     data: 'gross_sales',
                     "render": function(data, type, row, meta){
@@ -3030,15 +3086,20 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                     <td>
                         <input type="search" class="form-control filter-input4" data-column="1" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input4" data-column="2" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>TIME</th>
+                    <th class="sum">NO. OF TRANSACTIONS</th>
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right">TOTAL:</th>
+                    <th class="text-right sum"></th>
                     <th class="text-right sum"></th>
                 </tr>
             </tfoot>
@@ -3091,6 +3152,15 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                 data: 'time_range_12hr',
                 "render": function(data, type, row, meta){
                     return `<span class="d-none">${row.time_range_24hr}</span>`+row.time_range_12hr;
+                }
+            },
+            {
+                data: 'tno',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
                 }
             },
             {
