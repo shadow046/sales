@@ -892,10 +892,10 @@ function btnExportClick(tblID){
 setInterval(() => {
     $('.always-default').removeClass('dtfc-fixed-left');
 
-    $('.sumamt').each(function() {
+    $('.sumamt').each(function(){
         if(!$(this).text().includes('.')){
-            var currentValue = $(this).text();
-            var formattedValue = parseFloat(currentValue).toFixed(2);
+            var currentValue = $(this).text().replace(',','');
+            var formattedValue = formatNumber(parseFloat(currentValue).toFixed(2));
             $(this).text(formattedValue);
         }
     });
