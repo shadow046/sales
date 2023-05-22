@@ -44,11 +44,12 @@ class HomeController extends Controller
 
     public function gitpull(){
         if(env('APP_SERVER') == 'BETA'){
-            return shell_exec('gp');
+            $output = shell_exec('gp');
         }
         else{
-            return '';
+            return 'Local Server';
         }
+        return $output;
     }
 
     public function index(){
