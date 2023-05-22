@@ -233,7 +233,8 @@ $('#end_date').on('change', function(){
     }
 });
 
-var table1, table2A, table2, table3, table4, table5, table6, table7, tableX, tableY, tableZ, tableA;
+var table1, table2A, table2, table3, table4, table5, table6, table7,
+tableX, tableY, tableZ, tableA, tableB, tableC;
 $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
@@ -244,17 +245,6 @@ $('#btnGenerate').on('click', function(){
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
     emptyQuantitative();
-
-    // if(current_server == 'BETA'){
-    //     $('#loading').show();
-    //     var randomNumber = Math.floor(Math.random() * 100) + 1;
-    //     if(randomNumber % 2 === 0){
-    //         setTimeout(() => {
-    //             alert('DataTables warning: table id=tblReports1 - Ajax error. For more information about this error, please see http://datatables.net/tn/7');
-    //         }, 2000);
-    //         return false;
-    //     }
-    // }
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     if($('#report_filter').val()){
