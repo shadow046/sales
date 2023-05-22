@@ -893,7 +893,7 @@ setInterval(() => {
     $('.always-default').removeClass('dtfc-fixed-left');
 
     $('.sumamt').each(function(){
-        if(!$(this).text().includes('.')){
+        if($(this).text() && !$(this).text().includes('.')){
             var currentValue = $(this).text().replace(',','');
             var formattedValue = formatNumber(parseFloat(currentValue).toFixed(2));
             $(this).text(formattedValue);

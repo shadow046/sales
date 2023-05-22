@@ -3252,7 +3252,6 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
         tblType5 = 'discname';
     }
     else{
-        Swal.fire('UNAVAILABLE', 'This data breakdown is not available!', 'error');
         return false;
     }
     $('#loading').show();
