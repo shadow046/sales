@@ -234,7 +234,7 @@ $('#end_date').on('change', function(){
 });
 
 var table1, table2A, table2, table3, table4, table5, table6, table7,
-tableX, tableY, tableZ, tableA, tableB, tableC;
+tableX, tableY, tableZ, tableA, tableB, tableC, sumamt;
 $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
@@ -245,6 +245,13 @@ $('#btnGenerate').on('click', function(){
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
     emptyQuantitative();
+
+    if($('#sales_type').val() != 'NO. OF TRANSACTIONS' && $('#sales_type').val() != 'SALES QUANTITY'){
+        sumamt = 'sumamt';
+    }
+    else{
+        sumamt = '';
+    }
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     if($('#report_filter').val()){

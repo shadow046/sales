@@ -24,14 +24,14 @@ function quantitative_report(reports_header){
                     <tr>
                         <th class="text-right"></th>
                         <th class="text-right">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -242,31 +242,31 @@ function quantitative_report(reports_header){
                     <tr>
                         <th class="text-right"></th>
                         <th class="text-right">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -613,14 +613,14 @@ function quantitative_report(reports_header){
                     <tr>
                         <th class="text-right"></th>
                         <th class="text-right">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -831,31 +831,31 @@ function quantitative_report(reports_header){
                     <tr>
                         <th class="text-right"></th>
                         <th class="text-right">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -1200,14 +1200,14 @@ function quantitative_report(reports_header){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -1415,31 +1415,31 @@ function quantitative_report(reports_header){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -1888,9 +1888,9 @@ function report_dates1(datacode, headername, urlName, colData){
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
                     <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -2060,7 +2060,7 @@ function report_dates2(datacode, headername, urlName, colData){
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="3">TOTAL:</th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -2247,9 +2247,9 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
                 <tr>
                     <th class="text-right">TOTAL:</th>
                     <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -2412,7 +2412,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -2575,7 +2575,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="5">TOTAL:</th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -2743,7 +2743,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="5">TOTAL:</th>
-                        <th class="text-right sum"></th>
+                        <th class="text-right sum sumamt"></th>
                     </tr>
                 </tfoot>
             </table>
@@ -2909,9 +2909,9 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
-                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
         </table>
@@ -3105,7 +3105,7 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
                     <tfoot style="font-size: 14px;">
                         <tr>
                             <th class="text-right" colspan="5">TOTAL:</th>
-                            <th class="text-right sum"></th>
+                            <th class="text-right sum sumamt"></th>
                         </tr>
                     </tfoot>
                 </table>
