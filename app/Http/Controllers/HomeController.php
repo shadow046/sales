@@ -42,16 +42,6 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    public function gitpull(){
-        if(env('APP_SERVER') == 'BETA'){
-            $output = shell_exec('gp');
-        }
-        else{
-            return 'Local Server';
-        }
-        return $output;
-    }
-
     public function index(){
         $check = 0;
         $roles = HasPermission::select('permission_id')->where('role_id',auth()->user()->userlevel)->get();
