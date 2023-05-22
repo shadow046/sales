@@ -119,6 +119,7 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
     });
 
     Route::controller(HomeController::class)->group(function(){
+        Route::get('/gitpull', 'gitpull');
         Route::get('/', 'index');
         Route::get('/logs', 'logs');
         Route::get('/index/data', 'index_data');
