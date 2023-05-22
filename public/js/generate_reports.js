@@ -1413,9 +1413,12 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                 });
             },
             initComplete: function(){
+                if($('.tblReports2A tfoot').length > 1){
+                    $('.tblReports2A tfoot:first').remove();
+                }
                 $('#loading').hide();
                 setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports1';
+                    window.location.href = '/sales/reports#tblReports2A';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
