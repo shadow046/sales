@@ -141,7 +141,7 @@ class CheckUserLevel
                         $expiryDate = $licenseKey->exp_date;
                         $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
                         if(Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($licenseKey->key))))){
-                            $filePath = '/var/www/html/dd/public/storage/check';
+                            $filePath = '/var/www/html/dunkin/public/storage/check';
 
                             // Read the contents of the file
                             $fileContents = file_get_contents($filePath);
@@ -160,10 +160,10 @@ class CheckUserLevel
                                 return redirect()->route('license-page');
                             }
                             if (Str::contains($request->url(), 'mg')) {
-                                $filename = '/'.'var/www/html/mary_grace/public/storage/check';
+                                $filename = '/'.'var/www/html/mg/public/storage/check';
                             }
                             else if (Str::contains($request->url(), 'dd')) {
-                                $filename = '/'.'var/www/html/dd/public/storage/check';
+                                $filename = '/'.'var/www/html/dunkin/public/storage/check';
                             }
                             $file = fopen($filename, 'w');
                             fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));

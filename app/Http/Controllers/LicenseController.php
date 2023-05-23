@@ -15,30 +15,6 @@ class LicenseController extends Controller
 {   
     public function showLicensePage()
     {
-        $licenseKey = DB::table('licensed')->first();
-        if (!empty($licenseKey)) {
-            if (getenv('APP_SERVER') == "BETA") {
-                if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
-                    $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
-                    $expiryDate = $licenseKey->exp_date;
-                    $combine = $instanceId .';'. $expiryDate .';'.'apsoft';
-                    if(Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($licenseKey->key))))){
-                        return redirect('/');
-                    }
-                }
-            }
-            else{
-                $interface = trim(shell_exec("ip -o link show | awk -F': ' '!/lo/{print $2; exit}'"));
-                $macAddress = trim(shell_exec("ip -o link show $interface | awk '{print $17}'"));
-                $serialNumber = trim(shell_exec("lsblk -no SERIAL /dev/sda"));
-                $expiryDate = $licenseKey->exp_date;
-                $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
-                if(Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($licenseKey->key))))){
-                    return redirect('/');
-                }
-            }
-        }
-
         if (getenv('APP_SERVER') == "BETA") {
             if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
                 $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
@@ -121,10 +97,10 @@ class LicenseController extends Controller
                     App::create(['key' => Crypt::encrypt(Crypt::encrypt(Crypt::encrypt($licenseKey))), 'exp_date' => $expiryDate]);
                 }
                 if (Str::contains($request->url(), 'mg')) {
-                    $filename = '/'.'var/www/html/mary_grace/public/storage/check';
+                    $filename = '/'.'var/www/html/mg/public/storage/check';
                 }
                 else if (Str::contains($request->url(), 'dd')) {
-                    $filename = '/'.'var/www/html/dd/public/storage/check';
+                    $filename = '/'.'var/www/html/dunkin/public/storage/check';
                 }
                 $file = fopen($filename, 'w');
                 fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
