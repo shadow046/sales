@@ -2614,12 +2614,13 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
             processing: true,
             serverSide: false,
             ajax: {
-                url: '/sales/reports/branch/datetime/product',
+                url: '/sales/reports/datetime_A',
                 data:{
                     datacode: datacode,
                     selected_date: selected_date,
                     start_hour: start_hour,
-                    end_hour: end_hour
+                    end_hour: end_hour,
+                    tblType: 'storecode'
                 }
             },
             autoWidth: false,
@@ -2782,12 +2783,13 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
             processing: true,
             serverSide: false,
             ajax: {
-                url: '/sales/reports/transaction/datetime/product',
+                url: '/sales/reports/datetime_A',
                 data:{
                     datacode: datacode,
                     selected_date: selected_date,
                     start_hour: start_hour,
-                    end_hour: end_hour
+                    end_hour: end_hour,
+                    tblType: 'trantype'
                 }
             },
             autoWidth: false,
