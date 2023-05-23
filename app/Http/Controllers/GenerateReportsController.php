@@ -81,7 +81,7 @@ class GenerateReportsController extends Controller
 
     public function byBranch(Request $request){
         $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
-            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name',
+            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
                 DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
                 'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
                 'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
@@ -101,7 +101,7 @@ class GenerateReportsController extends Controller
             ->join('subgroup', 'subgroup.id', 'store.sub_group')
             ->join('network_setup', 'network_setup.id', 'store.network')
             ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
-                'store_area_id', 'store_area', 'region', 'type', 'store_group', 'subgroup', 'network_setup');
+                'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
 
         if ($request->included) {
             $data->whereIn('branch_code', $request->included);
@@ -245,7 +245,7 @@ class GenerateReportsController extends Controller
 
     public function byTransaction_Branch(Request $request){
         $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
-            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name',
+            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
                 DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
                 'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
                 'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
@@ -266,7 +266,7 @@ class GenerateReportsController extends Controller
             ->join('subgroup', 'subgroup.id', 'store.sub_group')
             ->join('network_setup', 'network_setup.id', 'store.network')
             ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
-                'store_area_id', 'store_area', 'region', 'type', 'store_group', 'subgroup', 'network_setup')
+                'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup')
             ->orderBy('net_sales', 'DESC')
             ->get();
 
@@ -1278,5 +1278,9 @@ class GenerateReportsController extends Controller
                     ->trantype;
             return $data;
         }
+    }
+
+    public function getStoreSetup(){
+        return Setup::select('id', 'setup')->get();
     }
 }
