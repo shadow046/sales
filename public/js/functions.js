@@ -900,11 +900,9 @@ setInterval(() => {
 
     $('.sumamt').each(function(){
         if(!$(this).text().includes('.')){
-            if(parseFloat($(this).text()) > 0.00){
-                var currentValue = $(this).text().replace(',','');
-                var formattedValue = formatNumber(parseFloat(currentValue).toFixed(2));
-                $(this).text(formattedValue);
-            }
+            var currentValue = $(this).text().replace(',','');
+            var formattedValue = formatNumber(parseFloat(currentValue).toFixed(2));
+            $(this).text(formattedValue);
         }
     });
 }, 0);
