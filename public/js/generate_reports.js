@@ -482,6 +482,9 @@ $('#btnGenerate').on('click', function(){
                 });
             },
             initComplete: function(){
+                if($('.tblReports1 tfoot').length > 1){
+                    $('.tblReports1 tfoot:first').remove();
+                }
                 $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports1';

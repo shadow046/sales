@@ -973,15 +973,21 @@ class GenerateReportsController extends Controller
     }
 
     public function byDateTimeA(Request $request){
-        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+        $tnumber_array = Hdr::select('tnumber')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
             ->whereTime('ttime', '>=', $request->start_hour)
-            ->whereTime('ttime', '<=', $request->end_hour)
-            ->where('itemcat', '!=', '')
+            ->whereTime('ttime', '<=', $request->end_hour.':59')
             ->where($request->tblType, $request->datacode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
+            ->get()
+            ->toArray();
+        $tnumbers = array_map(function($a){
+            return $a['tnumber'];
+        }, $tnumber_array);
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->whereIn('tnumber', $tnumber_array)
             ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
@@ -992,7 +998,7 @@ class GenerateReportsController extends Controller
             ->selectRaw('SUM(gross) AS gross_sales, SUM(totalsales) AS total_sales, SUM(netsales) AS net_sales')
             ->where(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
             ->whereTime('ttime', '>=', $request->start_hour)
-            ->whereTime('ttime', '<=', $request->end_hour)
+            ->whereTime('ttime', '<=', $request->end_hour.':59')
             ->where($request->tblType, $request->colData)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
