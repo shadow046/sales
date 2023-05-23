@@ -15,17 +15,36 @@ class LicenseController extends Controller
 {   
     public function showLicensePage()
     {
+        $licenseKey = DB::table('licensed')->first();
+        if (!empty($licenseKey)) {
+            if (getenv('APP_SERVER') == "BETA") {
+                if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
+                    $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
+                    $expiryDate = $licenseKey->exp_date;
+                    $combine = $instanceId .';'. $expiryDate .';'.'apsoft';
+                    if(Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($licenseKey->key))))){
+                        return redirect('/');
+                    }
+                }
+            }
+            else{
+                $interface = trim(shell_exec("ip -o link show | awk -F': ' '!/lo/{print $2; exit}'"));
+                $macAddress = trim(shell_exec("ip -o link show $interface | awk '{print $17}'"));
+                $serialNumber = trim(shell_exec("lsblk -no SERIAL /dev/sda"));
+                $expiryDate = $licenseKey->exp_date;
+                $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
+                if(Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($licenseKey->key))))){
+                    return redirect('/');
+                }
+            }
+        }
+
         if (getenv('APP_SERVER') == "BETA") {
             if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
                 $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
                 $data = [
                     'instanceid' => $instanceId
                 ];
-                $encryptedData = Crypt::encrypt($data);
-                $iterations = 2;
-                for ($i = 0; $i < $iterations; $i++) {
-                    $encryptedData = Crypt::encrypt($encryptedData);
-                }
             }
         }
         else{
@@ -36,7 +55,9 @@ class LicenseController extends Controller
                 'mac_address' => $macAddress,
                 'serial_number' => $serialNumber,
             ];
-            // Encrypt the data
+        }
+
+        if (!empty($data)) {
             $encryptedData = Crypt::encrypt($data);
             $iterations = 2;
             for ($i = 0; $i < $iterations; $i++) {

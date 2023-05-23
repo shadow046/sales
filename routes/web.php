@@ -405,21 +405,6 @@ Route::get('/txt-to-pdf', function () {
 });
 
 Route::get('/licensekey', function (Request $request) {
-    // if ($request->key) {
-    //     $key = $request->key;
-    //     $iterations = 3;
-    //     for ($i = 0; $i < $iterations; $i++) {
-    //         $key = Crypt::decrypt($key);
-    //     }
-    //     $macAddress = $key['mac_address'];
-    //     $serialNumber = $key['serial_number'];
-    //     $expiryDate = $request->expiry_date; // Get the expiry date from the request
-    //     $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
-    //     // Encrypt the data
-    //     $data = Hash::make($combine);
-    //     // return redirect()->back()->with('decryptedData', $data);
-    //     return back()->with('decryptedData', $data);
-    // }
     return view('decrypt');
 });
 
@@ -456,10 +441,9 @@ Route::get('/adminkey', function (Request $request) {
 });
 
 Route::any('/genkey', function (Request $request) {
-    $count = $request->admin+1;
+    $count = $request->admin+2;
     $hash = "apsoft;$count;apsoft";
     $key = Hash::make($hash);
     $data = Crypt::encrypt($key);
-    // return view('key-modal');
     return $data;
 })->name('generateKey');

@@ -38,7 +38,14 @@
             </ul>
         </div>
     @endif
-
+    @if (session('message'))
+        <div class="alert alert-danger">
+            <ul>
+                <li style="color:red">{{ session('message') }}</li>
+            </ul>
+        </div>
+    @endif
+    
     <form method="POST" action="{{ route('verify-license') }}">
         @csrf
         <br>

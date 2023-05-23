@@ -13,7 +13,7 @@ class LicenseMiddleware
         $licenseKey = DB::table('licensed')->first();
         if (empty($licenseKey)) {
             // License key is blank or doesn't exist
-            return redirect()->route('license-page');
+            return redirect()->route('license-page')->with('message', 'Licensed key not found. Please contact Administrator.');
             // return response()->json(['message' => "License key not found. Please send this code to developer $encryptedData"], 403);
         }
         return $next($request);
