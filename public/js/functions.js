@@ -889,6 +889,12 @@ function btnExportClick(tblID){
     });
 }
 
+function tfoot_bugfix(table){
+    if($('.'+table+' tfoot').length > 1){
+        $('.'+table+' tfoot:first').remove();
+    }
+}
+
 setInterval(() => {
     $('.always-default').removeClass('dtfc-fixed-left');
 

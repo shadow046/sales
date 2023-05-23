@@ -190,6 +190,7 @@ function quantitative_report(reports_header){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsX');
                 $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
@@ -578,6 +579,7 @@ function quantitative_report(reports_header){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsX');
                 $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
@@ -779,6 +781,7 @@ function quantitative_report(reports_header){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsX');
                 $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
@@ -1167,6 +1170,7 @@ function quantitative_report(reports_header){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsX');
                 $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
@@ -1365,6 +1369,7 @@ function quantitative_report(reports_header){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsX');
                 $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
@@ -1750,6 +1755,7 @@ function quantitative_report(reports_header){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsX');
                 $('#loading').hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
@@ -2017,6 +2023,7 @@ function report_dates1(datacode, headername, urlName, colData){
             });
         },
         initComplete: function(){
+            tfoot_bugfix('tblReportsY');
             $('#loading').hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsY';
@@ -2169,6 +2176,7 @@ function report_dates2(datacode, headername, urlName, colData){
             });
         },
         initComplete: function(){
+            tfoot_bugfix('tblReportsY');
             $('#loading').hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsY';
@@ -2371,6 +2379,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
             });
         },
         initComplete: function(){
+            tfoot_bugfix('tblReportsZ');
             $('#loading').hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsZ';
@@ -2516,6 +2525,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
             });
         },
         initComplete: function(){
+            tfoot_bugfix('tblReportsZ');
             $('#loading').hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsZ';
@@ -2684,6 +2694,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsA');
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsA';
                     $('html, body').animate({
@@ -2853,6 +2864,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                 });
             },
             initComplete: function(){
+                tfoot_bugfix('tblReportsA');
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsA';
                     $('html, body').animate({
@@ -3040,6 +3052,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
             });
         },
         initComplete: function(){
+            tfoot_bugfix('tblReportsB');
             $('#loading').hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsB';
@@ -3212,6 +3225,7 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
                     });
                 },
                 initComplete: function(){
+                    tfoot_bugfix('tblReportsC');
                     $('#loading').hide();
                     setTimeout(() => {
                         window.location.href = '/sales/reports#tblReportsC';
