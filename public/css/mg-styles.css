@@ -448,10 +448,6 @@ label{
     color: white !important;
 }
 
-.chosen-results li:not(:first-child):hover {
-    color: #fff !important;
-}
-
 .dtfc-fixed-left{
     background-color: white !important;
     color: black !important;
