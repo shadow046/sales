@@ -56,6 +56,13 @@
 					<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('sales/reports') || Request::is('sales/uploads') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
 					<div class="dropdown-menu" aria-labelledby="dropdownReports" style="width: 200%; zoom: 90%;" onmouseover="$('#dropdownReports').addClass('navhover');" onmouseout="$('#dropdownReports').removeClass('navhover');">
 						<a class="dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
+						@php
+							$currentDateTime = date('Y-m-d H:i:s');
+							$targetDateTime = '2023-05-25 15:00:00';
+						@endphp
+						@if(env('APP_SERVER') == 'LOCAL' || (env('APP_SERVER') == 'BETA' && $currentDateTime > $targetDateTime))
+							<a class="dropdown-item {{ Request::is('exemption/reports') ? 'linkactive' : '' }}" href="/exemption/reports">Exemption Reports</a>
+						@endif
 						<a class="dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
 					</div>
 				</li>
