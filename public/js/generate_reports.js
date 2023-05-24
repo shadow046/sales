@@ -1,3 +1,4 @@
+var dataArray = [];
 $(document).prop('title', $('#page-name').text());
 $(document).ready(function(){
     $('#branch').chosen();
@@ -45,6 +46,18 @@ $(document).ready(function(){
     if(current_server == 'LOCAL'){
         $('.debug-reports').click();
     }
+
+    $.ajax({
+        url: '/sales/reports/getStoreSetup',
+        method: 'GET',
+        success: function(response){
+            for(var i = 0; i < response.length; i++){
+              var item = response[i];
+              var subArray = [item.id, item.setup];
+              dataArray.push(subArray);
+            }
+          }
+    });
 });
 
 $('.debug-reports').on('click', function(){
@@ -301,36 +314,41 @@ $('#btnGenerate').on('click', function(){
                         </th>
                         <th>
                             <input type="search" class="form-control filter-input1" data-column="7" style="border:1px solid #808080"/><br>
-                            STORE GROUP
+                            STORE SETUP
                         </th>
                         <th>
                             <input type="search" class="form-control filter-input1" data-column="8" style="border:1px solid #808080"/><br>
-                            MALL SUB-GROUP
+                            STORE GROUP
                         </th>
                         <th>
                             <input type="search" class="form-control filter-input1" data-column="9" style="border:1px solid #808080"/><br>
+                            MALL SUB-GROUP
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input1" data-column="10" style="border:1px solid #808080"/><br>
                             NETWORK SETUP
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input1" data-column="10" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input1" data-column="11" style="border:1px solid #808080"/><br>
                             NO. OF TRANSACTIONS
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input1" data-column="11" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input1" data-column="12" style="border:1px solid #808080"/><br>
                             GROSS SALES
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input1" data-column="12" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input1" data-column="13" style="border:1px solid #808080"/><br>
                             TOTAL SALES
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input1" data-column="13" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input1" data-column="14" style="border:1px solid #808080"/><br>
                             NET SALES
                         </th>
                     </tr>
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -397,7 +415,7 @@ $('#btnGenerate').on('click', function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,3,6,7,8,9],
+                    "targets": [2,3,6,7,8,9,10],
                     "visible": false,
                     "searchable": true
                 },
@@ -410,6 +428,26 @@ $('#btnGenerate').on('click', function(){
                 { data: 'store_area' },
                 { data: 'region' },
                 { data: 'type' },
+                {
+                    data: 'setup',
+                    render: function(data, type, row, meta){
+                        var setups = data.split(',');
+                        var setupEnumeration = [];
+                        for(var i = 0; i < setups.length; i++){
+                            var setup = setups[i];
+                            var setupName = '';
+
+                            for(var j = 0; j < dataArray.length; j++){
+                                if(dataArray[j][0] == setup){
+                                    setupName = dataArray[j][1];
+                                    setupEnumeration.push(setupName);
+                                    break;
+                                }
+                            }
+                        }
+                        return `<div style="white-space: normal; width: 400px;">${setupEnumeration.join(', ')}</div>`;
+                    }
+                },
                 { data: 'store_group' },
                 { data: 'subgroup' },
                 { data: 'network_setup' },
@@ -494,7 +532,7 @@ $('#btnGenerate').on('click', function(){
         });
         setInterval(() => {
             if($('.popover-header').is(':visible')){
-                for(var i=0; i<=13; i++){
+                for(var i=0; i<=14; i++){
                     if(table1.column(i).visible()){
                         $('#filter-'+i).prop('checked', true);
                     }
@@ -1237,36 +1275,41 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                         </th>
                         <th>
                             <input type="search" class="form-control filter-input2A" data-column="7" style="border:1px solid #808080"/><br>
-                            STORE GROUP
+                            STORE SETUP
                         </th>
                         <th>
                             <input type="search" class="form-control filter-input2A" data-column="8" style="border:1px solid #808080"/><br>
-                            MALL SUB-GROUP
+                            STORE GROUP
                         </th>
                         <th>
                             <input type="search" class="form-control filter-input2A" data-column="9" style="border:1px solid #808080"/><br>
+                            MALL SUB-GROUP
+                        </th>
+                        <th>
+                            <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/><br>
                             NETWORK SETUP
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/><br>
                             NO. OF TRANSACTIONS
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/><br>
                             GROSS SALES
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input2A" data-column="13" style="border:1px solid #808080"/><br>
                             TOTAL SALES
                         </th>
                         <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="13" style="border:1px solid #808080"/><br>
+                            <input type="search" class="form-control filter-input2A" data-column="14" style="border:1px solid #808080"/><br>
                             NET SALES
                         </th>
                     </tr>
                 </thead>
                 <tfoot style="font-size: 14px;">
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -1333,7 +1376,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
             },
             columnDefs: [
                 {
-                    "targets": [2,3,6,7,8,9],
+                    "targets": [2,3,6,7,8,9,10],
                     "visible": false,
                     "searchable": true
                 },
@@ -1346,6 +1389,26 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                 { data: 'store_area' },
                 { data: 'region' },
                 { data: 'type' },
+                {
+                    data: 'setup',
+                    render: function(data, type, row, meta){
+                        var setups = data.split(',');
+                        var setupEnumeration = [];
+                        for(var i = 0; i < setups.length; i++){
+                            var setup = setups[i];
+                            var setupName = '';
+
+                            for(var j = 0; j < dataArray.length; j++){
+                                if(dataArray[j][0] == setup){
+                                    setupName = dataArray[j][1];
+                                    setupEnumeration.push(setupName);
+                                    break;
+                                }
+                            }
+                        }
+                        return `<div style="white-space: normal; width: 400px;">${setupEnumeration.join(', ')}</div>`;
+                    }
+                },
                 { data: 'store_group' },
                 { data: 'subgroup' },
                 { data: 'network_setup' },
@@ -1430,7 +1493,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         });
         setInterval(() => {
             if($('.popover-header').is(':visible')){
-                for(var i=0; i<=13; i++){
+                for(var i=0; i<=14; i++){
                     if(table2A.column(i).visible()){
                         $('#filter2-'+i).prop('checked', true);
                     }
