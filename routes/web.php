@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Middleware\CheckUserLevel;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeliveryServingStoreController;
+use App\Http\Controllers\ExemptionReportsController;
 use App\Http\Controllers\GenerateReportsController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
@@ -72,6 +75,12 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::any('/editDeliveryServingStore','editDeliveryServingStore');
         Route::any('/deleteDeliveryServingStore','deleteDeliveryServingStore');
         Route::any('/delivery_serving_store/checkDuplicate','checkDuplicate');
+    });
+
+    Route::controller(ExemptionReportsController::class)->group(function(){
+        Route::get('/exemption/reports','reports');
+        Route::get('/exemption/reports/transaction','byTransaction');
+        Route::get('/exemption/reports/transaction_details','byTransactionDetails');
     });
 
     Route::controller(GenerateReportsController::class)->group(function(){
@@ -408,6 +417,10 @@ Route::get('/txt-to-pdf', function () {
 Route::get('/licensekey', function (Request $request) {
     return view('decrypt');
 });
+
+Route::any('/QR', function (Request $request) {
+    return view('decrypt');
+})->name('read-qr');
 
 Route::any('/gkey', function (Request $request) {
     $code = explode('&appK=', $request->key);

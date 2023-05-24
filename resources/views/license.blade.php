@@ -49,15 +49,14 @@
     <form method="POST" action="{{ route('verify-license') }}">
         @csrf
         <br>
-        <p for="code">Please copy the codes below and send via email to request for the license key.</p>
+        <p for="code">Please email the QR code together with your company name, full name and position.</p>
         <div style="position: relative;">
             <center>
-                {{QrCode::size(230)->generate($data);}}
-                <textarea name="code" id="code" rows="15" cols="120">{{ $data }}</textarea><br>
-                <button class="copy-button" type="button" onclick="copyToClipboard()">Copy</button></center>
+                {{QrCode::size(230)->generate($data);}}<br><br>
+                <a href="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(230)->margin(1)->generate($data)) }}" download="qrcode.png">Download QR Code</a>
+            </center>
         </div>
         <br>
-        
         <label for="license_key">Enter License Key:</label>
         <div class="container-fluid row">
         <center><textarea name="license_key" id="license_key" rows="3" cols="120"></textarea><br><br>
