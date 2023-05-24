@@ -409,11 +409,16 @@ Route::get('/licensekey', function (Request $request) {
 });
 
 Route::any('/gkey', function (Request $request) {
-    $key = $request->key;
-    $iterations = 3;
-    for ($i = 0; $i < $iterations; $i++) {
-        $key = Crypt::decrypt($key);
-    }
+    $key = config('app.key');
+    $cipher = config('app.cipher');
+
+    $data = base64_decode($request->key);
+    $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
+    $encrypted = substr($data, openssl_cipher_iv_length($cipher));
+
+    $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
+
+    $key = $decrypted;
     // $key['instanceid'];
     if (array_key_exists('instanceid', $key)) {
         $instanceid = $key['instanceid'];

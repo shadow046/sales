@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\App;
 use Carbon\Carbon;
 use File;
@@ -15,11 +16,13 @@ class LicenseController extends Controller
 {   
     public function showLicensePage()
     {
+        
+
         if (getenv('APP_SERVER') == "BETA") {
             if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
                 $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
                 $data = [
-                    'instanceid' => $instanceId
+                    'instanceid' => $instanceId,
                 ];
             }
         }
@@ -41,7 +44,40 @@ class LicenseController extends Controller
             }
         }
         
-        return view('license', compact('encryptedData'));
+        $code = $this->encryptData(json_encode($data));
+        $appK = config('app.key');
+        $appC = config('app.cipher');
+        $data = "$code&appK=$appK";
+
+        return view('license', compact('data'));
+    }
+
+    private function encryptData($data)
+    {
+        $key = config('app.key');
+        $cipher = config('app.cipher');
+
+        $iv = random_bytes(openssl_cipher_iv_length($cipher));
+        $encrypted = openssl_encrypt($data, $cipher, $key, 0, $iv);
+
+        // Combine the encrypted data and the initialization vector (IV)
+        $encryptedData = base64_encode($iv . $encrypted);
+
+        return $encryptedData;
+    }
+
+    private function decryptData($encryptedData)
+    {
+        $key = config('app.key');
+        $cipher = config('app.cipher');
+
+        $data = base64_decode($encryptedData);
+        $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
+        $encrypted = substr($data, openssl_cipher_iv_length($cipher));
+
+        $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
+
+        return $decrypted;
     }
 
     public function verifyLicense(Request $request)

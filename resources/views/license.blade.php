@@ -51,8 +51,10 @@
         <br>
         <p for="code">Please copy the codes below and send via email to request for the license key.</p>
         <div style="position: relative;">
-            <center><textarea name="code" id="code" rows="15" cols="120">{{ $encryptedData }}</textarea><br>
-            <button class="copy-button" type="button" onclick="copyToClipboard()">Copy</button></center>
+            <center>
+                {{QrCode::size(230)->generate($data);}}
+                <textarea name="code" id="code" rows="15" cols="120">{{ $data }}</textarea><br>
+                <button class="copy-button" type="button" onclick="copyToClipboard()">Copy</button></center>
         </div>
         <br>
         
