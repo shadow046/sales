@@ -14,10 +14,36 @@ use Str;
 
 class LicenseController extends Controller
 {   
+    private function encryptData($data)
+    {
+        $key = config('app.key');
+        $cipher = config('app.cipher');
+
+        $iv = random_bytes(openssl_cipher_iv_length($cipher));
+        $encrypted = openssl_encrypt($data, $cipher, $key, 0, $iv);
+
+        // Combine the encrypted data and the initialization vector (IV)
+        $encryptedData = base64_encode($iv . $encrypted);
+
+        return $encryptedData;
+    }
+
+    private function decryptData($encryptedData)
+    {
+        $key = config('app.key');
+        $cipher = config('app.cipher');
+
+        $data = base64_decode($encryptedData);
+        $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
+        $encrypted = substr($data, openssl_cipher_iv_length($cipher));
+
+        $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
+
+        return $decrypted;
+    }
+
     public function showLicensePage()
     {
-        
-
         if (getenv('APP_SERVER') == "BETA") {
             if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
                 $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
@@ -50,34 +76,6 @@ class LicenseController extends Controller
         $data = "$code&appK=$appK";
 
         return view('license', compact('data'));
-    }
-
-    private function encryptData($data)
-    {
-        $key = config('app.key');
-        $cipher = config('app.cipher');
-
-        $iv = random_bytes(openssl_cipher_iv_length($cipher));
-        $encrypted = openssl_encrypt($data, $cipher, $key, 0, $iv);
-
-        // Combine the encrypted data and the initialization vector (IV)
-        $encryptedData = base64_encode($iv . $encrypted);
-
-        return $encryptedData;
-    }
-
-    private function decryptData($encryptedData)
-    {
-        $key = config('app.key');
-        $cipher = config('app.cipher');
-
-        $data = base64_decode($encryptedData);
-        $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
-        $encrypted = substr($data, openssl_cipher_iv_length($cipher));
-
-        $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
-
-        return $decrypted;
     }
 
     public function verifyLicense(Request $request)

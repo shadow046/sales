@@ -410,17 +410,14 @@ Route::get('/licensekey', function (Request $request) {
 });
 
 Route::any('/gkey', function (Request $request) {
-    $key = config('app.key');
+    $code = explode('&appK=', $request->key);
+    $key = $code[1];
     $cipher = config('app.cipher');
+    $data = base64_decode($code[0]);
 
-    $data = base64_decode($request->key);
     $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
     $encrypted = substr($data, openssl_cipher_iv_length($cipher));
-
-    $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
-
-    $key = $decrypted;
-    // $key['instanceid'];
+    $key = json_decode(openssl_decrypt($encrypted, $cipher, $key, 0, $iv), true);
     if (array_key_exists('instanceid', $key)) {
         $instanceid = $key['instanceid'];
         $expiryDate = $request->expiry_date; // Get the expiry date from the request
