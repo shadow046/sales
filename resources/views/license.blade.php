@@ -52,7 +52,7 @@
         <p for="code">Please email the QR code together with your company name, full name and position.</p>
         <div style="position: relative;">
             <center>
-                {{QrCode::size(230)->generate($data);}}<br><br>
+                {{QrCode::size(230)->style('dot', 0.9)->generate($data);}}<br><br>
                 <a href="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(230)->margin(1)->generate($data)) }}" download="qrcode.png">Download QR Code</a>
             </center>
         </div>
