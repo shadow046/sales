@@ -106,6 +106,9 @@ $('#btnGenerate').on('click', function(){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -281,6 +284,9 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                         }
                     }
                 ],
+                language:{
+                    emptyTable: "NO DATA AVAILABLE",
+                },
                 aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
                 processing: true,
                 serverSide: false,

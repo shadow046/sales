@@ -71,6 +71,9 @@ function quantitative_report(reports_header){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -307,6 +310,9 @@ function quantitative_report(reports_header){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -662,6 +668,9 @@ function quantitative_report(reports_header){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -898,6 +907,9 @@ function quantitative_report(reports_header){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1251,6 +1263,9 @@ function quantitative_report(reports_header){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1484,6 +1499,9 @@ function quantitative_report(reports_header){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1931,6 +1949,9 @@ function report_dates1(datacode, headername, urlName, colData){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -2102,6 +2123,9 @@ function report_dates2(datacode, headername, urlName, colData){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -2292,6 +2316,9 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -2456,6 +2483,9 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -2620,6 +2650,9 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2790,6 +2823,9 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2960,6 +2996,9 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -3155,6 +3194,9 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
                         }
                     }
                 ],
+                language:{
+                    emptyTable: "NO DATA AVAILABLE",
+                },
                 aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
                 processing: true,
                 serverSide: false,

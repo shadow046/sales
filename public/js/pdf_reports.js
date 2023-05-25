@@ -244,6 +244,9 @@ function displayUploads(upload_table, upload_name){
                 month_range: $('#month_range').val()
             }
         },
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         columns: [
             {
                 data: 'dt',

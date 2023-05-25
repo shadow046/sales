@@ -375,6 +375,9 @@ $('#btnGenerate').on('click', function(){
             fixedColumns:{
                 left: 2,
             },
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             dom: 'Blftrip',
             buttons: [
                 {
@@ -629,6 +632,9 @@ $('#btnGenerate').on('click', function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -787,6 +793,9 @@ $('#btnGenerate').on('click', function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -944,6 +953,9 @@ $('#btnGenerate').on('click', function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1093,6 +1105,9 @@ $('#btnGenerate').on('click', function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1363,6 +1378,9 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -1608,6 +1626,9 @@ function report_datesA(datacode, headername, urlName, colData){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -1779,6 +1800,9 @@ function report_datesB(datacode, headername, urlName, colData){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -1933,6 +1957,9 @@ function report_datesC(datacode, headername, urlName, colData){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -2105,6 +2132,9 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2261,6 +2291,9 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2421,6 +2454,9 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2578,6 +2614,9 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2737,6 +2776,9 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     }
                 }
             ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             processing: true,
             serverSide: false,
@@ -2918,6 +2960,9 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -3085,6 +3130,9 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -3235,6 +3283,9 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -3413,6 +3464,9 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         processing: true,
         serverSide: false,
@@ -3582,6 +3636,9 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
                 }
             }
         ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         iDisplayLength: -1,
         processing: true,
@@ -3776,6 +3833,9 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
                         }
                     }
                 ],
+                language:{
+                    emptyTable: "NO DATA AVAILABLE",
+                },
                 aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
                 processing: true,
                 serverSide: false,
