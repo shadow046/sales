@@ -361,11 +361,6 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::any('/discount/checkDuplicate','checkDuplicate');
     });
 
-    Route::controller(PdfController::class)->group(function(){
-        Route::any('sales/uploads','pdf');
-        Route::any('/pdf_data','pdf_data');
-    });
-
     Route::controller(UploadController::class)->group(function(){
         Route::any('data-import', 'import')->name('data.import');
     });
@@ -385,6 +380,11 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::any('/change/validate', 'change_validate');
         Route::any('/change/password', 'change_password');
     });
+});
+
+Route::controller(PdfController::class)->group(function(){
+    Route::any('sales/uploads','pdf');
+    Route::any('/pdf_data','pdf_data');
 });
 
 Route::get('/license', [LicenseController::class, 'showLicensePage'])->name('license-page');
