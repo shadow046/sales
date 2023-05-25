@@ -209,17 +209,21 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                     <td>
                         <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="4" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>DATE</th>
                     <th>REFERENCE NUMBER</th>
                     <th>BRANCH NAME</th>
+                    <th>TRANSACTION TYPE</th>
                     <th class="sum">AMOUNT</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
-                    <th class="text-right" colspan="3">TOTAL:</th>
+                    <th class="text-right" colspan="4">TOTAL:</th>
                     <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
@@ -290,6 +294,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                 }
             },
             { data: 'branch_name' },
+            { data: 'trantype' },
             {
                 data: 'amount',
                 "render": function(data, type, row, meta){
