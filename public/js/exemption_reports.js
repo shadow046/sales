@@ -443,7 +443,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                     url: '/exemption/reports/transaction_details',
                     data:{
                         transcode: data.tnumber,
-                        report_category: $('#report_category').val(),
+                        report_category: exname,
                     }
                 },
                 autoWidth: false,

@@ -1263,7 +1263,7 @@ class GenerateReportsController extends Controller
     }
 
     public function byReference(Request $request){
-        if(strpos($request->datatype, 'TRANSACTION') !== false || $request->datatype == 'DISCOUNT' || $request->datatype == 'void' || $request->datatype == 'cancelled' || $request->datatype == 'refund'){
+        if(strpos($request->datatype, 'TRANSACTION') !== false || $request->datatype == 'DISCOUNT' || $request->datatype == 'VOID' || $request->datatype == 'CANCELLED' || $request->datatype == 'REFUND'){
             $data = Hdr::select(DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'))
                     ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
                     ->where('tnumber', $request->tnumber)
