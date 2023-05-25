@@ -32,16 +32,16 @@
                             </div>
                         </form>
                         <center>
-                            <form id="keyForm" action="/gkey" method="GET">
+                            <form id="keyForm" action="/gkey" method="GET" style="display:none">
                                 <input type="text" id="key" name="key" hidden>
                                 <label for="expiry_date">Expiry Date:</label>
                                 <input type="date" id="expiry_date" name="expiry_date" required>
-                                <button type="submit" form="keyForm" class="btn btn-primary ml-3">Generate</button>
+                                <button type="submit" id="subBtn" form="keyForm" class="btn btn-primary ml-3" disabled>Generate</button>
                             </form>
                         </center>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="display:none">
                     <label for="hash" class="mr-auto">License key:</label>
                     <textarea class="form-control" rows="3" id="hash" name="hash" readonly></textarea>
                 </div>
@@ -51,30 +51,53 @@
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
 
     <script>
+        $(document).on('change', '#expiry_date', (e) => {
+            $('#subBtn').prop('disabled', false);
+        });
+
         $(document).ready(function() {
             $('#keyModal').modal('show');
             $('#keyForm').on('submit', function(e) {
+                $('#subBtn').prop('disabled', true);
+                $('#expiry_date').prop('disabled', true);
+                $('#upload').prop('disabled', true);
                 e.preventDefault(); // Prevent the form from submitting normally
-                // Perform AJAX request
-                $.ajax({
-                    url: $(this).attr('action'),
-                    method: $(this).attr('method'),
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        $('#hash').val(response); // Set the response in the generatedKey textarea
-                        var code = document.getElementById("hash");
-                        code.select();
-                        document.execCommand("copy");
-                        setTimeout(() => {
-                            alert("Copied to clipboard!");
-                        }, 500);
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle any error that occurred during the AJAX request
-                        console.error(error);
-                    }
+                fetchRequest(formData).then(() => {
+                    // Perform AJAX request
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        method: $(this).attr('method'),
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            if (response == "Invalid QR" || response == "Incorrect Code") {
+                                alert(response);
+                            }
+                            else{
+                                $('#hash').val(response); // Set the response in the generatedKey textarea
+                                $('.modal-footer').show();
+                                var code = document.getElementById("hash");
+                                code.select();
+                                document.execCommand("copy");
+                                setTimeout(() => {
+                                    alert("Copied to clipboard!");
+                                }, 500);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle any error that occurred during the AJAX request
+                            console.error(error);
+                        }
+                    });
+                    $('#subBtn').prop('disabled', false);
+                    $('#expiry_date').prop('disabled', false);
+                    $('#upload').prop('disabled', false);
+                })
+                .catch((error) => {
+                    // Handle the error from fetchRequest
+                    console.error(error);
                 });
             });
+            
         });
     </script>
 @endsection

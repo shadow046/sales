@@ -388,9 +388,9 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
 });
 
 Route::get('/license', [LicenseController::class, 'showLicensePage'])->name('license-page');
-Route::post('/license/verify', [LicenseController::class, 'verifyLicense'])->name('verify-license');
+Route::any('/license/verify', [LicenseController::class, 'verifyLicense'])->name('verify-license');
 Route::get('/invalid', function () {
-    return 'Invalid licensed key. Please contact Administrator.';
+    return Crypt::decrypt('eyJpdiI6ImF2RExCYWtSS2NzbEswRjZqeDBUOVE9PSIsInZhbHVlIjoiZzh3c2pFeFo2UnkxQnE4angvUWMxWHN6eWRnMW5HYVhoNXVLWDZYc1EvSzIwbXlvcW5LNUVIdFl6NlFKRlFkT2tTY2p5STU2WnNPbEN4dERVNXdjT1pmdnlRRjRUcE9haGpGeVhBdHhnbjNLanJGZll1NDc1elg0c1pRWm5SMlJZckRjN3JTZDN4aXYxRWlyWWl4WHlRPT0iLCJtYWMiOiIyZDU1OWMxOTgyZWFlNzg1Mzg0MzNlZDQxMTJiYTg5NzQ5YzQwMDE4NjAxN2NkNWFlYjg3YTFmMGNhMWJhZWVmIiwidGFnIjoiIn0=');
 })->name('invalid');
 Route::get('/txt-to-pdf', function () {
     // $txtFile = storage_path('uploads/G228-20230101-AIEJ-1.txt');

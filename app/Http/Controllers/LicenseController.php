@@ -62,29 +62,36 @@ class LicenseController extends Controller
             ];
         }
 
-        if (!empty($data)) {
-            $encryptedData = Crypt::encrypt($data);
-            $iterations = 2;
-            for ($i = 0; $i < $iterations; $i++) {
-                $encryptedData = Crypt::encrypt($encryptedData);
-            }
-        }
+        // if (!empty($data)) {
+        //     $encryptedData = Crypt::encrypt($data);
+        //     $iterations = 2;
+        //     for ($i = 0; $i < $iterations; $i++) {
+        //         $encryptedData = Crypt::encrypt($encryptedData);
+        //     }
+        // }
         
         $code = $this->encryptData(json_encode($data));
         $appK = config('app.key');
         $appC = config('app.cipher');
-        $data = "$code&appK=$appK";
+        $data = "$code&appK=$appK&appK=".getenv('APP_SYS');
 
         return view('license', compact('data'));
     }
 
     public function verifyLicense(Request $request)
     {   
+        $key = 123456;
+        $cipher = config('app.cipher');
+        $data = base64_decode($request->input('license_key'));
+        $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
+        $encrypted = substr($data, openssl_cipher_iv_length($cipher));
+        $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
+        $decrypted = explode('&appK=', $decrypted);
         if (getenv('APP_SERVER') == "BETA") {
             if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
                 $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
-                $expiryDate = Carbon::createFromFormat('Y-m-d', $request->input('expiry'))->format('Y-m-d');
-                $licenseKey = $request->input('license_key');
+                $expiryDate = Carbon::createFromFormat('Y-m-d', $decrypted[0])->format('Y-m-d');
+                $licenseKey = $decrypted[1];
                 $combine = $instanceId .';'. $expiryDate .';'.'apsoft';
                 if (Hash::check($combine, $licenseKey)) {
                     $check = App::first();
@@ -116,9 +123,9 @@ class LicenseController extends Controller
             $interface = trim(shell_exec("ip -o link show | awk -F': ' '!/lo/{print $2; exit}'"));
             $macAddress = trim(shell_exec("ip -o link show $interface | awk '{print $17}'"));
             $serialNumber = trim(shell_exec("lsblk -no SERIAL /dev/sda"));
-            $expiryDate = Carbon::createFromFormat('Y-m-d', $request->input('expiry'))->format('Y-m-d');
+            $expiryDate = Carbon::createFromFormat('Y-m-d', $decrypted[0])->format('Y-m-d');
             // $expectedHash = '$2y$10$NPoAi/Yw7Vh6A/VKv8KZheIb5ocbME/ACkNr.8PUWMzId5r6c9DEO'; // Example hashed value
-            $licenseKey = $request->input('license_key');
+            $licenseKey = $decrypted[1];
             $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
             if (Hash::check($combine, $licenseKey)) {
                 $check = App::first();
