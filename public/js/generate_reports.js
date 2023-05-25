@@ -61,8 +61,8 @@ $(document).ready(function(){
 });
 
 $('.debug-reports').on('click', function(){
-    $('#start_date').val('2023-01-01');
-    $('#end_date').val('2023-01-31');
+    $('#start_date').val('2023-03-01');
+    $('#end_date').val('2023-03-31');
 });
 
 setInterval(() => {

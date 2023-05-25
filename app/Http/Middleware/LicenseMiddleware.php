@@ -3,14 +3,15 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\DB;
+use App\Models\Licensed;
 
 class LicenseMiddleware
 {
     public function handle($request, Closure $next)
     {
         // Check if the license key exists in the database
-        $licenseKey = DB::table('licensed')->first();
+        // $licenseKey = DB::table('licensed')->first();
+        $licenseKey = Licensed::first();
         if (empty($licenseKey)) {
             // License key is blank or doesn't exist
             return redirect()->route('license-page')->with('message', 'Licensed key not found. Please contact Administrator.');
