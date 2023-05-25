@@ -59,17 +59,27 @@ $('#btnGenerate').on('click', function(){
                     <td>
                         <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="4" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>EXEMPTION TYPE</th>
                     <th class="sum">NO. OF TRANSACTIONS</th>
-                    <th class="sum">AMOUNT</th>
+                    <th class="sum">GROSS SALES</th>
+                    <th class="sum">TOTAL SALES</th>
+                    <th class="sum">NET SALES</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right">TOTAL:</th>
                     <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                     <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
@@ -131,7 +141,25 @@ $('#btnGenerate').on('click', function(){
                 }
             },
             {
-                data: 'amount',
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'total_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'net_sales',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
                         return sortAmount(data);
@@ -212,18 +240,28 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                     <td>
                         <input type="search" class="form-control filter-input2" data-column="4" style="border:1px solid #808080"/>
                     </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="5" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="6" style="border:1px solid #808080"/>
+                    </td>
                 </tr>
                 <tr>
                     <th>DATE</th>
                     <th>REFERENCE NUMBER</th>
                     <th>BRANCH NAME</th>
                     <th>TRANSACTION TYPE</th>
-                    <th class="sum">AMOUNT</th>
+                    <th class="sum">GROSS SALES</th>
+                    <th class="sum">TOTAL SALES</th>
+                    <th class="sum">NET SALES</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="4">TOTAL:</th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
                     <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
@@ -296,7 +334,25 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
             { data: 'branch_name' },
             { data: 'trantype' },
             {
-                data: 'amount',
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'total_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'net_sales',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
                         return sortAmount(data);
