@@ -78,6 +78,7 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
     Route::controller(ExemptionReportsController::class)->group(function(){
         Route::get('/exemption/reports','reports');
         Route::get('/exemption/reports/transaction','byTransaction');
+        Route::get('/exemption/reports/transaction/date','byTransaction_Date');
         Route::get('/exemption/reports/transaction_details','byTransactionDetails');
     });
 
@@ -422,30 +423,34 @@ Route::any('/QR', function (Request $request) {
 
 Route::any('/gkey', function (Request $request) {
     $code = explode('&appK=', $request->key);
-    $key = $code[1];
-    $cipher = config('app.cipher');
-    $data = base64_decode($code[0]);
-
-    $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
-    $encrypted = substr($data, openssl_cipher_iv_length($cipher));
-    $key = json_decode(openssl_decrypt($encrypted, $cipher, $key, 0, $iv), true);
-    if (array_key_exists('instanceid', $key)) {
-        $instanceid = $key['instanceid'];
-        $expiryDate = $request->expiry_date; // Get the expiry date from the request
-        $combine = $instanceid .';'. $expiryDate .';'.'apsoft';
-        // Encrypt the data
-        $data = Hash::make($combine);
-    }
-    else if (array_key_exists('mac_address', $key)) {
-        $macAddress = $key['mac_address'];
-        $serialNumber = $key['serial_number'];
-        $expiryDate = $request->expiry_date; // Get the expiry date from the request
-        $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
-        // Encrypt the data
-        $data = Hash::make($combine);
+    if (isset($code[1])) {
+        $key = $code[1];
+        $data = base64_decode($code[0]);
+        $cipher = config('app.cipher');
+        $iv = substr($data, 0, openssl_cipher_iv_length($cipher));
+        $encrypted = substr($data, openssl_cipher_iv_length($cipher));
+        $key = json_decode(openssl_decrypt($encrypted, $cipher, $key, 0, $iv), true);
+        if (array_key_exists('instanceid', $key)) {
+            $instanceid = $key['instanceid'];
+            $expiryDate = $request->expiry_date; // Get the expiry date from the request
+            $combine = $instanceid .';'. $expiryDate .';'.'apsoft';
+            // Encrypt the data
+            $data = Hash::make($combine);
+        }
+        else if (array_key_exists('mac_address', $key)) {
+            $macAddress = $key['mac_address'];
+            $serialNumber = $key['serial_number'];
+            $expiryDate = $request->expiry_date; // Get the expiry date from the request
+            $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
+            // Encrypt the data
+            $data = Hash::make($combine);
+        }
+        else{
+            $data = 'Incorrect Code';
+        }
     }
     else{
-        $data = 'Incorrect Code';
+        $data = 'Invalid QR';
     }
     return $data;
 });

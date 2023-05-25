@@ -32,45 +32,44 @@ $('#btnReset').on('click', function(){
     $('#end_date').attr('min', '');
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
 });
 
-var table1, table2;
+var table1, table2, table3, display_range, exname;
 $('#btnGenerate').on('click', function(){
     $('#reportsTable1').empty();
     $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
 
-    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
 
     $('#loading').show();
-    var htmlString = `<hr><div class="px-2 align-content"><h4 id=header1><span id="subheader1">${$('#report_category option:selected').text()}</span> (${display_range})</h4>
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id=header1><span id="subheader1">EXEMPTION REPORT</span> (${display_range})</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
         <table class="table table-hover table-bordered table-striped tblReports1" id="tblReports1" style="width:100%;">
             <thead style="font-weight:bolder" class="bg-default">
                 <tr class="tbsearch">
                     <td>
-                        <input type="search" class="form-control filter-input1" data-column="0" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input1" data-column="1" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>
                     </td>
                     <td>
-                        <input type="search" class="form-control filter-input1" data-column="2" style="border:1px solid #808080"/>
-                    </td>
-                    <td>
-                        <input type="search" class="form-control filter-input1" data-column="3" style="border:1px solid #808080"/>
+                        <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>DATE</th>
-                    <th>REFERENCE NUMBER</th>
-                    <th>BRANCH NAME</th>
+                    <th>EXEMPTION TYPE</th>
+                    <th class="sum">NO. OF TRANSACTIONS</th>
                     <th class="sum">AMOUNT</th>
                 </tr>
             </thead>
             <tfoot style="font-size: 14px;">
                 <tr>
-                    <th class="text-right" colspan="3">TOTAL:</th>
+                    <th class="text-right">TOTAL:</th>
+                    <th class="text-right sum"></th>
                     <th class="text-right sum sumamt"></th>
                 </tr>
             </tfoot>
@@ -115,7 +114,157 @@ $('#btnGenerate').on('click', function(){
         ajax: {
             url: '/exemption/reports/transaction',
             data:{
-                report_category: $('#report_category').val(),
+                start_date: $('#start_date').val(),
+                end_date: $('#end_date').val()
+            }
+        },
+        autoWidth: false,
+        columns: [
+            { data: 'exname' },
+            {
+                data: 'tno',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
+                data: 'amount',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(data).toFixed(2))}</span>`;
+                }
+            },
+        ],
+        order: [],
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+              if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                  return parseFloat(cleanValue);
+                }
+                else{
+                  return parseInt(cleanValue);
+                }
+              }
+              else if(typeof i === 'number'){
+                return i;
+              }
+              else{
+                return 0;
+              }
+            };
+            api.columns('.sum', { page: 'all' }).every(function(){
+              var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+              }, 0);
+              sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+              sum = sum.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+              this.footer().innerHTML = sum;
+            });
+        },
+        initComplete: function(){
+            tfoot_bugfix('tblReports2');
+            $('#loading').hide();
+            setTimeout(() => {
+                window.location.href = '/exemption/reports#tblReports1';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
+});
+
+$(document).on('click','table.tblReports1 tbody tr',function(){
+    var data = table1.row(this).data();
+    $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
+    exname = data.exname;
+
+    $('#loading').show();
+    var htmlString = `<hr><div class="px-2 align-content"><h4 id=header2><span id="subheader2">${exname}</span> (${display_range})</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports2')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>DATE</th>
+                    <th>REFERENCE NUMBER</th>
+                    <th>BRANCH NAME</th>
+                    <th class="sum">AMOUNT</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right" colspan="3">TOTAL:</th>
+                    <th class="text-right sum sumamt"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable2').append(htmlString);
+    table2 = $('table.tblReports2').DataTable({
+        dom: 'Blftrip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: $('#header2').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: $('#header2').text(),
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '/exemption/reports/transaction/date',
+            data:{
+                report_category: exname,
                 start_date: $('#start_date').val(),
                 end_date: $('#end_date').val()
             }
@@ -183,10 +332,10 @@ $('#btnGenerate').on('click', function(){
             });
         },
         initComplete: function(){
-            tfoot_bugfix('tblReports1');
+            tfoot_bugfix('tblReports2');
             $('#loading').hide();
             setTimeout(() => {
-                window.location.href = '/exemption/reports#tblReports1';
+                window.location.href = '/exemption/reports#tblReports2';
                 $('html, body').animate({
                     scrollTop: $($.attr(this, 'href')).offset()
                 }, 1000);
@@ -195,10 +344,10 @@ $('#btnGenerate').on('click', function(){
     });
 });
 
-$(document).on('click','table.tblReports1 tbody tr',function(){
-    var data = table1.row(this).data();
+$(document).on('click','table.tblReports2 tbody tr',function(){
+    var data = table2.row(this).data();
     $('#loading').show();
-    $('#reportsTable2').empty();
+    $('#reportsTable3').empty();
 
     $.ajax({
         url: "/sales/reports/reference",
@@ -208,33 +357,33 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         },
         data:{
             tnumber: data.tnumber,
-            datatype: $('#report_category').val()
+            datatype: exname
         },
         success:function(response){
-            var htmlString = `<hr><div class="px-2 align-content"><h4 id="header2"><span id="subheader2">${$('#subheader1').text()} (${formatDate(data.date).toUpperCase()}) (REF#: ${data.tnumber}) (${response})</span></h4>
-            <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports2')"><i class="fas fa-file-export"></i> EXPORT</button></div>
-            <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports2" type="button"><span>PDF</span></button>
+            var htmlString = `<hr><div class="px-2 align-content"><h4 id="header3"><span id="subheader3">${$('#subheader2').text()} (${formatDate(data.date).toUpperCase()}) (REF#: ${data.tnumber}) (${response})</span></h4>
+            <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports3')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+            <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports3" type="button"><span>PDF</span></button>
             <div class="table-responsive container-fluid pt-2">
-                <table class="table table-hover table-bordered table-striped tblReports2" id="tblReports2" style="width:100%;">
+                <table class="table table-hover table-bordered table-striped tblReports3" id="tblReports3" style="width:100%;">
                     <thead style="font-weight:bolder" class="bg-default">
                         <tr class="tbsearch">
                             <td>
-                                <input type="search" class="form-control filter-input2" data-column="0" style="border:1px solid #808080"/>
+                                <input type="search" class="form-control filter-input3" data-column="0" style="border:1px solid #808080"/>
                             </td>
                             <td>
-                                <input type="search" class="form-control filter-input2" data-column="1" style="border:1px solid #808080"/>
+                                <input type="search" class="form-control filter-input3" data-column="1" style="border:1px solid #808080"/>
                             </td>
                             <td>
-                                <input type="search" class="form-control filter-input2" data-column="2" style="border:1px solid #808080"/>
+                                <input type="search" class="form-control filter-input3" data-column="2" style="border:1px solid #808080"/>
                             </td>
                             <td>
-                                <input type="search" class="form-control filter-input2" data-column="3" style="border:1px solid #808080"/>
+                                <input type="search" class="form-control filter-input3" data-column="3" style="border:1px solid #808080"/>
                             </td>
                             <td>
-                                <input type="search" class="form-control filter-input2" data-column="4" style="border:1px solid #808080"/>
+                                <input type="search" class="form-control filter-input3" data-column="4" style="border:1px solid #808080"/>
                             </td>
                             <td>
-                                <input type="search" class="form-control filter-input2" data-column="5" style="border:1px solid #808080"/>
+                                <input type="search" class="form-control filter-input3" data-column="5" style="border:1px solid #808080"/>
                             </td>
                         </tr>
                         <tr>
@@ -255,14 +404,14 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                 </table>
                 <br>
             </div>`;
-            $('#reportsTable2').append(htmlString);
-            table2 = $('table.tblReports2').DataTable({
+            $('#reportsTable3').append(htmlString);
+            table3 = $('table.tblReports3').DataTable({
                 dom: 'Blftrip',
                 buttons: [
                     {
                         extend: 'excelHtml5',
                         text: 'Excel',
-                        title: $('#header2').text(),
+                        title: $('#header3').text(),
                         exportOptions: {
                             modifier: {
                             order: 'index',
@@ -274,7 +423,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                     {
                         extend: 'pdfHtml5',
                         text: 'PDF',
-                        title: $('#header2').text(),
+                        title: $('#header3').text(),
                         exportOptions: {
                             modifier: {
                             order: 'index',
@@ -358,10 +507,10 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
                     });
                 },
                 initComplete: function(){
-                    tfoot_bugfix('tblReports2');
+                    tfoot_bugfix('tblReports3');
                     $('#loading').hide();
                     setTimeout(() => {
-                        window.location.href = '/exemption/reports#tblReports2';
+                        window.location.href = '/exemption/reports#tblReports3';
                         $('html, body').animate({
                             scrollTop: $($.attr(this, 'href')).offset()
                         }, 1000);
@@ -378,4 +527,8 @@ $(document).on('keyup search','.filter-input1', function(){
 
 $(document).on('keyup search','.filter-input2', function(){
     table2.column($(this).data('column')).search($(this).val()).draw();
+});
+
+$(document).on('keyup search','.filter-input3', function(){
+    table3.column($(this).data('column')).search($(this).val()).draw();
 });
