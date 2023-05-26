@@ -67,8 +67,8 @@
     @if(Request::is('maintenance-category'))
         <link href="/css/toggle.css?ver={{$version}}" rel="stylesheet">
     @endif
-    <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/js/inc/multiple-select.min.js"></script>
+    <script src="/js/inc/loader.js"></script>
 </head>
 <body>
     <div id="loading">
@@ -94,8 +94,7 @@
     @if(!Auth::guest())
         <script src="/js/functions.js?ver={{$version}}"></script>
     @endif
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
-
+    <script src="/js/inc/moment.min.js"></script>
     <main class="container-fluid content">
         @yield('content')
     </main>
