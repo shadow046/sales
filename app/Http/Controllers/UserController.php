@@ -147,7 +147,7 @@ class UserController extends Controller
         if ($request->role == 1) {
             $count = User::where('userlevel', 1)->count()+1;
             $hashs = "apsoft;$count;apsoft";
-            if (!Hash::check($hashs, Crypt::decrypt($request->password))) {
+            if (!Hash::check($hashs, $request->password)) {
                 return response('false');
             }
         }

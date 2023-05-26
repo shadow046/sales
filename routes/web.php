@@ -397,7 +397,6 @@ Route::get('/adminkey', function (Request $request) {
 Route::any('/genkey', function (Request $request) {
     $count = $request->admin+2;
     $hash = "apsoft;$count;apsoft";
-    $key = Hash::make($hash);
-    $data = Crypt::encrypt($key);
+    $data = Hash::make($hash);
     return $data;
 })->name('generateKey');
