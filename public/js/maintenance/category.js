@@ -24,7 +24,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Categories",
             lengthMenu: "Show _MENU_ Categories",
-            emptyTable: "No Categories Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,

@@ -14,7 +14,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Sales Types",
             lengthMenu: "Show _MENU_ Sales Types",
-            emptyTable: "No Sales Types Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: true,

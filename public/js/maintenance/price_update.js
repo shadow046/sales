@@ -29,7 +29,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Price Updates",
             lengthMenu: "Show _MENU_ Price Updates",
-            emptyTable: "No Price Updates Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,

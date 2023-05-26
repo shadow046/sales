@@ -7,7 +7,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Users",
             lengthMenu: "Show _MENU_ Users",
-            emptyTable: "No Users Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,

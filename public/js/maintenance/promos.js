@@ -17,7 +17,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Promos",
             lengthMenu: "Show _MENU_ Promos",
-            emptyTable: "No Promos Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,
@@ -196,7 +196,7 @@ $(document).on('click','table.promoTable tbody tr',function(){
         info: false,
         autoWidth: false,
         language:{
-            emptyTable: "No data available in table",
+            emptyTable: "NO DATA AVAILABLE",
             processing: "Loading...",
         },
         serverSide: true,

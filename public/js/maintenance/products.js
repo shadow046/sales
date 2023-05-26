@@ -86,7 +86,7 @@ $(document).ready(function(){
             language: {
                 info: "Showing _START_ to _END_ of _TOTAL_ Products",
                 lengthMenu: "Show _MENU_ Products",
-                emptyTable: "No Products Data Found!",
+                emptyTable: "NO DATA AVAILABLE",
             },
             processing: true,
             serverSide: false,
@@ -264,7 +264,7 @@ $(document).ready(function(){
             language: {
                 info: "Showing _START_ to _END_ of _TOTAL_ Products",
                 lengthMenu: "Show _MENU_ Products",
-                emptyTable: "No Products Data Found!",
+                emptyTable: "NO DATA AVAILABLE",
             },
             processing: true,
             serverSide: false,

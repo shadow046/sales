@@ -25,7 +25,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ POS",
             lengthMenu: "Show _MENU_ POS",
-            emptyTable: "No POS Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,
@@ -232,7 +232,7 @@ $(document).on('click','table.posTable tbody tr',function(){
             info: false,
             autoWidth: false,
             language:{
-                emptyTable: "No data available in table",
+                emptyTable: "NO DATA AVAILABLE",
                 processing: "Loading...",
             },
             serverSide: true,
@@ -267,7 +267,7 @@ $(document).on('click','table.posTable tbody tr',function(){
             info: false,
             autoWidth: false,
             language:{
-                emptyTable: "No data available in table",
+                emptyTable: "NO DATA AVAILABLE",
                 processing: "Loading...",
             },
             serverSide: true,

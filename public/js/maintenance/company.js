@@ -31,7 +31,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Companies",
             lengthMenu: "Show _MENU_ Companies",
-            emptyTable: "No Companies Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,
@@ -347,7 +347,7 @@ $(document).on('click','table.companyTable tbody tr td',function(){
                 info: false,
                 autoWidth: false,
                 language:{
-                    emptyTable: "No data available in table",
+                    emptyTable: "NO DATA AVAILABLE",
                     processing: "Loading...",
                 },
                 serverSide: true,
@@ -384,7 +384,7 @@ $(document).on('click','table.companyTable tbody tr td',function(){
                 info: false,
                 autoWidth: false,
                 language:{
-                    emptyTable: "No data available in table",
+                    emptyTable: "NO DATA AVAILABLE",
                     processing: "Loading...",
                 },
                 serverSide: true,

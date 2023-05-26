@@ -24,7 +24,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Store Setups",
             lengthMenu: "Show _MENU_ Store Setups",
-            emptyTable: "No Store Setups Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,

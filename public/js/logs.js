@@ -3,7 +3,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Activities",
             lengthMenu: "Show _MENU_ Activities",
-            emptyTable: "No Activities Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,

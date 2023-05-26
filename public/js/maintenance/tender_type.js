@@ -24,7 +24,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Tender Types",
             lengthMenu: "Show _MENU_ Tender Types",
-            emptyTable: "No Tender Types Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,

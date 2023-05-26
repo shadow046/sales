@@ -24,7 +24,7 @@ $(document).ready(function(){
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Delivery Channels",
             lengthMenu: "Show _MENU_ Delivery Channels",
-            emptyTable: "No Delivery Channels Data Found!",
+            emptyTable: "NO DATA AVAILABLE",
         },
         processing: true,
         serverSide: false,
