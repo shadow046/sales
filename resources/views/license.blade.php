@@ -54,7 +54,7 @@
             <div style="position: relative;">
                 <center>
                     {{QrCode::size(200)->style('dot', 0.9)->merge(public_path('dd-logo.png'), 0.5, true)->generate($data)}}<br><br>
-                    <a href="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(230)->margin(1)->generate($data)) }}" download="qrcode.png" style="cursor:pointer;"><button>DOWNLOAD QR CODE</button></a>
+                    <a href="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(230)->margin(1)->generate($data)) }}" download="qrcode.png" style="cursor:pointer;"><button type="button">DOWNLOAD</button></a>
                 </center>
             </div>
             <br>
