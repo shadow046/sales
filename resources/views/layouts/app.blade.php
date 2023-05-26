@@ -21,20 +21,8 @@
         <link href="/mg-logo.ico" rel="icon" type="image/x-icon"/>
         <link href="/mg-logo.ico" rel="shortcut icon" type="image/x-icon"/>
     @endif
-    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
-    <script src="/js/inc/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/inc/bootstrap4.min.css">
-    <link rel="stylesheet" href="/css/inc/bootstrap5.min.css">
-    <link rel="stylesheet" href="/css/inc/bootstrap-icons.css">
-    <link rel="stylesheet" href="/css/inc/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="/css/inc/buttons.dataTables.min.css">
-    <link href="/fontawesome-free-6.2.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="/css/inc/sweetalert2.min.css">
-    <link rel="stylesheet" href="/css/inc/multiple-select.min.css">
-    <link rel="stylesheet" href="/css/inc/jquery-ui.css">
-    <link rel="stylesheet" href="/css/inc/daterangepicker.css">
-    <link href="/css/inc/chosen.css" rel="stylesheet" type="text/css"/>
+
+    @include('cdn.head')
 
     @if(env('APP_SYS') == 'DD')
         <link href="/css/dd-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
@@ -67,8 +55,7 @@
     @if(Request::is('maintenance-category'))
         <link href="/css/toggle.css?ver={{$version}}" rel="stylesheet">
     @endif
-    <script src="/js/inc/multiple-select.min.js"></script>
-    <script src="/js/inc/loader.js"></script>
+
 </head>
 <body>
     <div id="loading">
@@ -94,26 +81,11 @@
     @if(!Auth::guest())
         <script src="/js/functions.js?ver={{$version}}"></script>
     @endif
-    <script src="/js/inc/moment.min.js"></script>
+
+    @include('cdn.body')
+
     <main class="container-fluid content">
         @yield('content')
     </main>
-    <script src="/js/inc/daterangepicker.js"></script>
-    <script src="/js/inc/bootstrap4.bundle.min.js"></script>
-    <script src="/js/inc/bootstrap5.bundle.min.js"></script>
-    <script src="/js/inc/jquery.dataTables.min.js"></script>
-    <script src="/js/inc/dataTables.fixedColumns.min.js"></script>
-    <script src="/js/inc/dataTables.buttons.min.js"></script>
-    <script src="/js/inc/pdfmake.min.js"></script>
-    <script src="/js/inc/vfs_fonts.js"></script>
-    <script src="/js/inc/buttons.html5.min.js"></script>
-    <script src="/js/inc/jszip.min.js"></script>
-    <script src="/js/inc/html2pdf.bundle.min.js"></script>
-    <script src="/js/inc/sweetalert2.all.min.js"></script>
-    <script src="/js/inc/jquery-ui.min.js"></script>
-    <script src="/js/inc/chosen.jquery.js"></script>
-    <script src="/js/inc/moment.js"></script>
-    <script src="/js/inc/datetime.js"></script>
-    <script src="/js/sales/function.js?ver={{\Illuminate\Support\Str::random(50)}}"></script>
 </body>
 </html>
