@@ -25,5 +25,3 @@ yarn-error.log
 download-logs
 FSCommand.conf
 FSCommand.conf.sample
-public/css/inc/bootstrap-icons.css
-public/js/inc/jquery.min.js
