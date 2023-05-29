@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\App;
+use App\Models\Licensed;
 use Carbon\Carbon;
 use File;
 use Str;
@@ -44,9 +45,12 @@ class LicenseController extends Controller
 
     public function showLicensePage()
     {
+        $license = Licensed::first();
+        $expiryDate = $license->exp_date;
         if (getenv('APP_SERVER') == "BETA") {
             if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
                 $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
+                $combine = $instanceId .';'. $expiryDate .';'.'apsoft';
                 $data = [
                     'instanceid' => $instanceId,
                 ];
@@ -56,20 +60,21 @@ class LicenseController extends Controller
             $interface = trim(shell_exec("ip -o link show | awk -F': ' '!/lo/{print $2; exit}'"));
             $macAddress = trim(shell_exec("ip -o link show $interface | awk '{print $17}'"));
             $serialNumber = trim(shell_exec("lsblk -no SERIAL /dev/sda"));
+            $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
             $data = [
                 'mac_address' => $macAddress,
                 'serial_number' => $serialNumber,
             ];
         }
-
-        // if (!empty($data)) {
-        //     $encryptedData = Crypt::encrypt($data);
-        //     $iterations = 2;
-        //     for ($i = 0; $i < $iterations; $i++) {
-        //         $encryptedData = Crypt::encrypt($encryptedData);
-        //     }
-        // }
         
+        if ($license) {
+            if (Carbon::createFromFormat('Y-m-d', $expiryDate) > Carbon::now()) {
+                if (Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($license->key))))) {
+                    return redirect()->route('login');
+                }
+            }
+        }
+
         $code = $this->encryptData(json_encode($data));
         $appK = config('app.key');
         $appC = config('app.cipher');
@@ -103,10 +108,10 @@ class LicenseController extends Controller
                     else{
                         App::create(['key' => Crypt::encrypt(Crypt::encrypt(Crypt::encrypt($licenseKey))), 'exp_date' => $expiryDate]);
                     }
-                    if (Str::contains($request->url(), 'mg')) {
+                    if (getenv('APP_SYS') == "MG") {
                         $filename = '/'.'var/www/html/mary_grace/public/storage/check';
                     }
-                    else if (Str::contains($request->url(), 'dd')) {
+                    else if (getenv('APP_SYS') == "DD") {
                         $filename = '/'.'var/www/html/dd/public/storage/check';
                     }
                     $file = fopen($filename, 'w');
@@ -137,10 +142,10 @@ class LicenseController extends Controller
                 else{
                     App::create(['key' => Crypt::encrypt(Crypt::encrypt(Crypt::encrypt($licenseKey))), 'exp_date' => $expiryDate]);
                 }
-                if (Str::contains($request->url(), 'mg')) {
+                if (getenv('APP_SYS') == "MG") {
                     $filename = '/'.'var/www/html/mg/public/storage/check';
                 }
-                else if (Str::contains($request->url(), 'dd')) {
+                else if (getenv('APP_SYS') == "DD") {
                     $filename = '/'.'var/www/html/dunkin/public/storage/check';
                 }
                 $file = fopen($filename, 'w');
