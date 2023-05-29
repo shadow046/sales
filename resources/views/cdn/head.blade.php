@@ -12,5 +12,6 @@
 <link rel="stylesheet" href="/css/inc/jquery-ui.css">
 <link rel="stylesheet" href="/css/inc/daterangepicker.css">
 <link href="/css/inc/chosen.css" rel="stylesheet" type="text/css"/>
+<link href="/css/inc/animate.min.css" rel="stylesheet" type="text/css"/>
 <script src="/js/inc/multiple-select.min.js"></script>
 <script src="/js/inc/loader.js"></script>
