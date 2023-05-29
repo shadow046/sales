@@ -55,7 +55,6 @@
     @if(Request::is('maintenance-category'))
         <link href="/css/toggle.css?ver={{$version}}" rel="stylesheet">
     @endif
-
 </head>
 <body>
     <div id="loading">
@@ -82,12 +81,9 @@
         <script src="/js/functions.js?ver={{$version}}"></script>
     @endif
 
-    @include('cdn.body')
-
     <main class="container-fluid content">
         @yield('content')
     </main>
-    <script src="/js/sales/function.js?ver={{\Illuminate\Support\Str::random(50)}}"></script>
-
+    @include('cdn.body')
 </body>
 </html>
