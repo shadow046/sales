@@ -53,18 +53,19 @@
             @csrf
             <div style="position: relative;">
                 <center>
-                    {{QrCode::size(200)->style('dot', 0.9)->merge(public_path('dd-logo.png'), 0.5, true)->generate($data)}}<br><br>
-                    <a href="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(230)->margin(1)->generate($data)) }}" download="qrcode.png" style="cursor:pointer;"><button type="button">DOWNLOAD</button></a>
+                    {{QrCode::size(200)
+                        ->style('dot', 0.9)
+                        // ->merge(public_path('dd-logo.png'), 1, true)
+                        ->generate($data)}}<br><br>
+                    <a href="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(230)->margin(1)->generate($data)) }}" download="qrcode.png" style="cursor:pointer;"><button type="button">DOWNLOAD QR CODE</button></a>
                 </center>
             </div>
             <br>
             <label for="license_key">Enter License Key:</label>
             <div class="container-fluid row">
-            <center><textarea name="license_key" id="license_key" rows="3" cols="120"></textarea><br>
-            {{-- <div class="container-fluid row"><center><label for="expiry">Valid until:</label> --}}
-            {{-- <input type="date" id="expiry" name="expiry"></center></div> --}}
-            <br>
-            <button type="submit">Verify License</button>
+                <center><textarea name="license_key" id="license_key" rows="3" cols="120"></textarea></center>
+                <br>
+                <button type="submit">Verify License</button>
             </div>
         </form>
     </center>

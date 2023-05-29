@@ -87,5 +87,7 @@
     <main class="container-fluid content">
         @yield('content')
     </main>
+    <script src="/js/sales/function.js?ver={{\Illuminate\Support\Str::random(50)}}"></script>
+
 </body>
 </html>
