@@ -67,13 +67,13 @@ class LicenseController extends Controller
             ];
         }
         
-        // if ($license) {
-        //     if (Carbon::createFromFormat('Y-m-d', $expiryDate) > Carbon::now()) {
-        //         if (Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($license->key))))) {
-        //             return redirect()->route('login');
-        //         }
-        //     }
-        // }
+        if ($license) {
+            if (Carbon::createFromFormat('Y-m-d', $expiryDate) > Carbon::now()) {
+                if (Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($license->key))))) {
+                    return redirect()->route('login');
+                }
+            }
+        }
 
         $code = $this->encryptData(json_encode($data));
         $appK = config('app.key');
