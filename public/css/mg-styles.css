@@ -464,6 +464,11 @@ label{
     cursor: pointer;
 }
 
+.bg-sublight{
+    background-color: #fbb12d;
+    color: white;
+}
+
 .bg-orange{
     background-color: #fbb12d;
     color: black;

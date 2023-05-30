@@ -36,7 +36,7 @@
                 <img src="{{asset('apsoft.png')}}" style="zoom:50%"><br>
             </div>
         </a>
-        <div class="bg-pink" style="height: 15px;"></div>
+        <div class="bg-sublight" style="height: 15px;"></div>
         <div class="bg-default py-2">
             <b style="font-size: 35px;">HEADQUARTERS CONSOLE SYSTEM</b><b class="ml-1"></b>
         </div>
