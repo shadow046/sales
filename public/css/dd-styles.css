@@ -129,7 +129,7 @@ input, select{
     margin-top: -34px;
 }
 .defaultInput{
-    border: 1px solid #683817;
+    border: 1px solid #683817 !important;
 }
 .requiredInput, .duplicateInput, .invalidInput, .redBorder{
     border: 2px solid red;
@@ -212,7 +212,7 @@ input, select{
     border: none !important;
 }
 .card{
-    border-color: #683817;
+    border-color: #683817 !important;
     border-radius: 0px;
 }
 .card-header{
@@ -462,4 +462,13 @@ label{
 
 .dataTables_scrollBody {
     cursor: pointer;
+}
+
+.bg-orange{
+    background-color: #f5821f !important;
+    color: black;
+}
+
+.select-default{
+    border: 1px solid #683817 !important;
 }

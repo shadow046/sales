@@ -35,7 +35,6 @@
       referrerpolicy="no-referrer"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
 <div class="modal fade" id="keyModal" tabindex="-1" role="dialog" aria-labelledby="keyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -46,7 +45,7 @@
             <div class="modal-body">
                 <div id="inputDiv" class="input-group d-flex flex-wrap justify-content-center" style="display:none">
                     <center>
-                        <textarea name="license_key" id="license_key" rows="3" cols="120" style="width: 100%; max-width: 100%;"></textarea>
+                        <textarea name="license_key" id="license_key" rows="3" cols="120" style="width: 100%; max-width: 100%;" placeholder="Please input valid license key."></textarea>
                     </center>
                 </div>
                 <form id="uploadFrm">
@@ -67,7 +66,7 @@
                                 Drag and drop or upload your QR.
                             </h6>
                         </label>
-                    </div><br>
+                    </div>
                     <div hidden>
                         <div class="input-group mt-2">
                         <label for="result" class="input-group-text text-bg-secondary" >Result</label>
@@ -76,9 +75,9 @@
                         </div>
                     </div>
                 </form>
-                <center>
+                <center class="mt-2">
                     <form id="keyForm" style="display:none">
-                        <button type="button" id="subBtn" class="btn btn-primary ml-3">Verify</button>
+                        <button type="button" id="subBtn" class="btn btn-primary bp ml-3"><b>VERIFY</b></button>
                     </form>
                 </center>
             </div>
