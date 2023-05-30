@@ -43,18 +43,14 @@
         <p class="bg-orange py-1" style="font-size: 20px">Please e-mail the QR Code together with your Company Name, Full Name and Position to license@apsoft.com.ph.</p>
         @if ($errors->any())
             <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li style="color:red">{{ $error }}</li>
-                    @endforeach
-                </ul>
+                @foreach ($errors->all() as $error)
+                    {{ $error }}
+                @endforeach
             </div>
         @endif
         @if (session('message'))
             <div class="alert alert-danger">
-                <ul>
-                    <li style="color:red">{{ session('message') }}</li>
-                </ul>
+                {{ session('message') }}
             </div>
         @endif
         <form method="POST" action="{{ route('verify-license') }}">
