@@ -53,7 +53,7 @@ class CheckUserLevel
                             $currentDate = Carbon::now()->subdays('2');
                             // Compare the file date with the current date
                             if ($fileDate < $currentDate) {
-                                return redirect()->route('license-page');
+                                return redirect()->route('license-page')->with('message', 'Invalid licensed key. Please contact Administrator.');
                             }
                             $file = fopen($filePath, 'w');
                             fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
@@ -61,7 +61,7 @@ class CheckUserLevel
                             return $next($request);
                         }
                         else{
-                            return redirect()->route('license-page');
+                            return redirect()->route('license-page')->with('message', 'Invalid licensed key. Please contact Administrator.');
                         }
                     }
                 } catch (\Throwable $th) {
@@ -94,7 +94,7 @@ class CheckUserLevel
                             $currentDate = Carbon::now()->subdays('2');
                             // Compare the file date with the current date
                             if ($fileDate < $currentDate) {
-                                return redirect()->route('license-page');
+                                return redirect()->route('license-page')->with('message', 'Invalid licensed key. Please contact Administrator.');
                             }
                             $file = fopen($filePath, 'w');
                             fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
@@ -103,7 +103,7 @@ class CheckUserLevel
                         }
                         else{
                             // return redirect()->route('invalid');
-                            return redirect()->route('license-page');
+                            return redirect()->route('license-page')->with('message', 'Invalid licensed key. Please contact Administrator.');
                         }
                     }
                 } catch (\Throwable $th) {
@@ -141,7 +141,7 @@ class CheckUserLevel
                             $currentDate = Carbon::now()->subdays('2');
                             // Compare the file date with the current date
                             if ($fileDate < $currentDate) {
-                                return redirect()->route('license-page');
+                                return redirect()->route('license-page')->with('message', 'Invalid licensed key. Please contact Administrator.');
                             }
                             $file = fopen($filePath, 'w');
                             fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
