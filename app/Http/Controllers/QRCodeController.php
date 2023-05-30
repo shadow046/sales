@@ -20,13 +20,12 @@ class QRCodeController extends Controller
         $imagePath = $image->getPathname();
 
         // Create a QR code reader instance
-        $qrcode = new QrReader($imagePath);
         $qrReader = new QrReader($imagePath);
 
         // Decode the QR code
         $decodedData = $qrReader->text();
-
         // Return the decoded data as JSON response
         return response()->json(['decodedData' => $decodedData]);
+        
     }
 }

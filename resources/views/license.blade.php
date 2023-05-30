@@ -110,6 +110,14 @@
                 $('#upload').prop('disabled', true);
                 if (!$('#license_key').is(':visible')) {
                     fetchRequest(formData).then(() => {
+                        $('#subBtn').prop('disabled', false);
+                        $('#upload').prop('disabled', false);
+                        if ($('#license_key').val() == "false") {
+                            Swal.fire({
+                                title: 'Invalid QR',
+                                icon: "error"
+                            });
+                        }
                         $.ajax({
                             url:'/license/verify',
                             type:"GET",
@@ -117,8 +125,6 @@
                                 license_key: $('#license_key').val()
                             },
                             success:function(data){
-                                $('#subBtn').prop('disabled', false);
-                                $('#upload').prop('disabled', false);
                                 if (data == 'Invalid QR') {
                                     Swal.fire({
                                         title: data,
@@ -137,35 +143,38 @@
                         });
                     })
                     .catch((error) => {
-                        console.error(error);
+                        Swal.fire({
+                            title: 'Invalid QR',
+                            icon: "error"
+                        });
                     });
                 }
                 else{
                     $.ajax({
-                            url:'/license/verify',
-                            type:"GET",
-                            data:{
-                                license_key: $('#license_key').val()
-                            },
-                            success:function(data){
-                                $('#subBtn').prop('disabled', false);
-                                $('#upload').prop('disabled', false);
-                                if (data == 'Invalid QR') {
-                                    Swal.fire({
-                                        title: 'Invalid license key',
-                                        icon: "error"
-                                    });
-                                    return false;
-                                }else if (data == 'Invalid license key') {
-                                    Swal.fire({
-                                        title: 'Invalid license key',
-                                        icon: "error"
-                                    });
-                                    return false;
-                                }
-                                window.location.href = "/"
+                        url:'/license/verify',
+                        type:"GET",
+                        data:{
+                            license_key: $('#license_key').val()
+                        },
+                        success:function(data){
+                            $('#subBtn').prop('disabled', false);
+                            $('#upload').prop('disabled', false);
+                            if (data == 'Invalid QR') {
+                                Swal.fire({
+                                    title: 'Invalid license key',
+                                    icon: "error"
+                                });
+                                return false;
+                            }else if (data == 'Invalid license key') {
+                                Swal.fire({
+                                    title: 'Invalid license key',
+                                    icon: "error"
+                                });
+                                return false;
                             }
-                        });
+                            window.location.href = "/"
+                        }
+                    });
                 }
             });
         });
