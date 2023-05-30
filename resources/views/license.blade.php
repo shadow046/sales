@@ -4,52 +4,24 @@
 <html>
 <head>
     <title>License Page</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-      crossorigin="anonymous"
-    />
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-        crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="/css/license/bootstrap.min.css">
     <style>
         textarea {
             height: auto;
             resize: none;
             overflow-y: scroll;
             position: relative;
-            padding-right: 10px; /* Add space for the button */
+            padding-right: 10px;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/license/jquery-3.6.0.min.js"></script>
     <!-- JavaScript Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-      crossorigin="anonymous"
-      defer
-    ></script>
+    <script src="/js/license/bootstrap.bundle.min.js"></script>
     <!-- Qr Code Generator CDN -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
-      integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-      defer
-    ></script>
+    <script src="/js/license/qrcode.min.js"></script>
     <!-- Font Awesome Library -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="/fontawesome-free-6.1.2-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/license/sweetalert2@11.js"></script>
     <link rel="stylesheet" href="css/qr/style.css" />
     <script src="/js/script.js" defer></script>
 </head>
@@ -96,8 +68,8 @@
         </form>
     </center>
     @include('modals.qr')
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script src="/js/license/axios.min.js"></script>
+    <script src="/js/license/jsQR.js"></script>
     <script>
         $(document).on('click', '#verifyBtn', (e) => {
             $('#keyModal').modal('show');
@@ -116,7 +88,7 @@
             }
             $('#keyModal').modal('show');
         });
-        
+
         $(document).ready(function() {
             $('#keyForm').on('click', () => {
                 $('#subBtn').prop('disabled', true);
@@ -183,6 +155,6 @@
             });
         });
     </script>
-    
+
 </body>
 </html>
