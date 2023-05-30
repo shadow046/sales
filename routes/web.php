@@ -32,6 +32,8 @@ use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\LicenseController;
+use App\Http\Controllers\QRCodeController;
+
 
 Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::fallback(function(){return redirect("/login");});
@@ -389,6 +391,7 @@ Route::controller(PdfController::class)->group(function(){
 
 Route::get('/license', [LicenseController::class, 'showLicensePage'])->name('license-page');
 Route::any('/license/verify', [LicenseController::class, 'verifyLicense'])->name('verify-license');
+Route::post('/qrcode/decode', [QRCodeController::class, 'decode']);
 
 Route::get('/adminkey', function (Request $request) {
     return view('key-modal');

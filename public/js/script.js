@@ -29,48 +29,31 @@ const scan = (file) => {
 	$('.modal-footer').hide();
 };
 
-// const fetchRequest = async (formData) => {
-//   scanResult.val("Scanning QR Code...");
-//   const response = await fetch("https://api.qrserver.com/v1/read-qr-code/", {
-//     method: "POST",
-//     body: formData,
-//   });
-//   let result = await response.json();
-//   result = result[0].symbol[0].data;
-//   showLaser(laserScan);
-//   setTimeout(() => {
-//     scanResult.val(result || "Couldn't Scan The QR Code");
-//     key.val(scanResult.val());
-//     hideLaser(laserScan);
-//   }, 1500);
-
-// };
 const fetchRequest = async (formData) => {
 	return new Promise((resolve, reject) => {
 		scanResult.val("Scanning QR Code...");
-		fetch("https://api.qrserver.com/v1/read-qr-code/", {
-		method: "POST",
-		body: formData,
+		fetch("/qrcode/decode", {
+			method: "POST",
+			body: formData,
 		})
 		.then((response) => response.json())
 		.then((result) => {
-			result = result[0].symbol[0].data;
+			result = result.decodedData
 			showLaser(laserScan);
 			setTimeout(() => {
-			scanResult.val(result || "Couldn't Scan The QR Code");
-			key.val(scanResult.val());
-			hideLaser(laserScan);
-			resolve(); // Resolve the Promise after the fetch request completes
-			}, 1500);
+				scanResult.val(result || "Couldn't Scan The QR Code");
+				key.val(scanResult.val());
+				$('#license_key').val(result);
+				hideLaser(laserScan);
+				resolve(); // Resolve the Promise after the fetch request completes
+			}, Math.floor(Math.random() * (4000 - 2000 + 1)) + 2000);
 		})
 		.catch((error) => {
 			reject(error); // Reject the Promise if there's an error
 		});
 	});
 };
-// Usage
 inputFile.on("change", (e) => scan(e.target.files[0]));
-// drag area
 dropArea.on("dragenter", (e) => {
 	e.preventDefault();
 	highlight();

@@ -67,13 +67,13 @@ class LicenseController extends Controller
             ];
         }
         
-        if ($license) {
-            if (Carbon::createFromFormat('Y-m-d', $expiryDate) > Carbon::now()) {
-                if (Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($license->key))))) {
-                    return redirect()->route('login');
-                }
-            }
-        }
+        // if ($license) {
+        //     if (Carbon::createFromFormat('Y-m-d', $expiryDate) > Carbon::now()) {
+        //         if (Hash::check($combine, Crypt::decrypt(Crypt::decrypt(Crypt::decrypt($license->key))))) {
+        //             return redirect()->route('login');
+        //         }
+        //     }
+        // }
 
         $code = $this->encryptData(json_encode($data));
         $appK = config('app.key');
@@ -92,10 +92,13 @@ class LicenseController extends Controller
         $encrypted = substr($data, openssl_cipher_iv_length($cipher));
         $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
         $decrypted = explode('&appK=', $decrypted);
+        if (count($decrypted) === 1 && $decrypted[0] === "") {
+            return 'Invalid QR';
+        }
+        $expiryDate = Carbon::createFromFormat('Y-m-d', $decrypted[0])->format('Y-m-d');
         if (getenv('APP_SERVER') == "BETA") {
             if (trim(shell_exec("lsblk -no SERIAL /dev/sda")) == "") {
                 $instanceId = trim(shell_exec('curl -s http://169.254.169.254/latest/meta-data/instance-id'));
-                $expiryDate = Carbon::createFromFormat('Y-m-d', $decrypted[0])->format('Y-m-d');
                 $licenseKey = $decrypted[1];
                 $combine = $instanceId .';'. $expiryDate .';'.'apsoft';
                 if (Hash::check($combine, $licenseKey)) {
@@ -120,7 +123,7 @@ class LicenseController extends Controller
                     return redirect()->route('login');
                 } else {
                     // Invalid license key
-                    return redirect()->back()->withErrors(['license_key' => 'Invalid license key']);
+                    return 'Invalid license key';
                 }
             }
         }
@@ -128,7 +131,6 @@ class LicenseController extends Controller
             $interface = trim(shell_exec("ip -o link show | awk -F': ' '!/lo/{print $2; exit}'"));
             $macAddress = trim(shell_exec("ip -o link show $interface | awk '{print $17}'"));
             $serialNumber = trim(shell_exec("lsblk -no SERIAL /dev/sda"));
-            $expiryDate = Carbon::createFromFormat('Y-m-d', $decrypted[0])->format('Y-m-d');
             // $expectedHash = '$2y$10$NPoAi/Yw7Vh6A/VKv8KZheIb5ocbME/ACkNr.8PUWMzId5r6c9DEO'; // Example hashed value
             $licenseKey = $decrypted[1];
             $combine = $macAddress .';'. $serialNumber .';'. $expiryDate .';'. 'apsoft';
@@ -154,7 +156,7 @@ class LicenseController extends Controller
                 return redirect()->route('login');
             } else {
                 // Invalid license key
-                return redirect()->back()->withErrors(['license_key' => 'Invalid license key']);
+                return 'Invalid license key';
             }
         }
     }
