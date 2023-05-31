@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @php //Version Control
-        $random = $random;
+        $random = \Illuminate\Support\Str::random(50);
     @endphp
     <title>@if(Request::is('sales/*')) SALES PERFORMANCE @else {{ config('app.name', 'Laravel') }} @endif
     </title>
