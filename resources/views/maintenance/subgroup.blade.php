@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="subgroup_id" class="modal_id">
 @include('modals.addSubgroup')
-<script src={{asset('js/maintenance/subgroup.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/subgroup.js?ver=')}}{{$random}}></script>
 @endsection

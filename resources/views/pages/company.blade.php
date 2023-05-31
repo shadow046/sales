@@ -81,5 +81,5 @@
 <input type="hidden" name="company_id" id="company_id" class="modal_id">
 @include('modals.addCompany')
 @include('modals.importCompany')
-<script src={{asset('js/maintenance/company.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/company.js?ver=')}}{{$random}}></script>
 @endsection

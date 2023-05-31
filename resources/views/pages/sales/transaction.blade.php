@@ -43,5 +43,5 @@
         </div>
         <br><br>
     </div>
-    <script src={{asset('/js/sales/transaction.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+    <script src={{asset('/js/sales/transaction.js?ver=')}}{{$random}}></script>
 @endsection

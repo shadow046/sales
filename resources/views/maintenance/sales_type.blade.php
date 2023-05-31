@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="sales_type_id" class="modal_id">
 @include('modals.addSalesType')
-<script src={{asset('js/maintenance/sales_type.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/sales_type.js?ver=')}}{{$random}}></script>
 @endsection

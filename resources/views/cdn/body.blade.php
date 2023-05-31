@@ -17,4 +17,4 @@
 <script src="/js/inc/chosen.jquery.js"></script>
 <script src="/js/inc/moment.js"></script>
 <script src="/js/inc/datetime.js"></script>
-<script src="/js/sales/function.js?ver={{\Illuminate\Support\Str::random(50)}}"></script>
+<script src="/js/sales/function.js?ver={{$random}}"></script>

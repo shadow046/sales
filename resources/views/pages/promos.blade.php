@@ -36,5 +36,5 @@
 <hr>
 <input type="hidden" name="promo_id" id="promo_id" class="modal_id">
 @include('modals.addPromos')
-<script src={{asset('js/maintenance/promos.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/promos.js?ver=')}}{{$random}}></script>
 @endsection

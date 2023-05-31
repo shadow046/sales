@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="store_area_id" class="modal_id">
 @include('modals.addStoreArea')
-<script src={{asset('js/maintenance/store_area.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/store_area.js?ver=')}}{{$random}}></script>
 @endsection

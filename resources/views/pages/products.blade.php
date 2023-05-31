@@ -153,5 +153,5 @@
     </div>
 </div>
 
-<script src={{asset('js/maintenance/products.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/products.js?ver=')}}{{$random}}></script>
 @endsection

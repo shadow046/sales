@@ -2,12 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @php //Version Control
-        $version = \Illuminate\Support\Str::random(50);
-        $sweetalert_version = '@11.7.5';
-        $bootstrap_version = '@5.2.3';
-        $datatables_version = '1.13.4';
-        $jquery_version = '3.7.0';
-        $jquery_ui_version = '1.13.2';
+        $random = $random;
     @endphp
     <title>@if(Request::is('sales/*')) SALES PERFORMANCE @else {{ config('app.name', 'Laravel') }} @endif
     </title>
@@ -21,11 +16,9 @@
         <link href="/mg-logo.ico" rel="icon" type="image/x-icon"/>
         <link href="/mg-logo.ico" rel="shortcut icon" type="image/x-icon"/>
     @endif
-
     @include('cdn.head')
-
     @if(env('APP_SYS') == 'DD')
-        <link href="/css/dd-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
+        <link href="/css/dd-styles.css?ver={{$random}}" rel="stylesheet" type="text/css">
         <script>
             const brown = '#683817';
             const orange = '#f5821f';
@@ -37,7 +30,7 @@
             $pink = '#e11383';
         @endphp
     @else
-        <link href="/css/mg-styles.css?ver={{$version}}" rel="stylesheet" type="text/css">
+        <link href="/css/mg-styles.css?ver={{$random}}" rel="stylesheet" type="text/css">
         <script>
             const brown = '#850708'; //Maroon
             const orange = '#fbb12d'; //Gold
@@ -50,10 +43,10 @@
         @endphp
     @endif
     @if(Request::is('products') || Request::is('store') || Request::is('company') || Request::is('users'))
-        <link href="/css/switch.css?ver={{$version}}" rel="stylesheet">
+        <link href="/css/switch.css?ver={{$random}}" rel="stylesheet">
     @endif
     @if(Request::is('maintenance-category'))
-        <link href="/css/toggle.css?ver={{$version}}" rel="stylesheet">
+        <link href="/css/toggle.css?ver={{$random}}" rel="stylesheet">
     @endif
 </head>
 <body>
@@ -78,9 +71,8 @@
         @include('inc.include')
     @endif
     @if(!Auth::guest())
-        <script src="/js/functions.js?ver={{$version}}"></script>
+        <script src="/js/functions.js?ver={{$random}}"></script>
     @endif
-
     <main class="container-fluid content">
         @yield('content')
     </main>

@@ -39,5 +39,5 @@
 <hr>
 <input type="hidden" name="pos_id" id="pos_id" class="modal_id">
 @include('modals.addPos')
-<script src={{asset('js/maintenance/pos.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/pos.js?ver=')}}{{$random}}></script>
 @endsection

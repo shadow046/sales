@@ -112,5 +112,5 @@
 @include('modals.importStore')
 @include('modals.editContact')
 @include('modals.editPos')
-<script src={{asset('js/maintenance/store.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/store.js?ver=')}}{{$random}}></script>
 @endsection

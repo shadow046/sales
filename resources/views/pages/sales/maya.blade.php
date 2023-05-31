@@ -45,5 +45,5 @@
         </div>
         <br><br>
     </div>
-    <script src={{asset('/js/sales/maya.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+    <script src={{asset('/js/sales/maya.js?ver=')}}{{$random}}></script>
 @endsection

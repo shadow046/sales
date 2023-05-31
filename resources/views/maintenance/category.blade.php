@@ -29,5 +29,5 @@
 <hr>
 <input type="hidden" id="category_id" class="modal_id">
 @include('modals.addCategory')
-<script src={{asset('js/maintenance/category.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/category.js?ver=')}}{{$random}}></script>
 @endsection

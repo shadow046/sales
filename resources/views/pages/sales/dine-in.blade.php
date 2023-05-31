@@ -38,5 +38,5 @@
         </div>
         <br><br>
     </div>
-    <script src={{asset('/js/sales/dine-in.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+    <script src={{asset('/js/sales/dine-in.js?ver=')}}{{$random}}></script>
 @endsection

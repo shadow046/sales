@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="setup_id" class="modal_id">
 @include('modals.addSetup')
-<script src={{asset('js/maintenance/setup.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/maintenance/setup.js?ver=')}}{{$random}}></script>
 @endsection

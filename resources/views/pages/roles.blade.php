@@ -27,5 +27,5 @@
 <hr>
 <input type="hidden" id="role_id" class="role_id">
 @include('modals.addRole')
-<script src={{asset('js/roles.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+<script src={{asset('js/roles.js?ver=')}}{{$random}}></script>
 @endsection

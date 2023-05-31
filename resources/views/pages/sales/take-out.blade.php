@@ -44,5 +44,5 @@
         </div>
         <br><br>
     </div>
-    <script src={{asset('/js/sales/take-out.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
+    <script src={{asset('/js/sales/take-out.js?ver=')}}{{$random}}></script>
 @endsection
