@@ -10,5 +10,5 @@
         </select>
         <div id="categoryChart"></div>
     </div>
-    <script src={{asset('/js/sales/category.js?ver=')}}{{$random}}></script>
+    <script src={{asset('/js/sales/category.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

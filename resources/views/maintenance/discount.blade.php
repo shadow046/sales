@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="discount_id" class="modal_id">
 @include('modals.addDiscount')
-<script src={{asset('js/maintenance/discount.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/maintenance/discount.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

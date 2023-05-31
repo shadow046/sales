@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="delivery_serving_store_id" class="modal_id">
 @include('modals.addDeliveryServingStore')
-<script src={{asset('js/maintenance/delivery_serving_store.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/maintenance/delivery_serving_store.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

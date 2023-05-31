@@ -103,5 +103,5 @@
 <div id="reportsTable"></div>
 <div id="subreportsTable"></div>
 <hr>
-<script src={{asset('js/reports.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

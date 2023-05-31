@@ -64,5 +64,5 @@
         <hr>
     </div>
 </div>
-<script src={{asset('js/pdf_reports.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/pdf_reports.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

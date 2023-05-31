@@ -44,5 +44,5 @@
     <br>
 </div>
 <hr>
-<script src={{asset('js/logs.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/logs.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

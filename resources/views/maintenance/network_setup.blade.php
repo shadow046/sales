@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="network_setup_id" class="modal_id">
 @include('modals.addNetworkSetup')
-<script src={{asset('js/maintenance/network_setup.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/maintenance/network_setup.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

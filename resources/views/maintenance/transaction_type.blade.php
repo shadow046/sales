@@ -28,5 +28,5 @@
 <hr>
 <input type="hidden" id="transaction_type_id" class="modal_id">
 @include('modals.addTransactionType')
-<script src={{asset('js/maintenance/transaction_type.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/maintenance/transaction_type.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

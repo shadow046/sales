@@ -83,5 +83,5 @@
 <hr>
 @include('modals/addUser')
 @include('modals/updateUser')
-<script src={{asset('js/users.js?ver=')}}{{$random}}></script>
+<script src={{asset('js/users.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

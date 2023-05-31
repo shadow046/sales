@@ -106,5 +106,5 @@
         </div>
     </div>
     <br><br>
-    <script src={{asset('/js/sales/index.js?ver=')}}{{$random}}></script>
+    <script src={{asset('/js/sales/index.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

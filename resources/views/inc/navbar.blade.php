@@ -156,7 +156,7 @@
 <input type="hidden" id="current_permissions" value="{{ App\Models\HasPermission::select('permission_id')->where('role_id', auth()->user()->userlevel)->get(); }}" readonly>
 <input type="hidden" id="current_date" value="{{date('Y-m-d')}}" readonly>
 <input type="hidden" id="current_session" value="{{\Session::getId()}}" readonly>
-<input type="hidden" id="current_token" value="{{$random}}" readonly>
+<input type="hidden" id="current_token" value="{{\Illuminate\Support\Str::random(50)}}" readonly>
 <input type="hidden" id="current_key" value="8d4493a1-ab93-47b7-a15e-49d9918b52a5" readonly>
 <input type="hidden" id="current_server" value="{{ env('APP_SERVER') }}" readonly>
 <input type="hidden" id="current_system" value="{{ env('APP_SYS') }}" readonly>

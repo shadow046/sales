@@ -45,5 +45,5 @@
         </div>
         <br><br>
     </div>
-    <script src={{asset('/js/sales/gcash.js?ver=')}}{{$random}}></script>
+    <script src={{asset('/js/sales/gcash.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection
