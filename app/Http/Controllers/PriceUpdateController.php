@@ -631,7 +631,7 @@ class PriceUpdateController extends Controller
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$count) for processing.";
+            $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$seqno) for processing.";
             $userlogs->save();
             return 'true';
         }
