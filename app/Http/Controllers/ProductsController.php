@@ -1148,240 +1148,244 @@ class ProductsController extends Controller
         $date = Carbon::now()->format('Y-m-d');
 
         if ($products) {
-            foreach ($products as $product) {
-                $sendupdate = SendUpdate::where('type', 'product')->whereDate('date', Carbon::now()->format('Y-m-d'))->latest();
-                if($sendupdate){
-                    $seqno = 1;
-                    SendUpdate::create([
-                        'date'=> Carbon::now()->format('Y-m-d'),
-                        'type'=> 'product',
-                        'seqno'=>$seqno
-                    ]);
-                }
-                else{
-                    $seqno = $sendupdate->seqno + 1;
-                    SendUpdate::create([
-                        'date'=> Carbon::now()->format('Y-m-d'),
-                        'type'=> 'product',
-                        'seqno'=> $seqno
-                    ]);
-                }
-                $count = Str::random(4);
-                $fname = 'sqlfooditem-'.$date.'-'.$seqno.'-'.$count;
-                if (env('APP_SYS' == 'MG')) {
-                    $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/'.$fname;
-                }
-                else if (env('APP_SYS' == 'DD')) {
-                    $filename = '/'.'var/www/html/dd/public/storage/productupdate/'.$fname;
-                }
-                $file = fopen($filename.'.sql', 'w');
-                $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-                $number = '';
-                foreach ($days as $day) {
-                    if (in_array($day, explode(',',$product->days_available))) {
-                        $number .= array_search($day, $days) + 1;
+            try {
+                foreach ($products as $product) {
+                    $sendupdate = SendUpdate::where('type', 'product')->whereDate('date', Carbon::now()->format('Y-m-d'))->latest();
+                    if($sendupdate){
+                        $seqno = 1;
+                        SendUpdate::create([
+                            'date'=> Carbon::now()->format('Y-m-d'),
+                            'type'=> 'product',
+                            'seqno'=>$seqno
+                        ]);
                     }
-                }
-                $status = $product->status == 'active' ? 1 : 0;
-                $showKiosk = in_array('Show On Kiosk',explode(',',$product->pos_setup)) ? 1 : 0;
-                $SetMealItem = in_array('Set Meal Item',explode(',',$product->pos_setup)) ? 1 : 0;
-                $AllowDiscount = in_array('Allow Discount',explode(',',$product->pos_setup)) ? 1 : 0;
-                $AllowLessVat = in_array('Allow Less Vat',explode(',',$product->pos_setup)) ? 1 : 0;
-                $ItemVatable = in_array('Item Vatable',explode(',',$product->pos_setup)) ? 1 : 0;
-                $ModifierMenu = in_array('Force Give / Display  SI / Modifier Menu',explode(',',$product->pos_setup)) ? 1 : 0;
-                $NeedsManagerAuthorization = in_array('Needs Manager Authorization',explode(',',$product->pos_setup)) ? 1 : 0;
-                $ItemforFree = in_array('Item for Free',explode(',',$product->promo_setup)) ? 1 : 0;
-                $NotSubject = in_array('Not Subject to %',explode(',',$product->promo_setup)) ? 1 : 0;
-                $KioskAddOn = in_array('Kiosk Add-On',explode(',',$product->pos_setup)) ? 1 : 0;
-                $promo_price = number_format($product->promo_price,2);
-                // $promo_price = $product->promo_price ? number_format($product->promo_price,2) : '0.00';
-                $intro_date = $product->intro_date ? $product->intro_date : '0000-00-00';
-                $start_date = $product->start_date ? $product->start_date : '0000-00-00';
-                $end_date = $product->end_date ? $product->end_date : '0000-00-00';
-                $promo_start = $product->promo_start ? $product->promo_start : '0000-00-00';
-                $promo_end = $product->promo_end ? $product->promo_end : '0000-00-00';
-                $line = "REPLACE INTO `sqlfooditem` (
-                            `fcode`,
-                            `skuno`,
-                            `desc1`,
-                            `desc2`,
-                            `upa1`,
-                            `upa2`,
-                            `upa3`,
-                            `upa4`,
-                            `upa5`,
-                            `upa6`,
-                            `upa7`,
-                            `upa8`,
-                            `stockonhand`,
-                            `kprinter`,
-                            `dayallowed`,
-                            `suspend`,
-                            `showinkiosk`,
-                            `amtreach`,
-                            `promodisc`,
-                            `promoprice`,
-                            `submenu`,
-                            `setmeal`,
-                            `discount`,
-                            `lessvat`,
-                            `eds_rate`,
-                            `vatable`,
-                            `ifree`,
-                            `prmnotalow`,
-                            `authorizn`,
-                            `forcemodi`,
-                            `introdate`,
-                            `startdate`,
-                            `enddate`,
-                            `promostart`,
-                            `promoend`,
-                            `starttime`,
-                            `endtime`,
-                            `sizenable`,
-                            `diprice1`,
-                            `diprice2`,
-                            `diprice3`,
-                            `diprice4`,
-                            `diprice5`,
-                            `toprice1`,
-                            `toprice2`,
-                            `toprice3`,
-                            `toprice4`,
-                            `toprice5`,
-                            `puprice1`,
-                            `puprice2`,
-                            `puprice3`,
-                            `puprice4`,
-                            `puprice5`,
-                            `dvprice1`,
-                            `dvprice2`,
-                            `dvprice3`,
-                            `dvprice4`,
-                            `dvprice5`,
-                            `min_modi`,
-                            `max_modi`,
-                            `tenable`,
-                            `delivchrg`,
-                            `kscode`,
-                            `promocode`,
-                            `seq`,
-                            `sales_type`,
-                            `promotag`,
-                            `addontag`,
-                            `notsubject`,
-                            `foodcombo`
-                        ) VALUES (
-                            '$product->item_code',
-                            '$product->sku',
-                            '$product->short_desc',
-                            '$product->long_desc',
-                            '$product->dine_in',
-                            '$product->take_out',
-                            '$product->pick_up',
-                            '$product->delivery',
-                            '$product->bulk_order',
-                            '$product->fds',
-                            '$product->drive_thru',
-                            '$product->meal_type',
-                            0,
-                            '$product->kitchen_printer',
-                            '$number',
-                            '$status',
-                            $showKiosk,
-                            0.00,
-                            0.00,
-                            '$promo_price',
-                            '',
-                            $SetMealItem,
-                            $AllowDiscount,
-                            $AllowLessVat,
-                            0.00,
-                            $ItemVatable,
-                            $ItemforFree,
-                            '\r\n',
-                            $NeedsManagerAuthorization,
-                            $ModifierMenu,
-                            '$intro_date',
-                            '$start_date',
-                            '$end_date',
-                            '$promo_start',
-                            '$promo_end',
-                            '$product->start_time',
-                            '$product->end_time',
-                            0,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0.00,
-                            0,
-                            '$product->max_modifier',
-                            0,
-                            1,
-                            '',
-                            '',
-                            '$product->seq',
-                            '$product->sales_type',
-                            0,
-                            $KioskAddOn,
-                            $NotSubject,
-                            0
-                        );\n";
-                fwrite($file, $line);
-                fclose($file);
-
-                $file = fopen($filename.'.txt', 'w');
-                if ($product->store_code == "ALL (ALL BRANCHES)") {
-                    $line = "$product->store_code";
-                }
-                else{
-                    $stores = explode(',', $product->store_code);
-                    $line = '';
-                    foreach ($stores as $store) {
-                        if ($line == '') {
-                            $line .= $store;
-                        }
-                        else{
-                            $line .= "\n".$store;
+                    else{
+                        $seqno = $sendupdate->seqno + 1;
+                        SendUpdate::create([
+                            'date'=> Carbon::now()->format('Y-m-d'),
+                            'type'=> 'product',
+                            'seqno'=> $seqno
+                        ]);
+                    }
+                    $count = Str::random(4);
+                    $fname = 'sqlfooditem-'.$date.'-'.$seqno.'-'.$count;
+                    if (env('APP_SYS') == 'MG') {
+                        $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/'.$fname;
+                    }
+                    else if (env('APP_SYS') == 'DD') {
+                        $filename = '/'.'var/www/html/dd/public/storage/productupdate/'.$fname;
+                    }
+                    $file = fopen($filename.'.sql', 'w');
+                    $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+                    $number = '';
+                    foreach ($days as $day) {
+                        if (in_array($day, explode(',',$product->days_available))) {
+                            $number .= array_search($day, $days) + 1;
                         }
                     }
+                    $status = $product->status == 'active' ? 1 : 0;
+                    $showKiosk = in_array('Show On Kiosk',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $SetMealItem = in_array('Set Meal Item',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $AllowDiscount = in_array('Allow Discount',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $AllowLessVat = in_array('Allow Less Vat',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $ItemVatable = in_array('Item Vatable',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $ModifierMenu = in_array('Force Give / Display  SI / Modifier Menu',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $NeedsManagerAuthorization = in_array('Needs Manager Authorization',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $ItemforFree = in_array('Item for Free',explode(',',$product->promo_setup)) ? 1 : 0;
+                    $NotSubject = in_array('Not Subject to %',explode(',',$product->promo_setup)) ? 1 : 0;
+                    $KioskAddOn = in_array('Kiosk Add-On',explode(',',$product->pos_setup)) ? 1 : 0;
+                    $promo_price = number_format($product->promo_price,2);
+                    // $promo_price = $product->promo_price ? number_format($product->promo_price,2) : '0.00';
+                    $intro_date = $product->intro_date ? $product->intro_date : '0000-00-00';
+                    $start_date = $product->start_date ? $product->start_date : '0000-00-00';
+                    $end_date = $product->end_date ? $product->end_date : '0000-00-00';
+                    $promo_start = $product->promo_start ? $product->promo_start : '0000-00-00';
+                    $promo_end = $product->promo_end ? $product->promo_end : '0000-00-00';
+                    $line = "REPLACE INTO `sqlfooditem` (
+                                `fcode`,
+                                `skuno`,
+                                `desc1`,
+                                `desc2`,
+                                `upa1`,
+                                `upa2`,
+                                `upa3`,
+                                `upa4`,
+                                `upa5`,
+                                `upa6`,
+                                `upa7`,
+                                `upa8`,
+                                `stockonhand`,
+                                `kprinter`,
+                                `dayallowed`,
+                                `suspend`,
+                                `showinkiosk`,
+                                `amtreach`,
+                                `promodisc`,
+                                `promoprice`,
+                                `submenu`,
+                                `setmeal`,
+                                `discount`,
+                                `lessvat`,
+                                `eds_rate`,
+                                `vatable`,
+                                `ifree`,
+                                `prmnotalow`,
+                                `authorizn`,
+                                `forcemodi`,
+                                `introdate`,
+                                `startdate`,
+                                `enddate`,
+                                `promostart`,
+                                `promoend`,
+                                `starttime`,
+                                `endtime`,
+                                `sizenable`,
+                                `diprice1`,
+                                `diprice2`,
+                                `diprice3`,
+                                `diprice4`,
+                                `diprice5`,
+                                `toprice1`,
+                                `toprice2`,
+                                `toprice3`,
+                                `toprice4`,
+                                `toprice5`,
+                                `puprice1`,
+                                `puprice2`,
+                                `puprice3`,
+                                `puprice4`,
+                                `puprice5`,
+                                `dvprice1`,
+                                `dvprice2`,
+                                `dvprice3`,
+                                `dvprice4`,
+                                `dvprice5`,
+                                `min_modi`,
+                                `max_modi`,
+                                `tenable`,
+                                `delivchrg`,
+                                `kscode`,
+                                `promocode`,
+                                `seq`,
+                                `sales_type`,
+                                `promotag`,
+                                `addontag`,
+                                `notsubject`,
+                                `foodcombo`
+                            ) VALUES (
+                                '$product->item_code',
+                                '$product->sku',
+                                '$product->short_desc',
+                                '$product->long_desc',
+                                '$product->dine_in',
+                                '$product->take_out',
+                                '$product->pick_up',
+                                '$product->delivery',
+                                '$product->bulk_order',
+                                '$product->fds',
+                                '$product->drive_thru',
+                                '$product->meal_type',
+                                0,
+                                '$product->kitchen_printer',
+                                '$number',
+                                '$status',
+                                $showKiosk,
+                                0.00,
+                                0.00,
+                                '$promo_price',
+                                '',
+                                $SetMealItem,
+                                $AllowDiscount,
+                                $AllowLessVat,
+                                0.00,
+                                $ItemVatable,
+                                $ItemforFree,
+                                '\r\n',
+                                $NeedsManagerAuthorization,
+                                $ModifierMenu,
+                                '$intro_date',
+                                '$start_date',
+                                '$end_date',
+                                '$promo_start',
+                                '$promo_end',
+                                '$product->start_time',
+                                '$product->end_time',
+                                0,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0.00,
+                                0,
+                                '$product->max_modifier',
+                                0,
+                                1,
+                                '',
+                                '',
+                                '$product->seq',
+                                '$product->sales_type',
+                                0,
+                                $KioskAddOn,
+                                $NotSubject,
+                                0
+                            );\n";
+                    fwrite($file, $line);
+                    fclose($file);
+
+                    $file = fopen($filename.'.txt', 'w');
+                    if ($product->store_code == "ALL (ALL BRANCHES)") {
+                        $line = "$product->store_code";
+                    }
+                    else{
+                        $stores = explode(',', $product->store_code);
+                        $line = '';
+                        foreach ($stores as $store) {
+                            if ($line == '') {
+                                $line .= $store;
+                            }
+                            else{
+                                $line .= "\n".$store;
+                            }
+                        }
+                    }
+                    fwrite($file, $line);
+                    fclose($file);
+
+                    $update = Update::create([
+                        'filename' => $fname,
+                        'branch_code' => $product->store_code
+                    ]);
+
+                    UpdateData::create([
+                        'updates_ip' => $update->id,
+                        'data' => $line
+                    ]);
+
+                    Product::where('id',$product->id)->update(['product_update_status' => '1']);
+
+                    $userlogs = new UserLogs;
+                    $userlogs->user_id = auth()->user()->id;
+                    $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$count) for processing.";
+                    $userlogs->save();
+                    return 'true';
                 }
-                fwrite($file, $line);
-                fclose($file);
-
-                $update = Update::create([
-                    'filename' => $fname,
-                    'branch_code' => $product->store_code
-                ]);
-
-                UpdateData::create([
-                    'updates_ip' => $update->id,
-                    'data' => $line
-                ]);
-
-                Product::where('id',$product->id)->update(['product_update_status' => '1']);
-
-                $userlogs = new UserLogs;
-                $userlogs->user_id = auth()->user()->id;
-                $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$count) for processing.";
-                $userlogs->save();
-                return 'true';
+            } catch (exception $e) {
+                return 'false';
             }
             // Close the SQL file
         }
