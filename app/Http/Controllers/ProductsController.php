@@ -21,6 +21,10 @@ use App\Models\Company;
 use App\Models\StoreArea;
 use App\Models\Store;
 use App\Models\Type;
+use App\Models\Update;
+use App\Models\UpdateData;
+use App\Models\SendUpdate;
+
 use Illuminate\Support\Facades\File;
 use Str;
 class ProductsController extends Controller
@@ -1163,11 +1167,12 @@ class ProductsController extends Controller
                     ]);
                 }
                 $count = Str::random(4);
-                if (Str::contains($request->url(), 'mg')) {
-                    $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/sqlfooditem-'.$date.'-'.$seqno.'-'.$count;
+                $fname = 'sqlfooditem-'.$date.'-'.$seqno.'-'.$count;
+                if (env('APP_SYS' == 'MG')) {
+                    $filename = '/'.'var/www/html/mary_grace/public/storage/productupdate/'.$fname;
                 }
-                else if (Str::contains($request->url(), 'dd')) {
-                    $filename = '/'.'var/www/html/dd/public/storage/productupdate/sqlfooditem-'.$date.'-'.$seqno.'-'.$count;
+                else if (env('APP_SYS' == 'DD')) {
+                    $filename = '/'.'var/www/html/dd/public/storage/productupdate/'.$fname;
                 }
                 $file = fopen($filename.'.sql', 'w');
                 $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
@@ -1340,6 +1345,7 @@ class ProductsController extends Controller
                         );\n";
                 fwrite($file, $line);
                 fclose($file);
+
                 $file = fopen($filename.'.txt', 'w');
                 if ($product->store_code == "ALL (ALL BRANCHES)") {
                     $line = "$product->store_code";
@@ -1354,11 +1360,20 @@ class ProductsController extends Controller
                         else{
                             $line .= "\n".$store;
                         }
-
                     }
                 }
                 fwrite($file, $line);
                 fclose($file);
+
+                $update = Update::create([
+                    'filename' => $fname,
+                    'branch_code' => $product->store_code
+                ]);
+
+                UpdateData::create([
+                    'updates_ip' => $update->id,
+                    'data' => $line
+                ]);
 
                 Product::where('id',$product->id)->update(['product_update_status' => '1']);
 
