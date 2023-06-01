@@ -9,6 +9,8 @@ var table;
 $(document).ready(function(){
     $('table.posTable').dataTable().fnDestroy();
     table = $('table.posTable').DataTable({
+        scrollY: "500px",
+        scrollCollapse: true,
         dom: 'Blftrip',
         buttons: [{
             extend: 'excelHtml5',

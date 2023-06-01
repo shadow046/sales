@@ -8,6 +8,8 @@ $('.addBtn').on('click',function(){
 var table;
 $(document).ready(function(){
     table = $('table.categoryTable').DataTable({
+        scrollY: "500px",
+        scrollCollapse: true,
         dom: 'Blftrip',
         buttons: [{
             extend: 'excelHtml5',
