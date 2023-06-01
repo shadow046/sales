@@ -65,6 +65,7 @@ var table;
 $(document).ready(function(){
     if(current_system == 'DD'){
         table = $('table.productsTable').DataTable({
+            scrollY:        "500px",
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
@@ -240,9 +241,14 @@ $(document).ready(function(){
                 $('#loading').hide();
             }
         });
+
+        $('th input').on('click', function(e){
+            e.stopPropagation();
+        });
     }
     else{
         table = $('table.productsTable').DataTable({
+            scrollY:        "500px",
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
@@ -417,6 +423,10 @@ $(document).ready(function(){
                 $(document).prop('title', $('#page-name').text());
                 $('#loading').hide();
             }
+        });
+
+        $('th input').on('click', function(e){
+            e.stopPropagation();
         });
     }
 
