@@ -293,6 +293,9 @@ $(document).ready(function(){
                 {
                     data: 'intro_date', name: 'intro_date',
                     "render":function(data,type,row){
+                        if(row.intro_date == ''){
+                            return '';
+                        }
                         return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
                     }
                 },
