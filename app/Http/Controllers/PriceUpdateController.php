@@ -10,6 +10,8 @@ use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserLogs;
+use App\Models\Update;
+use App\Models\UpdateData;
 use App\Models\SendUpdate;
 
 use App\Models\PriceUpdate;
@@ -562,10 +564,11 @@ class PriceUpdateController extends Controller
                 ]);
             }
             // $count = Str::random(4);
-            if (Str::contains($request->url(), 'mg')) {
-                $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$seqno;
+            $fname = 'sqlpriceupdate-'.$date.'-'.$seqno;
+            if (env('APP_SYS') == 'MG') {
+                $filename = '/'.'var/www/html/mary_grace/public/storage/priceupdate/'.$fname;
             }
-            else if (Str::contains($request->url(), 'dd')) {
+            else if (env('APP_SYS') == 'DD') {
                 $filename = '/'.'var/www/html/dd/public/storage/priceupdate/sqlpriceupdate-'.$date.'-'.$seqno;
             }
 
@@ -573,9 +576,15 @@ class PriceUpdateController extends Controller
                 if (File::exists($filename.'.sql')) {
                     // If the file exists, open it in append mode
                     $file = fopen($filename.'.sql', 'a');
+                    $update = Update::where('filename', $fname)->first();
+
                 } else {
                     // If the file does not exist, create a new file
                     $file = fopen($filename.'.sql', 'w');
+                    $update = Update::create([
+                        'filename' => $fname,
+                        'branch_code' => $product->store_code
+                    ]);
                 }
                 $line = "REPLACE INTO `sqlpriceupdate` (
                     `fcode`,
@@ -608,6 +617,11 @@ class PriceUpdateController extends Controller
                     );\n";
                 fwrite($file, $line);
                 fclose($file);
+
+                UpdateData::create([
+                    'updates_id' => $update->id,
+                    'data' => $line
+                ]);
 
                 PriceUpdate::where('recid',$product->recid)->update(['price_update_status' => '1']);
             }
