@@ -64,7 +64,9 @@
         @if(Request::is('products') || Request::is('store') || Request::is('company') || Request::is('promos') || Request::is('users') || Request::is('maintenance-*'))
             <script>$('#loading').show();</script>
         @endif
-        @include('inc.navbar')
+        <div style="zoom: 85%;">
+            @include('inc.navbar')
+        </div>
         @include('inc.include')
     @endif
     @if(!Auth::guest())
