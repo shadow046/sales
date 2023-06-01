@@ -906,3 +906,7 @@ setInterval(() => {
         }
     });
 }, 0);
+
+$(document).ready(function(){
+    $('.filter-input').attr('title', 'SEARCH');
+});

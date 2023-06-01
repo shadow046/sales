@@ -65,6 +65,7 @@ var table;
 $(document).ready(function(){
     if(current_system == 'DD'){
         table = $('table.productsTable').DataTable({
+            scrollY:        "500px",
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
@@ -109,6 +110,9 @@ $(document).ready(function(){
                 {
                     data: 'intro_date', name: 'intro_date',
                     "render":function(data,type,row){
+                        if(row.intro_date == '' || row.intro_date == null){
+                            return '';
+                        }
                         return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
                     }
                 },
@@ -240,9 +244,14 @@ $(document).ready(function(){
                 $('#loading').hide();
             }
         });
+
+        $('th input').on('click', function(e){
+            e.stopPropagation();
+        });
     }
     else{
         table = $('table.productsTable').DataTable({
+            scrollY:        "500px",
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
@@ -287,6 +296,9 @@ $(document).ready(function(){
                 {
                     data: 'intro_date', name: 'intro_date',
                     "render":function(data,type,row){
+                        if(row.intro_date == '' || row.intro_date == null){
+                            return '';
+                        }
                         return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
                     }
                 },
@@ -417,6 +429,10 @@ $(document).ready(function(){
                 $(document).prop('title', $('#page-name').text());
                 $('#loading').hide();
             }
+        });
+
+        $('th input').on('click', function(e){
+            e.stopPropagation();
         });
     }
 

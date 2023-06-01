@@ -83,6 +83,7 @@ $(document).ready(function(){
     }
 
     table = $('table.storeTable').DataTable({
+        scrollY:        "500px",
         scrollX:        true,
         scrollCollapse: true,
         fixedColumns:{
@@ -173,6 +174,10 @@ $(document).ready(function(){
             $(document).prop('title', $('#page-name').text());
             $('#loading').hide();
         }
+    });
+
+    $('th input').on('click', function(e){
+        e.stopPropagation();
     });
 
     setInterval(function(){
