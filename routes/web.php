@@ -371,6 +371,7 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
     Route::controller(UpdateListController::class)->group(function(){
         Route::any('/update_list', 'update_list');
         Route::any('/update_list/data', 'update_list_data');
+        Route::any('/update_data', 'update_data');
     });
 
     Route::controller(UserController::class)->group(function(){

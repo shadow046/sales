@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 
 use App\Models\Update;
+use App\Models\UpdateData;
 
 class UpdateListController extends Controller
 {
@@ -18,7 +19,18 @@ class UpdateListController extends Controller
         return view('pages.update_list');
     }
 
-    // public function update_list_data(){
-    //     return DataTables::of(Update::all()->make(true));
-    // }
+    public function update_list_data(){
+        $list = Update::selectRaw(
+            'updates.id,
+            filename,
+            branch_code,
+            updates.created_at AS date,
+            DATE_FORMAT(updates.created_at, "%b. %d, %Y, %h:%i %p") AS datetime')
+            ->get();
+        return DataTables::of($list)->make(true);
+    }
+
+    public function update_data(Request $request){
+        return UpdateData::where('updates_id', $request->id)->select('data')->get();
+    }
 }

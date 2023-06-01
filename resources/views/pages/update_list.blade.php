@@ -11,8 +11,10 @@
     <table class="table table-striped table-hover table-bordered w-100 align-middle updateListTable" id="updateListTable">
         <thead>
             <tr class="bg-default">
+                <th>DATE</th>
                 <th>FILENAME</th>
                 <th>BRANCH CODE</th>
+                <th>ACTION</th>
             </tr>
         </thead>
         <tbody>
