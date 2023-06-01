@@ -38,7 +38,7 @@
 		</thead>
 	</table>
 </div>
-<nav class="navbar navbar-expand-sm text-white w-100 navcontent" style="background-color: {{$orange}}; font-weight: bolder; zoom: 95%;">
+<nav class="navbar navbar-expand-sm text-white w-100 navcontent" style="background-color: {{$orange}}; font-weight: bolder; zoom: 85%;">
 	<div class="container-fluid">
 		<ul class="navbar-nav">
 			@can('dashboard')
