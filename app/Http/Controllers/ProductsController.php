@@ -1372,7 +1372,7 @@ class ProductsController extends Controller
                     ]);
 
                     UpdateData::create([
-                        'updates_ip' => $update->id,
+                        'updates_id' => $update->id,
                         'data' => $line
                     ]);
 
