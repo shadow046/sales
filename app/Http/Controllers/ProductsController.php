@@ -1346,6 +1346,16 @@ class ProductsController extends Controller
                             );\n";
                     fwrite($file, $line);
                     fclose($file);
+                    
+                    $update = Update::create([
+                        'filename' => $fname,
+                        'branch_code' => $product->store_code
+                    ]);
+
+                    UpdateData::create([
+                        'updates_id' => $update->id,
+                        'data' => $line
+                    ]);
 
                     $file = fopen($filename.'.txt', 'w');
                     if ($product->store_code == "ALL (ALL BRANCHES)") {
@@ -1366,15 +1376,7 @@ class ProductsController extends Controller
                     fwrite($file, $line);
                     fclose($file);
 
-                    $update = Update::create([
-                        'filename' => $fname,
-                        'branch_code' => $product->store_code
-                    ]);
-
-                    UpdateData::create([
-                        'updates_id' => $update->id,
-                        'data' => $line
-                    ]);
+                    
 
                     Product::where('id',$product->id)->update(['product_update_status' => '1']);
 
