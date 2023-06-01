@@ -33,6 +33,7 @@ use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\QRCodeController;
+use App\Http\Controllers\UpdateListController;
 
 
 Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
@@ -365,6 +366,11 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
 
     Route::controller(UploadController::class)->group(function(){
         Route::any('data-import', 'import')->name('data.import');
+    });
+
+    Route::controller(UpdateListController::class)->group(function(){
+        Route::any('/update_list', 'update_list');
+        Route::any('/update_list/data', 'update_list_data');
     });
 
     Route::controller(UserController::class)->group(function(){
