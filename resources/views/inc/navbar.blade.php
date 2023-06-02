@@ -82,7 +82,7 @@
 				</li>
 			@endcan
 			<li class="nav-item mr-1">
-				<a class="nav-link {{ Request::is('update_list') ? 'navactive' : '' }}" href="/update_list">LIST OF UPDATES</a>
+				<a class="nav-link {{ Request::is('update_list') ? 'navactive' : '' }}" href="/update_list">DOWNLOADS</a>
 			</li>
 			<li class="maintenance_tab nav-item dropdown mr-1">
 				<a href="#" id="dropdownMaintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MAINTENANCE</a>
