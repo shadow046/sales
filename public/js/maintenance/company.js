@@ -88,10 +88,6 @@ $(document).ready(function(){
         }
     });
 
-    $('th input').on('click', function(e){
-        e.stopPropagation();
-    });
-
     setInterval(function(){
         if($('#loading').is(':hidden') && standby == false){
             $.ajax({
@@ -125,7 +121,11 @@ $(document).ready(function(){
                 }
             }
         }
+        $('th input').on('click', function(e){
+            e.stopPropagation();
+        });
     }, 0);
+
 });
 
 $('.filter-input').on('keyup search', function(){

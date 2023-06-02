@@ -244,10 +244,6 @@ $(document).ready(function(){
                 $('#loading').hide();
             }
         });
-
-        $('th input').on('click', function(e){
-            e.stopPropagation();
-        });
     }
     else{
         table = $('table.productsTable').DataTable({
@@ -430,10 +426,6 @@ $(document).ready(function(){
                 $('#loading').hide();
             }
         });
-
-        $('th input').on('click', function(e){
-            e.stopPropagation();
-        });
     }
 
     setInterval(function(){
@@ -469,6 +461,9 @@ $(document).ready(function(){
                 }
             }
         }
+        $('th input').on('click', function(e){
+            e.stopPropagation();
+        });
     }, 0);
 });
 
