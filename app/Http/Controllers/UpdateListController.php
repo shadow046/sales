@@ -25,7 +25,7 @@ class UpdateListController extends Controller
             filename,
             branch_code,
             updates.created_at AS date,
-            DATE_FORMAT(updates.created_at, "%b. %d, %Y, %h:%i %p") AS datetime')
+            DATE_FORMAT(updates.created_at, "%M %d, %Y, %h:%i%p") AS datetime')
             ->get();
         return DataTables::of($list)->make(true);
     }
