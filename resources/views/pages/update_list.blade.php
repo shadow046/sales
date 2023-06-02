@@ -3,7 +3,7 @@
 <br>
 <div class="row">
     <div class="col">
-        <div id="page-name"><h4><span class="page-reload">DOWNLOADS</span></h4></div>
+        <div id="page-name"><h4><span class="page-reload">LIST OF UPDATE FILES</span></h4></div>
     </div>
 </div>
 
