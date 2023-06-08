@@ -90,15 +90,15 @@
                     TIN #
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="15" style="border:1px solid #808080"/><br>
-                    STATUS
-                </th>
-                <th>
-                    <select class="form-control filter-select form-select" data-column="16" style="border:1px solid #808080">
+                    <select class="form-control filter-select form-select" data-column="17" style="border:1px solid #808080">
                         <option value="" selected></option>
                         <option value="ACTIVE" style="font-weight: bold; color: #2ab934;">ACTIVE</option>
                         <option value="INACTIVE" style="font-weight: bold; color: #ca2222;">INACTIVE</option>
                     </select><br>
+                    STATUS
+                </th>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="17" style="border:1px solid #808080"/><br>
                     STATUS
                 </th>
             </tr>

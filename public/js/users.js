@@ -171,9 +171,6 @@ $(document).ready(function(){
         $('.form-control').on('click', function(e){
             e.stopPropagation();
         });
-        $('.chosen-container').on('click', function(e){
-            e.stopPropagation();
-        });
     }, 0);
 
     $(document).on('change', '.togBtn', function(){

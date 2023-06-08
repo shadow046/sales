@@ -109,6 +109,12 @@ $(document).ready(function(){
     });
 });
 
+setInterval(() => {
+    $('th input').on('click', function(e){
+        e.stopPropagation();
+    });
+}, 0);
+
 $('.filter-input').on('keyup search', function(){
     table.column($(this).data('column')).search($(this).val()).draw();
 });

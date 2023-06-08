@@ -209,7 +209,7 @@ $(document).ready(function(){
                 }
             }
         }
-        $('th input').on('click', function(e){
+        $('.form-control').on('click', function(e){
             e.stopPropagation();
         });
     }, 0);
