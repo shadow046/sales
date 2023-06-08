@@ -11,7 +11,7 @@
     </div>
 </div>
 <div class="table-responsive container-fluid pt-2">
-    <table id="userTable" class="table userTable table-bordered table-striped table-hover display" style="cursor: pointer; width: 100%; zoom: 80%;">
+    <table id="userTable" class="table userTable table-bordered table-striped table-hover display" style="cursor: pointer; width: 100%;">
         <thead style="font-weight:bolder" class="bg-default">
             <tr>
                 <th class="always-default">
@@ -39,17 +39,11 @@
                         @endforeach
                     </select>
                     <input type="search" id="filter-type" class="form-control filter-input d-none" data-column="3"/>
-                    <p class="mt-3"><b>COMPANY NAME</b></p>
+                    <b>COMPANY NAME</b>
                 </th>
-                <th style="font-weight: normal !important;">
-                    <select id="search_area" class="form-control form-select filter-type2 mt-2" style="border:1px solid #808080">
-                        <option value="" selected>&nbsp;</option>
-                        @foreach($areas as $area)
-                            <option value="{{$area->store_area}}">{{$area->store_area}}</option>
-                        @endforeach
-                    </select>
-                    <input type="search" id="filter-type2" class="form-control filter-input d-none" data-column="4"/>
-                    <p class="mt-3"><b>STORE AREA</b></p>
+                <th>
+                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #808080"/>
+                    STOREA AREA
                 </th>
                 <th>
                     <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/>

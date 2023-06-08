@@ -127,14 +127,10 @@ $(document).ready(function(){
         order: [],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#search_branch').val('');
-            $('#search_branch').chosen();
-            $('#search_branch').trigger('chosen:updated');
-            $('#search_branch_chosen').css({'width': '100%', 'margin-bottom': '-18px'});
             $('#search_area').val('');
             $('#search_area').chosen();
             $('#search_area').trigger('chosen:updated');
-            $('#search_area_chosen').css({'width': '100%', 'margin-bottom': '-18px'});
+            $('#search_area_chosen').css({'width': '100%'});
             $('#loading').hide();
         }
     });
