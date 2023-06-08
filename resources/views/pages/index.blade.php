@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<script>$('#loading').hide();</script>
 <br><br>
 <div class="row" style="text-align: center; height: 200px;">
     <div class="col-2"></div>

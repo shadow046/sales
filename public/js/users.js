@@ -2,6 +2,12 @@ var table;
 $(document).ready(function(){
     $('table.userTable').dataTable().fnDestroy();
     table = $('table.userTable').DataTable({
+        scrollY:        "500px",
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:{
+            left: 3,
+        },
         dom: 'ltrip',
         aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
         language: {
@@ -164,6 +170,15 @@ $(document).ready(function(){
             });
         }
     }, 1000);
+
+    setInterval(() => {
+        $('.form-control').on('click', function(e){
+            e.stopPropagation();
+        });
+        $('.chosen-container').on('click', function(e){
+            e.stopPropagation();
+        });
+    }, 0);
 
     $(document).on('change', '.togBtn', function(){
         Swal.fire({

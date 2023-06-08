@@ -61,9 +61,7 @@
         @if(auth()->user()->userlevel == '3' || Request::is('sales/*')) {{-- ROLES PENDING --}}
             @include('inc.sidebar')
         @endif
-        @if(!Request::is('sales/*'))
-            <script>$('#loading').show();</script>
-        @endif
+        <script>$('#loading').show();</script>
         @include('inc.navbar')
         @include('inc.include')
     @endif
