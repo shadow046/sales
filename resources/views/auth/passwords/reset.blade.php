@@ -12,7 +12,7 @@
                     <div class="alert alert-info mb-4" role="alert" style="word-wrap: break-word !important;">
                         <div class="text-wrap"><b>The password reset link will expire after 1 hour.</b><br>If so, kindly click
                             <b>
-                                <a href="/password/reset?email={{ $email ?? old('email') }}">
+                                <a href="/password/reset?emailaddress={{ $email ?? old('email') }}">
                                 <u>HERE</u>
                                 </a>
                             </b>
