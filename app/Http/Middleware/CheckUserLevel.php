@@ -140,9 +140,9 @@ class CheckUserLevel
                             // Get the current date
                             $currentDate = Carbon::now()->subdays('2');
                             // Compare the file date with the current date
-                            if ($fileDate < $currentDate) {
-                                return redirect()->route('license-page')->with('message', 'Invalid licensed key. Please contact Administrator.');
-                            }
+                            // if ($fileDate < $currentDate) {
+                            //     return redirect()->route('license-page')->with('message', 'Invalid licensed key. Please contact Administrator.');
+                            // }
                             $file = fopen($filePath, 'w');
                             fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
                             fclose($file);
