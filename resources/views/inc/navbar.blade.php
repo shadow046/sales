@@ -81,9 +81,11 @@
 					<a class="nav-link {{ Request::is('price_update') ? 'navactive' : '' }}" href="/price_update">PRICE UPDATE<span style="border: 1px solid white;" class="badge rounded-pill bg-danger ml-2 {{ App\Models\PriceUpdate::where('price_update_status', '0')->count() > 0 ? 'd-inline' : 'd-none' }}">{{ App\Models\PriceUpdate::where('price_update_status', '0')->count() }}</span></a>
 				</li>
 			@endcan
-			<li class="nav-item mr-1">
-				<a class="nav-link {{ Request::is('update_list') ? 'navactive' : '' }}" href="/update_list">DOWNLOADS</a>
-			</li>
+			@can('downloads')
+				<li class="nav-item mr-1">
+					<a class="nav-link {{ Request::is('update_list') ? 'navactive' : '' }}" href="/update_list">DOWNLOADS</a>
+				</li>
+			@endcan
 			<li class="maintenance_tab nav-item dropdown mr-1">
 				<a href="#" id="dropdownMaintenance" class="nav-link dropdown-toggle {{ Request::is('maintenance-*') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MAINTENANCE</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownMaintenance" style="width: 120%; zoom: 90%;" onmouseover="$('#dropdownMaintenance').addClass('navhover');" onmouseout="$('#dropdownMaintenance').removeClass('navhover');">
