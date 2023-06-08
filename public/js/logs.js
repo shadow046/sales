@@ -1,5 +1,7 @@
 $(document).ready(function(){
     var table = $('table.userlogsTable').DataTable({
+        scrollY:        "500px",
+        scrollCollapse: true,
         language: {
             info: "Showing _START_ to _END_ of _TOTAL_ Activities",
             lengthMenu: "Show _MENU_ Activities",
