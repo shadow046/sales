@@ -197,10 +197,14 @@ class UserController extends Controller
             $result = 'true';
 
             Password::broker()->sendResetLink(['email'=>strtolower($request->email)]);
+            $name_details = "【Full Name: $name 】";
+            $email_details = "【Email: $users->email 】";
+            $userlevel = Role::where('id', $request->role)->first()->name;
+            $userlevel_details = "【User Level: $userlevel 】";
 
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "ADDED USER: User successfully saved details of $name with UserID#$id.";
+            $userlogs->activity = "ADDED USER: User successfully saved details of $name with UserID#$id: $name_details $email_details $userlevel_details.";
             $userlogs->save();
         }
 
