@@ -61,7 +61,7 @@
         @if(auth()->user()->userlevel == '3' || Request::is('sales/*')) {{-- ROLES PENDING --}}
             @include('inc.sidebar')
         @endif
-        @if(Request::is('products') || Request::is('store') || Request::is('company') || Request::is('promos') || Request::is('users') || Request::is('maintenance-*'))
+        @if(!Request::is('sales/*'))
             <script>$('#loading').show();</script>
         @endif
         @include('inc.navbar')

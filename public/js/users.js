@@ -166,20 +166,44 @@ $(document).ready(function(){
     }, 1000);
 
     $(document).on('change', '.togBtn', function(){
-        var id = $(this).attr("id");
-        var data = table.row(id).data();
-        if($(this).is(':checked')){
-            var status = 'ACTIVE';
-        }
-        else{
-            var status = 'INACTIVE';
-        }
-        $.ajax({
-            url: '/users/status',
-            data:{
-                id: data.user_id,
-                name: data.user_name,
-                status: status
+        Swal.fire({
+            title: 'Change Status?',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            customClass: {
+            actions: 'my-actions',
+            confirmButton: 'order-2',
+            denyButton: 'order-3',
+            }
+        }).then((save) => {
+            if(save.isConfirmed){
+                var id = $(this).attr("id");
+                var data = table.row(id).data();
+                if($(this).is(':checked')){
+                    var status = 'ACTIVE';
+                }
+                else{
+                    var status = 'INACTIVE';
+                }
+                $.ajax({
+                    url: '/users/status',
+                    data:{
+                        id: data.user_id,
+                        name: data.user_name,
+                        status: status
+                    }
+                });
+            }
+            else{
+                if($(this).is(':checked')){
+                    $(this).prop('checked', false);
+                }
+                else{
+                    $(this).prop('checked', true);
+                }
             }
         });
     });

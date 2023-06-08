@@ -1150,8 +1150,8 @@ class ProductsController extends Controller
         if ($products) {
             try {
                 foreach ($products as $product) {
-                    $sendupdate = SendUpdate::where('type', 'product')->whereDate('date', Carbon::now()->format('Y-m-d'))->latest();
-                    if($sendupdate){
+                    $sendupdate = SendUpdate::where('type', 'product')->whereDate('date', Carbon::now()->format('Y-m-d'))->count();
+                    if(!$sendupdate){
                         $seqno = 1;
                         SendUpdate::create([
                             'date'=> Carbon::now()->format('Y-m-d'),
@@ -1160,7 +1160,7 @@ class ProductsController extends Controller
                         ]);
                     }
                     else{
-                        $seqno = $sendupdate->seqno + 1;
+                        $seqno = $sendupdate+1;
                         SendUpdate::create([
                             'date'=> Carbon::now()->format('Y-m-d'),
                             'type'=> 'product',

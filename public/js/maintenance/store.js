@@ -225,42 +225,90 @@ $('.filter-select').on('change', function(){
 });
 
 $(document).on('change', '.togBtn', function(){
-    var id = $(this).attr("id");
-    var data = table.row(id).data();
-    if($(this).is(':checked')){
-        var status = 'ACTIVE';
-    }
-    else{
-        var status = 'INACTIVE';
-    }
-    $.ajax({
-        url: '/store_status',
-        data:{
-            id: data.id,
-            name: data.comp_name+' - '+data.branch_name,
-            branch_code: data.branch_code,
-            status: status
+    Swal.fire({
+        title: 'Change Status?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if(save.isConfirmed){
+            var id = $(this).attr("id");
+            var data = table.row(id).data();
+            if($(this).is(':checked')){
+                var status = 'ACTIVE';
+            }
+            else{
+                var status = 'INACTIVE';
+            }
+            $.ajax({
+                url: '/store_status',
+                data:{
+                    id: data.id,
+                    name: data.comp_name+' - '+data.branch_name,
+                    branch_code: data.branch_code,
+                    status: status
+                }
+            });
+        }
+        else{
+            if($(this).is(':checked')){
+                $(this).prop('checked', false);
+            }
+            else{
+                $(this).prop('checked', true);
+            }
         }
     });
 });
 
 $(document).on('change', '.tglStatus', function(){
-    var id = $(this).attr("id");
-    var name = $(this).attr("tgl_name");
-    var branch_code = $(this).attr("tgl_branch_code");
-    if($(this).is(':checked')){
-        var status = 'ACTIVE';
-    }
-    else{
-        var status = 'INACTIVE';
-    }
-    $.ajax({
-        url: '/store_status',
-        data:{
-            id: id,
-            name: name,
-            branch_code: branch_code,
-            status: status
+    Swal.fire({
+        title: 'Change Status?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if(save.isConfirmed){
+            var id = $(this).attr("id");
+            var name = $(this).attr("tgl_name");
+            var branch_code = $(this).attr("tgl_branch_code");
+            if($(this).is(':checked')){
+                var status = 'ACTIVE';
+            }
+            else{
+                var status = 'INACTIVE';
+            }
+            $.ajax({
+                url: '/store_status',
+                data:{
+                    id: id,
+                    name: name,
+                    branch_code: branch_code,
+                    status: status
+                }
+            });
+        }
+        else{
+            if($(this).is(':checked')){
+                $(this).prop('checked', false);
+            }
+            else{
+                $(this).prop('checked', true);
+            }
         }
     });
 });

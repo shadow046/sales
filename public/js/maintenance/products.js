@@ -476,45 +476,93 @@ $('.filter-select').on('change', function(){
 });
 
 $(document).on('change', '.togBtn', function(){
-    var id = $(this).attr("id");
-    var data = table.row(id).data();
-    if($(this).is(':checked')){
-        var status = 'ACTIVE';
-    }
-    else{
-        var status = 'INACTIVE';
-    }
-    $.ajax({
-        url: '/products_status',
-        data:{
-            id: data.id,
-            item_code: data.item_code,
-            short_desc: data.short_desc,
-            status: status
-        },
-        success:function(){
-            window.location.reload();
+    Swal.fire({
+        title: 'Change Status?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if(save.isConfirmed){
+            var id = $(this).attr("id");
+            var data = table.row(id).data();
+            if($(this).is(':checked')){
+                var status = 'ACTIVE';
+            }
+            else{
+                var status = 'INACTIVE';
+            }
+            $.ajax({
+                url: '/products_status',
+                data:{
+                    id: data.id,
+                    item_code: data.item_code,
+                    short_desc: data.short_desc,
+                    status: status
+                },
+                success:function(){
+                    window.location.reload();
+                }
+            });
+        }
+        else{
+            if($(this).is(':checked')){
+                $(this).prop('checked', false);
+            }
+            else{
+                $(this).prop('checked', true);
+            }
         }
     });
 });
 
 $(document).on('change', '.tglStatus', function(){
-    var id = $(this).attr("id");
-    var item_code = $(this).attr("tgl_item_code");
-    var short_desc = $(this).attr("tgl_short_desc");
-    if($(this).is(':checked')){
-        var status = 'ACTIVE';
-    }
-    else{
-        var status = 'INACTIVE';
-    }
-    $.ajax({
-        url: '/products_status',
-        data:{
-            id: id,
-            item_code: item_code,
-            short_desc: short_desc,
-            status: status
+    Swal.fire({
+        title: 'Change Status?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if(save.isConfirmed){
+            var id = $(this).attr("id");
+            var item_code = $(this).attr("tgl_item_code");
+            var short_desc = $(this).attr("tgl_short_desc");
+            if($(this).is(':checked')){
+                var status = 'ACTIVE';
+            }
+            else{
+                var status = 'INACTIVE';
+            }
+            $.ajax({
+                url: '/products_status',
+                data:{
+                    id: id,
+                    item_code: item_code,
+                    short_desc: short_desc,
+                    status: status
+                }
+            });
+        }
+        else{
+            if($(this).is(':checked')){
+                $(this).prop('checked', false);
+            }
+            else{
+                $(this).prop('checked', true);
+            }
         }
     });
 });
