@@ -3,6 +3,8 @@
 /public/hot
 /public/*.mp4
 /public/storage
+/public/storage/check
+/storage/*.key
 /storage/*.key
 /vendor
 .env
