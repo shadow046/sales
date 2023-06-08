@@ -304,7 +304,7 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(9))', function(){
             $('#branchAll1').change();
         }
     }, current_timeout);
-    $('#role1 option:contains("ADMIN")').remove();
+    // $('#role1 option:contains("ADMIN")').remove();
     $('#updateUser').modal('show');
 });
 
@@ -1116,6 +1116,12 @@ $(document).on('change', '#role',function(){
 
 $(document).on('change', '#role1',function(){
     permissions=[];
+    if($(this).val() == '1'){
+        $('#verification').show();
+    }
+    else{
+        $('#verification').hide();
+    }
     $('#province1').val('');
     $('#district1').val('');
     $('#branch1').val('');
