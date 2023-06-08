@@ -546,8 +546,8 @@ class PriceUpdateController extends Controller
 
 
         if($products) {
-            $sendupdate = SendUpdate::where('type', 'price')->whereDate('date', Carbon::now()->format('Y-m-d'))->latest();
-            if($sendupdate){
+            $sendupdate = SendUpdate::where('type', 'price')->whereDate('date', Carbon::now()->format('Y-m-d'))->count();
+            if(!$sendupdate){
                 $seqno = 1;
                 SendUpdate::create([
                     'date'=> Carbon::now()->format('Y-m-d'),
@@ -556,7 +556,7 @@ class PriceUpdateController extends Controller
                 ]);
             }
             else{
-                $seqno = $sendupdate->seqno + 1;
+                $seqno = $sendupdate+1;
                 SendUpdate::create([
                     'date'=> Carbon::now()->format('Y-m-d'),
                     'type'=> 'price',

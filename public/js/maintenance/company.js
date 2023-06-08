@@ -138,22 +138,46 @@ $('.filter-select').on('change', function(){
 });
 
 $(document).on('change', '.togBtn', function(){
-    var id = $(this).attr("id");
-    var data = table.row(id).data();
+    Swal.fire({
+        title: 'Change Status?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if(save.isConfirmed){
+            var id = $(this).attr("id");
+            var data = table.row(id).data();
 
-    if($(this).is(':checked')){
-        var status = 'ACTIVE';
-    }
-    else{
-        var status = 'INACTIVE';
-    }
-    $.ajax({
-        url: '/company_status',
-        data:{
-            id: data.id,
-            company_name: data.company_name,
-            company_code: data.company_code,
-            status: status
+            if($(this).is(':checked')){
+                var status = 'ACTIVE';
+            }
+            else{
+                var status = 'INACTIVE';
+            }
+            $.ajax({
+                url: '/company_status',
+                data:{
+                    id: data.id,
+                    company_name: data.company_name,
+                    company_code: data.company_code,
+                    status: status
+                }
+            });
+        }
+        else{
+            if($(this).is(':checked')){
+                $(this).prop('checked', false);
+            }
+            else{
+                $(this).prop('checked', true);
+            }
         }
     });
 });

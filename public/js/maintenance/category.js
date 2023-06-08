@@ -55,7 +55,8 @@ $(document).ready(function(){
                             return `<div style="width: 120px !important;"><center class="text-danger"><b>OFF</b></center></div>`;
                         }
                     }
-                }
+                },
+                width: '120px'
             },
         ],
         initComplete: function(){
@@ -80,23 +81,47 @@ $(document).ready(function(){
 });
 
 $(document).on('change', '.togBtn', function(){
-    var id = $(this).attr("id");
-    var data = table.row(id).data();
-    if($(this).is(':checked')){
-        var status = 'Y';
-    }
-    else{
-        var status = 'N';
-    }
-    $.ajax({
-        url: '/categoryCombo',
-        data:{
-            id: data.id,
-            category: data.category,
-            status: status
-        },
-        success:function(){
-            setTimeout(() => { table.ajax.reload(null, false); }, 0);
+    Swal.fire({
+        title: 'Change Status?',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+        actions: 'my-actions',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+        }
+    }).then((save) => {
+        if(save.isConfirmed){
+            var id = $(this).attr("id");
+            var data = table.row(id).data();
+            if($(this).is(':checked')){
+                var status = 'Y';
+            }
+            else{
+                var status = 'N';
+            }
+            $.ajax({
+                url: '/categoryCombo',
+                data:{
+                    id: data.id,
+                    category: data.category,
+                    status: status
+                },
+                success:function(){
+                    setTimeout(() => { table.ajax.reload(null, false); }, 0);
+                }
+            });
+        }
+        else{
+            if($(this).is(':checked')){
+                $(this).prop('checked', false);
+            }
+            else{
+                $(this).prop('checked', true);
+            }
         }
     });
 });
