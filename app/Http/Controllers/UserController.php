@@ -40,7 +40,7 @@ class UserController extends Controller
     public function users_data(){
         $list = User::query()->selectRaw('users.id AS user_id, users.name AS user_name, users.email AS user_email,
         UPPER(roles.name) AS role_name, roles.id AS role, users.status AS user_status,
-        company.company_name AS branch_name, company.id AS branch, 
+        company.company_name AS branch_name, company.id AS branch,
         users.company AS company, users.area AS area, users.store AS store,
         users.province AS province, users.district AS district')
             ->where('users.id', '!=', '0')

@@ -101,8 +101,12 @@ class HomeController extends Controller
                         UPPER(roles.name) AS role, user_logs.activity AS activity, user_logs.created_at AS date,
                         DATE_FORMAT(user_logs.created_at, "%b. %d, %Y, %h:%i %p") AS datetime')
             ->join('users', 'users.id', 'user_logs.user_id')
-            ->join('roles', 'roles.id', 'users.userlevel')
-            ->orderBy('user_logs.id', 'DESC')->get();
+            ->join('roles', 'roles.id', 'users.userlevel');
+            if(auth()->user()->userlevel != '1'){
+                $list->where('user_id', auth()->user()->id);
+            }
+            $list->orderBy('user_logs.id', 'DESC')
+            ->get();
         return DataTables::of($list)->make(true);
     }
 
