@@ -8,14 +8,14 @@
     </div>
     <div class="col-md form-group">
         @can('create')
-            <button class="form-control btn btn-custom addBtn float-end" data="products"><i class="fas fa-plus"></i> ADD NEW</button>
+            <button class="btn btn-custom addBtn float-end" data="products"><i class="fas fa-plus"></i> ADD NEW</button>
         @endcan
         @can('import')
-            <button class="form-control btn btn-custom float-end" data-bs-toggle="modal" data-bs-target="#importProducts"><i class="fas fa-file-import"></i> IMPORT</button>
+            <button class="btn btn-custom float-end" data-bs-toggle="modal" data-bs-target="#importProducts"><i class="fas fa-file-import"></i> IMPORT</button>
         @endcan
-            <button class="form-control btn btn-custom btnExport float-end" on><i class="fas fa-file-export"></i> EXPORT</button>
+            <button class="btn btn-custom btnExport float-end" on><i class="fas fa-file-export"></i> EXPORT</button>
         @role('ADMIN')
-            <button class="form-control btn btn-custom btnSendUpdate float-end" style="width: auto;"><i class="fa-solid fa-upload"></i> SEND UPDATE</button>
+            <button class="btn btn-custom btnSendUpdate float-end" style="width: auto;"><i class="fa-solid fa-upload"></i> SEND UPDATE</button>
         @endrole
     </div>
 </div>

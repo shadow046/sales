@@ -7,7 +7,7 @@
         <div id="page-name"><h4><span class="page-reload">USER ROLES MANAGEMENT</span></h4></div>
     </div>
     <div class="col-md form-group">
-        <button class="form-control btn btn-custom addBtn float-end" data="role"><i class="fas fa-plus"></i> ADD NEW</button>
+        <button class="btn btn-custom addBtn float-end" data="role"><i class="fas fa-plus"></i> ADD NEW</button>
     </div>
 </div>
 <div class="table-responsive container-fluid pt-2">

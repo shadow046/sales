@@ -8,9 +8,9 @@
     </div>
     <div class="col-md form-group">
         @can('create')
-            <button class="form-control btn btn-custom addBtn float-end" data="category"><i class="fas fa-plus"></i> ADD NEW</button>
+            <button class="btn btn-custom addBtn float-end" data="category"><i class="fas fa-plus"></i> ADD NEW</button>
         @endcan
-            <button class="form-control btn btn-custom btnExport float-end"><i class="fas fa-file-export"></i> EXPORT</button>
+            <button class="btn btn-custom btnExport float-end"><i class="fas fa-file-export"></i> EXPORT</button>
     </div>
 </div>
 <div class="table-responsive container-fluid pt-2">

@@ -8,10 +8,10 @@
     </div>
     <div class="col-md form-group">
         @can('create')
-            <button class="form-control btn btn-custom addBtn float-end" data="priceUpdate"><i class="fas fa-plus"></i> ADD NEW</button>
+            <button class="btn btn-custom addBtn float-end" data="priceUpdate"><i class="fas fa-plus"></i> ADD NEW</button>
         @endcan
         @role('ADMIN')
-            <button class="form-control btn btn-custom btnSendUpdate float-end" style="width: auto;"><i class="fa-solid fa-upload"></i> SEND UPDATE</button>
+            <button class="btn btn-custom btnSendUpdate float-end" style="width: auto;"><i class="fa-solid fa-upload"></i> SEND UPDATE</button>
         @endrole
     </div>
 </div>

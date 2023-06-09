@@ -6,8 +6,8 @@
         <div id="page-name"><h4><span class="page-reload">PROMOS MAINTENANCE</span></h4></div>
     </div>
     <div class="col-md form-group">
-        <button class="form-control btn btn-custom addBtn float-end" data="promos"><i class="fas fa-plus"></i> ADD NEW</button>
-        <button class="form-control btn btn-custom btnExport float-end"><i class="fas fa-file-export"></i> EXPORT</button>
+        <button class="btn btn-custom addBtn float-end" data="promos"><i class="fas fa-plus"></i> ADD NEW</button>
+        <button class="btn btn-custom btnExport float-end"><i class="fas fa-file-export"></i> EXPORT</button>
     </div>
 </div>
 <div class="table-responsive container-fluid pt-2">

@@ -8,12 +8,12 @@
     </div>
     <div class="col-md form-group">
         @can('create')
-            <button class="form-control btn btn-custom addBtn float-end" data="company"><i class="fas fa-plus"></i> ADD NEW</button>
+            <button class="btn btn-custom addBtn float-end" data="company"><i class="fas fa-plus"></i> ADD NEW</button>
         @endcan
         @can('import')
-            <button class="form-control btn btn-custom float-end" data-bs-toggle="modal" data-bs-target="#importCompany"><i class="fas fa-file-import"></i> IMPORT</button>
+            <button class="btn btn-custom float-end" data-bs-toggle="modal" data-bs-target="#importCompany"><i class="fas fa-file-import"></i> IMPORT</button>
         @endcan
-        <button class="form-control btn btn-custom btnExport float-end"><i class="fas fa-file-export"></i> EXPORT</button>
+        <button class="btn btn-custom btnExport float-end"><i class="fas fa-file-export"></i> EXPORT</button>
     </div>
 </div>
 
