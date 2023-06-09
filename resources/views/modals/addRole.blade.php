@@ -64,9 +64,9 @@
                 @can('delete')
                     <button id="deleteBtn" class="form-control btn btn-outline-danger float-start" style="width:40px;"><i class="fas fa-trash"></i></button>
                 @endcan
-                <button class="form-control btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
-                <button class="form-control btn btn-custom updateBtn float-end btnRequired"><i class="fas fa-save"></i> UPDATE</button>
-                <button class="form-control btn btn-custom saveBtn float-end btnRequired"><i class="fas fa-save"></i> SAVE</button>
+                <button class="btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
+                <button class="btn btn-custom updateBtn float-end btnRequired"><i class="fas fa-save"></i> UPDATE</button>
+                <button class="btn btn-custom saveBtn float-end btnRequired"><i class="fas fa-save"></i> SAVE</button>
             </div>
         </div>
     </div>

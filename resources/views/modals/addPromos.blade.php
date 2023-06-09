@@ -56,7 +56,7 @@
                         <label for="item_code" class="formlabels form-label">Item Code</label>
                     </div>
                     <div class="col-md-2 f-outline">
-                        <button class="form-control btn btn-custom addPromoCombinationBtn"><i class="fas fa-plus"></i> ADD</button>
+                        <button class="btn btn-custom addPromoCombinationBtn"><i class="fas fa-plus"></i> ADD</button>
                     </div>
                 </div>
 
@@ -95,9 +95,9 @@
             </form>
                 <hr>
                 <div class="col-md form-group">
-                    <button class="form-control btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
-                    <button class="form-control btn btn-custom saveBtn btnRequired float-end"><i class="fas fa-save"></i> SAVE</button>
-                    <button class="form-control btn btn-custom updateBtn btnRequired float-end"><i class="fas fa-save"></i> UPDATE</button>
+                    <button class="btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
+                    <button class="btn btn-custom saveBtn btnRequired float-end"><i class="fas fa-save"></i> SAVE</button>
+                    <button class="btn btn-custom updateBtn btnRequired float-end"><i class="fas fa-save"></i> UPDATE</button>
                 </div>
             </div>
         </div>

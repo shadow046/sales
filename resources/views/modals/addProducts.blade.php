@@ -28,10 +28,10 @@
             </div>
             <hr>
             <div class="col-md form-group">
-                <button class="form-control btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
-                <button class="form-control btn btn-custom saveBtn btnRequired float-end notUpdate" style="display: none;" btntype='SAVE'><i class="fas fa-save"></i> SAVE</button>
-                <button class="form-control btn btn-custom btnNextPage btnRequired float-end">NEXT PAGE <i class="fa-solid fa-arrow-right"></i></button>
-                <button class="form-control btn btn-custom btnPrevPage float-end" style="display: none;"><i class="fa-solid fa-arrow-left"></i> PREV PAGE</button>
+                <button class="btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
+                <button class="btn btn-custom saveBtn btnRequired float-end notUpdate" style="display: none;" btntype='SAVE'><i class="fas fa-save"></i> SAVE</button>
+                <button class="btn btn-custom btnNextPage btnRequired float-end">NEXT PAGE <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn btn-custom btnPrevPage float-end" style="display: none;"><i class="fa-solid fa-arrow-left"></i> PREV PAGE</button>
             </div>
         </div>
     </div>

@@ -91,7 +91,7 @@
                         <label for="mobile" class="formlabels form-label">MOBILE</label>
                     </div>
                     <div class="col-md-2 f-outline">
-                        <button class="form-control btn btn-custom addCompanyContactPersonBtn" style="float: left;"><i class="fas fa-plus"></i> ADD</button>
+                        <button class="btn btn-custom addCompanyContactPersonBtn" style="float: left;"><i class="fas fa-plus"></i> ADD</button>
                     </div>
                 </div>
                 <br>
@@ -132,10 +132,10 @@
                 <hr>
                 <div class="row">
                     <div class="col-md form-group">
-                        <button class="form-control btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
-                        <button class="form-control btn btn-custom saveBtn btnRequired float-end"><i class="fas fa-save"></i> SAVE</button>
+                        <button class="btn btn-custom cancelBtn float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
+                        <button class="btn btn-custom saveBtn btnRequired float-end"><i class="fas fa-save"></i> SAVE</button>
                         @can('update')
-                            <button class="form-control btn btn-custom updateBtn btnRequired float-end"><i class="fas fa-save"></i> UPDATE</button>
+                            <button class="btn btn-custom updateBtn btnRequired float-end"><i class="fas fa-save"></i> UPDATE</button>
                         @endcan
                     </div>
                 </div>

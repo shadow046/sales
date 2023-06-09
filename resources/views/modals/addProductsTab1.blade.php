@@ -164,7 +164,7 @@
                     <label for="price" class="formlabels form-label">PRICE</label>
                 </div>
                 <div class="col-md-2 f-outline">
-                    <button class="form-control btn btn-custom addPromoCombinationBtn"><i class="fas fa-plus"></i> ADD</button>
+                    <button class="btn btn-custom addPromoCombinationBtn"><i class="fas fa-plus"></i> ADD</button>
                 </div>
             </div>
 

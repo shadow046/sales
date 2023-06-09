@@ -20,8 +20,8 @@
                 </div>
             <hr>
             <div class="col-md form-group">
-                <button class="form-control btn btn-custom btnCancelDetails float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
-                <button class="form-control btn btn-custom btnCopyDetails float-end"><i class="fa-solid fa-copy"></i> COPY</button>
+                <button class="btn btn-custom btnCancelDetails float-end" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> CANCEL</button>
+                <button class="btn btn-custom btnCopyDetails float-end"><i class="fa-solid fa-copy"></i> COPY</button>
             </div>
         </div>
     </div>
