@@ -453,7 +453,7 @@ function checkRequiredFields(){
                 }
             });
         }
-        if($(".requiredInput:visible").length > 0 || $(".requiredAlert:visible").length > 0){
+        if($(".requiredInput:visible").length > 0 || $(".requiredAlert:visible").length > 0 || $(".redBorder:visible").length > 0){
             checkRequired = false;
             $('.requiredNote').show();
         }

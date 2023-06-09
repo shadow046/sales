@@ -1184,6 +1184,18 @@ setInterval(() => {
     else{
         $('#role1').prop('disabled', false);
     }
+    if(($('#pass').val()).includes(' ')){
+        $('#pass').addClass('redBorder');
+    }
+    else{
+        $('#pass').removeClass('redBorder');
+    }
+    if(($('#verification').val()).includes(' ')){
+        $('#verification').addClass('redBorder');
+    }
+    else{
+        $('#verification').removeClass('redBorder');
+    }
 }, 0);
 
 $(document).on('click', '#store_input, #company_chosen, #area_chosen, #store_chosen', function() {
