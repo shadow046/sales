@@ -81,8 +81,16 @@ $(document).ready(function(){
 });
 
 $(document).on('change', '.togBtn', function(){
+    if($(this).is(':checked')){
+        var status_html = `<span style="zoom: 120%;">FROM: <b class="text-danger">OFF</b><br>TO: <b class="text-success">ON</b><br></span>`;
+    }
+    else{
+        var status_html = `<span style="zoom: 120%;">FROM: <b class="text-success">ON</b><br>TO: <b class="text-danger">OFF</b><br></span>`;
+    }
     Swal.fire({
-        title: 'Change Status?',
+        title: '',
+        html: '<b style="zoom: 120%;">Are you sure you want to change the ON/OFF?</b><br><br>'+status_html,
+        width: 650,
         allowOutsideClick: false,
         allowEscapeKey: false,
         showDenyButton: true,

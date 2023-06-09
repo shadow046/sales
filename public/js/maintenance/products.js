@@ -476,8 +476,16 @@ $('.filter-select').on('change', function(){
 });
 
 $(document).on('change', '.togBtn', function(){
+    if($(this).is(':checked')){
+        var status_html = `<span style="zoom: 120%;">FROM: <b class="text-danger">INACTIVE</b><br>TO: <b class="text-success">ACTIVE</b><br></span>`;
+    }
+    else{
+        var status_html = `<span style="zoom: 120%;">FROM: <b class="text-success">ACTIVE</b><br>TO: <b class="text-danger">INACTIVE</b><br></span>`;
+    }
     Swal.fire({
-        title: 'Change Status?',
+        title: '',
+        html: '<b style="zoom: 120%;">Are you sure you want to change the status?</b><br><br>'+status_html,
+        width: 650,
         allowOutsideClick: false,
         allowEscapeKey: false,
         showDenyButton: true,
@@ -523,8 +531,16 @@ $(document).on('change', '.togBtn', function(){
 });
 
 $(document).on('change', '.tglStatus', function(){
+    if($(this).is(':checked')){
+        var status_html = `<span style="zoom: 120%;">FROM: <b class="text-danger">INACTIVE</b><br>TO: <b class="text-success">ACTIVE</b><br></span>`;
+    }
+    else{
+        var status_html = `<span style="zoom: 120%;">FROM: <b class="text-success">ACTIVE</b><br>TO: <b class="text-danger">INACTIVE</b><br></span>`;
+    }
     Swal.fire({
-        title: 'Change Status?',
+        title: '',
+        html: '<b style="zoom: 120%;">Are you sure you want to change the status?</b><br><br>'+status_html,
+        width: 650,
         allowOutsideClick: false,
         allowEscapeKey: false,
         showDenyButton: true,
