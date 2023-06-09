@@ -1237,3 +1237,13 @@ $('#btnSubmitUpdate').on('click', function(){
     $('#dtlEmail').text(email);
     $('#userDetailsModal').modal('show');
 });
+
+$('.btnCopyDetails').on('click', function(){
+    var range = document.createRange();
+    range.selectNode(document.getElementById("user_details"));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
+    Swal.fire('COPIED TO CLIPBOARD','','success');
+});
