@@ -111,7 +111,7 @@
                 <div class="mt-4" style="zoom: 85%;">
                     <button type="button" id="btnClear" class="btn btn-outline-danger" onclick="$('#name').focus();"><i class="fas fa-eraser"></i> CLEAR</button>
                     <button type="button" id="btnSave" class="btn btn-primary float-end bp btnRequired"><i class="fas fa-save"></i> SAVE</button>
-                    <button type="button" id="btnSubmitSave" class="btn btn-primary float-end bp btnRequired"><i class="fa-solid fa-check"></i> SUBMIT</button>
+                    <button type="button" id="btnSubmitSave" class="btn btn-primary float-end bp"><i class="fa-solid fa-check"></i> SUBMIT</button>
                 </div>
             </form>
         </div>

@@ -1068,7 +1068,13 @@ $(document).on('change', '#role',function(){
     $('#store').val('');
     $('#store').trigger('chosen:updated');
     if($(this).val() == '1'){
+        if(!$('#name').val() || !$('#email').val()){
+            Swal.fire('INCOMPLETE DETAILS','Please fill up required fields!','error');
+            $('#role').val('');
+            return false;
+        }
         $('.classPass').show();
+        $('#btnSubmitSave').click();
     }
     else{
         $('.classPass').hide();
@@ -1119,7 +1125,13 @@ $(document).on('change', '#role',function(){
 $(document).on('change', '#role1',function(){
     permissions=[];
     if($(this).val() == '1'){
+        if(!$('#name1').val() || !$('#email1').val()){
+            Swal.fire('INCOMPLETE DETAILS','Please fill up required fields!','error');
+            $('#btnReset').click();
+            return false;
+        }
         $('.classVerify').show();
+        $('#btnSubmitUpdate').click();
     }
     else{
         $('.classVerify').hide();
@@ -1185,22 +1197,18 @@ setInterval(() => {
         $('#role1').prop('disabled', false);
     }
     if(($('#pass').val()).includes(' ') && $('#role').val() == '1'){
-        $('#pass').addClass('redBorder');
         $('#btnSave').hide();
         $('#btnSubmitSave').show();
     }
     else{
-        $('#pass').removeClass('redBorder');
         $('#btnSave').show();
         $('#btnSubmitSave').hide();
     }
     if(($('#verification').val()).includes(' ') && $('#role1').val() == '1'){
-        $('#verification').addClass('redBorder');
         $('#btnUpdate').hide();
         $('#btnSubmitUpdate').show();
     }
     else{
-        $('#verification').removeClass('redBorder');
         $('#btnUpdate').show();
         $('#btnSubmitUpdate').hide();
     }
@@ -1212,4 +1220,20 @@ $(document).on('click', '#store_input, #company_chosen, #area_chosen, #store_cho
 
 $(document).on('click', '#company1_chosen, #area1_chosen, #store1_chosen', function() {
     $(this).focusout();
+});
+
+$('#btnSubmitSave').on('click', function(){
+    var name = $.trim($('#name').val()).toUpperCase();
+    var email = $.trim($('#email').val()).toLowerCase();
+    $('#dtlName').text(name);
+    $('#dtlEmail').text(email);
+    $('#userDetailsModal').modal('show');
+});
+
+$('#btnSubmitUpdate').on('click', function(){
+    var name = $.trim($('#name1').val()).toUpperCase();
+    var email = $.trim($('#email1').val()).toLowerCase();
+    $('#dtlName').text(name);
+    $('#dtlEmail').text(email);
+    $('#userDetailsModal').modal('show');
 });

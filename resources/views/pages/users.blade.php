@@ -76,5 +76,6 @@
 <hr>
 @include('modals/addUser')
 @include('modals/updateUser')
+@include('modals/userDetails')
 <script src={{asset('js/users.js?ver=')}}{{\Illuminate\Support\Str::random(50)}}></script>
 @endsection

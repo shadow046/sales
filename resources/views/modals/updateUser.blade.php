@@ -119,7 +119,7 @@
             <div class="mt-4" style="zoom: 85%;">
                 <button id="btnReset" type="button" class="btn btn-outline-danger" onclick="$('#name1').focus();"><i class="fas fa-eraser"></i> RESET</button>
                 <button type="button" id="btnUpdate" class="btn btn-primary bp float-end btnRequired"><i class="fas fa-save"></i> UPDATE</button>
-                <button type="button" id="btnSubmitUpdate" class="btn btn-primary float-end bp btnRequired"><i class="fa-solid fa-check"></i> SUBMIT</button>
+                <button type="button" id="btnSubmitUpdate" class="btn btn-primary float-end bp"><i class="fa-solid fa-check"></i> SUBMIT</button>
             </div>
         </div>
     </div>
