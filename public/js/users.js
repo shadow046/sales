@@ -1184,17 +1184,25 @@ setInterval(() => {
     else{
         $('#role1').prop('disabled', false);
     }
-    if(($('#pass').val()).includes(' ')){
+    if(($('#pass').val()).includes(' ') && $('#role').val() == '1'){
         $('#pass').addClass('redBorder');
+        $('#btnSave').hide();
+        $('#btnSubmitSave').show();
     }
     else{
         $('#pass').removeClass('redBorder');
+        $('#btnSave').show();
+        $('#btnSubmitSave').hide();
     }
-    if(($('#verification').val()).includes(' ')){
+    if(($('#verification').val()).includes(' ') && $('#role1').val() == '1'){
         $('#verification').addClass('redBorder');
+        $('#btnUpdate').hide();
+        $('#btnSubmitUpdate').show();
     }
     else{
         $('#verification').removeClass('redBorder');
+        $('#btnUpdate').show();
+        $('#btnSubmitUpdate').hide();
     }
 }, 0);
 
