@@ -11,8 +11,12 @@
         <h4 class="debug-reports text-white float-end" style="cursor: pointer;">DEBUGGER</h4>
     </div>
 </div>
-<br>
-
+<center>
+    <div class="alert alert-primary p-2" role="alert" style="display: inline-block;">
+        <i class='fa fa-exclamation-triangle'></i>
+        <b>NOTE:</b> Fill fields for desired sales reports then click table entries for more detailed information.
+    </div>
+</center>
 <div class="row mb-3">
     <div class="col-md-4"></div>
     <div class="col-md-4 f-outline">

@@ -36,6 +36,12 @@
         <div class="col-md-4"></div>
     </div>
 </form>
+<center id="alertTables" style="display: none;">
+    <div class="alert alert-primary p-2" role="alert" style="display: inline-block;">
+        <i class='fa fa-exclamation-triangle'></i>
+        <b>NOTE:</b> Click table entries for more detailed information.
+    </div>
+</center>
 <div id="reportsTable1"></div>
 <div id="reportsTable2"></div>
 <div id="reportsTable3"></div>

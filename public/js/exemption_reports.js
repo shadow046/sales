@@ -537,3 +537,12 @@ $(document).on('keyup search','.filter-input2', function(){
 $(document).on('keyup search','.filter-input3', function(){
     table3.column($(this).data('column')).search($(this).val()).draw();
 });
+
+setInterval(() => {
+    if($('#reportsTable1').is(':empty') &&$('#reportsTable2').is(':empty') &&$('#reportsTable3').is(':empty')){
+        $('#alertTables').hide();
+    }
+    else{
+        $('#alertTables').show();
+    }
+}, 0);
