@@ -31,9 +31,9 @@
 <!-- JavaScript -->
 <script>
     $(document).ready(function() {
+        $('#loading').hide();
         $('#keyForm').on('submit', function(e) {
             e.preventDefault(); // Prevent the form from submitting normally
-
             // Perform AJAX request
             $.ajax({
                 url: $(this).attr('action'),

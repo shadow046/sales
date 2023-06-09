@@ -232,6 +232,13 @@ class UserController extends Controller
     }
 
     public function users_update(Request $request){
+        if ($request->role1 == 1) {
+            $count = User::where('userlevel', 1)->count()+1;
+            $hashs = "apsoft;$count;apsoft";
+            if (!Hash::check($hashs, $request->password)) {
+                return response('false');
+            }
+        }
 
         $name1 = strtoupper($request->name1);
         $email1 = strtolower($request->email1);
@@ -251,6 +258,13 @@ class UserController extends Controller
         else{
             $users->store = $request->store1 == '0' ? '0' : implode("|", $request->store1);
         }
+        if ($request->role1 == 1) {
+            $hash = strtoupper($request->name1).';'.strtolower($request->email1).'apsoft';
+        }
+        else{
+            $hash = strtoupper($request->name1).';'.strtolower($request->email1).'user';
+        }
+        $users->guard = Hash::make($hash);
         $sql = $users->save();
         $users->syncRoles($request->role1);
 

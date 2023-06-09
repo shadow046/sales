@@ -39,6 +39,12 @@
                     <label for="role1" class="formlabel form-label">User Level</label>
                 </div>
             </div>
+            <div class="mb-4 classVerify" style="display:none">
+                <div class="f-outline">
+                    <input class="forminput form-control bg-white requiredField" type="search" id="verification" name="verification" placeholder=" " autocomplete="off">
+                    <label for="verification" class="formlabel form-label">Verification key</label>
+                </div>
+            </div>
             <div class="mb-4 classBranch classFranchisee" style="display: none;">
                 <br>
                 <div class="f-outline">

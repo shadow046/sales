@@ -36,4 +36,11 @@
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function(){
+    var url = new URL(window.location.href);
+    var email_address = url.searchParams.get("emailaddress");
+    $('#email').val(email_address);
+});
+</script>
 @endsection
