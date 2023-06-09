@@ -477,3 +477,7 @@ label{
 .select-default{
     border: 1px solid #683817 !important;
 }
+
+.mtn, .sls{
+    font-size: 18px !important;
+}

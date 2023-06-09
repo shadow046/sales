@@ -55,9 +55,9 @@
 				<li class="nav-item dropdown mr-1">
 					<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('sales/reports') || Request::is('sales/uploads') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
 					<div class="dropdown-menu" aria-labelledby="dropdownReports" style="width: 200%; zoom: 90%;" onmouseover="$('#dropdownReports').addClass('navhover');" onmouseout="$('#dropdownReports').removeClass('navhover');">
-						<a class="dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
-						<a class="dropdown-item {{ Request::is('exemption/reports') ? 'linkactive' : '' }}" href="/exemption/reports">Exemption Reports</a>
-						<a class="dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
+						<a class="sls dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
+						<a class="sls dropdown-item {{ Request::is('exemption/reports') ? 'linkactive' : '' }}" href="/exemption/reports">Exemption Reports</a>
+						<a class="sls dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
 					</div>
 				</li>
 			@endcan
