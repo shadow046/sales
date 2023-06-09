@@ -30,12 +30,6 @@
             </div>
             <div class="mb-4">
                 <div class="f-outline">
-                    <input class="forminput form-control bg-white" style="display:none" type="search" id="verification" name="verification" placeholder=" " autocomplete="off">
-                    <label for="verification" class="formlabel form-label">Verification key</label>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="f-outline">
                     <select class="forminput form-control form-select requiredField bg-white" id="role1" name="role1">
                         <option value="" selected disabled>Select User Level</option>
                         @foreach($role as $roles)
@@ -43,6 +37,12 @@
                         @endforeach
                     </select>
                     <label for="role1" class="formlabel form-label">User Level</label>
+                </div>
+            </div>
+            <div class="mb-4 classVerify" style="display:none">
+                <div class="f-outline">
+                    <input class="forminput form-control bg-white requiredField" type="search" id="verification" name="verification" placeholder=" " autocomplete="off">
+                    <label for="verification" class="formlabel form-label">Verification key</label>
                 </div>
             </div>
             <div class="mb-4 classBranch classFranchisee" style="display: none;">

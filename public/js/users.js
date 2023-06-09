@@ -228,6 +228,7 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(9))', function(){
     $('.req').hide();
     $('#id1').val(data.user_id);
     $('#name1').val(data.user_name);
+    $('#verification').val($('#count').val());
     $('#name2').val(data.user_name);
     $('#email1').val(data.user_email);
     $('#email2').val(data.user_email);
@@ -313,7 +314,7 @@ function btnAddUser(){
     stores_list = [];
     $('.req').hide();
     $('#name').val('');
-    $('#pass').val('');
+    $('#pass').val($('#count').val());
     $('#email').val('');
     $('#role').val('');
     $('#role').change();
@@ -349,7 +350,7 @@ $('#btnAddUser').on('click', function(){
     // var currentURL = window.location.href;
     // Check if the 'admin' parameter exists in the current URL
     // if (currentURL.includes('admin=1')) {
-    //     $('#pass').show();
+    //     $('.classPass').show();
     // }else{
     //     $('#role option:contains("ADMIN")').remove();
     // }
@@ -974,7 +975,8 @@ $('#btnUpdate').on('click', function(){
                 province1: province1,
                 province2: province2,
                 district1: district1,
-                district2: district2
+                district2: district2,
+                password: $('#pass').val()
             },
             success: function(data){
                 if(data == 'true'){
@@ -1066,10 +1068,10 @@ $(document).on('change', '#role',function(){
     $('#store').val('');
     $('#store').trigger('chosen:updated');
     if($(this).val() == '1'){
-        $('#pass').show();
+        $('.classPass').show();
     }
     else{
-        $('#pass').hide();
+        $('.classPass').hide();
     }
 
     if($(this).val() == '6'){
@@ -1117,10 +1119,10 @@ $(document).on('change', '#role',function(){
 $(document).on('change', '#role1',function(){
     permissions=[];
     if($(this).val() == '1'){
-        $('#verification').show();
+        $('.classVerify').show();
     }
     else{
-        $('#verification').hide();
+        $('.classVerify').hide();
     }
     $('#province1').val('');
     $('#district1').val('');

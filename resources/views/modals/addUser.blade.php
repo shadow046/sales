@@ -21,12 +21,6 @@
                 </div>
                 <div class="mb-4">
                     <div class="f-outline">
-                        <input class="forminput form-control bg-white" style="display:none" type="search" id="pass" name="pass" placeholder=" " autocomplete="off">
-                        <label for="pass" class="formlabel form-label">Verification key</label>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="f-outline">
                         <select class="forminput form-control form-select requiredField bg-white" id="role" name="role">
                             <option value="" selected disabled style="color: Gray;">Select User Level</option>
                             @foreach($role as $roles)
@@ -34,6 +28,13 @@
                             @endforeach
                         </select>
                         <label for="role" class="formlabel form-label">User Level</label>
+                    </div>
+                </div>
+                <div class="mb-4 classPass" style="display:none">
+                    <div class="f-outline">
+                        <input class="forminput form-control bg-white" style="display:none" type="text" id="count" name="count" value="{{App\Models\User::where('userlevel', 1)->count()+1}} - Please request for verification key" placeholder=" " autocomplete="off">
+                        <input class="forminput form-control bg-white pass requiredField" type="search" id="pass" name="pass" value="{{App\Models\User::where('userlevel', 1)->count()+1}}" placeholder=" " autocomplete="off">
+                        <label for="pass" class="formlabel form-label">Verification key</label>
                     </div>
                 </div>
                 <div class="mb-4 classBranch classFranchisee" style="display: none;">
