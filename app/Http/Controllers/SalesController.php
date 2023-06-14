@@ -238,6 +238,33 @@ class SalesController extends Controller
 
     public function barchart(Request $request)
     {
+
+        $store = StoreArea::query()
+            ->select('id', 'store_area')
+            ->where('id', '!=', 0)
+            ->get();
+
+        $store = $store->map(function ($item) {
+            $stores = Store::select('branch_code')->where('store_area', $item->id)->get('id');
+            $store_id = $stores->pluck('branch_code')->toArray();
+            $area_gt = 0;
+            // Calculate $area_gt value...
+
+            $totalsales = Hdr::whereIn('storecode', $store_id)
+                ->where('refund', '!=', '1')
+                ->where('void', '!=', '1')
+                ->where('cancelled', '!=', '1')
+                ->sum('totalsales');
+
+            $item->totalsales = $totalsales + $area_gt;
+            return $item;
+        });
+
+        $store = $store->sortByDesc('totalsales');
+
+        // return $store;
+        return DataTables::of($store)->make(true);
+
         $store = StoreArea::query()
             ->select('id', 'store_area')
             ->where('id', '!=', 0)

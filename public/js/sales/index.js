@@ -494,35 +494,104 @@ $(document).on('keyup', '.dashboardTable thead .column_search', function () {
 });
 
 
+// function Barchart(df, dt) {
+//     google.charts.setOnLoadCallback(function () {
+//         $.ajax({
+//             url:"/sales/barchart",
+//             type:"get",
+//             async:false,
+//             data:{
+//                 dfrom: df,
+//                 dto: dt,
+//             },
+//             success:function(data){
+//                 var barData = google.visualization.arrayToDataTable([]);
+//                 barData.addColumn('string','AREA');
+//                 barData.addColumn('number', 'SALES');
+//                 barData.addColumn({type: 'number', role: 'annotation'});
+//                 $.each(data.data, (i, data) => {
+//                     if (data.totalsales != 'none') {
+//                         barData.addRows([
+//                             [data.store_area, parseFloat(data.totalsales), data.totalsales]
+//                         ]);
+//                     }
+//                 });
+                
+//                 var options = {
+//                     title: 'SALES BY STORE AREA',
+//                     isStacked:true,
+//                     height: barData.getNumberOfRows() * 60 + 30,
+//                     width: $(window).width() - 100,
+//                     chartArea:{
+//                         top: 50,
+//                     },
+//                     series: {
+//                         0: {
+//                             type: 'bars'
+//                         },
+//                         1: {
+//                             type: 'line',
+//                             color: 'grey',
+//                             lineWidth: 0,
+//                             pointSize: 0,
+//                             visibleInLegend: false
+//                         }
+//                     },
+//                     legend: { position: 'right', maxLines: 1 },
+//                     axes: {
+//                         x: {
+//                             0: { side: 'top'}
+//                         }
+//                     },
+//                     bars: 'horizontal',
+//                     sort: 'enable',       // Enable sorting
+//                     sortColumn: 1,        // Sort by the second column (sales)
+//                     sortAscending: true  
+//                 };
+                    
+//                 var chart = new google.visualization.BarChart(document.getElementById('barChart'));
+//                 chart.draw(barData, options);
+//             },
+//             error: function (data) {
+//                 alert(data.responseText);
+//                 return false;
+//             }
+//         });
+//     });
+// }
 function Barchart(df, dt) {
+
     google.charts.setOnLoadCallback(function () {
         $.ajax({
-            url:"/sales/barchart",
-            type:"get",
-            async:false,
-            data:{
+            url: "/sales/barchart",
+            type: "get",
+            async: false,
+            data: {
                 dfrom: df,
                 dto: dt,
             },
-            success:function(data){
-                var barData = google.visualization.arrayToDataTable([]);
-                barData.addColumn('string','AREA');
-                barData.addColumn('number', 'SALES');
-                barData.addColumn({type: 'number', role: 'annotation'});
+            success: function (data) {
+                var chartData = [];
+                chartData.push(['AREA', 'SALES', { type: 'number', role: 'annotation' }]);
                 $.each(data.data, (i, data) => {
                     if (data.totalsales != 'none') {
-                        barData.addRows([
-                            [data.store_area, parseFloat(data.totalsales), data.totalsales]
-                        ]);
+                        chartData.push([data.store_area, parseFloat(data.totalsales), data.totalsales]);
                     }
                 });
-                
+        
+                // Manually sort the chart data by the second column (sales) in ascending order
+                chartData.sort(function (a, b) {
+                    return a[1] - b[1];
+                });
+        
+                var barData = google.visualization.arrayToDataTable(chartData);
+        
                 var options = {
                     title: 'SALES BY STORE AREA',
-                    isStacked:true,
+                    isStacked: true,
                     height: barData.getNumberOfRows() * 60 + 30,
                     width: $(window).width() - 100,
-                    chartArea:{
+                    chartArea: {
                         top: 50,
                     },
                     series: {
@@ -540,12 +609,11 @@ function Barchart(df, dt) {
                     legend: { position: 'right', maxLines: 1 },
                     axes: {
                         x: {
-                            0: { side: 'top'}
+                            0: { side: 'top' }
                         }
                     },
                     bars: 'horizontal'
                 };
-                    
                 var chart = new google.visualization.BarChart(document.getElementById('barChart'));
                 chart.draw(barData, options);
             },
@@ -556,7 +624,7 @@ function Barchart(df, dt) {
         });
     });
 }
-
+  
 
 function CategoryPiechart(df, dt, storecode) {
     google.charts.setOnLoadCallback(function () {
