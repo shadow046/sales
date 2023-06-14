@@ -29,14 +29,27 @@ class CreateCheckFile extends Command
      */
     public function handle()
     {
-        $filePath = '/var/www/html/dd/public/storage/check';
-        $file = fopen($filePath, 'w');
-        fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
-        fclose($file);
-        $filePath = '/var/www/html/mary_grace/public/storage/check';
-        $file = fopen($filePath, 'w');
-        fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
-        fclose($file);
-        return Command::SUCCESS;
+        if(getenv('APP_SERVER') == 'LOCAL'){
+            $filePath = '/var/www/html/dunkin/public/storage/check';
+            $file = fopen($filePath, 'w');
+            fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
+            fclose($file);
+            $filePath = '/var/www/html/mg/public/storage/check';
+            $file = fopen($filePath, 'w');
+            fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
+            fclose($file);
+            return Command::SUCCESS;
+        }
+        else{
+            $filePath = '/var/www/html/dd/public/storage/check';
+            $file = fopen($filePath, 'w');
+            fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
+            fclose($file);
+            $filePath = '/var/www/html/mary_grace/public/storage/check';
+            $file = fopen($filePath, 'w');
+            fwrite($file, Crypt::encrypt(Carbon::now()->format('Y-m-d')));
+            fclose($file);
+            return Command::SUCCESS;
+        }
     }
 }
