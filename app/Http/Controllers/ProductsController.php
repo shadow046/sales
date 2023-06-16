@@ -315,6 +315,10 @@ class ProductsController extends Controller
     }
 
     public function products_update(Request $request){
+        if(ProductRevert::where('id', $request->id)->count() > 0) {
+            return 'pending changes';
+        }
+
         if($request->filename_delete){
             if(file_exists(public_path('storage/product_images/'.$request->filename_delete))){
                 unlink(public_path('storage/product_images/'.$request->filename_delete));

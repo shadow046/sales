@@ -970,7 +970,11 @@ $('.saveBtn').on('click',function(){
                         product_image_change:product_image_change
                     },
                     success:function(data){
-                        if(data.result == 'true'){
+                        if(data == 'pending changes'){
+                            Swal.fire("UPDATE FAILED", "This product has pending updates.", "error");
+                            $('#loading').hide();
+                        }
+                        else if(data.result == 'true'){
                             $('.promoProductCombination_tr').each(function(){
                                 var va = $.trim($(this).children('.td_1').html());
                                 if(suspend_id.includes(va.toString())){
