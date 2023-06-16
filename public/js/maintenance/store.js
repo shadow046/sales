@@ -554,7 +554,7 @@ $(document).on('click','table.storeTable tbody tr td',function(){
         }, 0);
         $('.notUpdate').hide();
     }
-    if($(this).text() != 'ACTIVEINACTIVE'){
+    if(!$(this).text().includes('ACTIVEINACTIVE')){
         $('#loading').show();
         contact_id = [];
         pos_id = [];

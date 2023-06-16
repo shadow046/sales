@@ -372,8 +372,7 @@ class ProductsController extends Controller
 
         // Revert
         $product = Product::find($request->id);
-        if ($product) {
-            // Create a new row in Table2 with the same values as the found row in Table1
+        if($product){
             ProductRevert::create($product->toArray());
         }
 
@@ -1057,6 +1056,25 @@ class ProductsController extends Controller
 
         $data = array('result' => $result, 'id' => $id);
         return response()->json($data);
+    }
+
+    public function products_cancel(Request $request){
+        $short_desc = Product::where('id', $request->id)->first()->short_desc;
+        $item_code = Product::where('id', $request->id)->first()->item_code;
+        Product::where('id', $request->id)->delete();
+        $product = ProductRevert::find($request->id);
+        if($product){
+            Product::create($product->toArray());
+            ProductRevert::where('id', $request->id)->delete();
+
+            $userlogs = new UserLogs;
+            $userlogs->user_id = auth()->user()->id;
+            $userlogs->activity = "CANCELLED PENDING PRODUCT UPDATE: User successfully cancelled pending product update of '$short_desc' with Item Code '$item_code'";
+            $userlogs->save();
+
+            return 'true';
+        }
+        return 'false';
     }
 
     public function insertImage(Request $request){

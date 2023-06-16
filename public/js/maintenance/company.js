@@ -309,7 +309,7 @@ $('.addCompanyContactPersonBtn').click(function(e){
 var company_id = [];
 var company_code_orig, company_name_orig;
 $(document).on('click','table.companyTable tbody tr td',function(){
-    if($(this).text() != 'ACTIVEINACTIVE'){
+    if(!$(this).text().includes('ACTIVEINACTIVE')){
         current_modal = 'UPDATE';
         $('.req').hide();
         if(!current_permissions.includes('3')){

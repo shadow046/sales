@@ -179,6 +179,7 @@ Route::middleware(['license', 'check_user_level', 'session'])->group(function ()
         Route::any('/products_status', 'products_status');
         Route::any('/products/save','products_save');
         Route::any('/products/update','products_update');
+        Route::any('/products/cancel','products_cancel');
         Route::any('/products/insertImage','insertImage');
         Route::any('/products/import','import');
         Route::any('/products/stores','products_stores');

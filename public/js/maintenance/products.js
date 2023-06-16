@@ -221,18 +221,18 @@ $(document).ready(function(){
                         }
                         if(current_permissions.includes('5')){
                             if(row.status == 'ACTIVE'){
-                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}" checked><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i> <i class="fa-solid fa-circle-xmark fa-lg ${update_status} btnCancelUpdate" id="${meta.row}" title="Cancel Update"></i></center></div>`;
                             }
                             if(row.status == 'INACTIVE'){
-                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                                return `<div style="width: 120px !important;"><center><label class="switch" style="zoom: 80%; margin-top: -5px; margin-bottom: -10px;"><input type="checkbox" class="togBtn" id="${meta.row}"><div class="slider round"><span style="font-size: 110%;" class="on">ACTIVE</span><span style="font-size: 100%;" class="off">INACTIVE</span></div></label><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i> <i class="fa-solid fa-circle-xmark fa-lg ${update_status} btnCancelUpdate" id="${meta.row}" title="Cancel Update"></i></center></div>`;
                             }
                         }
                         else{
                             if(row.status == 'ACTIVE'){
-                                return `<div style="width: 120px !important;"><center class="text-success"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                                return `<div style="width: 120px !important;"><center class="text-success"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i> <i class="fa-solid fa-circle-xmark fa-lg ${update_status} btnCancelUpdate" id="${meta.row}" title="Cancel Update"></i></center></div>`;
                             }
                             if(row.status == 'INACTIVE'){
-                                return `<div style="width: 120px !important;"><center class="text-danger"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i></center></div>`;
+                                return `<div style="width: 120px !important;"><center class="text-danger"><b>${row.status}</b><i class="ml-2 text-success fa-solid fa-circle-arrow-up fa-lg ${update_status}" title="For Update in POS"></i> <i class="fa-solid fa-circle-xmark fa-lg ${update_status} btnCancelUpdate" id="${meta.row}" title="Cancel Update"></i></center></div>`;
                             }
                         }
                     }
@@ -1016,7 +1016,7 @@ $('.saveBtn').on('click',function(){
 
 var promo_id = [];
 $(document).on('click','table.productsTable tbody tr td',function(){
-    if($(this).text() != 'ACTIVEINACTIVE'){
+    if(!$(this).text().includes('ACTIVEINACTIVE')){
         current_modal = 'UPDATE';
         $('#loading').show();
         $('.req').hide();
@@ -2146,4 +2146,47 @@ setInterval(() => {
 
 $('#upload_image').on('click',function(){
     $('#product_image').click();
+});
+
+$(document).on('click', '.btnCancelUpdate', function(e){
+    e.preventDefault();
+    var id = $(this).attr("id");
+    var data = $('table.productsTable').DataTable().row(id).data();
+    Swal.fire({
+        title: 'Cancel Pending Product Updates?',
+        showDenyButton: true,
+        confirmButtonText: 'CANCEL UPDATE',
+        denyButtonText: `CLOSE`,
+    }).then((result) => {
+        if(result.isConfirmed){
+            $.ajax({
+                url:'/products/cancel',
+                data:{
+                    id:data.id
+                },
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function(data){
+                    if(data == 'true'){
+                        $('#loading').hide();
+                        Swal.fire({
+                            title: 'PRODUCT UPDATE CANCELLED SUCCESSFULLY',
+                            icon: 'success',
+                            timer: 2000
+                        });
+                        setTimeout(function(){window.location.reload();}, 2000);
+                    }
+                    else{
+                        $('#loading').hide();
+                        Swal.fire({
+                            title: 'PRODUCT UPDATE CANCELLED FAILED',
+                            icon: 'error',
+                            timer: 2000
+                        });
+                    }
+                }
+            });
+        }
+    });
 });
