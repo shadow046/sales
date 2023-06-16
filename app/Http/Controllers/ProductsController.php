@@ -24,6 +24,7 @@ use App\Models\Type;
 use App\Models\Update;
 use App\Models\UpdateData;
 use App\Models\SendUpdate;
+use App\Models\ProductRevert;
 
 use Illuminate\Support\Facades\File;
 use Str;
@@ -368,6 +369,13 @@ class ProductsController extends Controller
         $start_time_orig = Product::where('id', $request->id)->first()->start_time;
         $end_date_orig = Product::where('id', $request->id)->first()->end_date;
         $end_time_orig = Product::where('id', $request->id)->first()->end_time;
+
+        // Revert
+        $product = Product::find($request->id);
+        if ($product) {
+            // Create a new row in Table2 with the same values as the found row in Table1
+            ProductRevert::create($product->toArray());
+        }
 
         if($request->promo_start != $promo_start_orig){
             $promo_start1 = Carbon::parse($promo_start_orig)->format('F d, Y');
@@ -1346,7 +1354,7 @@ class ProductsController extends Controller
                             );\n";
                     fwrite($file, $line);
                     fclose($file);
-                    
+
                     $update = Update::create([
                         'filename' => $fname,
                         'branch_code' => $product->store_code
@@ -1376,7 +1384,7 @@ class ProductsController extends Controller
                     fwrite($file, $line);
                     fclose($file);
 
-                    
+
 
                     Product::where('id',$product->id)->update(['product_update_status' => '1']);
 
