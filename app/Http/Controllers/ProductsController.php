@@ -1061,10 +1061,11 @@ class ProductsController extends Controller
     public function products_cancel(Request $request){
         $short_desc = Product::where('id', $request->id)->first()->short_desc;
         $item_code = Product::where('id', $request->id)->first()->item_code;
-        Product::where('id', $request->id)->delete();
         $product = ProductRevert::find($request->id);
         if($product){
-            Product::create($product->toArray());
+            $updateData = $product->toArray();
+            unset($updateData['created_at'], $updateData['updated_at']);
+            Product::where('id', $request->id)->update($updateData);
             ProductRevert::where('id', $request->id)->delete();
 
             $userlogs = new UserLogs;
