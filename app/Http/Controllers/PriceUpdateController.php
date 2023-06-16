@@ -544,7 +544,6 @@ class PriceUpdateController extends Controller
         $products = PriceUpdate::where('price_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
 
-
         if($products) {
             $sendupdate = SendUpdate::where('type', 'price')->whereDate('date', Carbon::now()->format('Y-m-d'))->count();
             if(!$sendupdate){
@@ -582,6 +581,7 @@ class PriceUpdateController extends Controller
                     // If the file does not exist, create a new file
                     $file = fopen($filename.'.sql', 'w');
                     $update = Update::create([
+                        'updated_by' => auth()->user()->name,
                         'filename' => $fname,
                         'branch_code' => $product->store_code
                     ]);
@@ -624,15 +624,13 @@ class PriceUpdateController extends Controller
                 ]);
 
                 PriceUpdate::where('recid',$product->recid)->update(['price_update_status' => '1']);
+
             }
-            // Close the SQL file
-
-
-
             $userlogs = new UserLogs;
             $userlogs->user_id = auth()->user()->id;
-            $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$seqno) for processing.";
+            $userlogs->activity = "SENT PRICE UPDATE: User successfully sent Price Updates ($date-$seqno) for processing.";
             $userlogs->save();
+            // Close the SQL file
             return 'true';
         }
         else{

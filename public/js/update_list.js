@@ -20,6 +20,7 @@ $(document).ready(function(){
                     return data;
                 }
             },
+            { data: 'updated_by' },
             {
                 data: 'filename' ,
                 "render": function(data, type, row){

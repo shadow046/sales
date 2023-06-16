@@ -315,10 +315,6 @@ class ProductsController extends Controller
     }
 
     public function products_update(Request $request){
-        if(ProductRevert::where('id', $request->id)->count() > 0) {
-            return 'pending changes';
-        }
-
         if($request->filename_delete){
             if(file_exists(public_path('storage/product_images/'.$request->filename_delete))){
                 unlink(public_path('storage/product_images/'.$request->filename_delete));
@@ -375,9 +371,11 @@ class ProductsController extends Controller
         $end_time_orig = Product::where('id', $request->id)->first()->end_time;
 
         // Revert
-        $product = Product::find($request->id);
-        if($product){
-            ProductRevert::create($product->toArray());
+        if(!ProductRevert::where('id', $request->id)->first()) {
+            $product = Product::find($request->id);
+            if($product){
+                ProductRevert::create($product->toArray());
+            }
         }
 
         if($request->promo_start != $promo_start_orig){
@@ -1178,6 +1176,16 @@ class ProductsController extends Controller
         $products = Product::where('product_update_status', '=', '0')->get();
         $date = Carbon::now()->format('Y-m-d');
 
+        $products_array = Product::where('product_update_status', '=', '0')
+                            ->get()
+                            ->toArray();
+
+        $product_ids = array_map(function($item){
+            return $item['id'];
+        }, $products_array);
+        // return $product_ids;
+        ProductRevert::whereIn('id', $product_ids)->delete();
+
         if ($products) {
             try {
                 foreach ($products as $product) {
@@ -1379,6 +1387,7 @@ class ProductsController extends Controller
                     fclose($file);
 
                     $update = Update::create([
+                        'updated_by' => auth()->user()->name,
                         'filename' => $fname,
                         'branch_code' => $product->store_code
                     ]);
@@ -1415,8 +1424,8 @@ class ProductsController extends Controller
                     $userlogs->user_id = auth()->user()->id;
                     $userlogs->activity = "SENT PRODUCT UPDATE: User successfully sent Product Updates ($date-$count) for processing.";
                     $userlogs->save();
-                    return 'true';
                 }
+                return 'true';
             } catch (exception $e) {
                 return 'false';
             }

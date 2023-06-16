@@ -278,7 +278,6 @@ $('.saveBtn').on('click', function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        table.ajax.reload()
                         $('#loading').hide();
                         $('#priceUpdateModal').modal('hide');
                         Swal.fire({
@@ -286,6 +285,7 @@ $('.saveBtn').on('click', function(){
                             icon: 'success',
                             timer: 2000
                         });
+                        setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else if(data == 'pending'){
                         $('#loading').hide();
@@ -427,7 +427,6 @@ $('.updateBtn').on('click', function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        table.ajax.reload()
                         $('#loading').hide();
                         $('#priceUpdateModal').modal('hide');
                         Swal.fire({
@@ -435,6 +434,7 @@ $('.updateBtn').on('click', function(){
                             icon: 'success',
                             timer: 2000
                         });
+                        setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else if(data == 'pending'){
                         $('#loading').hide();

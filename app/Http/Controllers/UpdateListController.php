@@ -22,6 +22,7 @@ class UpdateListController extends Controller
     public function update_list_data(){
         $list = Update::selectRaw(
             'updates.id,
+            updated_by,
             filename,
             branch_code,
             updates.created_at AS date,

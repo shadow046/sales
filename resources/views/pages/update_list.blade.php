@@ -13,6 +13,7 @@
         <thead>
             <tr class="bg-default">
                 <th>DATE</th>
+                <th>UPDATED BY</th>
                 <th>FILENAME</th>
                 <th>BRANCH CODE</th>
                 <th>ACTION</th>
