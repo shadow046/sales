@@ -20,47 +20,47 @@
         <thead style="font-weight:bolder" class="bg-default">
             <tr>
                 <th class="always-default">
-                    <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="0" style="border:1px solid #808080"/>
                     PRODUCT CODE
                 </th>
                 <th class="always-default">
-                    <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="1" style="border:1px solid #808080"/>
                     DESCRIPTION
                 </th>
                 <th class="always-default">
-                    <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="2" style="border:1px solid #808080"/>
                     EFFECTIVITY DATE
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="3" style="border:1px solid #808080"/>
                     DINE IN
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="4" style="border:1px solid #808080"/>
                     TAKE-OUT PRICE
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="5" style="border:1px solid #808080"/>
                     PICK-UP PRICE
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="6" style="border:1px solid #808080"/>
                     DELIVERY PRICE
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="7" style="border:1px solid #808080"/>
                     BULK ORDER
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="8" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="8" style="border:1px solid #808080"/>
                     FDS PRICE
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="9" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="9" style="border:1px solid #808080"/>
                     DRIVE-THRU
                 </th>
                 <th>
-                    <input type="search" class="form-control filter-input" data-column="10" style="border:1px solid #850708"/>
+                    <input type="search" class="form-control filter-input" data-column="10" style="border:1px solid #808080"/>
                     ADD. MEAL TYPE
                 </th>
                 <th>

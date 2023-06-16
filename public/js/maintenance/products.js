@@ -997,7 +997,7 @@ $('.saveBtn').on('click',function(){
 
                             $('#loading').hide();
                             $('#productsModal').modal('hide');
-                            Swal.fire("UPDATE SUCCESS", "", "success");
+                            Swal.fire("SUCCESSFULLY SAVED CHANGES", "", "success");
                             setTimeout(function(){window.location.reload();}, 2000);
                         }
                         else{
@@ -1313,7 +1313,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
 setInterval(() => {
     if($('#productsModal').is(':visible') && $('#product_id').val()){
         $('.saveBtn').attr('btntype', 'UPDATE');
-        $('.saveBtn').html('<i class="fas fa-save"></i> UPDATE');
+        $('.saveBtn').html('<i class="fas fa-save"></i> SAVE');
     }
     else{
         $('.saveBtn').attr('btntype', 'SAVE');
