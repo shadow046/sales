@@ -97,13 +97,16 @@ class HomeController extends Controller
 
     public function index_data(Request $request){
         $list = UserLogs::query()
-            ->selectRaw('users.id AS user_id, users.name AS username, users.email AS email,
+            ->selectRaw('users.id AS user_id, users.name AS username, users.email AS email, users.dev AS dev,
                         UPPER(roles.name) AS role, user_logs.activity AS activity, user_logs.created_at AS date,
                         DATE_FORMAT(user_logs.created_at, "%b. %d, %Y, %h:%i %p") AS datetime')
             ->join('users', 'users.id', 'user_logs.user_id')
             ->join('roles', 'roles.id', 'users.userlevel');
             if(auth()->user()->userlevel != '1'){
                 $list->where('user_id', auth()->user()->id);
+            }
+            if(auth()->user()->dev != '1'){
+                $list->where('dev', '!=', '1');
             }
             $list->orderBy('user_logs.id', 'DESC')
             ->get();

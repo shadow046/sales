@@ -38,12 +38,15 @@ class UserController extends Controller
     }
 
     public function users_data(){
-        $list = User::query()->selectRaw('users.id AS user_id, users.name AS user_name, users.email AS user_email,
+        $list = User::query()->selectRaw('users.id AS user_id, users.name AS user_name, users.email AS user_email, users.dev AS dev,
         UPPER(roles.name) AS role_name, roles.id AS role, users.status AS user_status,
         company.company_name AS branch_name, company.id AS branch,
         users.company AS company, users.area AS area, users.store AS store,
-        users.province AS province, users.district AS district')
-            ->where('users.id', '!=', '0')
+        users.province AS province, users.district AS district');
+            if(auth()->user()->dev != '1'){
+                $list->where('dev', '!=', '1');
+            }
+            $list->where('users.id', '!=', '0')
             ->join('roles', 'roles.id', 'users.userlevel')
             ->join('company', 'company.id', 'users.branch')
             ->orderBy('user_status', 'ASC')
