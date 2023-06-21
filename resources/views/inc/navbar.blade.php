@@ -51,22 +51,20 @@
 					<a class="nav-link {{ Request::is('sales/index') ? 'navactive' : '' }}" href="/sales/index">SALES PERFORMANCE</a>
 				</li>
 			@endcan
-			@can('reports')
-				<li class="reports_tab nav-item dropdown mr-1">
-					<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('sales/reports') || Request::is('sales/uploads') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
-					<div class="dropdown-menu" aria-labelledby="dropdownReports" style="width: 200%; zoom: 90%;" onmouseover="$('#dropdownReports').addClass('navhover');" onmouseout="$('#dropdownReports').removeClass('navhover');">
-						@can('sales-reports')
-							<a class="sls dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
-						@endcan
-						@can('exemption-reports')
-							<a class="sls dropdown-item {{ Request::is('exemption/reports') ? 'linkactive' : '' }}" href="/exemption/reports">Exemption Reports</a>
-						@endcan
-						@can('uploaded-reports')
-							<a class="sls dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
-						@endcan
-					</div>
-				</li>
-			@endcan
+			<li class="reports_tab nav-item dropdown mr-1">
+				<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('sales/reports') || Request::is('sales/uploads') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownReports" style="width: 200%; zoom: 90%;" onmouseover="$('#dropdownReports').addClass('navhover');" onmouseout="$('#dropdownReports').removeClass('navhover');">
+					@can('sales-reports')
+						<a class="sls dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
+					@endcan
+					@can('exemption-reports')
+						<a class="sls dropdown-item {{ Request::is('exemption/reports') ? 'linkactive' : '' }}" href="/exemption/reports">Exemption Reports</a>
+					@endcan
+					@can('uploaded-reports')
+						<a class="sls dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
+					@endcan
+				</div>
+			</li>
 			@can('store')
 				<li class="nav-item mr-1">
 					<a class="nav-link {{ Request::is('store') ? 'navactive' : '' }}" href="/store">STORE</a>
