@@ -1,5 +1,6 @@
 var current_location = $(location).attr('pathname')+window.location.search;
 var current_user = $('#current_user').val();
+var current_dev = $('#current_dev').val();
 var current_role = $('#current_role').val();
 var current_permissions = (($('#current_permissions').val().replaceAll('[{"permission_id":', "")).replaceAll('{"permission_id":', ", ").replaceAll('},', "").replaceAll('}]', "")).split(', ').sort();
 var current_date = $('#current_date').val();
@@ -101,6 +102,13 @@ $(document).ready(function(){
     }
     else{
         $('.maintenance_tab').hide();
+    }
+
+    if($('.sls').length > 0){
+        $('.reports_tab').show();
+    }
+    else{
+        $('.reports_tab').hide();
     }
 
     $('#report').popover({

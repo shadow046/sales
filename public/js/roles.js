@@ -27,6 +27,7 @@ $(document).ready(function(){
                 data: 'permissions',
                 "render":function(data,type,row){
                     permissions = (row.permissions.replaceAll('[{\"desc\":\"', "• ")).replaceAll('{\"desc\":\"', "<br>• ").replaceAll('\"},', "").replaceAll('\"}]', "").replaceAll('\\\/', "/");
+                    if(permissions == '[]') return '';
                     return(`<div style="white-space: normal; width: 100%;">${permissions}</div>`);
                 }
             },
@@ -129,11 +130,9 @@ $(document).on('click','table.roleTable tbody tr',function(){
     $('.req').hide();
     $('#radio1').prop("checked", true);
     var data = table.row(this).data();
-    if(current_server != 'LOCAL'){
-        if(data.type == "DEFAULT"){
-            Swal.fire('RESTRICTED', 'Default User Roles cannot be modified!', 'error');
-            return false;
-        }
+    if(data.type == "DEFAULT" && current_dev != '1'){
+        Swal.fire('RESTRICTED', 'Default User Roles cannot be modified!', 'error');
+        return false;
     }
     $('.permission').prop('checked', false);
 

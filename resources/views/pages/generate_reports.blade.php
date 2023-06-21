@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<script>accessibility('29');</script>
+<script>accessibility('34');</script>
 <script>$('#loading').hide();</script>
 <br>
 <div class="row">

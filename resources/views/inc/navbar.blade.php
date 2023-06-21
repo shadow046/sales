@@ -52,12 +52,18 @@
 				</li>
 			@endcan
 			@can('reports')
-				<li class="nav-item dropdown mr-1">
+				<li class="reports_tab nav-item dropdown mr-1">
 					<a href="#" id="dropdownReports" class="nav-link dropdown-toggle {{ Request::is('sales/reports') || Request::is('sales/uploads') ? 'navactive' : '' }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTS</a>
 					<div class="dropdown-menu" aria-labelledby="dropdownReports" style="width: 200%; zoom: 90%;" onmouseover="$('#dropdownReports').addClass('navhover');" onmouseout="$('#dropdownReports').removeClass('navhover');">
-						<a class="sls dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
-						<a class="sls dropdown-item {{ Request::is('exemption/reports') ? 'linkactive' : '' }}" href="/exemption/reports">Exemption Reports</a>
-						<a class="sls dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
+						@can('sales-reports')
+							<a class="sls dropdown-item {{ Request::is('sales/reports') ? 'linkactive' : '' }}" href="/sales/reports">Sales Analysis Reports</a>
+						@endcan
+						@can('exemption-reports')
+							<a class="sls dropdown-item {{ Request::is('exemption/reports') ? 'linkactive' : '' }}" href="/exemption/reports">Exemption Reports</a>
+						@endcan
+						@can('uploaded-reports')
+							<a class="sls dropdown-item {{ Request::is('sales/uploads') ? 'linkactive' : '' }}" href="/sales/uploads">POS Uploaded Reports</a>
+						@endcan
 					</div>
 				</li>
 			@endcan
@@ -157,6 +163,7 @@
 </nav>
 
 <input type="hidden" id="current_user" value="{{auth()->user()->id}}" readonly>
+<input type="hidden" id="current_dev" value="{{auth()->user()->dev}}" readonly>
 <input type="hidden" id="current_role" value="{{ App\Models\User::select('roles.name')->where('users.id', auth()->user()->id)->join('roles', 'roles.id', 'users.userlevel')->first()->name }}" readonly>
 <input type="hidden" id="current_permissions" value="{{ App\Models\HasPermission::select('permission_id')->where('role_id', auth()->user()->userlevel)->get(); }}" readonly>
 <input type="hidden" id="current_date" value="{{date('Y-m-d')}}" readonly>
