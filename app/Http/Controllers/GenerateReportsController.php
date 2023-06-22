@@ -26,9 +26,31 @@ class GenerateReportsController extends Controller
 
     public function reports(){
         $stores = Store::selectRaw('branch_code AS fcode, branch_name AS desc1')
-            ->where('status', 'ACTIVE')
-            ->get()
-            ->sortBy('branch_code');
+            ->where('status', 'ACTIVE');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $stores->whereIn('branch_code', $store_codes);
+            }
+        $stores = $stores->get()->sortBy('branch_code');
         $products = Product::selectRaw('item_code AS fcode, short_desc AS desc1')
             ->where('status', 'ACTIVE')
             ->get()
@@ -103,8 +125,31 @@ class GenerateReportsController extends Controller
             ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
                 'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
 
-        if ($request->included) {
+        if($request->included){
             $data->whereIn('branch_code', $request->included);
+        }
+        else if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $store_codes = array();
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+            $data->whereIn('branch_code', $store_codes);
         }
 
         $data->orderBy('net_sales', 'DESC');
@@ -196,8 +241,32 @@ class GenerateReportsController extends Controller
             else if($request->byWhat == 'combo' || $request->byWhat == 'promo'){
                 $data->whereIn('itemcode', $item_codes);
             }
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
             $data->groupBy('itemcat','itemcode','desc1','desc2');
-            $data->orderBy('quantity', 'DESC')->get();
+            $data->orderBy('quantity', 'DESC');
+            $data = $data->get();
         return DataTables::of($data)->make(true);
     }
 
@@ -208,9 +277,32 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
-            ->where('itemcat', '!=', '')
-            ->groupBy('tdate','date')
-            ->get();
+            ->where('itemcat', '!=', '');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data->groupBy('tdate','date');
+            $data = $data->get();
         return DataTables::of($data)->make(true);
     }
 
@@ -221,9 +313,32 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0')
-            ->leftjoin('store', 'store.branch_code', 'dtl.storecode')
-            ->groupBy('dtl.storecode','branch_name')
-            ->get();
+            ->leftjoin('store', 'store.branch_code', 'dtl.storecode');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data->groupBy('dtl.storecode','branch_name');
+            $data = $data->get();
         return DataTables::of($data)->make(true);
     }
 
@@ -237,7 +352,30 @@ class GenerateReportsController extends Controller
                 if($request->included){
                     $data->whereIn('trantype', $request->included);
                 }
-                $data->groupBy('transaction_name')
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $data->whereIn('storecode', $store_codes);
+                }
+                $data = $data->groupBy('transaction_name')
                     ->orderBy('net_sales', 'DESC')
                     ->get();
         return DataTables::of($data)->make(true);
@@ -257,8 +395,31 @@ class GenerateReportsController extends Controller
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->leftJoin('store', 'store.branch_code', 'hdr.storecode')
             ->join('company', 'company.id', 'store.company_name')
             ->join('store_area', 'store_area.id', 'store.store_area')
             ->join('type', 'type.id', 'store.type')
@@ -306,8 +467,31 @@ class GenerateReportsController extends Controller
             ->where('trantype', $request->colData)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('tdate','date')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('tdate','date')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -318,13 +502,36 @@ class GenerateReportsController extends Controller
             ->where('trantype', $request->datacode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('tdate','itemcat','itemcode','desc1','desc2')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('tdate','itemcat','itemcode','desc1','desc2')
             ->get();
         return DataTables::of($data)->make(true);
     }
 
-    public function byTender(Request $request){
+    public function byTender(Request $request){ //PENDING CODE
         $data = Hdr::select('temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
@@ -434,7 +641,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTender_Date(Request $request){
+    public function byTender_Date(Request $request){ //PENDING CODE
         $data = Hdr::select('temp.tdate', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
@@ -565,7 +772,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTender_Branch(Request $request){
+    public function byTender_Branch(Request $request){ //PENDING CODE
         $data = Hdr::select('temp.branch_name', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
@@ -719,7 +926,30 @@ class GenerateReportsController extends Controller
                 if($request->included){
                     $data->whereIn('discname', $request->included);
                 }
-                $data->groupBy('discount_name')
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $data->whereIn('storecode', $store_codes);
+                }
+                $data = $data->groupBy('discount_name')
                     ->orderBy('net_sales', 'DESC')
                     ->get();
         return DataTables::of($data)->make(true);
@@ -733,8 +963,31 @@ class GenerateReportsController extends Controller
             ->where('discname', $request->colData)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('tdate','date')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('tdate','date')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -747,8 +1000,31 @@ class GenerateReportsController extends Controller
             ->where('discname', $request->datacode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->leftjoin('store', 'store.branch_code', 'hdr.storecode')
             ->groupBy('hdr.storecode','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
@@ -771,8 +1047,31 @@ class GenerateReportsController extends Controller
                 ->whereTime('ttime', '<=', $end_hour)
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
-                ->where('void', '=', '0')
-                ->first();
+                ->where('void', '=', '0');
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $result->whereIn('storecode', $store_codes);
+                }
+                $result = $result->first();
             if(!$result){
                 $result = (object)[
                     'time_range_12hr' => $hour_range_12hr,
@@ -807,8 +1106,31 @@ class GenerateReportsController extends Controller
                 ->whereTime('ttime', '<=', $end_hour)
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
-                ->where('void', '=', '0')
-                ->first();
+                ->where('void', '=', '0');
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $result->whereIn('storecode', $store_codes);
+                }
+                $result = $result->first();
             if(!$result){
                 $result = (object)[
                     'time_range_12hr' => $hour_range_12hr,
@@ -825,7 +1147,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTimeC(Request $request){
+    public function byTimeC(Request $request){ //PENDING CODE
         $data = collect();
         for($i = 0; $i < 24; $i++){
             $start_hour = sprintf("%02d:00:00", $i);
@@ -980,8 +1302,31 @@ class GenerateReportsController extends Controller
             ->where($request->tblType, $request->datacode)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->get()
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $tnumber_array->whereIn('storecode', $store_codes);
+            }
+            $tnumber_array = $tnumber_array->get()
             ->toArray();
         $tnumbers = array_map(function($a){
             return $a['tnumber'];
@@ -1002,8 +1347,31 @@ class GenerateReportsController extends Controller
             ->where($request->tblType, $request->colData)
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('tdate','date','ttime','transcode')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('tdate','date','ttime','transcode')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -1049,8 +1417,31 @@ class GenerateReportsController extends Controller
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('hdr.storecode','branch_code','store_name','branch_name')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('hdr.storecode','branch_code','store_name','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -1074,8 +1465,31 @@ class GenerateReportsController extends Controller
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('product_code','product_name')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('product_code','product_name')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -1109,8 +1523,31 @@ class GenerateReportsController extends Controller
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('trantype')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('trantype')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -1162,8 +1599,31 @@ class GenerateReportsController extends Controller
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('hdr.storecode','branch_code','store_name','branch_name')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('hdr.storecode','branch_code','store_name','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -1204,8 +1664,31 @@ class GenerateReportsController extends Controller
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('product_code','product_name')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('product_code','product_name')
             ->get();
         return DataTables::of($data)->make(true);
     }
@@ -1256,8 +1739,31 @@ class GenerateReportsController extends Controller
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
-            ->where('void', '=', '0')
-            ->groupBy('trantype')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data = $data->groupBy('trantype')
             ->get();
         return DataTables::of($data)->make(true);
     }
