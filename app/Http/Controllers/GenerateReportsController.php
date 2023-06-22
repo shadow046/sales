@@ -532,9 +532,41 @@ class GenerateReportsController extends Controller
     }
 
     public function byTender(Request $request){
+        $store_array = Store::get()->toArray();
+        $store_codes_all = array_map(function($item){
+            return $item['branch_code'];
+        }, $store_array);
+
+        $store_codes = array();
+        if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+        }
+        else{
+            $store_codes = $store_codes_all;
+        }
+        $store_codes_final = array_diff($store_codes_all, $store_codes);
+
         $data = Hdr::select('temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
-            ->from(function($query) use($request){
+            ->from(function($query) use($request, $store_codes_final){
                 $query->select(
                     'tendname1 AS tendname', 'tendamnt1 AS tendamnt', 'tnumber AS tnumber'
                 )
@@ -544,6 +576,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0')
+                ->whereNotIn('storecode', $store_codes_final)
                 ->unionAll(
                     DB::table('hdr')->select('tendname2', 'tendamnt2', 'tnumber')
                         ->where('tendname2', '!=', '')
@@ -551,37 +584,16 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
-                );
-                if(auth()->user()->store != 'X'){
-                    if(auth()->user()->store == '0'){
-                        echo(null);
-                    }
-                    else{
-                        $store_codes = array();
-                        $array = explode("|", auth()->user()->store);
-                        foreach($array as $value){
-                            if(!str_contains($value, '-0')){
-                                $user = Store::where('id', $value)->first();
-                                array_push($store_codes, $user->branch_code);
-                            }
-                            else{
-                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
-                                $store_codes_add = array_map(function($item){
-                                    return $item['branch_code'];
-                                }, $user_array);
-                                $store_codes = array_merge($store_codes, $store_codes_add);
-                            }
-                        }
-                    }
-                    $query->whereIn('storecode', $store_codes);
-                }
-                $query = $query->unionAll(
+                        ->whereNotIn('storecode', $store_codes_final)
+                )
+                ->unionAll(
                     DB::table('hdr')->select('tendname3', 'tendamnt3', 'tnumber')
                         ->where('tendname3', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname4', 'tendamnt4', 'tnumber')
@@ -590,6 +602,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname5', 'tendamnt5', 'tnumber')
@@ -598,6 +611,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname6', 'tendamnt6', 'tnumber')
@@ -606,6 +620,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname7', 'tendamnt7', 'tnumber')
@@ -614,6 +629,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname8', 'tendamnt8', 'tnumber')
@@ -622,6 +638,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname9', 'tendamnt9', 'tnumber')
@@ -630,6 +647,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname10', 'tendamnt10', 'tnumber')
@@ -638,6 +656,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname11', 'tendamnt11', 'tnumber')
@@ -646,6 +665,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select('tendname12', 'tendamnt12', 'tnumber')
@@ -654,6 +674,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 );
             }, 'temp')
             ->groupBy('temp.tendname');
@@ -665,9 +686,41 @@ class GenerateReportsController extends Controller
     }
 
     public function byTender_Date(Request $request){
+        $store_array = Store::get()->toArray();
+        $store_codes_all = array_map(function($item){
+            return $item['branch_code'];
+        }, $store_array);
+
+        $store_codes = array();
+        if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+        }
+        else{
+            $store_codes = $store_codes_all;
+        }
+        $store_codes_final = array_diff($store_codes_all, $store_codes);
+
         $data = Hdr::select('temp.tdate', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
-            ->from(function($query) use($request){
+            ->from(function($query) use($request, $store_codes_final){
                 $query->select(
                     DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
                     'tendname1 AS tendname', 'tendamnt1 AS tendamnt', 'tnumber AS tnumber'
@@ -678,6 +731,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0')
+                ->whereNotIn('storecode', $store_codes_final)
                 ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
@@ -687,31 +741,9 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
-                    );
-                if(auth()->user()->store != 'X'){
-                    if(auth()->user()->store == '0'){
-                        echo(null);
-                    }
-                    else{
-                        $store_codes = array();
-                        $array = explode("|", auth()->user()->store);
-                        foreach($array as $value){
-                            if(!str_contains($value, '-0')){
-                                $user = Store::where('id', $value)->first();
-                                array_push($store_codes, $user->branch_code);
-                            }
-                            else{
-                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
-                                $store_codes_add = array_map(function($item){
-                                    return $item['branch_code'];
-                                }, $user_array);
-                                $store_codes = array_merge($store_codes, $store_codes_add);
-                            }
-                        }
-                    }
-                    $query->whereIn('storecode', $store_codes);
-                }
-                $query = $query->unionAll(
+                        ->whereNotIn('storecode', $store_codes_final)
+                )
+                ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
                         'tendname3', 'tendamnt3', 'tnumber')
@@ -720,6 +752,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -730,6 +763,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -740,6 +774,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -750,6 +785,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -760,6 +796,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -770,6 +807,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -780,6 +818,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -790,6 +829,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -800,6 +840,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 )
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -810,6 +851,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                 );
             }, 'temp')
             ->where('tendname', $request->colData)
@@ -819,9 +861,41 @@ class GenerateReportsController extends Controller
     }
 
     public function byTender_Branch(Request $request){
+        $store_array = Store::get()->toArray();
+        $store_codes_all = array_map(function($item){
+            return $item['branch_code'];
+        }, $store_array);
+
+        $store_codes = array();
+        if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+        }
+        else{
+            $store_codes = $store_codes_all;
+        }
+        $store_codes_final = array_diff($store_codes_all, $store_codes);
+
         $data = Hdr::select('temp.branch_name', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
-            ->from(function($query) use($request){
+            ->from(function($query) use($request, $store_codes_final){
                 $query->select(
                     DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
                     'tendname1 AS tendname', 'tendamnt1 AS tendamnt', 'tnumber AS tnumber'
@@ -832,6 +906,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0')
+                ->whereNotIn('storecode', $store_codes_final)
                 ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 ->unionAll(
                     DB::table('hdr')->select(
@@ -842,32 +917,10 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
-                );
-                if(auth()->user()->store != 'X'){
-                    if(auth()->user()->store == '0'){
-                        echo(null);
-                    }
-                    else{
-                        $store_codes = array();
-                        $array = explode("|", auth()->user()->store);
-                        foreach($array as $value){
-                            if(!str_contains($value, '-0')){
-                                $user = Store::where('id', $value)->first();
-                                array_push($store_codes, $user->branch_code);
-                            }
-                            else{
-                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
-                                $store_codes_add = array_map(function($item){
-                                    return $item['branch_code'];
-                                }, $user_array);
-                                $store_codes = array_merge($store_codes, $store_codes_add);
-                            }
-                        }
-                    }
-                    $query->whereIn('storecode', $store_codes);
-                }
-                $query = $query->unionAll(
+                )
+                ->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
                         'tendname3', 'tendamnt3', 'tnumber')
@@ -876,6 +929,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -887,6 +941,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -898,6 +953,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -909,6 +965,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -920,6 +977,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -931,6 +989,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -942,6 +1001,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -953,6 +1013,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -964,6 +1025,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 )
                 ->unionAll(
@@ -975,6 +1037,7 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
+                        ->whereNotIn('storecode', $store_codes_final)
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
                 );
             }, 'temp')
@@ -1217,6 +1280,38 @@ class GenerateReportsController extends Controller
     }
 
     public function byTimeC(Request $request){
+        $store_array = Store::get()->toArray();
+        $store_codes_all = array_map(function($item){
+            return $item['branch_code'];
+        }, $store_array);
+
+        $store_codes = array();
+        if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+        }
+        else{
+            $store_codes = $store_codes_all;
+        }
+        $store_codes_final = array_diff($store_codes_all, $store_codes);
+
         $data = collect();
         for($i = 0; $i < 24; $i++){
             $start_hour = sprintf("%02d:00:00", $i);
@@ -1227,7 +1322,7 @@ class GenerateReportsController extends Controller
                 ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
                 ->selectRaw('COUNT(DISTINCT t.tnumber) as tno')
                 ->selectRaw('COALESCE(SUM(t.tendamnt), 0) as total')
-                ->from(function ($query) use ($request, $start_hour, $end_hour) {
+                ->from(function ($query) use ($request, $store_codes_final, $start_hour, $end_hour) {
                     $query->select('tendname1 as tendname', 'tendamnt1 as tendamnt', 'tnumber as tnumber')
                           ->from('hdr')
                           ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
@@ -1237,6 +1332,7 @@ class GenerateReportsController extends Controller
                           ->where('refund', '=', '0')
                           ->where('cancelled', '=', '0')
                           ->where('void', '=', '0')
+                          ->whereNotIn('storecode', $store_codes_final)
                           ->unionAll(
                             Hdr::select('tendname2 as tendname', 'tendamnt2 as tendamnt', 'tnumber')
                                 ->where('tendname2', '=', $request->colData)
@@ -1246,31 +1342,9 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
-                          );
-                          if(auth()->user()->store != 'X'){
-                            if(auth()->user()->store == '0'){
-                                echo(null);
-                            }
-                            else{
-                                $store_codes = array();
-                                $array = explode("|", auth()->user()->store);
-                                foreach($array as $value){
-                                    if(!str_contains($value, '-0')){
-                                        $user = Store::where('id', $value)->first();
-                                        array_push($store_codes, $user->branch_code);
-                                    }
-                                    else{
-                                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
-                                        $store_codes_add = array_map(function($item){
-                                            return $item['branch_code'];
-                                        }, $user_array);
-                                        $store_codes = array_merge($store_codes, $store_codes_add);
-                                    }
-                                }
-                            }
-                            $query->whereIn('storecode', $store_codes);
-                        }
-                        $query = $query->unionAll(
+                                ->whereNotIn('storecode', $store_codes_final)
+                          )
+                          ->unionAll(
                             Hdr::select('tendname3 as tendname', 'tendamnt3 as tendamnt', 'tnumber')
                                 ->where('tendname3', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
@@ -1279,6 +1353,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname4 as tendname', 'tendamnt4 as tendamnt', 'tnumber')
@@ -1289,6 +1364,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname5 as tendname', 'tendamnt5 as tendamnt', 'tnumber')
@@ -1299,6 +1375,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname6 as tendname', 'tendamnt6 as tendamnt', 'tnumber')
@@ -1309,6 +1386,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname7 as tendname', 'tendamnt7 as tendamnt', 'tnumber')
@@ -1319,6 +1397,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname8 as tendname', 'tendamnt8 as tendamnt', 'tnumber')
@@ -1329,6 +1408,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname9 as tendname', 'tendamnt9 as tendamnt', 'tnumber')
@@ -1339,6 +1419,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname10 as tendname', 'tendamnt10 as tendamnt', 'tnumber')
@@ -1349,6 +1430,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname11 as tendname', 'tendamnt11 as tendamnt', 'tnumber')
@@ -1359,6 +1441,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           )
                           ->unionAll(
                             Hdr::select('tendname12 as tendname', 'tendamnt12 as tendamnt', 'tnumber')
@@ -1369,6 +1452,7 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
+                                ->whereNotIn('storecode', $store_codes_final)
                           );
                 }, 't')
                 ->first();
