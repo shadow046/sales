@@ -230,7 +230,7 @@ $(document).on('click', '#userTable tbody tr td:not(:nth-child(9))', function(){
     area1_all = [];
     stores1_list = [];
     var data = table.row(this).data();
-    if (data.role == 1) {
+    if(current_dev != '1'){
         return false;
     }
     $('.req').hide();

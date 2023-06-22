@@ -8,7 +8,7 @@
         <div id="page-name"><h4><span class="page-reload">SALES ANALYSIS REPORTS</span></h4></div>
     </div>
     <div class="col">
-        <h4 class="debug-reports text-white float-end" style="cursor: pointer;">DEBUGGER</h4>
+        <h4 class="debug-reports text-white float-end xD" style="cursor: pointer;">DEBUGGER</h4>
     </div>
 </div>
 <center>
