@@ -531,7 +531,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTender(Request $request){ //PENDING CODE
+    public function byTender(Request $request){
         $data = Hdr::select('temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
@@ -551,8 +551,31 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
-                )
-                ->unionAll(
+                );
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $query->whereIn('storecode', $store_codes);
+                }
+                $query = $query->unionAll(
                     DB::table('hdr')->select('tendname3', 'tendamnt3', 'tnumber')
                         ->where('tendname3', '!=', '')
                         ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
@@ -641,7 +664,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTender_Date(Request $request){ //PENDING CODE
+    public function byTender_Date(Request $request){
         $data = Hdr::select('temp.tdate', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
@@ -664,8 +687,31 @@ class GenerateReportsController extends Controller
                         ->where('refund', '=', '0')
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
-                )
-                ->unionAll(
+                    );
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $query->whereIn('storecode', $store_codes);
+                }
+                $query = $query->unionAll(
                     DB::table('hdr')->select(
                         DB::raw("STR_TO_DATE(tdate,'%m/%d/%Y') AS tdate"),
                         'tendname3', 'tendamnt3', 'tnumber')
@@ -772,7 +818,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTender_Branch(Request $request){ //PENDING CODE
+    public function byTender_Branch(Request $request){
         $data = Hdr::select('temp.branch_name', 'temp.tendname', DB::raw('SUM(temp.tendamnt) as total'))
             ->selectRaw('COUNT(DISTINCT temp.tnumber) as tno')
             ->from(function($query) use($request){
@@ -797,8 +843,31 @@ class GenerateReportsController extends Controller
                         ->where('cancelled', '=', '0')
                         ->where('void', '=', '0')
                         ->leftjoin('store', 'store.branch_code', 'hdr.storecode')
-                )
-                ->unionAll(
+                );
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $query->whereIn('storecode', $store_codes);
+                }
+                $query = $query->unionAll(
                     DB::table('hdr')->select(
                         DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
                         'tendname3', 'tendamnt3', 'tnumber')
@@ -1147,7 +1216,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTimeC(Request $request){ //PENDING CODE
+    public function byTimeC(Request $request){
         $data = collect();
         for($i = 0; $i < 24; $i++){
             $start_hour = sprintf("%02d:00:00", $i);
@@ -1177,8 +1246,31 @@ class GenerateReportsController extends Controller
                                 ->where('refund', '=', '0')
                                 ->where('cancelled', '=', '0')
                                 ->where('void', '=', '0')
-                          )
-                          ->unionAll(
+                          );
+                          if(auth()->user()->store != 'X'){
+                            if(auth()->user()->store == '0'){
+                                echo(null);
+                            }
+                            else{
+                                $store_codes = array();
+                                $array = explode("|", auth()->user()->store);
+                                foreach($array as $value){
+                                    if(!str_contains($value, '-0')){
+                                        $user = Store::where('id', $value)->first();
+                                        array_push($store_codes, $user->branch_code);
+                                    }
+                                    else{
+                                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                        $store_codes_add = array_map(function($item){
+                                            return $item['branch_code'];
+                                        }, $user_array);
+                                        $store_codes = array_merge($store_codes, $store_codes_add);
+                                    }
+                                }
+                            }
+                            $query->whereIn('storecode', $store_codes);
+                        }
+                        $query = $query->unionAll(
                             Hdr::select('tendname3 as tendname', 'tendamnt3 as tendamnt', 'tnumber')
                                 ->where('tendname3', '=', $request->colData)
                                 ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->selected_date)
