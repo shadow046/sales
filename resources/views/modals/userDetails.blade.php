@@ -16,7 +16,7 @@
                 </div>
             </div>
                 <div class="alert alert-primary text-center mx-3" role="alert">
-                    <span style="zoom:110%;">Kindly copy the details above and <br> email it to <b>admin@apsoft.com.ph</b></span>
+                    <span style="zoom:110%;">To create a new Administrator level user account,<br>you will need to copy the credentials above<br>and send a request to <b>admin@apsoft.com.ph</b></span>
                 </div>
             <hr>
             <div class="col-md form-group">
