@@ -118,8 +118,8 @@ class SalesController extends Controller
                 
             }
         }
-        // return $data;
-        return view('pages.sales.tender', compact('data'))->render();
+        return $data;
+        // return view('pages.sales.tender', compact('data'))->render();
     }
 
     public function tender_pie_data(Request $request)

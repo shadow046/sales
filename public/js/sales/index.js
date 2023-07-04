@@ -167,9 +167,10 @@ $(document).on("click", "#dailyTable tbody tr", function () {
                     pieData.addColumn('number', 'Sales');
                     $.each(data.data[0], function(k, v){
                         pieData.addRows([
-                            [k, parseInt(v)]
+                            [k, parseFloat(v)]
                         ]);
                     });
+                    
                     var options = {
                         title: 'SALES BY TENDER TYPE',
                         pieHole: 0.4,

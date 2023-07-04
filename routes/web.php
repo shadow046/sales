@@ -41,7 +41,9 @@ Route::fallback(function(){return redirect("/login");});
 Route::middleware(['license', 'check_user_level', 'session'])->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
 
+Route::middleware(['session'])->group(function () {
     Route::controller(CategoryController::class)->group(function(){
         Route::any('/maintenance-category','category');
         Route::any('/category_data','category_data');
