@@ -868,8 +868,38 @@ $(document).on('focusout', '.requiredField', function(){
     }
 });
 
+
+$(document).ready(function() {
+    $('input[type="date"]').hover(function() {
+        if($(this).val()){
+            $(this).attr('title',formatDate($(this).val()));
+        }
+        else{
+            $(this).removeAttr('title');
+        }
+    },
+    function(){
+        $(this).removeAttr('title');
+    });
+});
+
 $(document).on('click','.btnExport',function(){
-    $('.buttons-excel').click();
+    var filterInputs = $('.filter-input');
+    function hasValue(){
+        for (var i = 0; i < filterInputs.length; i++){
+            if ($(filterInputs[i]).val().trim() !== ''){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if(hasValue()){
+        $('.export-button-products').click();
+    }
+    else{
+        $('.export-button-all').click();
+    }
 });
 
 function btnExportClick(tblID){

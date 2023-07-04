@@ -27,7 +27,7 @@
                     <label for="category" class="formlabels form-label">Category
                 </div>
                 <div class="col-md-4 f-outline">
-                    <input type="date" style="color: black" name="intro_date" id="intro_date" class="forminput form-control" placeholder=" " autocomplete="off" >
+                    <input type="date" style="color: black" name="intro_date" id="intro_date" class="forminput form-control" placeholder=" " autocomplete="off" value="{{date('Y-m-d')}}">
                     <label for="intro_date" class="formlabels form-label">Intro Date
                 </div>
             </div>

@@ -293,7 +293,7 @@ class ProductsController extends Controller
         $product->delivery_large = $request->delivery_large;
         $product->delivery_xl = $request->delivery_xl;
         $product->delivery_zero = $request->delivery_zero;
-        $product->product_update_status = '0';
+        $product->product_update_status = '1';
         $save = $product->save();
 
         if($save){
@@ -1464,6 +1464,7 @@ class ProductsController extends Controller
                     else{
                         $intro_date = 'YYYY-MM-DD';
                     }
+                    $intro_date = date('Y-m-d');
                     $pos_setup_array = array();
                     if(strtoupper($value['force_give_display_si_modifier_menu']) == 'Y'){
                         array_push($pos_setup_array, 'Force Give / Display  SI / Modifier Menu');

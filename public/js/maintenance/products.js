@@ -72,17 +72,29 @@ $(document).ready(function(){
                 left: 3,
             },
             dom: 'Blftrip',
-            buttons: [{
-                extend: 'excelHtml5',
-                title: 'Export - Products',
-                exportOptions: {
-                    modifier : {
-                        order : 'index',
-                        page : 'all',
-                        search : 'none'
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Export - Products',
+                    exportOptions:{
+                        modifier: {
+                            search: 'applied'
+                        },
                     },
+                    className: 'export-button-products'
                 },
-            }],
+                {
+                    extend: 'excelHtml5',
+                    title: 'Export - All',
+                    exportOptions:{
+                        modifier:{
+                            search: 'none',
+                            page: 'all'
+                        }
+                    },
+                    className: 'export-button-all'
+                }
+            ],
             aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
             language: {
                 info: "Showing _START_ to _END_ of _TOTAL_ Products",
