@@ -15,3 +15,6 @@
 <link href="/css/inc/animate.min.css" rel="stylesheet" type="text/css"/>
 <script src="/js/inc/multiple-select.min.js"></script>
 <script src="/js/inc/loader.js"></script>
+<link rel="stylesheet" href="/css/inc/cdn.datatables.net_1.13.5_css_jquery.dataTables.min.css">
+<link rel="stylesheet" href="/css/inc/cdn.datatables.net_responsive_2.5.0_css_responsive.dataTables.min.css">
+<link rel="stylesheet" href="/css/inc/cdn.datatables.net_buttons_2.4.0_css_buttons.dataTables.min.css">

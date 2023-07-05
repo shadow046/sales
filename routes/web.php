@@ -117,6 +117,8 @@ Route::middleware(['session'])->group(function () {
         Route::get('/sales/reports/time/branch','byTimeBranch');
         Route::get('/sales/reports/time/product','byTimeProduct');
         Route::get('/sales/reports/time/transaction','byTimeTransaction');
+        Route::get('/sales/reports/trans/branch','byTransBranch');
+        Route::get('/sales/reports/trans/product','byTransProduct');
         Route::get('/sales/reports/reference','byReference');
         Route::get('/sales/reports/getStoreSetup','getStoreSetup');
     });

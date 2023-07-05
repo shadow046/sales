@@ -1944,6 +1944,108 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function byTransBranch(Request $request){
+        if($request->sales_type == 'NO. OF TRANSACTIONS'){
+            $func = 'COUNT(DISTINCT ';
+            $sales = 'tnumber';
+        }
+        if($request->sales_type == 'GROSS SALES'){
+            $func = 'SUM(';
+            $sales = 'gross';
+        }
+        if($request->sales_type == 'TOTAL SALES'){
+            $func = 'SUM(';
+            $sales = 'totalsales';
+        }
+        if($request->sales_type == 'NET SALES'){
+            $func = 'SUM(';
+            $sales = 'netsales';
+        }
+        $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
+            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
+                DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
+                'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
+                'network_setup.network_setup AS network_setup'
+            )
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('refund', '=', '0')
+            ->where('cancelled', '=', '0')
+            ->where('void', '=', '0')
+            ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+            ->join('company', 'company.id', 'store.company_name')
+            ->join('store_area', 'store_area.id', 'store.store_area')
+            ->join('type', 'type.id', 'store.type')
+            ->join('group', 'group.id', 'store.group')
+            ->join('subgroup', 'subgroup.id', 'store.sub_group')
+            ->join('network_setup', 'network_setup.id', 'store.network')
+            ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
+                'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
+
+        if($request->included){
+            $data->whereIn('branch_code', $request->included);
+        }
+        else if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $store_codes = array();
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+            $data->whereIn('branch_code', $store_codes);
+        }
+
+        foreach($request->tblcolumns as $column){
+            $columnKey = strtolower(preg_replace('/[^A-Za-z0-9_]/', '_', $column));
+            $data->selectRaw("".$func."CASE WHEN trantype = '".$column."' THEN ".$sales." ELSE 0 END) AS $columnKey");
+        }
+
+        $data->orderBy('store_name', 'ASC');
+
+        $results = $data->get();
+
+        return DataTables::of($results)
+            ->addColumn('area_manager', function (Hdr $hdr) {
+                $area_managers = User::where('userlevel', '4')
+                    ->where(function ($query) use ($hdr) {
+                        $query->where('area', '=', $hdr->store_area_id)
+                            ->orWhere('area', 'LIKE', $hdr->store_area_id . '-%"')
+                            ->orWhere('area', 'LIKE', '%"-' . $hdr->store_area_id)
+                            ->orWhere('area', 'LIKE', '%"-' . $hdr->store_area_id . '-%"');
+                    })
+                    ->get();
+
+                foreach ($area_managers as $area_manager) {
+                    if ($area_manager->store == $hdr->store_area_id . '-0' ||
+                        substr($area_manager->store, 0, strlen($hdr->store_area_id) + 1) === $hdr->store_area_id . '-0|' ||
+                        strpos($area_manager->store, '|' . $hdr->store_area_id . '-0') !== false ||
+                        strpos($area_manager->store, '|' . $hdr->store_area_id . '-0|') !== false) {
+                        return $area_manager->name;
+                    } else if ($area_manager->store == $hdr->store_id ||
+                        substr($area_manager->store, 0, strlen($hdr->store_id) + 1) === $hdr->store_area_id . '|' ||
+                        strpos($area_manager->store, '|' . $hdr->store_id) !== false ||
+                        strpos($area_manager->store, '|' . $hdr->store_id . '|') !== false) {
+                        return $area_manager->name;
+                    }
+                }
+            })
+            ->make(true);
+    }
+
     public function byReference(Request $request){
         if(strpos($request->datatype, 'TRANSACTION') !== false || $request->datatype == 'DISCOUNT' || $request->datatype == 'VOID' || $request->datatype == 'CANCELLED' || $request->datatype == 'REFUND'){
             $data = Hdr::select(DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'))
@@ -1964,5 +2066,10 @@ class GenerateReportsController extends Controller
 
     public function getStoreSetup(){
         return Setup::select('id', 'setup')->get();
+    }
+
+    public function columns(){
+        $tableColumns = ['first', 'second', 'third','fourth'];
+        return $tableColumns;
     }
 }

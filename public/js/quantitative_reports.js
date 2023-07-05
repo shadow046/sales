@@ -596,6 +596,90 @@ function quantitative_report(reports_header){
             }
         });
     }
+    else if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
+        $('#loading').show();
+        $('#reportsTableQ').empty().append(`
+            <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
+                <thead class="bg-default"></thead>
+            </table>
+        `);
+
+        var transaction_type = $('#bytransactiontype').val();
+        var columns = [
+            { title: 'STORE CODE', sTitle: 'STORE CODE', data: 'branch_code' },
+            { title: 'BRANCH NAME', sTitle: 'BRANCH NAME', data: 'store_name' },
+            { title: 'COMPANY NAME', sTitle: 'COMPANY NAME', data: 'company_name' },
+            { title: 'AREA MANAGER', sTitle: 'AREA MANAGER', data: 'area_manager' },
+            { title: 'STORE AREA', sTitle: 'STORE AREA', data: 'store_area' },
+            { title: 'REGION', sTitle: 'REGION', data: 'region' },
+            { title: 'STORE TYPE', sTitle: 'STORE TYPE', data: 'type' },
+            {
+                title: 'STORE SETUP', sTitle: 'STORE SETUP',
+                data: 'setup',
+                render: function(data, type, row, meta){
+                    var setups = data.split(',');
+                    var setupEnumeration = [];
+                    for(var i = 0; i < setups.length; i++){
+                        var setup = setups[i];
+                        var setupName = '';
+
+                        for(var j = 0; j < dataArray.length; j++){
+                            if(dataArray[j][0] == setup){
+                                setupName = dataArray[j][1];
+                                setupEnumeration.push(setupName);
+                                break;
+                            }
+                        }
+                    }
+                    return `<div style="white-space: normal; width: 400px;">${setupEnumeration.join(', ')}</div>`;
+                }
+            },
+            { title: 'STORE GROUP', sTitle: 'STORE GROUP', data: 'store_group' },
+            { title: 'MALL SUB-GROUP', sTitle: 'MALL SUB-GROUP', data: 'subgroup' },
+            { title: 'NETWORK SETUP', sTitle: 'NETWORK SETUP', data: 'network_setup' },
+
+        ];
+
+        for(var i = 0; i < transaction_type.length; i++){
+            columns.push({
+                title: transaction_type[i],
+                sTitle: transaction_type[i],
+                data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase(),
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return amountType(data);
+                }
+            });
+        }
+
+        $('#tblReportsQ').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 2,
+            },
+            dom: 'Bfrtip',
+            buttons: ['colvis'],
+            ajax: {
+                url: '/sales/reports/trans/branch',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val(),
+                    tblcolumns: $('#bytransactiontype').val()
+                }
+            },
+            columns: columns,
+            initComplete: function(){
+                var spanElement = $('span:contains("Column visibility")');
+                spanElement.html('<b>TOGGLE COLUMNS</b>');
+                $('th.dtfc-fixed-left').addClass('always-default');
+                $('#loading').hide();
+            }
+        });
+    }
     else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY DAY'){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();

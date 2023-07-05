@@ -255,6 +255,7 @@ var table1, table2A, table2, table3, table4, table5, table6, table7,
 tableX, tableY, tableZ, tableA, tableB, tableC, sumamt;
 $('#btnGenerate').on('click', function(){
     $('.req').hide();
+    $('#reportsTableQ').empty();
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
