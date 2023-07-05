@@ -675,7 +675,6 @@ function quantitative_report(reports_header){
             initComplete: function(){
                 var spanElement = $('span:contains("Column visibility")');
                 spanElement.html('<b>TOGGLE COLUMNS</b>');
-                $('th.dtfc-fixed-left').addClass('always-default');
                 $('#loading').hide();
             }
         });
