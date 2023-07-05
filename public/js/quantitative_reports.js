@@ -598,7 +598,14 @@ function quantitative_report(reports_header){
     }
     else if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
         $('#loading').show();
+        var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
         $('#reportsTableQ').empty().append(`
+            <hr>
+            <div class="mb-2 align-content">
+                <h4>${reports_headerQ}</h4>
+                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsQ')"><i class="fas fa-file-export"></i> EXPORT</button>
+                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
+            </div>
             <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
                 <thead class="bg-default"></thead>
             </table>
@@ -654,14 +661,40 @@ function quantitative_report(reports_header){
             });
         }
 
-        $('#tblReportsQ').DataTable({
+        tableQ = $('#tblReportsQ').DataTable({
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
                 left: 2,
             },
             dom: 'Bfrtip',
-            buttons: ['colvis'],
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_headerQ,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_headerQ,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+                'colvis'
+            ],
             ajax: {
                 url: '/sales/reports/trans/branch',
                 data:{
@@ -673,6 +706,8 @@ function quantitative_report(reports_header){
             },
             columns: columns,
             initComplete: function(){
+                $('.buttons-excel').hide();
+                $('.buttons-pdf').hide();
                 var spanElement = $('span:contains("Column visibility")');
                 spanElement.html('<b>TOGGLE COLUMNS</b>');
                 $('#loading').hide();

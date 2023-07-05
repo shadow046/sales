@@ -252,7 +252,7 @@ $('#end_date').on('change', function(){
 });
 
 var table1, table2A, table2, table3, table4, table5, table6, table7,
-tableX, tableY, tableZ, tableA, tableB, tableC, sumamt;
+tableX, tableY, tableZ, tableA, tableB, tableC, sumamt, tableQ;
 $('#btnGenerate').on('click', function(){
     $('.req').hide();
     $('#reportsTableQ').empty();
@@ -275,7 +275,7 @@ $('#btnGenerate').on('click', function(){
 
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     if($('#report_filter').val()){
-        var reports_header = $('#report_filter option:selected').text()+' ('+display_range+')';
+        var reports_header = $('#report_filter option:selected').text()+' '+$('#report_classification').val()+' ('+display_range+')';
         quantitative_report(reports_header);
         return false;
     }
