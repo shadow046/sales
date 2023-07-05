@@ -49,11 +49,23 @@
         <div class="col-md-4 f-outline">
             <select id="report_classification" name="report_classification" class="forminput form-control form-select requiredField" style="color: black">
                 <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CLASSIFICATION</option>
-                <option value="BY DAY" class="forAll">BY DAY</option>
-                <option value="BY TIME" class="forAll">BY TIME</option>
-                <option value="BY TRANSACTION TYPE" class="forTrans">BY TRANSACTION TYPE</option>
+                <option value="BY DAY" class="forAll">SALES BY DAY</option>
+                <option value="BY TIME" class="forAll">SALES BY TIME</option>
+                <option value="BY TRANSACTION TYPE" class="forTrans">SALES BY TRANSACTION TYPE</option>
             </select>
             <label for="report_classification" class="formlabels form-label">SALES REPORT CLASSIFICATION
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3 classByTransactionType" style="display: none;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="bytransactiontype" name="bytransactiontype" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
+                @foreach($transactions as $transaction)
+                    <option value="{{$transaction->trantype}}">{{$transaction->trantype}}</option>
+                @endforeach
+            </select>
+            <label for="bytransactiontype" class="formlabels form-label">TRANSACTION TYPE
         </div>
         <div class="col-md-4"></div>
     </div>

@@ -6,6 +6,7 @@ $(document).ready(function(){
     $('#combo').chosen();
     $('#promo').chosen();
     $('#transactiontype').chosen();
+    $('#bytransactiontype').chosen();
     $('#tendertype').chosen();
     $('#discounttype').chosen();
     $('#branch_chosen').css({'width':'100%'});
@@ -13,6 +14,7 @@ $(document).ready(function(){
     $('#combo_chosen').css({'width':'100%'});
     $('#promo_chosen').css({'width':'100%'});
     $('#transactiontype_chosen').css({'width':'100%'});
+    $('#bytransactiontype_chosen').css({'width':'100%'});
     $('#tendertype_chosen').css({'width':'100%'});
     $('#discounttype_chosen').css({'width':'100%'});
 
@@ -190,6 +192,9 @@ $('#btnReset').on('click', function(){
     $('#reportsTable5').empty();
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
+    $('#report_classification').val('');
+    $('#bytransactiontype').val('');
+    $('#bytransactiontype').trigger('chosen:updated');
     emptyQuantitative();
 });
 
@@ -249,6 +254,7 @@ $('#end_date').on('change', function(){
 var table1, table2A, table2, table3, table4, table5, table6, table7,
 tableX, tableY, tableZ, tableA, tableB, tableC, sumamt;
 $('#btnGenerate').on('click', function(){
+    $('.req').hide();
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
     $('#reportsTable2').empty();

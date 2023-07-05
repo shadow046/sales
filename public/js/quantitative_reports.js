@@ -3292,4 +3292,15 @@ setInterval(() => {
             $('.forTrans').hide();
         }
     }
+
+    if($('#report_type').val() == 'CUSTOM'){
+        if($('#report_classification').val() == 'BY TRANSACTION TYPE'){
+            $('.classByTransactionType').show();
+        }
+        else{
+            $('#bytransactiontype').val('');
+            $('#bytransactiontype').trigger('chosen:updated');
+            $('.classByTransactionType').hide();
+        }
+    }
 }, 0);
