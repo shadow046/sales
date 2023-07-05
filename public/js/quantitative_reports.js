@@ -3283,9 +3283,18 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
 
 setInterval(() => {
     if($('#report_type').val() == 'CUSTOM'){
-        if($('#report_filter').val() != 'TRANSACTION TYPE'){
-            $('.forAll').show();
-            $('.forTrans').show();
+        if($('#report_filter').val()){
+            if($('#report_filter').val() == 'TRANSACTION TYPE' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
+                $('#report_classification').val('');
+            }
+            if($('#report_filter').val() != 'TRANSACTION TYPE'){
+                $('.forAll').show();
+                $('.forTrans').show();
+            }
+            else{
+                $('.forAll').show();
+                $('.forTrans').hide();
+            }
         }
         else{
             $('.forAll').show();

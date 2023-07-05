@@ -51,7 +51,7 @@
                 <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CLASSIFICATION</option>
                 <option value="BY DAY" class="forAll">SALES BY DAY</option>
                 <option value="BY TIME" class="forAll">SALES BY TIME</option>
-                <option value="BY TRANSACTION TYPE" class="forTrans">SALES BY TRANSACTION TYPE</option>
+                <option value="BY TRANSACTION TYPE" class="forTrans" style="display: none;">SALES BY TRANSACTION TYPE</option>
             </select>
             <label for="report_classification" class="formlabels form-label">SALES REPORT CLASSIFICATION
         </div>
