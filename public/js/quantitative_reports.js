@@ -1,5 +1,5 @@
 function quantitative_report(reports_header){
-    if($('#report_filter').val() == 'stores by day'){
+    if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY DAY'){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
@@ -204,7 +204,7 @@ function quantitative_report(reports_header){
             }
         });
     }
-    else if($('#report_filter').val() == 'stores by time'){
+    else if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY TIME'){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
@@ -596,7 +596,7 @@ function quantitative_report(reports_header){
             }
         });
     }
-    else if($('#report_filter').val() == 'products by day'){
+    else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY DAY'){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
@@ -801,7 +801,7 @@ function quantitative_report(reports_header){
             }
         });
     }
-    else if($('#report_filter').val() == 'products by time'){
+    else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY TIME'){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
@@ -1193,7 +1193,7 @@ function quantitative_report(reports_header){
             }
         });
     }
-    else if($('#report_filter').val() == 'transactions by day'){
+    else if($('#report_filter').val() == 'TRANSACTION TYPE' && $('#report_classification').val() == 'BY DAY'){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
@@ -1395,7 +1395,7 @@ function quantitative_report(reports_header){
             }
         });
     }
-    else if($('#report_filter').val() == 'transactions by time'){
+    else if($('#report_filter').val() == 'TRANSACTION TYPE' && $('#report_classification').val() == 'BY TIME'){
         $('#loading').show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
@@ -1790,7 +1790,7 @@ function quantitative_report(reports_header){
 }
 
 setInterval(() => {
-    if($('#report_type').val() == 'QUANTITATIVE'){
+    if($('#report_type').val() == 'CUSTOM'){
         if(!$('#report_filter').val()){
             $('.classSales').hide();
             $('.salesStore').hide();
@@ -1799,11 +1799,11 @@ setInterval(() => {
         }
         else{
             $('.classSales').show();
-            if(['stores by day', 'stores by time', 'transactions by day', 'transactions by time'].includes($('#report_filter').val())){
+            if($('#report_filter').val() == 'STORE' || $('#report_filter').val() == 'TRANSACTION TYPE'){
                 $('.salesStore').show();
                 $('.salesProduct').hide();
             }
-            if($('#report_filter').val() == 'products by day' || $('#report_filter').val() == 'products by time'){
+            if($('#report_filter').val() == 'PRODUCT'){
                 $('.salesStore').hide();
                 $('.salesProduct').show();
             }
@@ -3280,3 +3280,16 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
         }
     });
 });
+
+setInterval(() => {
+    if($('#report_type').val() == 'CUSTOM'){
+        if($('#report_filter').val() != 'TRANSACTION TYPE'){
+            $('.forAll').show();
+            $('.forTrans').show();
+        }
+        else{
+            $('.forAll').show();
+            $('.forTrans').hide();
+        }
+    }
+}, 0);

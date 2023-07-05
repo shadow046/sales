@@ -66,7 +66,7 @@ $('.debug-reports').on('click', function(){
 });
 
 setInterval(() => {
-    if($('#report_type').val() == 'STANDARD' || $('#report_type').val() == 'QUANTITATIVE'){
+    if($('#report_type').val() == 'STANDARD' || $('#report_type').val() == 'CUSTOM'){
         $('.classComparative').hide();
     }
     else{
@@ -195,7 +195,7 @@ $('#btnReset').on('click', function(){
 
 $('#report_type').on('change', function(){
     $('#formReportsQuantitative').trigger('reset');
-    if($('#report_type').val() == 'QUANTITATIVE'){
+    if($('#report_type').val() == 'CUSTOM'){
         $('#formReports').hide();
         $('#formReportsQuantitative').show();
     }
@@ -1722,13 +1722,33 @@ function report_datesA(datacode, headername, urlName, colData){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports2');
-            $('#loading').hide();
-            setTimeout(() => {
-                window.location.href = '/sales/reports#tblReports2';
-                $('html, body').animate({
-                    scrollTop: $($.attr(this, 'href')).offset()
-                }, 1000);
-            }, 200);
+            if($('#report_category').val() == 'STORE'){
+                $('#reportsTable1A').empty();
+                subreport_product($('#report_category').val());
+                subreport_transaction($('#report_category').val());
+                $('#loading').hide();
+            }
+            else if($('#report_category').val() == 'PRODUCT'){
+                $('#reportsTable1A').empty();
+                subreport_store($('#report_category').val());
+                subreport_transaction($('#report_category').val());
+                $('#loading').hide();
+            }
+            else if($('#report_category').val() == 'TRANSACTION TYPE'){
+                $('#reportsTable1A').empty();
+                subreport_store($('#report_category').val());
+                subreport_product($('#report_category').val());
+                $('#loading').hide();
+            }
+            else{
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports2';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
         }
     });
 }
@@ -1878,13 +1898,33 @@ function report_datesB(datacode, headername, urlName, colData){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports2');
-            $('#loading').hide();
-            setTimeout(() => {
-                window.location.href = '/sales/reports#tblReports2';
-                $('html, body').animate({
-                    scrollTop: $($.attr(this, 'href')).offset()
-                }, 1000);
-            }, 200);
+            if($('#report_category').val() == 'STORE'){
+                $('#reportsTable1A').empty();
+                subreport_product($('#report_category').val());
+                subreport_transaction($('#report_category').val());
+                $('#loading').hide();
+            }
+            else if($('#report_category').val() == 'PRODUCT'){
+                $('#reportsTable1A').empty();
+                subreport_store($('#report_category').val());
+                subreport_transaction($('#report_category').val());
+                $('#loading').hide();
+            }
+            else if($('#report_category').val() == 'TRANSACTION TYPE'){
+                $('#reportsTable1A').empty();
+                subreport_store($('#report_category').val());
+                subreport_product($('#report_category').val());
+                $('#loading').hide();
+            }
+            else{
+                $('#loading').hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReports2';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
         }
     });
 }
@@ -2044,6 +2084,16 @@ function report_datesC(datacode, headername, urlName, colData){
             }, 200);
         }
     });
+}
+
+function subreport_store(report_category){
+    console.log('SHOW STORES OF '+report_category);
+}
+function subreport_product(report_category){
+    console.log('SHOW PRODUCTS OF '+report_category);
+}
+function subreport_transaction(report_category){
+    console.log('SHOW TRANSACTIONS OF '+report_category);
 }
 
 $(document).on('click','table.tblReports2 tbody tr',function(){

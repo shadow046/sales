@@ -24,7 +24,7 @@
             <option value="" selected disabled>SELECT REPORT TYPE</option>
             <option value="STANDARD">STANDARD REPORT</option>
             <option value="COMPARATIVE">COMPARATIVE REPORT</option>
-            <option value="QUANTITATIVE">QUANTITATIVE REPORT</option>
+            <option value="CUSTOM">CUSTOM REPORT</option>
         </select>
         <label for="report_type" class="formlabels form-label">REPORT TYPE
     </div>
@@ -35,15 +35,25 @@
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
             <select id="report_filter" name="report_filter" class="forminput form-control form-select requiredField" style="color: black">
-                <option value="" class="text-dark" selected disabled>SELECT SALES REPORT FILTER</option>
-                <option value="stores by day">STORES SALES BY DAY</option>
-                <option value="stores by time">STORES SALES BY TIME</option>
-                <option value="products by day">PRODUCTS SALES BY DAY</option>
-                <option value="products by time">PRODUCTS SALES BY TIME</option>
-                <option value="transactions by day">TRANSACTIONS SALES BY DAY</option>
-                <option value="transactions by time">TRANSACTIONS SALES BY TIME</option>
+                <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CATEGORY</option>
+                <option value="STORE">STORE SALES</option>
+                <option value="PRODUCT">PRODUCT SALES</option>
+                <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
             </select>
-            <label for="report_filter" class="formlabels form-label">SALES REPORT FILTER
+            <label for="report_filter" class="formlabels form-label">SALES REPORT CATEGORY
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="report_classification" name="report_classification" class="forminput form-control form-select requiredField" style="color: black">
+                <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CLASSIFICATION</option>
+                <option value="BY DAY" class="forAll">BY DAY</option>
+                <option value="BY TIME" class="forAll">BY TIME</option>
+                <option value="BY TRANSACTION TYPE" class="forTrans">BY TRANSACTION TYPE</option>
+            </select>
+            <label for="report_classification" class="formlabels form-label">SALES REPORT CLASSIFICATION
         </div>
         <div class="col-md-4"></div>
     </div>
@@ -203,6 +213,7 @@
         </div>
     </div>
     <div id="reportsTable1" style="min-height: 60vh;"></div>
+    <div id="reportsTable1A"></div>
     <div class="reportsTable2A" style="display: none;">
         <hr>
         <h4 id="tblReports2AHeader"></h4>
