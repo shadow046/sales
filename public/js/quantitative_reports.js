@@ -612,6 +612,10 @@ function quantitative_report(reports_header){
         `);
 
         var transaction_type = $('#bytransactiontype').val();
+        var trans_length = transaction_type.length;
+        var defcol_length = 11;
+        var total_col = trans_length + defcol_length;
+
         var columns = [
             { title: 'STORE CODE', sTitle: 'STORE CODE', data: 'branch_code' },
             { title: 'BRANCH NAME', sTitle: 'BRANCH NAME', data: 'store_name' },
@@ -647,9 +651,7 @@ function quantitative_report(reports_header){
 
         ];
 
-        console.log(transaction_type.length+11);
-
-        for(var i = 0; i < transaction_type.length; i++){
+        for(var i = 0; i < trans_length; i++){
             columns.push({
                 title: transaction_type[i],
                 sTitle: transaction_type[i],
@@ -709,14 +711,28 @@ function quantitative_report(reports_header){
             columns: columns,
             initComplete: function(){
                 $('#tblReportsHeadQ').append(`<tr></tr>`);
-                for(var i = 0; i < transaction_type.length+11; i++){
+                for(var i = 0; i < total_col; i++){
                     $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
                 }
-                $('.buttons-excel').hide();
-                $('.buttons-pdf').hide();
-                var spanElement = $('span:contains("Column visibility")');
-                spanElement.html('<b>TOGGLE COLUMNS</b>');
-                $('#loading').hide();
+                setInterval(() => {
+                    for(var i = defcol_length; i < total_col; i++){
+                        $(`button[data-cv-idx="${i}"]`).remove();
+                    }
+                    $('button[data-cv-idx="0"], button[data-cv-idx="1"]').remove();
+                }, 0);
+                $('.buttons-colvis').click();
+                $('.dt-button-collection').hide();
+                setTimeout(() => {
+                    for(var i = 2; i < total_col - trans_length; i++){
+                        $(`button[data-cv-idx="${i}"]`).click();
+                    }
+                    $('#current_server').click();
+                    $('.buttons-excel').hide();
+                    $('.buttons-pdf').hide();
+                    var spanElement = $('span:contains("Column visibility")');
+                    spanElement.html('<b>TOGGLE COLUMNS</b>');
+                    $('#loading').hide();
+                }, 500);
             }
         });
     }

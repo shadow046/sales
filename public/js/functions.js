@@ -951,5 +951,4 @@ $(document).ready(function(){
 
 setInterval(() => {
     $('th.dtfc-fixed-left').not('.always-default').addClass('always-default');
-    $('button[data-cv-idx="0"], button[data-cv-idx="1"]').remove();
 }, 0);

@@ -192,6 +192,7 @@ $('#btnReset').on('click', function(){
     $('#reportsTable5').empty();
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
+    $('#reportsTableQ').empty();
     $('#report_classification').val('');
     $('#bytransactiontype').val('');
     $('#bytransactiontype').trigger('chosen:updated');
