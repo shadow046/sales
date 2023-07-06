@@ -820,7 +820,8 @@ function quantitative_report(reports_header){
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    sales_type: $('#sales_type').val()
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_product').val()
                 }
             },
             columns: [
@@ -1059,7 +1060,8 @@ function quantitative_report(reports_header){
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    sales_type: $('#sales_type').val()
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_product').val()
                 }
             },
             columns: [
@@ -1331,6 +1333,120 @@ function quantitative_report(reports_header){
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
                 }, 200);
+            }
+        });
+    }
+    else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
+        loading_show();
+        var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
+        $('#reportsTableQ').empty().append(`
+            <hr>
+            <div class="mb-2 align-content">
+                <h4 style="zoom:85%;">${reports_headerQ}</h4>
+                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsQ')"><i class="fas fa-file-export"></i> EXPORT</button>
+                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
+            </div>
+            <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
+                <thead class="bg-default" id="tblReportsHeadQ"></thead>
+            </table>
+        `);
+
+        var transaction_type = $('#bytransactiontype').val();
+        var trans_length = transaction_type.length;
+        var defcol_length = 7;
+        var total_col = trans_length + defcol_length;
+
+        var columns = [
+            { title: 'CATEGORY', sTitle: 'CATEGORY', data: 'itemcat' },
+            { title: 'ITEM CODE', sTitle: 'ITEM CODE', data: 'itemcode' },
+            { title: 'SHORT DESCRIPTION', sTitle: 'SHORT DESCRIPTION', data: 'desc1' },
+            { title: 'LONG DESCRIPTION', sTitle: 'LONG DESCRIPTION', data: 'desc2' },
+            { title: 'STORE SETUP', sTitle: 'STORE SETUP', data: 'setup_name' },
+            { title: 'STORE AREA', sTitle: 'STORE AREA', data: 'area_name' },
+            { title: 'STORE BRANCH', sTitle: 'STORE BRANCH', data: 'store_name' },
+        ];
+
+        for(var i = 0; i < trans_length; i++){
+            columns.push({
+                title: transaction_type[i],
+                sTitle: transaction_type[i],
+                data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase(),
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return amountType(data);
+                }
+            });
+        }
+
+        tableQ = $('#tblReportsQ').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 3,
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_headerQ,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_headerQ,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+                'colvis'
+            ],
+            ajax: {
+                url: '/sales/reports/trans/product',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val(),
+                    tblcolumns: $('#bytransactiontype').val(),
+                    included: $('#custom_product').val()
+                }
+            },
+            columns: columns,
+            initComplete: function(){
+                $('#tblReportsHeadQ').append(`<tr></tr>`);
+                for(var i = 0; i < total_col; i++){
+                    $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
+                }
+                setInterval(() => {
+                    for(var i = defcol_length; i < total_col; i++){
+                        $(`button[data-cv-idx="${i}"]`).remove();
+                    }
+                    $('button[data-cv-idx="0"], button[data-cv-idx="1"], button[data-cv-idx="2"]').remove();
+                }, 0);
+                $('.buttons-colvis').click();
+                $('.dt-button-collection').hide();
+                setTimeout(() => {
+                    for(var i = 3; i < total_col - trans_length; i++){
+                        $(`button[data-cv-idx="${i}"]`).click();
+                    }
+                    $('#current_server').click();
+                    var spanElement = $('span:contains("Column visibility")');
+                    spanElement.html('<b>TOGGLE COLUMNS</b>');
+                    loading_hide();
+                }, 500);
             }
         });
     }
@@ -1959,6 +2075,10 @@ setInterval(() => {
 $('#report_filter').on('change', function(){
     $('#custom_branch').val('');
     $('#custom_branch').trigger('chosen:updated');
+    $('#custom_product').val('');
+    $('#custom_product').trigger('chosen:updated');
+    // $('#custom_transaction').val('');
+    // $('#custom_transaction').trigger('chosen:updated');
 
     if($(this).val() == 'STORE'){
         $('.classCustomBranch').show();

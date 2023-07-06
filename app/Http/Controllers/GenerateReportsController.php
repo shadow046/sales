@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\StoreArea;
 use App\Models\Setup;
 use App\Models\DeliveryServingStore;
 use App\Models\TransactionType;
@@ -1647,6 +1648,11 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
+
+            if($request->included){
+                $data->whereIn('itemcode', $request->included);
+            }
+
             if(auth()->user()->store != 'X'){
                 if(auth()->user()->store == '0'){
                     echo(null);
@@ -1814,7 +1820,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTimeProduct(Request $request){
+    public function byTimeProduct(Request $request){//
         if($request->sales_type == 'SALES QUANTITY'){
             $sales = 'qty';
         }
@@ -1851,6 +1857,11 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
+
+            if($request->included){
+                $data->whereIn('itemcode', $request->included);
+            }
+
             if(auth()->user()->store != 'X'){
                 if(auth()->user()->store == '0'){
                     echo(null);
@@ -2054,6 +2065,132 @@ class GenerateReportsController extends Controller
                 }
             })
             ->make(true);
+    }
+
+    public function byTransProduct(Request $request){
+        if($request->sales_type == 'SALES QUANTITY'){
+            $sales = 'qty';
+        }
+        if($request->sales_type == 'SALES AMOUNT'){
+            $sales = 'unitprice * qty';
+        }
+        $products = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->selectRaw('products.setup, products.area, products.store')
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->join('products', 'products.item_code', 'dtl.itemcode')
+            ->join('category','category.id','products.category')
+            ->where('itemcat', '!=', '')
+            ->where('refund', '=', '0')
+            ->where('cancelled', '=', '0')
+            ->where('void', '=', '0');
+            if($request->included){
+                $products->whereIn('itemcode', $request->included);
+            }
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $products->whereIn('storecode', $store_codes);
+            }
+            $products->groupBy('itemcat','itemcode','desc1','desc2','setup','area','store');
+            foreach($request->tblcolumns as $column){
+                $columnKey = strtolower(preg_replace('/[^A-Za-z0-9_]/', '_', $column));
+                $products->selectRaw("SUM(CASE WHEN trantype = '".$column."' THEN ".$sales." ELSE 0 END) AS $columnKey");
+            }
+            $products->orderBy('quantity', 'DESC');
+            $products = $products->get();
+        return DataTables::of($products)
+            ->addColumn('setup_name', function(Dtl $products){
+                if(!$products->setup){
+                    return '';
+                }
+                else{
+                    $setup_row = '';
+                    $array = explode(",", $products->setup);
+                    foreach($array as $value){
+                        $setup = Setup::where('id', $value)->first();
+                        if($setup_row != ''){
+                            $setup_row = $setup_row.', '.$setup->setup;
+                        }
+                        else{
+                            $setup_row = $setup->setup;
+                        }
+                    }
+                    return $setup_row;
+                }
+            })
+            ->addColumn('area_name', function(Dtl $products){
+                if(!$products->area){
+                    return 'NONE';
+                }
+                else{
+                    $user_row = '';
+                    $array = explode("|", $products->area);
+                    foreach($array as $value){
+                        if($value == '-1'){
+                            $user_row = 'ALL';
+                        }
+                        else{
+                            $user = StoreArea::where('id', $value)->first();
+                            if($user_row != ''){
+                                $user_row = $user_row.'|'.$user->store_area;
+                            }
+                            else{
+                                $user_row = $user->store_area;
+                            }
+                        }
+                    }
+                    return $user_row;
+                }
+            })
+            ->addColumn('store_name', function(Dtl $products){
+                if(!$products->store){
+                    return 'NONE';
+                }
+                else{
+                    $user_row = '';
+                    $array = explode("|", $products->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            if($user_row != ''){
+                                $user_row = $user_row.'|'.$user->branch_code.': '.$user->branch_name;
+                            }
+                            else{
+                                $user_row = $user->branch_code.': '.$user->branch_name;
+                            }
+                        }
+                        else{
+                            $user = StoreArea::where('id', substr($value, 0, -2))->first();
+                            if($user_row != ''){
+                                $user_row = $user_row.'|'.$user->store_area.' (ALL BRANCHES)';
+                            }
+                            else{
+                                $user_row = $user->store_area.' (ALL BRANCHES)';
+                            }
+                        }
+                    }
+                    return $user_row;
+                }
+            })
+        ->make(true);
     }
 
     public function byReference(Request $request){

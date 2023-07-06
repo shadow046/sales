@@ -10,6 +10,7 @@ $(document).ready(function(){
     $('#tendertype').chosen();
     $('#discounttype').chosen();
     $('#custom_branch').chosen();
+    $('#custom_product').chosen();
     $('#branch_chosen').css({'width':'100%'});
     $('#product_chosen').css({'width':'100%'});
     $('#combo_chosen').css({'width':'100%'});
@@ -19,6 +20,7 @@ $(document).ready(function(){
     $('#tendertype_chosen').css({'width':'100%'});
     $('#discounttype_chosen').css({'width':'100%'});
     $('#custom_branch_chosen').css({'width':'100%'});
+    $('#custom_product_chosen').css({'width':'100%'});
 
     changeComparative();
 

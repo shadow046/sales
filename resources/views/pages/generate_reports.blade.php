@@ -58,7 +58,19 @@
         <div class="col-md-4"></div>
     </div>
 
-    <div class="classCustomProduct text-center mb-3" style="display: none;">PRODUCT</div>
+    <div class="row mb-3 classCustomProduct" style="display: none;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="custom_product" name="custom_product" class="forminput form-control form-select" style="color: black" data-placeholder="Select Product/s (Leave blank for ALL PRODUCTS)" multiple>
+                @foreach($products as $product)
+                    <option value="{{$product->fcode}}" desc="{{$product->desc1}}">{{$product->fcode}}: {{$product->desc1}}</option>
+                @endforeach
+            </select>
+            <label for="custom_product" class="formlabels form-label">PRODUCT CODE / DESCRIPTION
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
     <div class="classCustomTransaction text-center mb-3" style="display:none;">TRANSACTION TYPE</div>
 
     <div class="row mb-3">
@@ -105,6 +117,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
     <div class="row mb-3 classBranch classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
@@ -117,6 +130,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
     <div class="row mb-3 classProduct classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
@@ -129,6 +143,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
     <div class="row mb-3 classCombo classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
@@ -153,6 +168,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
     <div class="row mb-3 classTransaction classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
@@ -165,6 +181,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
     <div class="row mb-3 classTender classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
