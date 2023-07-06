@@ -91,7 +91,7 @@
     <div class="row mb-3 classBranch classComparative" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="branch" name="branch" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
+            <select id="branch" name="branch" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Branch/s" multiple>
                 @foreach($stores as $store)
                     <option value="{{$store->fcode}}" desc="{{$store->desc1}}">{{$store->fcode}}: {{$store->desc1}}</option>
                 @endforeach
