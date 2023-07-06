@@ -2427,9 +2427,4 @@ class GenerateReportsController extends Controller
     public function getStoreSetup(){
         return Setup::select('id', 'setup')->get();
     }
-
-    public function columns(){
-        $tableColumns = ['first', 'second', 'third','fourth'];
-        return $tableColumns;
-    }
 }
