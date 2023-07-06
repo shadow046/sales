@@ -3483,3 +3483,14 @@ setInterval(() => {
         e.stopPropagation();
     });
 }, 0);
+
+setInterval(() => {
+    if($('#bytransactiontype').val().length == 0){
+        $('#bytransactiontype_chosen').addClass('requiredField requiredInput redBorder');
+    }
+    else{
+        $('#bytransactiontype_chosen').removeClass('requiredField requiredInput redBorder');
+        var spanClass = $('#bytransactiontype').attr('id') + '_chosen';
+        $('.className' + spanClass).remove();
+    }
+}, 0);

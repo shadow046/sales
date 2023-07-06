@@ -48,7 +48,7 @@
     <div class="row mb-3 classCustomBranch" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="custom_branch" name="custom_branch" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Branch/s (Leave blank for ALL BRANCHES)" multiple>
+            <select id="custom_branch" name="custom_branch" class="forminput form-control form-select" style="color: black" data-placeholder="Select Branch/s (Leave blank for ALL BRANCHES)" multiple>
                 @foreach($stores as $store)
                     <option value="{{$store->fcode}}" desc="{{$store->desc1}}">{{$store->fcode}}: {{$store->desc1}}</option>
                 @endforeach
@@ -77,7 +77,7 @@
     <div class="row mb-3 classByTransactionType" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="bytransactiontype" name="bytransactiontype" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
+            <select id="bytransactiontype" name="bytransactiontype" class="forminput form-control form-select" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
                 @foreach($transactions as $transaction)
                     <option value="{{$transaction->trantype}}">{{$transaction->trantype}}</option>
                 @endforeach
