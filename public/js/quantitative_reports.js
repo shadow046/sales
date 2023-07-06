@@ -607,7 +607,7 @@ function quantitative_report(reports_header){
                 <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
             </div>
             <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
-                <thead class="bg-default"></thead>
+                <thead class="bg-default" id="tblReportsHeadQ"></thead>
             </table>
         `);
 
@@ -646,6 +646,8 @@ function quantitative_report(reports_header){
             { title: 'NETWORK SETUP', sTitle: 'NETWORK SETUP', data: 'network_setup' },
 
         ];
+
+        console.log(transaction_type.length+11);
 
         for(var i = 0; i < transaction_type.length; i++){
             columns.push({
@@ -706,6 +708,10 @@ function quantitative_report(reports_header){
             },
             columns: columns,
             initComplete: function(){
+                $('#tblReportsHeadQ').append(`<tr></tr>`);
+                for(var i = 0; i < transaction_type.length+11; i++){
+                    $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
+                }
                 $('.buttons-excel').hide();
                 $('.buttons-pdf').hide();
                 var spanElement = $('span:contains("Column visibility")');
@@ -3430,4 +3436,10 @@ setInterval(() => {
             $('.classByTransactionType').hide();
         }
     }
+}, 0);
+
+setInterval(() => {
+    $('.form-control').on('click', function(e){
+        e.stopPropagation();
+    });
 }, 0);
