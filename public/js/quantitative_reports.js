@@ -1531,7 +1531,8 @@ function quantitative_report(reports_header){
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    sales_type: $('#sales_type').val()
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_transaction').val()
                 }
             },
             columns: [
@@ -1767,7 +1768,8 @@ function quantitative_report(reports_header){
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    sales_type: $('#sales_type').val()
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_transaction').val()
                 }
             },
             columns: [
@@ -2077,8 +2079,8 @@ $('#report_filter').on('change', function(){
     $('#custom_branch').trigger('chosen:updated');
     $('#custom_product').val('');
     $('#custom_product').trigger('chosen:updated');
-    // $('#custom_transaction').val('');
-    // $('#custom_transaction').trigger('chosen:updated');
+    $('#custom_transaction').val('');
+    $('#custom_transaction').trigger('chosen:updated');
 
     if($(this).val() == 'STORE'){
         $('.classCustomBranch').show();

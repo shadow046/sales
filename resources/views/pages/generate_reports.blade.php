@@ -39,6 +39,8 @@
                 <option value="STORE">STORE SALES</option>
                 <option value="PRODUCT">PRODUCT SALES</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
+                <option value="TENDER TYPE" style="color:gray;">TENDER TYPE SALES</option>
+                <option value="DISCOUNT" style="color:gray;">DISCOUNT SALES</option>
             </select>
             <label for="report_filter" class="formlabels form-label">SALES REPORT CATEGORY
         </div>
@@ -71,7 +73,18 @@
         <div class="col-md-4"></div>
     </div>
 
-    <div class="classCustomTransaction text-center mb-3" style="display:none;">TRANSACTION TYPE</div>
+    <div class="row mb-3 classCustomTransaction" style="display: none;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="custom_transaction" name="custom_transaction" class="forminput form-control form-select" style="color: black" data-placeholder="Select Transaction Type/s (Leave blank for ALL TRANSACTIONS)" multiple>
+                @foreach($transactions as $transaction)
+                    <option value="{{$transaction->trantype}}">{{$transaction->trantype}}</option>
+                @endforeach
+            </select>
+            <label for="custom_transaction" class="formlabels form-label">TRANSACTION TYPE
+        </div>
+        <div class="col-md-4"></div>
+    </div>
 
     <div class="row mb-3">
         <div class="col-md-4"></div>

@@ -1711,6 +1711,11 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
+
+            if($request->included){
+                $data->whereIn('trantype', $request->included);
+            }
+
             if(auth()->user()->store != 'X'){
                 if(auth()->user()->store == '0'){
                     echo(null);
@@ -1937,6 +1942,10 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
+
+            if($request->included){
+                $data->whereIn('trantype', $request->included);
+            }
             if(auth()->user()->store != 'X'){
                 if(auth()->user()->store == '0'){
                     echo(null);
