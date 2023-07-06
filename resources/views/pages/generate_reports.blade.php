@@ -24,7 +24,7 @@
             <option value="" selected disabled>SELECT REPORT TYPE</option>
             <option value="STANDARD">STANDARD REPORT</option>
             <option value="COMPARATIVE">COMPARATIVE REPORT</option>
-            @if(evn('APP_SERVER') == 'LOCAL')
+            @if(env('APP_SERVER') == 'LOCAL')
                 <option value="CUSTOM">CUSTOM REPORT</option>
             @endif
         </select>
