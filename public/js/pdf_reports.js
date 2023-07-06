@@ -277,12 +277,25 @@ $(document).on('keyup search','.filter-input4', function(){
     tbl4.column($(this).data('column')).search($(this).val()).draw();
 });
 
-$(document).on('click','table tbody tr',function(){
+// $(document).on('click','table tbody tr',function(){
+//     var upl = $(this).parent().parent().attr('tbl');
+//     var tbl = $('table.'+upl).DataTable();
+//     if(!tbl.data().any()){ return false; }
+//     var data = tbl.row(this).data();
+//     window.open('/storage/uploads/' + data.filename, '_blank');
+// });
+
+$(document).on('click', 'table tbody tr', function () {
     var upl = $(this).parent().parent().attr('tbl');
-    var tbl = $('table.'+upl).DataTable();
-    if(!tbl.data().any()){ return false; }
+    var tbl = $('table.' + upl).DataTable();
+    if (!tbl.data().any()) {
+        return false;
+    }
     var data = tbl.row(this).data();
-    window.open('/storage/uploads/' + data.filename, '_blank');
+    var downloadLink = document.createElement('a');
+    downloadLink.href = '/storage/uploads/' + data.filename;
+    downloadLink.download = data.filename;
+    downloadLink.click();
 });
 
 
