@@ -2202,6 +2202,66 @@ class GenerateReportsController extends Controller
         ->make(true);
     }
 
+    public function byTransDiscount(Request $request){
+        if($request->sales_type == 'NO. OF TRANSACTIONS'){
+            $func = 'COUNT(DISTINCT ';
+            $sales = 'tnumber';
+        }
+        if($request->sales_type == 'GROSS SALES'){
+            $func = 'SUM(';
+            $sales = 'gross';
+        }
+        if($request->sales_type == 'TOTAL SALES'){
+            $func = 'SUM(';
+            $sales = 'totalsales';
+        }
+        if($request->sales_type == 'NET SALES'){
+            $func = 'SUM(';
+            $sales = 'netsales';
+        }
+        $data = Hdr::selectRaw('discname as discount_name')
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('discname', '!=', '')
+                ->where('refund', '=', '0')
+                ->where('cancelled', '=', '0')
+                ->where('void', '=', '0');
+                if($request->included){
+                    $data->whereIn('discname', $request->included);
+                }
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $data->whereIn('storecode', $store_codes);
+                }
+                $data = $data->groupBy('discount_name');
+
+                foreach($request->tblcolumns as $column){
+                    $columnKey = strtolower(preg_replace('/[^A-Za-z0-9_]/', '_', $column));
+                    $data->selectRaw("".$func."CASE WHEN trantype = '".$column."' THEN ".$sales." ELSE 0 END) AS $columnKey");
+                }
+                $data->orderBy('discount_name', 'DESC');
+                $results = $data->get();
+        return DataTables::of($results)->make(true);
+    }
+
     public function byReference(Request $request){
         if(strpos($request->datatype, 'TRANSACTION') !== false || $request->datatype == 'DISCOUNT' || $request->datatype == 'VOID' || $request->datatype == 'CANCELLED' || $request->datatype == 'REFUND'){
             $data = Hdr::select(DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'))

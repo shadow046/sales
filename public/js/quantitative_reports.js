@@ -673,7 +673,7 @@ function quantitative_report(reports_header){
             fixedColumns:{
                 left: 2,
             },
-            dom: 'Bfrtip',
+            dom: 'Blftrip',
             buttons: [
                 {
                     extend: 'excelHtml5',
@@ -1420,7 +1420,7 @@ function quantitative_report(reports_header){
             fixedColumns:{
                 left: 3,
             },
-            dom: 'Bfrtip',
+            dom: 'Blftrip',
             buttons: [
                 {
                     extend: 'excelHtml5',
@@ -2077,6 +2077,97 @@ function quantitative_report(reports_header){
             }
         });
     }
+    else if($('#report_filter').val() == 'DISCOUNT' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
+        loading_show();
+        var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
+        $('#reportsTableQ').empty().append(`
+            <hr>
+            <div class="mb-2 align-content">
+                <h4 style="zoom:85%;">${reports_headerQ}</h4>
+                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsQ')"><i class="fas fa-file-export"></i> EXPORT</button>
+                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
+            </div>
+            <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
+                <thead class="bg-default" id="tblReportsHeadQ"></thead>
+            </table>
+        `);
+
+        var transaction_type = $('#bytransactiontype').val();
+        var trans_length = transaction_type.length;
+        var defcol_length = 1;
+        var total_col = trans_length + defcol_length;
+
+        var columns = [
+            { title: 'DISCOUNT TYPE', sTitle: 'DISCOUNT TYPE', data: 'discount_name' },
+        ];
+
+        for(var i = 0; i < trans_length; i++){
+            columns.push({
+                title: transaction_type[i],
+                sTitle: transaction_type[i],
+                data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase(),
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return amountType(data);
+                }
+            });
+        }
+
+        tableQ = $('#tblReportsQ').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 1,
+            },
+            dom: 'Blftrip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_headerQ,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_headerQ,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+            ],
+            ajax: {
+                url: '/sales/reports/trans/discount',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val(),
+                    tblcolumns: $('#bytransactiontype').val(),
+                    included: $('#custom_discount').val()
+                }
+            },
+            columns: columns,
+            initComplete: function(){
+                $('#tblReportsHeadQ').append(`<tr></tr>`);
+                for(var i = 0; i < total_col; i++){
+                    $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
+                }
+                loading_hide();
+            }
+        });
+    }
     else{
         Swal.fire('UNAVAILABLE', 'This Report Filter is not yet available!', 'error');
     }
@@ -2092,13 +2183,13 @@ setInterval(() => {
         }
         else{
             $('.classSales').show();
-            if($('#report_filter').val() == 'STORE' || $('#report_filter').val() == 'TRANSACTION TYPE'){
-                $('.salesStore').show();
-                $('.salesProduct').hide();
-            }
             if($('#report_filter').val() == 'PRODUCT'){
                 $('.salesStore').hide();
                 $('.salesProduct').show();
+            }
+            else{
+                $('.salesStore').show();
+                $('.salesProduct').hide();
             }
         }
     }
@@ -2115,26 +2206,38 @@ $('#report_filter').on('change', function(){
     $('#custom_product').trigger('chosen:updated');
     $('#custom_transaction').val('');
     $('#custom_transaction').trigger('chosen:updated');
+    $('#custom_discount').val('');
+    $('#custom_discount').trigger('chosen:updated');
 
     if($(this).val() == 'STORE'){
         $('.classCustomBranch').show();
         $('.classCustomProduct').hide();
         $('.classCustomTransaction').hide();
+        $('.classCustomDiscount').hide();
     }
     else if($(this).val() == 'PRODUCT'){
         $('.classCustomBranch').hide();
         $('.classCustomProduct').show();
         $('.classCustomTransaction').hide();
+        $('.classCustomDiscount').hide();
     }
     else if($(this).val() == 'TRANSACTION TYPE'){
         $('.classCustomBranch').hide();
         $('.classCustomProduct').hide();
         $('.classCustomTransaction').show();
+        $('.classCustomDiscount').hide();
+    }
+    else if($(this).val() == 'DISCOUNT'){
+        $('.classCustomBranch').hide();
+        $('.classCustomProduct').hide();
+        $('.classCustomTransaction').hide();
+        $('.classCustomDiscount').show();
     }
     else{
         $('.classCustomBranch').hide();
         $('.classCustomProduct').hide();
         $('.classCustomTransaction').hide();
+        $('.classCustomDiscount').hide();
     }
     $('#sales_type').val('');
 });

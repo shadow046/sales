@@ -114,11 +114,14 @@ Route::middleware(['session'])->group(function () {
         Route::get('/sales/reports/day/branch','byDayBranch');
         Route::get('/sales/reports/day/product','byDayProduct');
         Route::get('/sales/reports/day/transaction','byDayTransaction');
+        Route::get('/sales/reports/day/discount','byDayDiscount');
         Route::get('/sales/reports/time/branch','byTimeBranch');
         Route::get('/sales/reports/time/product','byTimeProduct');
         Route::get('/sales/reports/time/transaction','byTimeTransaction');
+        Route::get('/sales/reports/time/discount','byTimeDiscount');
         Route::get('/sales/reports/trans/branch','byTransBranch');
         Route::get('/sales/reports/trans/product','byTransProduct');
+        Route::get('/sales/reports/trans/discount','byTransDiscount');
         Route::get('/sales/reports/reference','byReference');
         Route::get('/sales/reports/getStoreSetup','getStoreSetup');
     });

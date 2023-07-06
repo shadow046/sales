@@ -42,7 +42,7 @@
                 <option value="PRODUCT">PRODUCT SALES</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
                 <option value="TENDER TYPE" style="color:gray;">TENDER TYPE SALES</option>
-                <option value="DISCOUNT" style="color:gray;">DISCOUNT SALES</option>
+                <option value="DISCOUNT">DISCOUNT SALES</option>
             </select>
             <label for="report_filter" class="formlabels form-label">SALES REPORT CATEGORY
         </div>
@@ -88,6 +88,19 @@
         <div class="col-md-4"></div>
     </div>
 
+    <div class="row mb-3 classCustomDiscount" style="display: none;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="custom_discount" name="custom_discount" class="forminput form-control form-select" style="color: black" data-placeholder="Select Discount Type/s (Leave blank for ALL DISCOUNTS)" multiple>
+                @foreach($discounts as $discount)
+                    <option value="{{$discount->discname}}">{{$discount->discname}}</option>
+                @endforeach
+            </select>
+            <label for="custom_discount" class="formlabels form-label">DISCOUNT TYPE
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
     <div class="row mb-3">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
@@ -101,6 +114,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
     <div class="row mb-3 classByTransactionType" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
@@ -113,6 +127,7 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
 </form>
 <form id="formReports">
     <div class="row mb-3">

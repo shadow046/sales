@@ -12,6 +12,7 @@ $(document).ready(function(){
     $('#custom_branch').chosen();
     $('#custom_product').chosen();
     $('#custom_transaction').chosen();
+    $('#custom_discount').chosen();
     $('#branch_chosen').css({'width':'100%'});
     $('#product_chosen').css({'width':'100%'});
     $('#combo_chosen').css({'width':'100%'});
@@ -23,6 +24,7 @@ $(document).ready(function(){
     $('#custom_branch_chosen').css({'width':'100%'});
     $('#custom_product_chosen').css({'width':'100%'});
     $('#custom_transaction_chosen').css({'width':'100%'});
+    $('#custom_discount_chosen').css({'width':'100%'});
 
     changeComparative();
 
