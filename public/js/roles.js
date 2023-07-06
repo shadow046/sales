@@ -41,7 +41,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -84,7 +84,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/saveRole',
                 type:"POST",
@@ -97,7 +97,7 @@ $('.saveBtn').on('click',function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#roleModal').modal('hide');
                         Swal.fire({
                             title: 'ROLE ADDED SUCCESSFULLY',
@@ -106,7 +106,7 @@ $('.saveBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#roleModal').modal('hide');
                         Swal.fire({
                             title: 'SAVE FAILED',
@@ -221,7 +221,7 @@ $('.updateBtn').on('click',function(){
         }
     }).then((edit) => {
         if(edit.isConfirmed){
-            $('#loading').show();
+            loading_show();
 
             $.ajax({
                 url: '/editRole',
@@ -237,7 +237,7 @@ $('.updateBtn').on('click',function(){
                 success: function(data){
                     if(data == 'true'){
                         table.ajax.reload(null, false);
-                        $('#loading').hide();
+                        loading_hide();
                         $('#roleModal').modal('hide');
                         Swal.fire({
                             title: 'ROLE UPDATED SUCCESSFULLY',
@@ -246,7 +246,7 @@ $('.updateBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#roleModal').modal('hide');
                         Swal.fire({
                             title: 'UPDATE FAILED',
@@ -281,7 +281,7 @@ $('#deleteBtn').on('click',function(){
         }
     }).then((edit) => {
         if(edit.isConfirmed){
-            $('#loading').show();
+            loading_show();
 
             $.ajax({
                 url: '/deleteRole',
@@ -295,7 +295,7 @@ $('#deleteBtn').on('click',function(){
                 },
                 success: function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#roleModal').modal('hide');
                         Swal.fire({
                             title: 'ROLE DELETED SUCCESSFULLY',
@@ -304,7 +304,7 @@ $('#deleteBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#roleModal').modal('hide');
                         Swal.fire({
                             title: 'DELETE FAILED',

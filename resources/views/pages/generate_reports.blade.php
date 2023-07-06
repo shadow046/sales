@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <script>accessibility('34');</script>
-<script>$('#loading').hide();</script>
+<script>loading_hide();</script>
 <br>
 <div class="row">
     <div class="col">
@@ -44,6 +44,23 @@
         </div>
         <div class="col-md-4"></div>
     </div>
+
+    <div class="row mb-3 classCustomBranch" style="display: none;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 f-outline">
+            <select id="custom_branch" name="custom_branch" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Branch/s (Leave blank for ALL BRANCHES)" multiple>
+                @foreach($stores as $store)
+                    <option value="{{$store->fcode}}" desc="{{$store->desc1}}">{{$store->fcode}}: {{$store->desc1}}</option>
+                @endforeach
+            </select>
+            <label for="custom_branch" class="formlabels form-label">BRANCH CODE / NAME
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="classCustomProduct text-center mb-3" style="display: none;">PRODUCT</div>
+    <div class="classCustomTransaction text-center mb-3" style="display:none;">TRANSACTION TYPE</div>
+
     <div class="row mb-3">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">

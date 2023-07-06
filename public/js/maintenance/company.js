@@ -84,7 +84,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -214,7 +214,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if (save.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/saveCompany",
                 type:"POST",
@@ -252,12 +252,12 @@ $('.saveBtn').on('click',function(){
                                 },
                             });
                         });
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('SAVE SUCCESS','','success');
                         $('#companyModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('SAVE FAILED','','error');
                     }
                 }
@@ -472,7 +472,7 @@ $('.updateBtn').on('click',function(){
         }
     }).then((edit) => {
         if (edit.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/editCompany",
                 type:"POST",
@@ -522,12 +522,12 @@ $('.updateBtn').on('click',function(){
                                 id: company_id.toString()
                             }
                         });
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE SUCCESS','','success');
                         $('#companyModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE FAILED','','error');
                     }
                 }
@@ -695,7 +695,7 @@ $('#btnUpload').on('click', function(){
         })
         .then((result) => {
             if(result.isConfirmed){
-                $('#loading').show();
+                loading_show();
                 $('#btnSubmit').click();
             }
         });
@@ -704,15 +704,15 @@ $('#btnUpload').on('click', function(){
 
 $(document).ready(function(){
     if(current_location == '/company?import=success_without_errors'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT SUCCESS", "ADD COMPANY via import file is successful without errors.", "success");
     }
     else if(current_location == '/company?import=success_with_errors'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT SUCCESS W/ ERRORS", "ADD COMPANY via import file is successful with some errors.", "warning");
     }
     else if(current_location == '/company?import=failed'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT FAILED", "ADD COMPANY via import file has failed.", "error");
     }
 });

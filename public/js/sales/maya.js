@@ -5,7 +5,7 @@ $(document).ready(function() {
     $('#date').datepicker( {
         onSelect: function(date) {
             var rangecategory= '<option value="" selected disabled>select category</option>';
-            $('#loading').show();
+            loading_show();
             setTimeout(() => {
                 $.ajax({
                     url:"/sales-data",
@@ -39,11 +39,11 @@ $(document).ready(function() {
                             )
                             $('#date').val(dbefore);
                         }
-                        $('#loading').hide();
+                        loading_hide();
                     },
                     error: function (data) {
                         alert(data.responseText);
-                        $('#loading').hide();
+                        loading_hide();
                         return false;
                     }
                 });
@@ -64,7 +64,7 @@ $(document).on('change', '#gOption', function(){
     if (!$('#rangecategory').val()) {
         return false;
     }
-    $('#loading').show();
+    loading_show();
     $('#rangecategory').change();
     if ($(this).val() == 'Table') {
         $('#dailyTableDiv').show();
@@ -88,7 +88,7 @@ $('input[type=radio][name=rOption]').on('change', function() {
     if (!$('#rangecategory').val()) {
         return false;
     }
-    $('#loading').show();
+    loading_show();
     $('#gOption').change();
     $('.option').html($('input[name=rOption]:checked').val().toUpperCase());
 });
@@ -102,7 +102,7 @@ $(document).on('change', '#rangecategory', function(){
         $('#dailyTableDiv').hide();
         $('#dailyChart').show();
     }
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         google.charts.setOnLoadCallback(function () {
             $.ajax({
@@ -213,7 +213,7 @@ $(document).on('change', '#rangecategory', function(){
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }, 500);

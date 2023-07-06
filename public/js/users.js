@@ -131,7 +131,7 @@ $(document).ready(function(){
             $('#search_area').chosen();
             $('#search_area').trigger('chosen:updated');
             $('#search_area_chosen').css({'width': '100%'});
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -679,10 +679,10 @@ $('#btnSave').on('click', function(){
             var store = '0';
         }
     }
-    $('#loading').show();
+    loading_show();
     setTimeout(function(){
         if(!validateEmail(email)){
-            $('#loading').hide();
+            loading_hide();
             Swal.fire("INVALID EMAIL", "Enter a valid email address format!", "error");
             return false;
         }
@@ -703,7 +703,7 @@ $('#btnSave').on('click', function(){
         //             }
         //         }
         //     });
-        //     $('#loading').hide();
+        //     loading_hide();
         //     if(emailv1 == false){
         //         Swal.fire('NON-EXISTENT EMAIL','User Email Address does not exist!','error');
         //         return false;
@@ -712,7 +712,7 @@ $('#btnSave').on('click', function(){
         // else{
         //     warntext = ' <br><strong style="color: red;">WARNING: Email Address cannot be verified by the system! CONTINUE?</strong>';
         // }
-        $('#loading').hide();
+        loading_hide();
         $.ajax({
             url: "/users/validate/save",
             type: "POST",
@@ -745,7 +745,7 @@ $('#btnSave').on('click', function(){
                     .then((result) => {
                         if(result.isConfirmed){
                             $('#addUser').modal('hide');
-                            $('#loading').show();
+                            loading_show();
                             $.ajax({
                                 url: "/users/save",
                                 headers:{
@@ -765,11 +765,11 @@ $('#btnSave').on('click', function(){
                                 },
                                 success: function(data){
                                     if(data == 'true'){
-                                        $('#loading').hide();
+                                        loading_hide();
                                         Swal.fire("SAVE SUCCESS", "New user saved successfully!", "success");
                                     }
                                     else{
-                                        $('#loading').hide();
+                                        loading_hide();
                                         Swal.fire("SAVE FAILED", "New user save failed!", "error");
                                     }
                                 }
@@ -893,11 +893,11 @@ $('#btnUpdate').on('click', function(){
             var store1 = '0';
         }
     }
-    $('#loading').show();
+    loading_show();
     setTimeout(function(){
         if(role1 != role2){
             if(name1.toUpperCase() == name2.toUpperCase() && email1.toUpperCase() == email2.toUpperCase() && role1 == role2){
-                $('#loading').hide();
+                loading_hide();
                 Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                 return false;
             }
@@ -905,29 +905,29 @@ $('#btnUpdate').on('click', function(){
         else{
             if(name1.toUpperCase() == name2.toUpperCase() && email1.toUpperCase() == email2.toUpperCase() && role1 == role2){
                 if(role1 == '1' || role1 == '2'){
-                    $('#loading').hide();
+                    loading_hide();
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
                 }
                 else if(role1 == '3' && branch1 == branch2){
-                    $('#loading').hide();
+                    loading_hide();
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
                 }
                 else if(role1 == '4' && JSON.stringify(company1) === JSON.stringify(company2.split('|')) && JSON.stringify(area1) === JSON.stringify(area2.split('|')) && JSON.stringify(store1) === JSON.stringify(store2.split('|'))){
-                    $('#loading').hide();
+                    loading_hide();
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
                 }
                 else if(role1 == '6' && JSON.stringify(company1) === JSON.stringify(company2.split('|')) && province1 == province2 && district1 == district2){
-                    $('#loading').hide();
+                    loading_hide();
                     Swal.fire("NO CHANGES FOUND", "User Details are all still the same!", "error");
                     return false;
                 }
             }
         }
         if(!validateEmail(email1)){
-            $('#loading').hide();
+            loading_hide();
             Swal.fire("INVALID EMAIL", "Enter a valid email address format!", "error");
             return false;
         }
@@ -948,7 +948,7 @@ $('#btnUpdate').on('click', function(){
         //             }
         //         }
         //     });
-        //     $('#loading').hide();
+        //     loading_hide();
         //     if(emailv2 == false){
         //         Swal.fire('NON-EXISTENT EMAIL','User Email Address does not exist!','error');
         //         return false;
@@ -957,7 +957,7 @@ $('#btnUpdate').on('click', function(){
         // else{
         //     warntext = ' <br><strong style="color: red;">WARNING: Email Address cannot be verified by the system! CONTINUE?</strong>';
         // }
-        $('#loading').hide();
+        loading_hide();
         $.ajax({
             url: "/users/validate/update",
             type: "PUT",
@@ -1095,7 +1095,7 @@ $(document).on('change', '#role',function(){
         $('.classDistrictManager').show();
     }
     else{
-        $('#loading').show();
+        loading_show();
         $('.classDistrictManager').hide();
         $.ajax({
             url: '/users/permissions',
@@ -1124,7 +1124,7 @@ $(document).on('change', '#role',function(){
                 if($('.classCompany').is(':hidden') && $('.classArea').is(':hidden')){
                     $('.classStore').hide();
                 }
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -1162,7 +1162,7 @@ $(document).on('change', '#role1',function(){
         $('.classDistrictManager').show();
     }
     else{
-        $('#loading').show();
+        loading_show();
         $('.classDistrictManager').hide();
         $.ajax({
             url: '/users/permissions',
@@ -1191,7 +1191,7 @@ $(document).on('change', '#role1',function(){
                 if($('.classCompany').is(':hidden') && $('.classArea').is(':hidden')){
                     $('.classStore').hide();
                 }
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }

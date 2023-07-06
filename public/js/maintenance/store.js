@@ -172,7 +172,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -360,7 +360,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if (save.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/saveStore",
                 type:"POST",
@@ -425,12 +425,12 @@ $('.saveBtn').on('click',function(){
                                 },
                             });
                         });
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('SAVE SUCCESS','','success');
                         $('#storeModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('SAVE FAILED','','error');
                     }
                 }
@@ -555,7 +555,7 @@ $(document).on('click','table.storeTable tbody tr td',function(){
         $('.notUpdate').hide();
     }
     if(!$(this).text().includes('ACTIVEINACTIVE')){
-        $('#loading').show();
+        loading_show();
         contact_id = [];
         pos_id = [];
         if($(".btn-delete").length > 0){
@@ -605,7 +605,7 @@ $(document).on('click','table.storeTable tbody tr td',function(){
                 });
                 setTimeout(() => {
                     $('#city').change();
-                    $('#loading').hide();
+                    loading_hide();
                 }, current_timeout);
             }, current_timeout);
         }, current_timeout);
@@ -935,7 +935,7 @@ $('#btnUpdateContact').on('click',function(){
         }
     }).then((edit) => {
         if (edit.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 type: 'POST',
                 url: '/editStoreContactDetails',
@@ -958,13 +958,13 @@ $('#btnUpdateContact').on('click',function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE SUCCESS','','success');
                         $('table.storeContactDetails_orig').DataTable().ajax.reload();
                         $('#editContactModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE FAILED','','error');
                     }
                 }
@@ -1000,7 +1000,7 @@ $('#btnUpdatePosModel').on('click',function(){
         }
     }).then((edit) => {
         if (edit.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 type: 'POST',
                 url: '/editStorePosInformation',
@@ -1030,13 +1030,13 @@ $('#btnUpdatePosModel').on('click',function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE SUCCESS','','success');
                         $('table.storePosInformation_orig').DataTable().ajax.reload();
                         $('#editPosModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE FAILED','','error');
                     }
                 }
@@ -1087,7 +1087,7 @@ $('.updateBtn').on('click',function(){
         }
     }).then((edit) => {
         if (edit.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/editStore",
                 type:"POST",
@@ -1173,12 +1173,12 @@ $('.updateBtn').on('click',function(){
                                 id: pos_id.toString()
                             }
                         });
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE SUCCESS','','success');
                         $('#storeModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE FAILED','','error');
                     }
                 }
@@ -1403,7 +1403,7 @@ $('#btnUpload').on('click', function(){
         })
         .then((result) => {
             if(result.isConfirmed){
-                $('#loading').show();
+                loading_show();
                 $('#btnSubmit').click();
             }
         });
@@ -1412,15 +1412,15 @@ $('#btnUpload').on('click', function(){
 
 $(document).ready(function(){
     if(current_location == '/store?import=success_without_errors'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT SUCCESS", "ADD STORE via import file is successful without errors.", "success");
     }
     else if(current_location == '/store?import=success_with_errors'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT SUCCESS W/ ERRORS", "ADD STORE via import file is successful with some errors.", "warning");
     }
     else if(current_location == '/store?import=failed'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT FAILED", "ADD STORE via import file has failed.", "error");
     }
 });

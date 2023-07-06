@@ -8,7 +8,7 @@ function getUrlParam(name) {
 }
 $(function() {
     if (!hasParam) {
-        $('#loading').hide();
+        loading_hide();
         swal.fire({
             title: 'STORE TYPE',
             html: '',
@@ -72,7 +72,7 @@ function dashboard(store) {
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }

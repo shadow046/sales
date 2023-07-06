@@ -253,7 +253,7 @@ $(document).ready(function(){
             ],
             initComplete: function(){
                 $(document).prop('title', $('#page-name').text());
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -435,7 +435,7 @@ $(document).ready(function(){
             ],
             initComplete: function(){
                 $(document).prop('title', $('#page-name').text());
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -748,7 +748,7 @@ $('.saveBtn').on('click',function(){
             }
         }).then((save) => {
             if (save.isConfirmed) {
-                $('#loading').show();
+                loading_show();
                 if(!$('#filename').val() && $('#product_image').val()){
                     product_image_save();
                 }
@@ -860,13 +860,13 @@ $('.saveBtn').on('click',function(){
                                     },
                                 });
                             });
-                            $('#loading').hide();
+                            loading_hide();
                             $('#productsModal').modal('hide');
                             Swal.fire("SAVE SUCCESS", "", "success");
                             setTimeout(function(){window.location.reload();}, 2000);
                         }
                         else{
-                            $('#loading').hide();
+                            loading_hide();
                             Swal.fire("SAVE FAILED", "", "error");
                         }
                     }
@@ -892,7 +892,7 @@ $('.saveBtn').on('click',function(){
         }
         }).then((save) => {
             if (save.isConfirmed) {
-                $('#loading').show();
+                loading_show();
                 if(!$('#filename').val() && $('#product_image').val()){
                     product_image_save();
                 }
@@ -1007,13 +1007,13 @@ $('.saveBtn').on('click',function(){
                                 });
                             });
 
-                            $('#loading').hide();
+                            loading_hide();
                             $('#productsModal').modal('hide');
                             Swal.fire("SUCCESSFULLY SAVED CHANGES", "", "success");
                             setTimeout(function(){window.location.reload();}, 2000);
                         }
                         else{
-                            $('#loading').hide();
+                            loading_hide();
                             Swal.fire("UPDATE FAILED", "", "error");
                         }
                     }
@@ -1030,7 +1030,7 @@ var promo_id = [];
 $(document).on('click','table.productsTable tbody tr td',function(){
     if(!$(this).text().includes('ACTIVEINACTIVE')){
         current_modal = 'UPDATE';
-        $('#loading').show();
+        loading_show();
         $('.req').hide();
         stores_list = [];
         promo_id = [];
@@ -1317,7 +1317,7 @@ $(document).on('click','table.productsTable tbody tr td',function(){
             });
             $('.td_totalAmount').html(formatNumber(td_totalAmount.toFixed(2)));
         }
-        $('#loading').hide();
+        loading_hide();
         $('#productsModal').modal('show');
     }
 });
@@ -1637,7 +1637,7 @@ $('#btnUpload').on('click', function(){
         })
         .then((result) => {
             if(result.isConfirmed){
-                $('#loading').show();
+                loading_show();
                 $('#btnSubmit').click();
             }
         });
@@ -1663,7 +1663,7 @@ $('#btnUpload').on('click', function(){
 //         }
 //     }).then((save) => {
 //         if(save.isConfirmed){
-//             $('#loading').show();
+//             loading_show();
 //             $.ajax({
 //                 url:'/sendProductUpdate',
 //                 type:"POST",
@@ -1672,7 +1672,7 @@ $('#btnUpload').on('click', function(){
 //                 },
 //                 success:function(data){
 //                     if(data == 'true'){
-//                         $('#loading').hide();
+//                         loading_hide();
 //                         Swal.fire({
 //                             title: 'PRODUCT UPDATES SENT SUCCESSFULLY',
 //                             icon: 'success',
@@ -1682,7 +1682,7 @@ $('#btnUpload').on('click', function(){
 //                         setTimeout(function(){window.location.reload();}, 2000);
 //                     }
 //                     else{
-//                         $('#loading').hide();
+//                         loading_hide();
 //                         Swal.fire({
 //                             title: 'SEND FAILED',
 //                             icon: 'error',
@@ -1713,7 +1713,7 @@ $(document).on('click', '.btnSendUpdate', function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/sendProductUpdate',
                 type:"POST",
@@ -1722,7 +1722,7 @@ $(document).on('click', '.btnSendUpdate', function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'PRODUCT UPDATES SENT SUCCESSFULLY',
                             icon: 'success',
@@ -1731,7 +1731,7 @@ $(document).on('click', '.btnSendUpdate', function(){
                         // setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'SEND FAILED',
                             icon: 'error',
@@ -1749,15 +1749,15 @@ $(document).on('click', '.btnSendUpdate', function(){
 
 $(document).ready(function(){
     if(current_location == '/products?import=success_without_errors'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT SUCCESS", "ADD PRODUCTS via import file is successful without errors.", "success");
     }
     else if(current_location == '/products?import=success_with_errors'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT SUCCESS W/ ERRORS", "ADD PRODUCTS via import file is successful with some errors.", "warning");
     }
     else if(current_location == '/products?import=failed'){
-        $('#loading').hide();
+        loading_hide();
         Swal.fire("IMPORT FAILED", "ADD PRODUCTS via import file has failed.", "error");
     }
 });
@@ -1867,7 +1867,7 @@ $(document).on('change','#category',function(){
 
 $('#product_category').on('change', function(){
     $('#product_code').val('');
-    $('#loading').show();
+    loading_show();
     var category_id = $(this).val();
         $.ajax({
             type: 'GET',
@@ -1894,7 +1894,7 @@ $('#product_category').on('change', function(){
                 $('#short_description').chosen();
                 $('#short_description').trigger('chosen:updated');
                 $('#short_description_chosen').css('width','100%');
-                $('#loading').hide();
+                loading_hide();
             }
         });
 });
@@ -2181,7 +2181,7 @@ $(document).on('click', '.btnCancelUpdate', function(e){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'PRODUCT UPDATE CANCELLED SUCCESSFULLY',
                             icon: 'success',
@@ -2190,7 +2190,7 @@ $(document).on('click', '.btnCancelUpdate', function(e){
                         setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'PRODUCT UPDATE CANCELLED FAILED',
                             icon: 'error',

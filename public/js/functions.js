@@ -42,7 +42,7 @@ function idleLogout(){
     function resetTimer(){
         clearTimeout(timer);
         timer = setTimeout(() => {
-            $('#loading').show();
+            loading_show();
             window.location.href = '/logout';
         }, 3600000);
     }
@@ -912,16 +912,16 @@ function btnExportClick(tblID){
       }).then((result) => {
         if(result.isConfirmed){
             $('.buttons-excel[aria-controls='+tblID+']').click();
-            $('#loading').show();
+            loading_show();
             setTimeout(() => {
-                $('#loading').hide();
+                loading_hide();
             }, 3000);
         }
         else if(result.isDenied){
             $('.buttons-pdf[aria-controls='+tblID+']').click();
-            $('#loading').show();
+            loading_show();
             setTimeout(() => {
-                $('#loading').hide();
+                loading_hide();
             }, 3000);
         }
     });
@@ -931,6 +931,16 @@ function tfoot_bugfix(table){
     if($('.'+table+' tfoot').length > 1){
         $('.'+table+' tfoot:first').remove();
     }
+}
+
+function loading_hide(){
+    $('.buttons-excel').hide();
+    $('.buttons-pdf').hide();
+    $('#loading').hide();
+}
+
+function loading_show(){
+    $('#loading').show();
 }
 
 setInterval(() => {

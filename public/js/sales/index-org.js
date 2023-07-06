@@ -2,7 +2,7 @@ var selected = 'date', dfrom, dto, mfrom, mto, yearstart = 2020, table,
 dt = new Date(), curmonth = dt.getMonth()+1,curyear = dt.getFullYear();
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 $(document).ready(function(){
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         $('#daterange').show();
         dashboard(moment().subtract(365, 'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'));
@@ -20,7 +20,7 @@ $(function() {
     }, function(start, end, label) {
         dfrom = start.format('YYYY-MM-DD');
         dto = end.format('YYYY-MM-DD');
-        $('#loading').show();
+        loading_show();
         setTimeout(() => {
             $('#daterange').show();
             $('table.dashboardTable').dataTable().fnDestroy();
@@ -34,11 +34,11 @@ $(function() {
 $(document).on("click", "#dashboardTable tr", function () {
     data = table.row(this).data();
     console.log(data);
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         CategoryPiechart(moment().subtract(365, 'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'), data.storecode);
         TenderPiechart(moment().subtract(365, 'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'), data.storecode);
-        $('#loading').hide();
+        loading_hide();
     }, 300);
     var intervalID = setInterval(function() {
         if ($('#loading').is(':visible')) {
@@ -92,7 +92,7 @@ function dashboard(df, dt) {
             }
         ],
         initComplete: function(){
-            $('#loading').hide();
+            loading_hide();
         }
     });
 }

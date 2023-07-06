@@ -154,7 +154,7 @@ function display_report_A(thTitle, urlName, colName){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
-    $('#loading').show();
+    loading_show();
     if($('#report_type').val() == '1'){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
         `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
@@ -267,7 +267,7 @@ function display_report_A(thTitle, urlName, colName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -418,7 +418,7 @@ function display_report_A(thTitle, urlName, colName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -428,7 +428,7 @@ function display_report_B(urlName){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
-    $('#loading').show();
+    loading_show();
     if($('#report_type').val() == '1'){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
         `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
@@ -528,7 +528,7 @@ function display_report_B(urlName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -645,7 +645,7 @@ function display_report_B(urlName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -655,7 +655,7 @@ function display_report_C(thTitle, urlName, colName){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
-    $('#loading').show();
+    loading_show();
     if($('#report_type').val() == '1'){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${$('#report_type option:selected').text()} - ${$('#report_category').val()}</h4>` +
         `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(0).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
@@ -745,7 +745,7 @@ function display_report_C(thTitle, urlName, colName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -852,7 +852,7 @@ function display_report_C(thTitle, urlName, colName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }
@@ -892,7 +892,7 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
     var compare_range1 = (moment($('#date1A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date1B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     var compare_range2 = (moment($('#date2A').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#date2B').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
     $('#subreportsTable').empty();
-    $('#loading').show();
+    loading_show();
     if($('#report_type').val() == '1'){
         var htmlString = `<hr><div class="px-2 align-content"><h4>${h4Title}</h4>` +
         `<button type="button" class="form-control btn btn-custom btn-default float-end" onclick="$('.buttons-excel').eq(1).click();"><i class="fas fa-file-export"></i> EXPORT</button></div>` +
@@ -1005,7 +1005,7 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/reports#tblSubReports';
                     $('html, body').animate({
@@ -1163,7 +1163,7 @@ function display_subreport_A(h4Title, thTitle, urlName, colData, colName){
                 });
             },
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/reports#tblSubReports';
                     $('html, body').animate({

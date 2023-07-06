@@ -36,7 +36,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -72,7 +72,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/saveSetup',
                 type:"POST",
@@ -84,7 +84,7 @@ $('.saveBtn').on('click',function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#setupModal').modal('hide');
                         Swal.fire({
                             title: 'STORE SETUP ADDED SUCCESSFULLY',
@@ -93,7 +93,7 @@ $('.saveBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#setupModal').modal('hide');
                         Swal.fire({
                             title: 'SAVE FAILED',

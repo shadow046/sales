@@ -6,7 +6,7 @@ google.charts.load("current", {packages:["corechart"]});
 
 $(document).ready(function(){
     // Create date inputs
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         google.charts.setOnLoadCallback(function () {
             $.ajax({
@@ -90,7 +90,7 @@ $(document).ready(function(){
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
 
@@ -109,7 +109,7 @@ $(document).ready(function(){
 //         dto = end.format('YYYY-MM-DD');
 //         dstart = start;
 //         dend = end;
-//         $('#loading').show();
+//         loading_show();
 //         $('#labelDiv').hide();
 //         $('#categoryTableDiv').hide();
 //         $('#categoryChartDiv').hide();
@@ -136,7 +136,7 @@ $(document).on("click", "#dailyTable tbody tr", function () {
     $('table.categoryTable').dataTable().fnDestroy();
     $('table.discountTable').dataTable().fnDestroy();
     $('#categoryChartDiv').show();
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {   
         $.ajax({
             url:"/sales/tender_data",
@@ -282,7 +282,7 @@ $(document).on("click", "#dailyTable tbody tr", function () {
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
                 $('#discountTableDiv').show();
                 $('#discountTable').show();
             }
@@ -305,7 +305,7 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
     var data = dashboardTable.row(this).data();
     branchcode = data.branch_code;
     branchname = data.branch_name;
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         $('#dailyTableDiv').show();
         $('#dailyTable').show();
@@ -354,7 +354,7 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
         $.fn.dataTable.ext.search.push(
@@ -400,7 +400,7 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
     // $('#tenderTable').show();
     // $('table.categoryTable').dataTable().fnDestroy();
     // $('table.tenderTable').dataTable().fnDestroy();
-    // $('#loading').show();
+    // loading_show();
     // setTimeout(() => {
     //     if (dstart) {
     //         CategoryPiechart(dstart.format('YYYY-MM-DD'),dend.format('YYYY-MM-DD'), dashboardTable.storecode);
@@ -410,7 +410,7 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
     //         CategoryPiechart(moment().subtract(365, 'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'), dashboardTable.storecode);
     //         TenderPiechart(moment().subtract(365, 'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'), dashboardTable.storecode);
     //     }
-    //     $('#loading').hide();
+    //     loading_hide();
     // }, 300);
     // var intervalID = setInterval(function() {
     //     if ($('#loading').is(':visible')) {
@@ -464,7 +464,7 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
     //         }
     //     ],
     //     initComplete: function(){
-    //         $('#loading').hide();
+    //         loading_hide();
     //     }
     // });
 

@@ -1,6 +1,6 @@
 function quantitative_report(reports_header){
     if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY DAY'){
-        $('#loading').show();
+        loading_show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
@@ -82,7 +82,8 @@ function quantitative_report(reports_header){
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    sales_type: $('#sales_type').val()
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_branch').val()
                 }
             },
             columns: [
@@ -194,7 +195,7 @@ function quantitative_report(reports_header){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReportsX');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
@@ -205,7 +206,7 @@ function quantitative_report(reports_header){
         });
     }
     else if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY TIME'){
-        $('#loading').show();
+        loading_show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
@@ -321,7 +322,8 @@ function quantitative_report(reports_header){
                 data:{
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
-                    sales_type: $('#sales_type').val()
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_branch').val()
                 }
             },
             columns: [
@@ -586,7 +588,7 @@ function quantitative_report(reports_header){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReportsX');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
@@ -597,12 +599,12 @@ function quantitative_report(reports_header){
         });
     }
     else if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
-        $('#loading').show();
+        loading_show();
         var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
         $('#reportsTableQ').empty().append(`
             <hr>
             <div class="mb-2 align-content">
-                <h4>${reports_headerQ}</h4>
+                <h4 style="zoom:85%;">${reports_headerQ}</h4>
                 <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsQ')"><i class="fas fa-file-export"></i> EXPORT</button>
                 <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
             </div>
@@ -705,7 +707,8 @@ function quantitative_report(reports_header){
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
                     sales_type: $('#sales_type').val(),
-                    tblcolumns: $('#bytransactiontype').val()
+                    tblcolumns: $('#bytransactiontype').val(),
+                    included: $('#custom_branch').val()
                 }
             },
             columns: columns,
@@ -727,17 +730,15 @@ function quantitative_report(reports_header){
                         $(`button[data-cv-idx="${i}"]`).click();
                     }
                     $('#current_server').click();
-                    $('.buttons-excel').hide();
-                    $('.buttons-pdf').hide();
                     var spanElement = $('span:contains("Column visibility")');
                     spanElement.html('<b>TOGGLE COLUMNS</b>');
-                    $('#loading').hide();
+                    loading_hide();
                 }, 500);
             }
         });
     }
     else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY DAY'){
-        $('#loading').show();
+        loading_show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
@@ -931,7 +932,7 @@ function quantitative_report(reports_header){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReportsX');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
@@ -942,7 +943,7 @@ function quantitative_report(reports_header){
         });
     }
     else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY TIME'){
-        $('#loading').show();
+        loading_show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
@@ -1323,7 +1324,7 @@ function quantitative_report(reports_header){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReportsX');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
@@ -1334,7 +1335,7 @@ function quantitative_report(reports_header){
         });
     }
     else if($('#report_filter').val() == 'TRANSACTION TYPE' && $('#report_classification').val() == 'BY DAY'){
-        $('#loading').show();
+        loading_show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
@@ -1525,7 +1526,7 @@ function quantitative_report(reports_header){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReportsX');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
@@ -1536,7 +1537,7 @@ function quantitative_report(reports_header){
         });
     }
     else if($('#report_filter').val() == 'TRANSACTION TYPE' && $('#report_classification').val() == 'BY TIME'){
-        $('#loading').show();
+        loading_show();
         var reports_header5 = reports_header +' - '+ $('#sales_type').val();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
@@ -1914,7 +1915,7 @@ function quantitative_report(reports_header){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReportsX');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
@@ -1956,6 +1957,26 @@ setInterval(() => {
 }, 0);
 
 $('#report_filter').on('change', function(){
+    if($(this).val() == 'STORE'){
+        $('.classCustomBranch').show();
+        $('.classCustomProduct').hide();
+        $('.classCustomTransaction').hide();
+    }
+    else if($(this).val() == 'PRODUCT'){
+        $('.classCustomBranch').hide();
+        $('.classCustomProduct').show();
+        $('.classCustomTransaction').hide();
+    }
+    else if($(this).val() == 'TRANSACTION TYPE'){
+        $('.classCustomBranch').hide();
+        $('.classCustomProduct').hide();
+        $('.classCustomTransaction').show();
+    }
+    else{
+        $('.classCustomBranch').hide();
+        $('.classCustomProduct').hide();
+        $('.classCustomTransaction').hide();
+    }
     $('#sales_type').val('');
 });
 
@@ -1971,7 +1992,7 @@ function amountType(data){
 $(document).on('click','table.tblReportsX tbody tr',function(){
     var data = tableX.row(this).data();
     var report_filter = $('#report_filter').val();
-    $('#loading').show();
+    loading_show();
     emptyStandard();
     if(report_filter == 'stores by day' || report_filter == 'stores by time'){
         $('#reportsTableY').empty();
@@ -2004,7 +2025,7 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
         report_dates1(datacode, headername, urlName, colData);
     }
     else{
-        $('#loading').hide();
+        loading_hide();
         Swal.fire('UNAVAILABLE', 'This data breakdown is not yet available!', 'error');
         return false;
     }
@@ -2185,7 +2206,7 @@ function report_dates1(datacode, headername, urlName, colData){
         },
         initComplete: function(){
             tfoot_bugfix('tblReportsY');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsY';
                 $('html, body').animate({
@@ -2341,7 +2362,7 @@ function report_dates2(datacode, headername, urlName, colData){
         },
         initComplete: function(){
             tfoot_bugfix('tblReportsY');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsY';
                 $('html, body').animate({
@@ -2356,7 +2377,7 @@ $(document).on('click','table.tblReportsY tbody tr',function(){
     var report_filter = $('#report_filter').val();
     var data = tableY.row(this).data();
     selected_date = data.date;
-    $('#loading').show();
+    loading_show();
     if(report_filter == 'stores by day' || report_filter == 'stores by time'){
         urlName = '/sales/reports/time_A';
         tblType = 'storecode';
@@ -2547,7 +2568,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
         },
         initComplete: function(){
             tfoot_bugfix('tblReportsZ');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsZ';
                 $('html, body').animate({
@@ -2696,7 +2717,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
         },
         initComplete: function(){
             tfoot_bugfix('tblReportsZ');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsZ';
                 $('html, body').animate({
@@ -2714,7 +2735,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
     var start_hour = selected_time[0];
     var end_hour = selected_time[1];
     if(report_filter == 'stores by day' || report_filter == 'stores by time'){
-        $('#loading').show();
+        loading_show();
         $('#reportsTableA').empty();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA"><span id="subheaderA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
@@ -2887,7 +2908,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
     }
 
     if(report_filter == 'transactions by day' || report_filter == 'transactions by time'){
-        $('#loading').show();
+        loading_show();
         $('#reportsTableA').empty();
 
         var htmlString = `<hr><div class="px-2 align-content"><h4 id="headerA"><span id="subheaderA">${headername} (${formatDate(selected_date).toUpperCase()}) (${data.time_range_12hr})</span> - Product Sales</h4>
@@ -3232,7 +3253,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
         },
         initComplete: function(){
             tfoot_bugfix('tblReportsB');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReportsB';
                 $('html, body').animate({
@@ -3246,7 +3267,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
 
 $(document).on('click','table.tblReportsB tbody tr',function(){
     var data = tableB.row(this).data();
-    $('#loading').show();
+    loading_show();
     $('#reportsTableC').empty();
     emptyStandard();
 
@@ -3408,7 +3429,7 @@ $(document).on('click','table.tblReportsB tbody tr',function(){
                 },
                 initComplete: function(){
                     tfoot_bugfix('tblReportsC');
-                    $('#loading').hide();
+                    loading_hide();
                     setTimeout(() => {
                         window.location.href = '/sales/reports#tblReportsC';
                         $('html, body').animate({

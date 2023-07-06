@@ -152,7 +152,7 @@
 				</li>
 			@endcan
 			<li class="nav-item">
-				<a class="nav-link" href="/logout" style="font-size: 16px;" onclick="$('#loading').show();">
+				<a class="nav-link" href="/logout" style="font-size: 16px;" onclick="loading_show();">
 					LOGOUT<i class="fa fa-sign-out ml-2"></i>
 				</a>
 			</li>

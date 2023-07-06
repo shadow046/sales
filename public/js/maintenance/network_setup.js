@@ -36,7 +36,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -72,7 +72,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/saveNetworkSetup',
                 type:"POST",
@@ -84,7 +84,7 @@ $('.saveBtn').on('click',function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#network_setupModal').modal('hide');
                         Swal.fire({
                             title: 'NETWORK SETUP ADDED SUCCESSFULLY',
@@ -93,7 +93,7 @@ $('.saveBtn').on('click',function(){
                         });
                     }
                     else if(data == 'duplicate'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'NETWORK SETUP ALREADY EXIST',
                             icon: 'error',
@@ -103,7 +103,7 @@ $('.saveBtn').on('click',function(){
                         return false;
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#network_setupModal').modal('hide');
                         Swal.fire({
                             title: 'SAVE FAILED',
@@ -161,7 +161,7 @@ $('.updateBtn').on('click',function(){
         }
     }).then((edit) => {
         if(edit.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url: '/editNetworkSetup',
                 type: "POST",
@@ -174,7 +174,7 @@ $('.updateBtn').on('click',function(){
                 },
                 success: function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#network_setupModal').modal('hide');
                         Swal.fire({
                             title: 'NETWORK SETUP UPDATED SUCCESSFULLY',
@@ -183,7 +183,7 @@ $('.updateBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#network_setupModal').modal('hide');
                         Swal.fire({
                             title: 'UPDATE FAILED',
@@ -219,7 +219,7 @@ $('.deleteBtn').on('click',function(){
         }
     }).then((edit) => {
         if(edit.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url: '/deleteNetworkSetup',
                 type: "POST",
@@ -232,7 +232,7 @@ $('.deleteBtn').on('click',function(){
                 },
                 success: function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#network_setupModal').modal('hide');
                         Swal.fire({
                             title: 'NETWORK SETUP DELETED SUCCESSFULLY',
@@ -241,7 +241,7 @@ $('.deleteBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#network_setupModal').modal('hide');
                         Swal.fire({
                             title: 'DELETE FAILED',

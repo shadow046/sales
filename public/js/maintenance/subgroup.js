@@ -36,7 +36,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -72,7 +72,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/saveSubgroup',
                 type:"POST",
@@ -84,7 +84,7 @@ $('.saveBtn').on('click',function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#subgroupModal').modal('hide');
                         Swal.fire({
                             title: 'MALL SUB-GROUP ADDED SUCCESSFULLY',
@@ -93,7 +93,7 @@ $('.saveBtn').on('click',function(){
                         });
                     }
                     else if(data == 'duplicate'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'MALL SUB-GROUP ALREADY EXIST',
                             icon: 'error',
@@ -103,7 +103,7 @@ $('.saveBtn').on('click',function(){
                         return false;
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#subgroupModal').modal('hide');
                         Swal.fire({
                             title: 'SAVE FAILED',
@@ -160,7 +160,7 @@ $('.updateBtn').on('click',function(){
         }
     }).then((edit) => {
         if(edit.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url: '/editSubgroup',
                 type: "POST",
@@ -173,7 +173,7 @@ $('.updateBtn').on('click',function(){
                 },
                 success: function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#subgroupModal').modal('hide');
                         Swal.fire({
                             title: 'MALL SUB-GROUP UPDATED SUCCESSFULLY',
@@ -182,7 +182,7 @@ $('.updateBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#subgroupModal').modal('hide');
                         Swal.fire({
                             title: 'UPDATE FAILED',
@@ -218,7 +218,7 @@ $('.deleteBtn').on('click',function(){
         }
     }).then((edit) => {
         if(edit.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url: '/deleteSubGroup',
                 type: "POST",
@@ -231,7 +231,7 @@ $('.deleteBtn').on('click',function(){
                 },
                 success: function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#subgroupModal').modal('hide');
                         Swal.fire({
                             title: 'MALL SUB-GROUP DELETED SUCCESSFULLY',
@@ -240,7 +240,7 @@ $('.deleteBtn').on('click',function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#subgroupModal').modal('hide');
                         Swal.fire({
                             title: 'DELETE FAILED',

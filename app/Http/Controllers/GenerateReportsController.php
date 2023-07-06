@@ -1594,7 +1594,11 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
-            if(auth()->user()->store != 'X'){
+
+            if($request->included){
+                $data->whereIn('branch_code', $request->included);
+            }
+            else if(auth()->user()->store != 'X'){
                 if(auth()->user()->store == '0'){
                     echo(null);
                 }
@@ -1615,8 +1619,9 @@ class GenerateReportsController extends Controller
                         }
                     }
                 }
-                $data->whereIn('storecode', $store_codes);
+                $data->whereIn('branch_code', $store_codes);
             }
+
             $data = $data->groupBy('hdr.storecode','branch_code','store_name','branch_name')
             ->get();
         return DataTables::of($data)->make(true);
@@ -1776,7 +1781,11 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
-            if(auth()->user()->store != 'X'){
+
+            if($request->included){
+                $data->whereIn('branch_code', $request->included);
+            }
+            else if(auth()->user()->store != 'X'){
                 if(auth()->user()->store == '0'){
                     echo(null);
                 }
@@ -1797,8 +1806,9 @@ class GenerateReportsController extends Controller
                         }
                     }
                 }
-                $data->whereIn('storecode', $store_codes);
+                $data->whereIn('branch_code', $store_codes);
             }
+
             $data = $data->groupBy('hdr.storecode','branch_code','store_name','branch_name')
             ->get();
         return DataTables::of($data)->make(true);

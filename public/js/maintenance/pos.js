@@ -42,7 +42,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -84,7 +84,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if (save.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/savePos",
                 type:"POST",
@@ -128,13 +128,13 @@ $('.saveBtn').on('click',function(){
                             });
                         });
 
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire("SAVE SUCCESS", "", "success");
                         $('#posModal').modal('hide');
                         setTimeout(function(){window.location.reload()}, 2000);
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire("SAVE FAILED", "", "error");
                     }
                 }
@@ -320,7 +320,7 @@ $('.updateBtn').on('click',function(){
         }
     }).then((edit) => {
         if (edit.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/editPos",
                 type:"POST",
@@ -374,13 +374,13 @@ $('.updateBtn').on('click',function(){
                             }
                         });
 
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE SUCCESS','','success');
                         $('#posModal').modal('hide');
                         setTimeout(function(){window.location.reload()}, 2000);
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE FAILED','','error');
                     }
                 }
@@ -414,7 +414,7 @@ $('.deleteBtn').on('click',function(){
         }
     }).then((edit) => {
         if (edit.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/deletePos",
                 type:"POST",
@@ -429,12 +429,12 @@ $('.deleteBtn').on('click',function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('DELETE SUCCESS','','success');
                         $('#posModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('DELETE FAILED','','error');
                     }
                 }

@@ -85,7 +85,7 @@ function gchart(type, category, yfrom, yto, mfrom, mto, dfrom, dto) {
 }
 
 $(document).ready(function(){
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         $('#daterange').show();
         gchart('date', '', '', '', '', '', moment().subtract(8, 'days').format("YYYY-MM-DD"),moment().subtract(1, 'days').format("YYYY-MM-DD"));
@@ -111,7 +111,7 @@ $(document).ready(function(){
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }, 500);

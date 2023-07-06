@@ -335,7 +335,8 @@ textarea{
 .swal-wide{
     width: 900px !important;
 }
-.buttons-html5{
+.buttons-excel,
+.buttons-pdf{
     display: none;
 }
 .sidebar{

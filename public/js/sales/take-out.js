@@ -57,7 +57,7 @@ $(document).on('change', '#gOption', function(){
     if (!$('#rangecategory').val()) {
         return false;
     }
-    $('#loading').show();
+    loading_show();
     $('#rangecategory').change();
     if ($(this).val() == 'Table') {
         $('#dailyTableDiv').show();
@@ -76,7 +76,7 @@ $('input[type=radio][name=rOption]').on('change', function() {
     if (!$('#rangecategory').val()) {
         return false;
     }
-    $('#loading').show();
+    loading_show();
     $('#gOption').change();
     $('.option').html($('input[name=rOption]:checked').val().toUpperCase());
 });
@@ -90,7 +90,7 @@ $(document).on('change', '#rangecategory', function(){
         $('#monthlyTableDiv').hide();
         $('#dailyChart').show();
     }
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         google.charts.setOnLoadCallback(function () {
             $.ajax({
@@ -198,7 +198,7 @@ $(document).on('change', '#rangecategory', function(){
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }, 500);

@@ -104,7 +104,7 @@ $(document).ready(function(){
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
             $('.decimalNumber').addClass('text-right')
-            $('#loading').hide();
+            loading_hide();
         }
     });
 });
@@ -246,7 +246,7 @@ $('.saveBtn').on('click', function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/savePriceUpdate',
                 type:"POST",
@@ -278,7 +278,7 @@ $('.saveBtn').on('click', function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#priceUpdateModal').modal('hide');
                         Swal.fire({
                             title: 'PRICE UPDATE ADDED SUCCESSFULLY',
@@ -288,7 +288,7 @@ $('.saveBtn').on('click', function(){
                         setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else if(data == 'pending'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'PRICE CHANGE ALREADY PENDING',
                             icon: 'error',
@@ -296,7 +296,7 @@ $('.saveBtn').on('click', function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#priceUpdateModal').modal('hide');
                         Swal.fire({
                             title: 'SAVE FAILED',
@@ -394,7 +394,7 @@ $('.updateBtn').on('click', function(){
         }
     }).then((update) => {
         if(update.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/editPriceUpdate',
                 type:"POST",
@@ -427,7 +427,7 @@ $('.updateBtn').on('click', function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         $('#priceUpdateModal').modal('hide');
                         Swal.fire({
                             title: 'PRICE UPDATE UPDATED SUCCESSFULLY',
@@ -437,7 +437,7 @@ $('.updateBtn').on('click', function(){
                         setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else if(data == 'pending'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'PRICE CHANGE ALREADY PENDING',
                             icon: 'error',
@@ -445,7 +445,7 @@ $('.updateBtn').on('click', function(){
                         });
                     }
                     else if(data == 'nochanges'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'NO CHANGES FOUND',
                             icon: 'error',
@@ -453,7 +453,7 @@ $('.updateBtn').on('click', function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         $('#priceUpdateModal').modal('hide');
                         Swal.fire({
                             title: 'UPDATE FAILED',
@@ -486,7 +486,7 @@ $(document).on('click', '.deleteBtn', function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/deletePriceUpdate',
                 type:"POST",
@@ -499,7 +499,7 @@ $(document).on('click', '.deleteBtn', function(){
                 success:function(data){
                     if(data == 'true'){
                         table.ajax.reload()
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'PRICE UPDATE DELETED SUCCESSFULLY',
                             icon: 'success',
@@ -507,7 +507,7 @@ $(document).on('click', '.deleteBtn', function(){
                         });
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'DELETE FAILED',
                             icon: 'error',
@@ -538,7 +538,7 @@ $(document).on('click', '.btnSendUpdate', function(){
         }
     }).then((save) => {
         if(save.isConfirmed){
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:'/sendPriceUpdate',
                 type:"POST",
@@ -547,7 +547,7 @@ $(document).on('click', '.btnSendUpdate', function(){
                 },
                 success:function(data){
                     if(data == 'true'){
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'PRICE UPDATES SENT SUCCESSFULLY',
                             icon: 'success',
@@ -556,7 +556,7 @@ $(document).on('click', '.btnSendUpdate', function(){
                         setTimeout(function(){window.location.reload();}, 2000);
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire({
                             title: 'SEND FAILED',
                             icon: 'error',

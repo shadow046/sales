@@ -9,6 +9,7 @@ $(document).ready(function(){
     $('#bytransactiontype').chosen();
     $('#tendertype').chosen();
     $('#discounttype').chosen();
+    $('#custom_branch').chosen();
     $('#branch_chosen').css({'width':'100%'});
     $('#product_chosen').css({'width':'100%'});
     $('#combo_chosen').css({'width':'100%'});
@@ -17,6 +18,7 @@ $(document).ready(function(){
     $('#bytransactiontype_chosen').css({'width':'100%'});
     $('#tendertype_chosen').css({'width':'100%'});
     $('#discounttype_chosen').css({'width':'100%'});
+    $('#custom_branch_chosen').css({'width':'100%'});
 
     changeComparative();
 
@@ -285,7 +287,7 @@ $('#btnGenerate').on('click', function(){
     }
 
     if($('#report_category').val() == 'STORE'){
-        $('#loading').show();
+        loading_show();
         $('#tblReports1Header').text(reports_header);
         var htmlString = `
         <div class="table-responsive container-fluid pt-2 w-100">
@@ -532,7 +534,7 @@ $('#btnGenerate').on('click', function(){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReports1');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports1';
                     $('html, body').animate({
@@ -555,7 +557,7 @@ $('#btnGenerate').on('click', function(){
         }, 0);
     }
     else if($('#report_category').val() == 'PRODUCT' || $('#report_category').val() == 'COMBO MEAL' || $('#report_category').val() == 'PROMO'){
-        $('#loading').show();
+        loading_show();
         if($('#report_category').val() == 'PRODUCT'){
             included = $('#product').val();
             byWhat = 'product';
@@ -718,7 +720,7 @@ $('#btnGenerate').on('click', function(){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReports1');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports1';
                     $('html, body').animate({
@@ -729,7 +731,7 @@ $('#btnGenerate').on('click', function(){
         });
     }
     else if($('#report_category').val() == 'TRANSACTION TYPE'){
-        $('#loading').show();
+        loading_show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
@@ -888,7 +890,7 @@ $('#btnGenerate').on('click', function(){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReports1');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports1';
                     $('html, body').animate({
@@ -899,7 +901,7 @@ $('#btnGenerate').on('click', function(){
         });
     }
     else if($('#report_category').val() == 'TENDER TYPE'){
-        $('#loading').show();
+        loading_show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
@@ -1030,7 +1032,7 @@ $('#btnGenerate').on('click', function(){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReports1');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports1';
                     $('html, body').animate({
@@ -1041,7 +1043,7 @@ $('#btnGenerate').on('click', function(){
         });
     }
     else if($('#report_category').val() == 'DISCOUNT'){
-        $('#loading').show();
+        loading_show();
         var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
         <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
         <div class="table-responsive container-fluid pt-2">
@@ -1200,7 +1202,7 @@ $('#btnGenerate').on('click', function(){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReports1');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports1';
                     $('html, body').animate({
@@ -1217,7 +1219,7 @@ $('#btnGenerate').on('click', function(){
 
 var headername, datacode, selected_date;
 $(document).on('click','table.tblReports1 tbody tr',function(){
-    $('#loading').show();
+    loading_show();
     $('#reportsTable2A').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
@@ -1258,7 +1260,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         report_datesB(datacode, headername, urlName, colData);
     }
     else if(report_category == 'TRANSACTION TYPE'){
-        $('#loading').show();
+        loading_show();
         var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
         var reports_header = data.transaction_name+' ('+display_range+') - Per Store';
         $('#tblReports2AHeader').text(reports_header);
@@ -1508,7 +1510,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
             },
             initComplete: function(){
                 tfoot_bugfix('tblReports2A');
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports2A';
                     $('html, body').animate({
@@ -1550,7 +1552,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         report_datesA(datacode, headername, urlName, colData);
     }
     else{
-        $('#loading').hide();
+        loading_hide();
         Swal.fire('UNAVAILABLE', 'This data breakdown is not yet available!', 'error');
         return false;
     }
@@ -1734,22 +1736,22 @@ function report_datesA(datacode, headername, urlName, colData){
                 $('#reportsTable1A').empty();
                 subreport_product($('#report_category').val());
                 subreport_transaction($('#report_category').val());
-                $('#loading').hide();
+                loading_hide();
             }
             else if($('#report_category').val() == 'PRODUCT'){
                 $('#reportsTable1A').empty();
                 subreport_store($('#report_category').val());
                 subreport_transaction($('#report_category').val());
-                $('#loading').hide();
+                loading_hide();
             }
             else if($('#report_category').val() == 'TRANSACTION TYPE'){
                 $('#reportsTable1A').empty();
                 subreport_store($('#report_category').val());
                 subreport_product($('#report_category').val());
-                $('#loading').hide();
+                loading_hide();
             }
             else{
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports2';
                     $('html, body').animate({
@@ -1910,22 +1912,22 @@ function report_datesB(datacode, headername, urlName, colData){
                 $('#reportsTable1A').empty();
                 subreport_product($('#report_category').val());
                 subreport_transaction($('#report_category').val());
-                $('#loading').hide();
+                loading_hide();
             }
             else if($('#report_category').val() == 'PRODUCT'){
                 $('#reportsTable1A').empty();
                 subreport_store($('#report_category').val());
                 subreport_transaction($('#report_category').val());
-                $('#loading').hide();
+                loading_hide();
             }
             else if($('#report_category').val() == 'TRANSACTION TYPE'){
                 $('#reportsTable1A').empty();
                 subreport_store($('#report_category').val());
                 subreport_product($('#report_category').val());
-                $('#loading').hide();
+                loading_hide();
             }
             else{
-                $('#loading').hide();
+                loading_hide();
                 setTimeout(() => {
                     window.location.href = '/sales/reports#tblReports2';
                     $('html, body').animate({
@@ -2083,7 +2085,7 @@ function report_datesC(datacode, headername, urlName, colData){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports2');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReports2';
                 $('html, body').animate({
@@ -2109,7 +2111,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
     var data = table2.row(this).data();
     selected_date = data.date;
     if(report_category == 'STORE'){
-        $('#loading').show();
+        loading_show();
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
@@ -2280,7 +2282,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         });
     }
     else if(report_category == 'PRODUCT' || report_category == 'COMBO MEAL' || report_category == 'PROMO'){
-        $('#loading').show();
+        loading_show();
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
@@ -2431,7 +2433,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         });
     }
     else if(report_category == 'TRANSACTION TYPE'){
-        $('#loading').show();
+        loading_show();
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
@@ -2602,7 +2604,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         });
     }
     else if(report_category == 'TENDER TYPE'){
-        $('#loading').show();
+        loading_show();
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
@@ -2754,7 +2756,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
         });
     }
     else if(report_category == 'DISCOUNT'){
-        $('#loading').show();
+        loading_show();
         $('#reportsTable3').empty();
         $('#reportsTable4').empty();
         $('#reportsTable5').empty();
@@ -3109,7 +3111,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports4');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReports4';
                 $('html, body').animate({
@@ -3261,7 +3263,7 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports4');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReports4';
                 $('html, body').animate({
@@ -3414,7 +3416,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports4');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReports4';
                 $('html, body').animate({
@@ -3443,7 +3445,7 @@ $(document).on('click','table.tblReports4 tbody tr',function(){
     else{
         return false;
     }
-    $('#loading').show();
+    loading_show();
     $('#reportsTable5').empty();
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
@@ -3790,7 +3792,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
         },
         initComplete: function(){
             tfoot_bugfix('tblReports6');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/sales/reports#tblReports6';
                 $('html, body').animate({
@@ -3803,7 +3805,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
 
 $(document).on('click','table.tblReports6 tbody tr',function(){
     var data = table6.row(this).data();
-    $('#loading').show();
+    loading_show();
     $('#reportsTable7').empty();
     emptyQuantitative();
 
@@ -3965,7 +3967,7 @@ $(document).on('click','table.tblReports6 tbody tr',function(){
                 },
                 initComplete: function(){
                     tfoot_bugfix('tblReports7');
-                    $('#loading').hide();
+                    loading_hide();
                     setTimeout(() => {
                         window.location.href = '/sales/reports#tblReports7';
                         $('html, body').animate({

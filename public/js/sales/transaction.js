@@ -158,7 +158,7 @@ $(document).on('change', '#gOption', function(){
             }
         ],
         initComplete: function(){
-            $('#loading').hide();
+            loading_hide();
         }
     });
 });
@@ -178,7 +178,7 @@ $(document).on('change', '#rangecategory', function(){
         $('#dailyTableDiv').hide();
         $('#dailyChart').show();
     }
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         google.charts.setOnLoadCallback(function () {
             $.ajax({
@@ -287,7 +287,7 @@ $(document).on('change', '#rangecategory', function(){
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
         

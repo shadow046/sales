@@ -32,7 +32,7 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
@@ -74,7 +74,7 @@ $('.saveBtn').on('click',function(){
         }
     }).then((save) => {
         if (save.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/savePromo",
                 type:"POST",
@@ -103,12 +103,12 @@ $('.saveBtn').on('click',function(){
                                 },
                             });
                         });
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('SAVE SUCCESS','','success');
                         $('#promosModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('SAVE FAILED','','error');
                     }
                 }
@@ -239,7 +239,7 @@ $('.updateBtn').on('click',function(){
         }
     }).then((edit) => {
         if (edit.isConfirmed) {
-            $('#loading').show();
+            loading_show();
             $.ajax({
                 url:"/editPromo",
                 type:"POST",
@@ -278,12 +278,12 @@ $('.updateBtn').on('click',function(){
                                 id: promo_id.toString()
                             }
                         });
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE SUCCESS','','success');
                         $('#promosModal').modal('hide');
                     }
                     else{
-                        $('#loading').hide();
+                        loading_hide();
                         Swal.fire('UPDATE FAILED','','error');
                     }
                 }

@@ -43,7 +43,7 @@ $('#btnGenerate').on('click', function(){
 
     display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
 
-    $('#loading').show();
+    loading_show();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id=header1><span id="subheader1">EXEMPTION REPORT</span> (${display_range})</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports1')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
@@ -173,7 +173,7 @@ $('#btnGenerate').on('click', function(){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports2');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/exemption/reports#tblReports1';
                 $('html, body').animate({
@@ -190,7 +190,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
     $('#reportsTable3').empty();
     exname = data.exname;
 
-    $('#loading').show();
+    loading_show();
     var htmlString = `<hr><div class="px-2 align-content"><h4 id=header2><span id="subheader2">${exname}</span> (${display_range})</h4>
     <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports2')"><i class="fas fa-file-export"></i> EXPORT</button></div>
     <div class="table-responsive container-fluid pt-2">
@@ -338,7 +338,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         },
         initComplete: function(){
             tfoot_bugfix('tblReports2');
-            $('#loading').hide();
+            loading_hide();
             setTimeout(() => {
                 window.location.href = '/exemption/reports#tblReports2';
                 $('html, body').animate({
@@ -351,7 +351,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
 
 $(document).on('click','table.tblReports2 tbody tr',function(){
     var data = table2.row(this).data();
-    $('#loading').show();
+    loading_show();
     $('#reportsTable3').empty();
 
     $.ajax({
@@ -513,7 +513,7 @@ $(document).on('click','table.tblReports2 tbody tr',function(){
                 },
                 initComplete: function(){
                     tfoot_bugfix('tblReports3');
-                    $('#loading').hide();
+                    loading_hide();
                     setTimeout(() => {
                         window.location.href = '/exemption/reports#tblReports3';
                         $('html, body').animate({

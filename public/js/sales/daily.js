@@ -48,7 +48,7 @@ $(document).ready(function() {
 });
 
 $('input[type=radio][name=rOption]').on('change', function() {
-    $('#loading').show();
+    loading_show();
     $('#gOption').change();
     $('.option').html($('input[name=rOption]:checked').val().toUpperCase());
 });
@@ -66,7 +66,7 @@ $(document).on('change', '#gOption', function(){
         return false;
     }
     $('#export_button').prop('disabled', false);
-    $('#loading').show();
+    loading_show();
     $('#rangecategory').change();
     if ($(this).val() == 'Table') {
         $('#dailyTableDiv').show();
@@ -95,7 +95,7 @@ $(document).on('change', '#rangecategory', function(){
         var gtitle = $('#rangecategory').val();
         $('#colhead').html('ITEM CODE');
     }
-    $('#loading').show();
+    loading_show();
     setTimeout(() => {
         var Data;
         google.charts.setOnLoadCallback(function () {
@@ -192,7 +192,7 @@ $(document).on('change', '#rangecategory', function(){
                 }
             ],
             initComplete: function(){
-                $('#loading').hide();
+                loading_hide();
             }
         });
     }, 500);

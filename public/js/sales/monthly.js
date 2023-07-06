@@ -72,7 +72,7 @@ $(document).on('change', '#gOption', function(){
         return false;
     }
 
-    $('#loading').show();
+    loading_show();
     $('#rangecategory').change();
     if ($(this).val() == 'Table') {
         $('#monthlyTableDiv').show();
@@ -210,7 +210,7 @@ $(document).on('change', '#rangecategory', function(){
             }
         ],
         initComplete: function(){
-            $('#loading').hide();
+            loading_hide();
         }
     });
 })

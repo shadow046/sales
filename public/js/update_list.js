@@ -38,7 +38,7 @@ $(document).ready(function(){
         order: [],
         initComplete: function(){
             $(document).prop('title', $('#page-name').text());
-            $('#loading').hide();
+            loading_hide();
         }
     });
 
