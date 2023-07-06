@@ -1362,8 +1362,42 @@ function quantitative_report(reports_header){
             { title: 'SHORT DESCRIPTION', sTitle: 'SHORT DESCRIPTION', data: 'desc1' },
             { title: 'LONG DESCRIPTION', sTitle: 'LONG DESCRIPTION', data: 'desc2' },
             { title: 'STORE SETUP', sTitle: 'STORE SETUP', data: 'setup_name' },
-            { title: 'STORE AREA', sTitle: 'STORE AREA', data: 'area_name' },
-            { title: 'STORE BRANCH', sTitle: 'STORE BRANCH', data: 'store_name' },
+            {
+                title: 'STORE AREA',
+                sTitle: 'STORE AREA',
+                data: 'area_name',
+                "render": function(data, type, row, meta){
+                    if(row.area_name.split("|").length == 1){
+                        var start = '';
+                    }
+                    else{
+                        var start = '• ';
+                    }
+                    return `<div style="white-space:normal;">${start} ${row.area_name.split("|").join("<br/> • ")}</div>`;
+                }
+            },
+            {
+                title: 'STORE BRANCH',
+                sTitle: 'STORE BRANCH',
+                data: 'store_name',
+                "render": function(data, type, row, meta){
+                    if(row.store_name == 'N/A'){
+                        return 'N/A';
+                    }
+                    else if(row.store_name == 'ALL BRANCHES'){
+                        return 'ALL BRANCHES';
+                    }
+                    else{
+                        if(row.store_name.split("|").length == 1){
+                            var start = '';
+                        }
+                        else{
+                            var start = '• ';
+                        }
+                        return `<div style="white-space:normal;">${start} ${row.store_name.split("|").join("<br/> • ")}</div>`;
+                    }
+                }
+            }
         ];
 
         for(var i = 0; i < trans_length; i++){
