@@ -10,7 +10,7 @@
         @can('create')
             <button class="btn btn-custom addBtn float-end" data="salesType"><i class="fas fa-plus"></i> ADD NEW</button>
         @endcan
-            <button class="btn btn-custom btnExport float-end"><i class="fas fa-file-export"></i> EXPORT</button>
+            <button class="btn btn-custom btnExportMaintenance float-end"><i class="fas fa-file-export"></i> EXPORT</button>
     </div>
 </div>
 <div class="table-responsive container-fluid pt-2">

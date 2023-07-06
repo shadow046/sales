@@ -883,6 +883,10 @@ $(document).ready(function() {
     });
 });
 
+$(document).on('click','.btnExportMaintenance',function(){
+    $('.buttons-excel').click();
+});
+
 $(document).on('click','.btnExport',function(){
     var filterInputs = $('.filter-input');
     function hasValue(){
@@ -896,6 +900,8 @@ $(document).on('click','.btnExport',function(){
 
     if(hasValue()){
         $('.export-button-products').click();
+        $('.export-button-stores').click();
+        $('.export-button-companies').click();
     }
     else{
         $('.export-button-all').click();
