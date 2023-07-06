@@ -1957,6 +1957,9 @@ setInterval(() => {
 }, 0);
 
 $('#report_filter').on('change', function(){
+    $('#custom_branch').val('');
+    $('#custom_branch').trigger('chosen:updated');
+
     if($(this).val() == 'STORE'){
         $('.classCustomBranch').show();
         $('.classCustomProduct').hide();
