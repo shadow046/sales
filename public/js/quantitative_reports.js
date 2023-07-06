@@ -733,6 +733,12 @@ function quantitative_report(reports_header){
                     var spanElement = $('span:contains("Column visibility")');
                     spanElement.html('<b>TOGGLE COLUMNS</b>');
                     loading_hide();
+                    setTimeout(() => {
+                        window.location.href = '/sales/reports#tblReportsQ';
+                        $('html, body').animate({
+                            scrollTop: $($.attr(this, 'href')).offset()
+                        }, 1000);
+                    }, 200);
                 }, 500);
             }
         });
@@ -1480,6 +1486,12 @@ function quantitative_report(reports_header){
                     var spanElement = $('span:contains("Column visibility")');
                     spanElement.html('<b>TOGGLE COLUMNS</b>');
                     loading_hide();
+                    setTimeout(() => {
+                        window.location.href = '/sales/reports#tblReportsQ';
+                        $('html, body').animate({
+                            scrollTop: $($.attr(this, 'href')).offset()
+                        }, 1000);
+                    }, 200);
                 }, 500);
             }
         });
@@ -2077,6 +2089,599 @@ function quantitative_report(reports_header){
             }
         });
     }
+    else if($('#report_filter').val() == 'DISCOUNT' && $('#report_classification').val() == 'BY DAY'){
+        loading_show();
+        var reports_header5 = reports_header +' - '+ $('#sales_type').val();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr>
+                        <th class="always-default">DISCOUNT TYPE</th>
+                        <th class="sum">SUNDAY</th>
+                        <th class="sum">MONDAY</th>
+                        <th class="sum">TUESDAY</th>
+                        <th class="sum">WEDNESDAY</th>
+                        <th class="sum">THURSDAY</th>
+                        <th class="sum">FRIDAY</th>
+                        <th class="sum">SATURDAY</th>
+                        <th class="sum">TOTAL</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTableX').append(htmlString);
+        tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 1,
+            },
+            dom: 'Blftrip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/day/discount',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_discount').val()
+                }
+            },
+            columns: [
+                { data: 'discount_name' },
+                {
+                    data: 'sunday_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'monday_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'tuesday_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'wednesday_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'thursday_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'friday_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'saturday_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+            ],
+            order: [],
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
+                };
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
+                });
+            },
+            initComplete: function(){
+                tfoot_bugfix('tblReportsX');
+                loading_hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReportsX';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
+    else if($('#report_filter').val() == 'DISCOUNT' && $('#report_classification').val() == 'BY TIME'){
+        loading_show();
+        var reports_header5 = reports_header +' - '+ $('#sales_type').val();
+        var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header5}</h4>
+        <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+        <div class="table-responsive container-fluid pt-2">
+            <table class="table table-hover table-bordered table-striped tblReportsX" id="tblReportsX" style="width:100%;">
+                <thead style="font-weight:bolder" class="bg-default">
+                    <tr>
+                        <th class="always-default">DISCOUNT TYPE</th>
+                        <th class="sum">12:00AM - 12:59AM</th>
+                        <th class="sum">1:00AM - 1:59AM</th>
+                        <th class="sum">2:00AM - 2:59AM</th>
+                        <th class="sum">3:00AM - 3:59AM</th>
+                        <th class="sum">4:00AM - 4:59AM</th>
+                        <th class="sum">5:00AM - 5:59AM</th>
+                        <th class="sum">6:00AM - 6:59AM</th>
+                        <th class="sum">7:00AM - 7:59AM</th>
+                        <th class="sum">8:00AM - 8:59AM</th>
+                        <th class="sum">9:00AM - 9:59AM</th>
+                        <th class="sum">10:00AM - 10:59AM</th>
+                        <th class="sum">11:00AM - 11:59AM</th>
+                        <th class="sum">12:00PM - 12:59PM</th>
+                        <th class="sum">1:00PM - 1:59PM</th>
+                        <th class="sum">2:00PM - 2:59PM</th>
+                        <th class="sum">3:00PM - 3:59PM</th>
+                        <th class="sum">4:00PM - 4:59PM</th>
+                        <th class="sum">5:00PM - 5:59PM</th>
+                        <th class="sum">6:00PM - 6:59PM</th>
+                        <th class="sum">7:00PM - 7:59PM</th>
+                        <th class="sum">8:00PM - 8:59PM</th>
+                        <th class="sum">9:00PM - 9:59PM</th>
+                        <th class="sum">10:00PM - 10:59PM</th>
+                        <th class="sum">11:00PM - 11:59PM</th>
+                        <th class="sum">TOTAL</th>
+                    </tr>
+                </thead>
+                <tfoot style="font-size: 14px;">
+                    <tr>
+                        <th class="text-right">TOTAL:</th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                        <th class="text-right sum ${sumamt}"></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        </div>`;
+        $('#reportsTableX').append(htmlString);
+        tableX = $('table.tblReportsX').DataTable({
+            scrollX:        true,
+            scrollCollapse: true,
+            fixedColumns:{
+                left: 1,
+            },
+            dom: 'Blftrip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    title: reports_header5,
+                    exportOptions: {
+                        modifier: {
+                        order: 'index',
+                        page: 'all',
+                        search: 'none'
+                        }
+                    }
+                }
+            ],
+            language:{
+                emptyTable: "NO DATA AVAILABLE",
+            },
+            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '/sales/reports/time/discount',
+                data:{
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    sales_type: $('#sales_type').val(),
+                    included: $('#custom_discount').val()
+                }
+            },
+            columns: [
+                { data: 'discount_name' },
+                {
+                    data: 'sales0',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales1',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales2',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales3',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales4',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales5',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales6',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales7',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales8',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales9',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales10',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales11',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales12',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales13',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales14',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales15',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales16',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales17',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales18',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales19',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales20',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales21',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales22',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'sales23',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                },
+                {
+                    data: 'total_sales',
+                    "render": function(data, type, row, meta){
+                        if(type === "sort" || type === 'type'){
+                            return sortAmount(data);
+                        }
+                        return amountType(data);
+                    }
+                }
+            ],
+            order: [],
+            footerCallback: function (row, data, start, end, display){
+                var api = this.api();
+                var intVal = function(i){
+                  if(typeof i === 'string'){
+                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                    if(/\.\d{2}$/.test(cleanValue)){
+                      return parseFloat(cleanValue);
+                    }
+                    else{
+                      return parseInt(cleanValue);
+                    }
+                  }
+                  else if(typeof i === 'number'){
+                    return i;
+                  }
+                  else{
+                    return 0;
+                  }
+                };
+                api.columns('.sum', { page: 'all' }).every(function(){
+                  var sum = this.data().reduce(function(a, b){
+                    return intVal(a) + intVal(b);
+                  }, 0);
+                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                  sum = sum.toString();
+                  var pattern = /(-?\d+)(\d{3})/;
+                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                  this.footer().innerHTML = sum;
+                });
+            },
+            initComplete: function(){
+                tfoot_bugfix('tblReportsX');
+                loading_hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReportsX';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
+            }
+        });
+    }
     else if($('#report_filter').val() == 'DISCOUNT' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
         loading_show();
         var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
@@ -2165,6 +2770,12 @@ function quantitative_report(reports_header){
                     $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
                 }
                 loading_hide();
+                setTimeout(() => {
+                    window.location.href = '/sales/reports#tblReportsQ';
+                    $('html, body').animate({
+                        scrollTop: $($.attr(this, 'href')).offset()
+                    }, 1000);
+                }, 200);
             }
         });
     }
@@ -2256,7 +2867,7 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
     var report_filter = $('#report_filter').val();
     loading_show();
     emptyStandard();
-    if(report_filter == 'stores by day' || report_filter == 'stores by time'){
+    if(report_filter == 'STORE'){
         $('#reportsTableY').empty();
         $('#reportsTableZ').empty();
         $('#reportsTableA').empty();
@@ -2266,7 +2877,7 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
         colData = datacode;
         report_dates1(datacode, headername, urlName, colData);
     }
-    else if(report_filter == 'products by day' || report_filter == 'products by time'){
+    else if(report_filter == 'PRODUCT'){
         $('#reportsTableY').empty();
         $('#reportsTableZ').empty();
         $('#reportsTableA').empty();
@@ -2276,13 +2887,23 @@ $(document).on('click','table.tblReportsX tbody tr',function(){
         colData = datacode;
         report_dates2(datacode, headername, urlName, colData);
     }
-    else if(report_filter == 'transactions by day' || report_filter == 'transactions by time'){
+    else if(report_filter == 'TRANSACTION TYPE'){
         $('#reportsTableY').empty();
         $('#reportsTableZ').empty();
         $('#reportsTableA').empty();
         datacode = data.trantype;
         headername = data.trantype;
         urlName = '/sales/reports/transaction/date';
+        colData = datacode;
+        report_dates1(datacode, headername, urlName, colData);
+    }
+    else if(report_filter == 'DISCOUNT'){
+        $('#reportsTableY').empty();
+        $('#reportsTableZ').empty();
+        $('#reportsTableA').empty();
+        datacode = data.discount_name;
+        headername = data.discount_name;
+        urlName = '/sales/reports/discount/date';
         colData = datacode;
         report_dates1(datacode, headername, urlName, colData);
     }
@@ -2640,23 +3261,30 @@ $(document).on('click','table.tblReportsY tbody tr',function(){
     var data = tableY.row(this).data();
     selected_date = data.date;
     loading_show();
-    if(report_filter == 'stores by day' || report_filter == 'stores by time'){
+    if(report_filter == 'STORE'){
         urlName = '/sales/reports/time_A';
         tblType = 'storecode';
         colData = datacode;
         selected_date = data.date;
         report_hoursX(headername, urlName, tblType, colData, selected_date);
     }
-    if(report_filter == 'products by day' || report_filter == 'products by time'){
+    if(report_filter == 'PRODUCT'){
         urlName = '/sales/reports/time_B';
         tblType = 'itemcode';
         colData = datacode;
         selected_date = data.date;
         report_hoursY(headername, urlName, tblType, colData, selected_date);
     }
-    if(report_filter == 'transactions by day' || report_filter == 'transactions by time'){
+    if(report_filter == 'TRANSACTION TYPE'){
         urlName = '/sales/reports/time_A';
         tblType = 'trantype';
+        colData = datacode;
+        selected_date = data.date;
+        report_hoursX(headername, urlName, tblType, colData, selected_date);
+    }
+    if(report_filter == 'DISCOUNT'){
+        urlName = '/sales/reports/time_A';
+        tblType = 'discname';
         colData = datacode;
         selected_date = data.date;
         report_hoursX(headername, urlName, tblType, colData, selected_date);
@@ -2996,7 +3624,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
     var selected_time = data.time_range_24hr.split(' - ');
     var start_hour = selected_time[0];
     var end_hour = selected_time[1];
-    if(report_filter == 'stores by day' || report_filter == 'stores by time'){
+    if(report_filter == 'STORE'){
         loading_show();
         $('#reportsTableA').empty();
 
@@ -3169,7 +3797,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
         });
     }
 
-    if(report_filter == 'transactions by day' || report_filter == 'transactions by time'){
+    if(report_filter == 'TRANSACTION TYPE' || report_filter == 'DISCOUNT'){
         loading_show();
         $('#reportsTableA').empty();
 
@@ -3259,7 +3887,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                     selected_date: selected_date,
                     start_hour: start_hour,
                     end_hour: end_hour,
-                    tblType: 'trantype'
+                    tblType: report_filter == 'TRANSACTION TYPE' ? 'trantype' : 'discname'
                 }
             },
             autoWidth: false,
@@ -3331,7 +3959,7 @@ $(document).on('click','table.tblReportsZ tbody tr',function(){
                     }, 1000);
                     headerA = $('#subheaderA').text();
                     urlName = '/sales/reports/transaction_A';
-                    tblType = 'trantype';
+                    tblType = report_filter == 'TRANSACTION TYPE' ? 'trantype' : 'discname';
                     colData = datacode;
                     selected_date = selected_date;
                     start_hour = start_hour;
