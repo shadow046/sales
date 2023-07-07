@@ -194,6 +194,8 @@ $('#btnReset').on('click', function(){
     $('#formReportsQuantitative').hide();
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
+    $('#reportsTable2B').empty();
+    $('#reportsTable2C').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -220,6 +222,8 @@ $('#report_type').on('change', function(){
     changeComparative();
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
+    $('#reportsTable2B').empty();
+    $('#reportsTable2C').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -234,6 +238,8 @@ $('#report_category').on('change', function(){
     changeComparative();
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
+    $('#reportsTable2B').empty();
+    $('#reportsTable2C').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -260,13 +266,15 @@ $('#end_date').on('change', function(){
     }
 });
 
-var table1, table2A, table2, table3, table4, table5, table6, table7,
-tableX, tableY, tableZ, tableA, tableB, tableC, sumamt, tableQ;
+var table1, table2A, table2B, table2C, table2, table3, table4, table5, table6, table7,
+tableQ, tableX, tableY, tableZ, tableA, tableB, tableC, sumamt;
 $('#btnGenerate').on('click', function(){
     $('.req').hide();
     $('#reportsTableQ').empty();
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
+    $('#reportsTable2B').empty();
+    $('#reportsTable2C').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -1232,6 +1240,8 @@ var headername, datacode, selected_date;
 $(document).on('click','table.tblReports1 tbody tr',function(){
     loading_show();
     $('#reportsTable2A').empty();
+    $('#reportsTable2B').empty();
+    $('#reportsTable2C').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
@@ -4366,6 +4376,7 @@ function changeComparative(){
 }
 
 function emptyQuantitative(){
+    $('#reportsTableQ').empty();
     $('#reportsTableX').empty();
     $('#reportsTableY').empty();
     $('#reportsTableZ').empty();
@@ -4377,6 +4388,8 @@ function emptyQuantitative(){
 function emptyStandard(){
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
+    $('#reportsTable2B').empty();
+    $('#reportsTable2C').empty();
     $('#reportsTable2').empty();
     $('#reportsTable3').empty();
     $('#reportsTable4').empty();
