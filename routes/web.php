@@ -106,6 +106,10 @@ Route::middleware(['session'])->group(function () {
         Route::get('/sales/reports/discount/branch','byDiscount_Branch');
         Route::get('/sales/reports/sub/branch_A','bySubBranchA');
         Route::get('/sales/reports/sub/branch_B','bySubBranchB');
+        Route::get('/sales/reports/sub/product_A','bySubProductA');
+        Route::get('/sales/reports/sub/product_B','bySubProductB');
+        Route::get('/sales/reports/sub/transaction_A','bySubTransactionA');
+        Route::get('/sales/reports/sub/transaction_B','bySubTransactionB');
         Route::get('/sales/reports/time_A','byTimeA');
         Route::get('/sales/reports/time_B','byTimeB');
         Route::get('/sales/reports/time_C','byTimeC');
