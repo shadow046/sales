@@ -68,7 +68,8 @@ $(document).ready(function(){
         dashboardTable = $('table.dashboardTable').DataTable({
             processing: true,
             serverSide: false,
-            "dom": 'lrtp',
+            "dom": 'Brtp',
+            buttons: ['colvis'],
             order:[[4,"desc"]],
             // "ordering": false,
             ajax: {
@@ -90,6 +91,7 @@ $(document).ready(function(){
                 }
             ],
             initComplete: function(){
+                $('span:contains("Column visibility")').html('<b>TOGGLE COLUMNS</b>');
                 loading_hide();
             }
         });
@@ -489,6 +491,13 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
 
 $(document).on('keyup', '.dashboardTable thead .column_search', function () {
     dashboardTable
+        .column( $(this).parent().index() )
+        .search( this.value )
+        .draw();
+});
+
+$(document).on('keyup', '.categoryTable thead .column_search', function () {
+    categoryTable
         .column( $(this).parent().index() )
         .search( this.value )
         .draw();

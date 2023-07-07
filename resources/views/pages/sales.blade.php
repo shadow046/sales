@@ -72,6 +72,12 @@
                 <table class="table table-hover table-bordered categoryTable" id="categoryTable" style="width:100%;display:none">
                     <thead style="font-weight:bolder" class="bg-default">
                         <tr>
+                            <th class="dt-head-center"><input type="search" class="column_search" style="width:85%"/></th>
+                            <th class="dt-head-center"><input type="search" class="column_search" style="width:85%"/></th>
+                            <th class="dt-head-center"></th>
+                            <th class="dt-head-center"></th>
+                        </tr>
+                        <tr>
                             <th class="dt-head-center">PRODUCT CATEGORY</th>
                             <th class="dt-head-center">PRODUCT DESCRIPTION</th>
                             <th class="dt-head-center">QUANTITY</th>
