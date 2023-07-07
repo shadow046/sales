@@ -103,7 +103,7 @@ $(document).ready(function(){
             },
             {
                 extend: 'excelHtml5',
-                title: 'Export - All',
+                title: 'Export - Stores All',
                 exportOptions:{
                     modifier:{
                         search: 'none',
