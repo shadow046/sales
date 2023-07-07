@@ -1349,6 +1349,123 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
+    public function bySubTimeA(Request $request){
+        $data = collect();
+        for($i = 0; $i < 24; $i++){
+            $start_hour = sprintf("%02d:00:00", $i);
+            $end_hour = sprintf("%02d:59:59", $i);
+            $hour_range_12hr = date('h:i A', strtotime($start_hour)) . ' - ' . date('h:i A', strtotime($end_hour));
+            $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
+            $result = Hdr::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
+                ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
+                ->selectRaw('COALESCE(SUM(gross), 0) AS gross_sales, COALESCE(SUM(totalsales), 0) AS total_sales, COALESCE(SUM(netsales), 0) AS net_sales')
+                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
+                ->where($request->tblType, $request->datacode)
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->whereTime('ttime', '>=', $start_hour)
+                ->whereTime('ttime', '<=', $end_hour)
+                ->where('refund', '=', '0')
+                ->where('cancelled', '=', '0')
+                ->where('void', '=', '0');
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $result->whereIn('storecode', $store_codes);
+                }
+                $result = $result->first();
+            if(!$result){
+                $result = (object)[
+                    'time_range_12hr' => $hour_range_12hr,
+                    'time_range_24hr' => $hour_range_24hr,
+                    'gross_sales' => 0,
+                    'total_sales' => 0,
+                    'net_sales' => 0,
+                    'tno' => 0,
+                ];
+            }
+            if($result->gross_sales > 0){
+                $data->push($result);
+            }
+        }
+        return DataTables::of($data)->make(true);
+    }
+
+    public function bySubTimeB(Request $request){
+        $data = collect();
+        for($i = 0; $i < 24; $i++){
+            $start_hour = sprintf("%02d:00:00", $i);
+            $end_hour = sprintf("%02d:59:59", $i);
+            $hour_range_12hr = date('h:i A', strtotime($start_hour)) . ' - ' . date('h:i A', strtotime($end_hour));
+            $hour_range_24hr = date('H:i', strtotime($start_hour)) . ' - ' . date('H:i', strtotime($end_hour));
+            $result = Dtl::selectRaw("'".$hour_range_24hr."' as time_range_24hr")
+                ->selectRaw("'".$hour_range_12hr."' as time_range_12hr")
+                ->selectRaw('COALESCE(SUM(qty), 0) AS quantity, COALESCE(SUM(unitprice * qty), 0) AS gross_sales')
+                ->selectRaw('COUNT(DISTINCT tnumber) as tno')
+                ->where($request->tblType, $request->datacode)
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->whereTime('ttime', '>=', $start_hour)
+                ->whereTime('ttime', '<=', $end_hour)
+                ->where('refund', '=', '0')
+                ->where('cancelled', '=', '0')
+                ->where('void', '=', '0');
+                if(auth()->user()->store != 'X'){
+                    if(auth()->user()->store == '0'){
+                        echo(null);
+                    }
+                    else{
+                        $store_codes = array();
+                        $array = explode("|", auth()->user()->store);
+                        foreach($array as $value){
+                            if(!str_contains($value, '-0')){
+                                $user = Store::where('id', $value)->first();
+                                array_push($store_codes, $user->branch_code);
+                            }
+                            else{
+                                $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                                $store_codes_add = array_map(function($item){
+                                    return $item['branch_code'];
+                                }, $user_array);
+                                $store_codes = array_merge($store_codes, $store_codes_add);
+                            }
+                        }
+                    }
+                    $result->whereIn('storecode', $store_codes);
+                }
+                $result = $result->first();
+            if(!$result){
+                $result = (object)[
+                    'time_range_12hr' => $hour_range_12hr,
+                    'time_range_24hr' => $hour_range_24hr,
+                    'quantity' => 0,
+                    'gross_sales' => 0,
+                    'tno' => 0,
+                ];
+            }
+            if($result->gross_sales > 0){
+                $data->push($result);
+            }
+        }
+        return DataTables::of($data)->make(true);
+    }
+
     public function byTimeA(Request $request){
         $data = collect();
         for($i = 0; $i < 24; $i++){
