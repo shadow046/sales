@@ -16,4 +16,9 @@ class Dtl extends Model
     {
         return $this->belongsTo(Product::class, 'itemcode', 'item_code');
     }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'storecode', 'branch_code');
+    }
 }

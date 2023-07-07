@@ -6,6 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if(Request::is('login'))
+        <meta http-equiv="refresh" content="300;url={{ url('/login') }}">
+    @endif
+
     @if(env('APP_SYS') == 'DD')
         <link href="/dd-logo.ico" rel="icon" type="image/x-icon"/>
         <link href="/dd-logo.ico" rel="shortcut icon" type="image/x-icon"/>

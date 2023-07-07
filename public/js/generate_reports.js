@@ -1249,6 +1249,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         headername = data.itemcode+': '+data.desc1;
         urlName = '/sales/reports/product/date';
         colData = datacode;
+        report_storesB(datacode, 'itemcode');
         report_datesB(datacode, headername, urlName, colData);
     }
     else if(report_category == 'COMBO MEAL'){
@@ -1266,281 +1267,11 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         report_datesB(datacode, headername, urlName, colData);
     }
     else if(report_category == 'TRANSACTION TYPE'){
-        loading_show();
-        var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
-        var reports_header = data.transaction_name+' ('+display_range+') - Per Store';
-        $('#tblReports2AHeader').text(reports_header);
-        var htmlString = `
-        <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports2A" type="button"><span>PDF</span></button>
-        <div class="table-responsive container-fluid pt-2 w-100">
-            <table class="table table-hover table-bordered table-striped tblReports2A" id="tblReports2A" style="width:100%;">
-                <thead style="font-weight:bolder" class="bg-default">
-                    <tr>
-                        <th class="always-default">
-                            <input type="search" class="form-control filter-input2A" data-column="0" style="border:1px solid #808080"/><br>
-                            STORE CODE
-                        </th>
-                        <th class="always-default">
-                            <input type="search" class="form-control filter-input2A" data-column="1" style="border:1px solid #808080"/><br>
-                            BRANCH NAME
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="2" style="border:1px solid #808080"/><br>
-                            COMPANY NAME
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="3" style="border:1px solid #808080"/><br>
-                            AREA MANAGER
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="4" style="border:1px solid #808080"/><br>
-                            STORE AREA
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="5" style="border:1px solid #808080"/><br>
-                            REGION
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="6" style="border:1px solid #808080"/><br>
-                            STORE TYPE
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="7" style="border:1px solid #808080"/><br>
-                            STORE SETUP
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="8" style="border:1px solid #808080"/><br>
-                            STORE GROUP
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="9" style="border:1px solid #808080"/><br>
-                            MALL SUB-GROUP
-                        </th>
-                        <th>
-                            <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/><br>
-                            NETWORK SETUP
-                        </th>
-                        <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/><br>
-                            NO. OF TRANSACTIONS
-                        </th>
-                        <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/><br>
-                            GROSS SALES
-                        </th>
-                        <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="13" style="border:1px solid #808080"/><br>
-                            TOTAL SALES
-                        </th>
-                        <th class="sum">
-                            <input type="search" class="form-control filter-input2A" data-column="14" style="border:1px solid #808080"/><br>
-                            NET SALES
-                        </th>
-                    </tr>
-                </thead>
-                <tfoot style="font-size: 14px;">
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th class="text-right sum"></th>
-                        <th class="text-right sum sumamt"></th>
-                        <th class="text-right sum sumamt"></th>
-                        <th class="text-right sum sumamt"></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        </div>`;
-        $('#reportsTable2A').append(htmlString);
-        table2A = $('table.tblReports2A').DataTable({
-            scrollX:        true,
-            scrollCollapse: true,
-            fixedColumns:{
-                left: 2,
-            },
-            dom: 'Blftrip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: 'Excel',
-                    title: reports_header,
-                    exportOptions: {
-                        modifier: {
-                        order: 'index',
-                        page: 'all',
-                        search: 'none'
-                        }
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'PDF',
-                    title: reports_header,
-                    exportOptions: {
-                        modifier: {
-                        order: 'index',
-                        page: 'all',
-                        search: 'none'
-                        }
-                    }
-                }
-            ],
-            language:{
-                emptyTable: "NO DATA AVAILABLE",
-            },
-            aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
-            processing: true,
-            serverSide: false,
-            ajax: {
-                url: '/sales/reports/transaction/branch',
-                data:{
-                    start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val(),
-                    datacode: data.transaction_name
-                }
-            },
-            columnDefs: [
-                {
-                    "targets": [2,3,6,7,8,9,10],
-                    "visible": false,
-                    "searchable": true
-                },
-            ],
-            columns: [
-                { data: 'branch_code' },
-                { data: 'store_name' },
-                { data: 'company_name' },
-                { data: 'area_manager' },
-                { data: 'store_area' },
-                { data: 'region' },
-                { data: 'type' },
-                {
-                    data: 'setup',
-                    render: function(data, type, row, meta){
-                        var setups = data.split(',');
-                        var setupEnumeration = [];
-                        for(var i = 0; i < setups.length; i++){
-                            var setup = setups[i];
-                            var setupName = '';
-
-                            for(var j = 0; j < dataArray.length; j++){
-                                if(dataArray[j][0] == setup){
-                                    setupName = dataArray[j][1];
-                                    setupEnumeration.push(setupName);
-                                    break;
-                                }
-                            }
-                        }
-                        return `<div style="white-space: normal; width: 400px;">${setupEnumeration.join(', ')}</div>`;
-                    }
-                },
-                { data: 'store_group' },
-                { data: 'subgroup' },
-                { data: 'network_setup' },
-                {
-                    data: 'tno',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${data.toLocaleString()}</span>`;
-                    }
-                },
-                {
-                    data: 'gross_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
-                    }
-                },
-                {
-                    data: 'total_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
-                    }
-                },
-                {
-                    data: 'net_sales',
-                    "render": function(data, type, row, meta){
-                        if(type === "sort" || type === 'type'){
-                            return sortAmount(data);
-                        }
-                        return `<span class="float-end">${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
-                    }
-                }
-            ],
-            order: [],
-            footerCallback: function (row, data, start, end, display){
-                var api = this.api();
-                var intVal = function(i){
-                  if(typeof i === 'string'){
-                    var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
-                    if(/\.\d{2}$/.test(cleanValue)){
-                      return parseFloat(cleanValue);
-                    }
-                    else{
-                      return parseInt(cleanValue);
-                    }
-                  }
-                  else if(typeof i === 'number'){
-                    return i;
-                  }
-                  else{
-                    return 0;
-                  }
-                };
-                api.columns('.sum', { page: 'all' }).every(function(){
-                  var sum = this.data().reduce(function(a, b){
-                    return intVal(a) + intVal(b);
-                  }, 0);
-                  sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
-                  sum = sum.toString();
-                  var pattern = /(-?\d+)(\d{3})/;
-                  while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
-                  this.footer().innerHTML = sum;
-                });
-            },
-            initComplete: function(){
-                tfoot_bugfix('tblReports2A');
-                loading_hide();
-                setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReports2A';
-                    $('html, body').animate({
-                        scrollTop: $($.attr(this, 'href')).offset()
-                    }, 1000);
-                }, 200);
-            }
-        });
-        setInterval(() => {
-            if($('.popover-header').is(':visible')){
-                for(var i=0; i<=14; i++){
-                    if(table2A.column(i).visible()){
-                        $('#filter2-'+i).prop('checked', true);
-                    }
-                    else{
-                        $('#filter2-'+i).prop('checked', false);
-                    }
-                }
-            }
-        }, 0);
         datacode = data.transaction_name;
         headername = data.transaction_name;
         urlName = '/sales/reports/transaction/date';
         colData = datacode;
+        report_storesA(datacode, 'trantype');
         report_datesA(datacode, headername, urlName, colData);
     }
     else if(report_category == 'TENDER TYPE'){
@@ -1563,6 +1294,529 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         return false;
     }
 });
+
+function report_storesA(datacode, tblType){
+    loading_show();
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var reports_header = datacode+' ('+display_range+') - Per Store';
+    $('#tblReports2AHeader').text(reports_header);
+    var htmlString = `
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports2A" type="button"><span>PDF</span></button>
+    <div class="table-responsive container-fluid pt-2 w-100">
+        <table class="table table-hover table-bordered table-striped tblReports2A" id="tblReports2A" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr>
+                    <th class="always-default">
+                        <input type="search" class="form-control filter-input2A" data-column="0" style="border:1px solid #808080"/><br>
+                        STORE CODE
+                    </th>
+                    <th class="always-default">
+                        <input type="search" class="form-control filter-input2A" data-column="1" style="border:1px solid #808080"/><br>
+                        BRANCH NAME
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="2" style="border:1px solid #808080"/><br>
+                        COMPANY NAME
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="3" style="border:1px solid #808080"/><br>
+                        AREA MANAGER
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="4" style="border:1px solid #808080"/><br>
+                        STORE AREA
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="5" style="border:1px solid #808080"/><br>
+                        REGION
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="6" style="border:1px solid #808080"/><br>
+                        STORE TYPE
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="7" style="border:1px solid #808080"/><br>
+                        STORE SETUP
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="8" style="border:1px solid #808080"/><br>
+                        STORE GROUP
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="9" style="border:1px solid #808080"/><br>
+                        MALL SUB-GROUP
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/><br>
+                        NETWORK SETUP
+                    </th>
+                    <th class="sum">
+                        <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/><br>
+                        NO. OF TRANSACTIONS
+                    </th>
+                    <th class="sum">
+                        <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/><br>
+                        GROSS SALES
+                    </th>
+                    <th class="sum">
+                        <input type="search" class="form-control filter-input2A" data-column="13" style="border:1px solid #808080"/><br>
+                        TOTAL SALES
+                    </th>
+                    <th class="sum">
+                        <input type="search" class="form-control filter-input2A" data-column="14" style="border:1px solid #808080"/><br>
+                        NET SALES
+                    </th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                    <th class="text-right sum sumamt"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable2A').append(htmlString);
+    table2A = $('table.tblReports2A').DataTable({
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:{
+            left: 2,
+        },
+        dom: 'Blftrip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: reports_header,
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: reports_header,
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '/sales/reports/sub/branch_A',
+            data:{
+                start_date: $('#start_date').val(),
+                end_date: $('#end_date').val(),
+                tblType: tblType,
+                datacode: datacode
+            }
+        },
+        columnDefs: [
+            {
+                "targets": [2,3,6,7,8,9,10],
+                "visible": false,
+                "searchable": true
+            },
+        ],
+        columns: [
+            { data: 'branch_code' },
+            { data: 'store_name' },
+            { data: 'company_name' },
+            { data: 'area_manager' },
+            { data: 'store_area' },
+            { data: 'region' },
+            { data: 'type' },
+            {
+                data: 'setup',
+                render: function(data, type, row, meta){
+                    var setups = data.split(',');
+                    var setupEnumeration = [];
+                    for(var i = 0; i < setups.length; i++){
+                        var setup = setups[i];
+                        var setupName = '';
+
+                        for(var j = 0; j < dataArray.length; j++){
+                            if(dataArray[j][0] == setup){
+                                setupName = dataArray[j][1];
+                                setupEnumeration.push(setupName);
+                                break;
+                            }
+                        }
+                    }
+                    return `<div style="white-space: normal; width: 400px;">${setupEnumeration.join(', ')}</div>`;
+                }
+            },
+            { data: 'store_group' },
+            { data: 'subgroup' },
+            { data: 'network_setup' },
+            {
+                data: 'tno',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'total_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(row.total_sales).toFixed(2))}</span>`;
+                }
+            },
+            {
+                data: 'net_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(row.net_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        order: [],
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+                if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                    return parseFloat(cleanValue);
+                }
+                else{
+                    return parseInt(cleanValue);
+                }
+                }
+                else if(typeof i === 'number'){
+                return i;
+                }
+                else{
+                return 0;
+                }
+            };
+            api.columns('.sum', { page: 'all' }).every(function(){
+                var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+                }, 0);
+                sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                sum = sum.toString();
+                var pattern = /(-?\d+)(\d{3})/;
+                while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                this.footer().innerHTML = sum;
+            });
+        },
+        initComplete: function(){
+            tfoot_bugfix('tblReports2A');
+            loading_hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReports2A';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
+    setInterval(() => {
+        if($('.popover-header').is(':visible')){
+            for(var i=0; i<=14; i++){
+                if(table2A.column(i).visible()){
+                    $('#filter2-'+i).prop('checked', true);
+                }
+                else{
+                    $('#filter2-'+i).prop('checked', false);
+                }
+            }
+        }
+    }, 0);
+}
+
+function report_storesB(datacode, tblType){
+    loading_show();
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var reports_header = datacode+' ('+display_range+') - Per Store';
+    alert(reports_header);
+    $('#tblReports2AHeader').text(reports_header);
+    var htmlString = `
+    <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReports2A" type="button"><span>PDF</span></button>
+    <div class="table-responsive container-fluid pt-2 w-100">
+        <table class="table table-hover table-bordered table-striped tblReports2A" id="tblReports2A" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr>
+                    <th class="always-default">
+                        <input type="search" class="form-control filter-input2A" data-column="0" style="border:1px solid #808080"/><br>
+                        STORE CODE
+                    </th>
+                    <th class="always-default">
+                        <input type="search" class="form-control filter-input2A" data-column="1" style="border:1px solid #808080"/><br>
+                        BRANCH NAME
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="2" style="border:1px solid #808080"/><br>
+                        COMPANY NAME
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="3" style="border:1px solid #808080"/><br>
+                        AREA MANAGER
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="4" style="border:1px solid #808080"/><br>
+                        STORE AREA
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="5" style="border:1px solid #808080"/><br>
+                        REGION
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="6" style="border:1px solid #808080"/><br>
+                        STORE TYPE
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="7" style="border:1px solid #808080"/><br>
+                        STORE SETUP
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="8" style="border:1px solid #808080"/><br>
+                        STORE GROUP
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="9" style="border:1px solid #808080"/><br>
+                        MALL SUB-GROUP
+                    </th>
+                    <th>
+                        <input type="search" class="form-control filter-input2A" data-column="10" style="border:1px solid #808080"/><br>
+                        NETWORK SETUP
+                    </th>
+                    <th class="sum">
+                        <input type="search" class="form-control filter-input2A" data-column="11" style="border:1px solid #808080"/><br>
+                        QUANTITY
+                    </th>
+                    <th class="sum">
+                        <input type="search" class="form-control filter-input2A" data-column="12" style="border:1px solid #808080"/><br>
+                        GROSS SALES
+                    </th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="text-right sum"></th>
+                    <th class="text-right sum sumamt"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable2A').append(htmlString);
+    table2A = $('table.tblReports2A').DataTable({
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:{
+            left: 2,
+        },
+        dom: 'Blftrip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: reports_header,
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: reports_header,
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '/sales/reports/sub/branch_B',
+            data:{
+                start_date: $('#start_date').val(),
+                end_date: $('#end_date').val(),
+                tblType: tblType,
+                datacode: datacode
+            }
+        },
+        columnDefs: [
+            {
+                "targets": [2,3,6,7,8,9,10],
+                "visible": false,
+                "searchable": true
+            },
+        ],
+        columns: [
+            { data: 'branch_code' },
+            { data: 'store_name' },
+            { data: 'company_name' },
+            { data: 'area_manager' },
+            { data: 'store_area' },
+            { data: 'region' },
+            { data: 'type' },
+            {
+                data: 'setup',
+                render: function(data, type, row, meta){
+                    var setups = data.split(',');
+                    var setupEnumeration = [];
+                    for(var i = 0; i < setups.length; i++){
+                        var setup = setups[i];
+                        var setupName = '';
+
+                        for(var j = 0; j < dataArray.length; j++){
+                            if(dataArray[j][0] == setup){
+                                setupName = dataArray[j][1];
+                                setupEnumeration.push(setupName);
+                                break;
+                            }
+                        }
+                    }
+                    return `<div style="white-space: normal; width: 400px;">${setupEnumeration.join(', ')}</div>`;
+                }
+            },
+            { data: 'store_group' },
+            { data: 'subgroup' },
+            { data: 'network_setup' },
+            {
+                data: 'quantity',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        order: [],
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+                if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                    return parseFloat(cleanValue);
+                }
+                else{
+                    return parseInt(cleanValue);
+                }
+                }
+                else if(typeof i === 'number'){
+                return i;
+                }
+                else{
+                return 0;
+                }
+            };
+            api.columns('.sum', { page: 'all' }).every(function(){
+                var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+                }, 0);
+                sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                sum = sum.toString();
+                var pattern = /(-?\d+)(\d{3})/;
+                while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                this.footer().innerHTML = sum;
+            });
+        },
+        initComplete: function(){
+            tfoot_bugfix('tblReports2A');
+            loading_hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReports2A';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
+    setInterval(() => {
+        if($('.popover-header').is(':visible')){
+            for(var i=0; i<=14; i++){
+                if(table2A.column(i).visible()){
+                    $('#filter2-'+i).prop('checked', true);
+                }
+                else{
+                    $('#filter2-'+i).prop('checked', false);
+                }
+            }
+        }
+    }, 0);
+}
 
 function report_datesA(datacode, headername, urlName, colData){
     var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
@@ -4050,7 +4304,7 @@ setInterval(() => {
         $('.reportsTable1').hide();
     }
 
-    if(!$('#reportsTable2A').is(':empty') && $('#report_category').val() == 'TRANSACTION TYPE'){
+    if(!$('#reportsTable2A').is(':empty')){
         $('.reportsTable2A').show();
     }
     else{
