@@ -1239,6 +1239,43 @@ class GenerateReportsController extends Controller
             ->make(true);
     }
 
+    public function bySubProduct(Request $request){
+        $data = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
+            ->where($request->tblType, $request->datacode)
+            ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+            ->where('itemcat', '!=', '')
+            ->where('refund', '=', '0')
+            ->where('cancelled', '=', '0')
+            ->where('void', '=', '0');
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+            $data->groupBy('itemcat','itemcode','desc1','desc2');
+            $data->orderBy('quantity', 'DESC');
+            $data = $data->get();
+        return DataTables::of($data)->make(true);
+    }
+
     public function bySubTransactionA(Request $request){
         $data = Hdr::selectRaw('trantype as transaction_name, SUM(gross) as gross_sales, SUM(totalsales) as total_sales, SUM(netsales) as net_sales')
                 ->selectRaw('COUNT(DISTINCT tnumber) as tno')

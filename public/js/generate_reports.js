@@ -1257,6 +1257,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         headername = data.branch_name;
         urlName = '/sales/reports/branch/date';
         colData = datacode;
+        report_products(datacode, headername, 'storecode');
         report_trantypeA(datacode, headername, 'storecode');
         report_datesA(datacode, headername, urlName, colData);
     }
@@ -1292,6 +1293,7 @@ $(document).on('click','table.tblReports1 tbody tr',function(){
         headername = data.transaction_name;
         urlName = '/sales/reports/transaction/date';
         colData = datacode;
+        report_products(datacode, headername, 'trantype');
         report_storesA(datacode, headername, 'trantype');
         report_datesA(datacode, headername, urlName, colData);
     }
@@ -1836,6 +1838,171 @@ function report_storesB(datacode, headername, tblType){
             }
         }
     }, 0);
+}
+
+function report_products(datacode, headername, tblType){
+    loading_show();
+    var display_range = (moment($('#start_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')+' TO '+moment($('#end_date').val(), 'YYYY-MM-DD').format('MMM. DD, YYYY')).toUpperCase();
+    var reports_header = headername+' ('+display_range+') - Per Product';
+    var htmlString = `<hr><div class="px-2 align-content"><h4>${reports_header}</h4>
+    <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReports2B')"><i class="fas fa-file-export"></i> EXPORT</button></div>
+    <div class="table-responsive container-fluid pt-2">
+        <table class="table table-hover table-bordered table-striped tblReports2B" id="tblReports2B" style="width:100%;">
+            <thead style="font-weight:bolder" class="bg-default">
+                <tr class="tbsearch">
+                    <td>
+                        <input type="search" class="form-control filter-input2B" data-column="0" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2B" data-column="1" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2B" data-column="2" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2B" data-column="3" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2B" data-column="4" style="border:1px solid #808080"/>
+                    </td>
+                    <td>
+                        <input type="search" class="form-control filter-input2B" data-column="5" style="border:1px solid #808080"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>CATEGORY</th>
+                    <th>ITEM CODE</th>
+                    <th>SHORT DESCRIPTION</th>
+                    <th>LONG DESCRIPTION</th>
+                    <th>QTY</th>
+                    <th class="sum">GROSS SALES</th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 14px;">
+                <tr>
+                    <th class="text-right" colspan="5">TOTAL:</th>
+                    <th class="text-right sum sumamt"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+    </div>`;
+    $('#reportsTable2B').append(htmlString);
+    table2B = $('table.tblReports2B').DataTable({
+        dom: 'Blftrip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: reports_header,
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: reports_header,
+                exportOptions: {
+                    modifier: {
+                    order: 'index',
+                    page: 'all',
+                    search: 'none'
+                    }
+                }
+            }
+        ],
+        language:{
+            emptyTable: "NO DATA AVAILABLE",
+        },
+        aLengthMenu:[[10,25,50,100,500,1000,-1], [10,25,50,100,500,1000,"All"]],
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '/sales/reports/sub/product',
+            data:{
+                start_date: $('#start_date').val(),
+                end_date: $('#end_date').val(),
+                tblType: tblType,
+                datacode: datacode
+            }
+        },
+        autoWidth: false,
+        columns: [
+            { data: 'itemcat' },
+            { data: 'itemcode' },
+            { data: 'desc1' },
+            {
+                data: 'desc2',
+                "render": function(data, type, row, meta){
+                    return `<div class="wrap-content" style="width: 300px !important;">${data}</div>`;
+                }
+            },
+            {
+                data: 'quantity',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${data.toLocaleString()}</span>`;
+                }
+            },
+            {
+                data: 'gross_sales',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return `<span class="float-end">${formatNumber(parseFloat(row.gross_sales).toFixed(2))}</span>`;
+                }
+            }
+        ],
+        order: [],
+        footerCallback: function (row, data, start, end, display){
+            var api = this.api();
+            var intVal = function(i){
+                if(typeof i === 'string'){
+                var cleanValue = i.replace(/[^\d.-]/g, '').replace(/,/g, '');
+                if(/\.\d{2}$/.test(cleanValue)){
+                    return parseFloat(cleanValue);
+                }
+                else{
+                    return parseInt(cleanValue);
+                }
+                }
+                else if(typeof i === 'number'){
+                return i;
+                }
+                else{
+                return 0;
+                }
+            };
+            api.columns('.sum', { page: 'all' }).every(function(){
+                var sum = this.data().reduce(function(a, b){
+                return intVal(a) + intVal(b);
+                }, 0);
+                sum = !Number.isInteger(sum) ? Number(sum).toFixed(2) : sum;
+                sum = sum.toString();
+                var pattern = /(-?\d+)(\d{3})/;
+                while (pattern.test(sum)) sum = sum.replace(pattern, "$1,$2");
+                this.footer().innerHTML = sum;
+            });
+        },
+        initComplete: function(){
+            tfoot_bugfix('tblReports2B');
+            loading_hide();
+            setTimeout(() => {
+                window.location.href = '/sales/reports#tblReports2B';
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset()
+                }, 1000);
+            }, 200);
+        }
+    });
 }
 
 function report_trantypeA(datacode, headername, tblType){
@@ -4595,6 +4762,14 @@ $(document).on('keyup search','.filter-input2A', function(){
     table2A.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-input2B', function(){
+    table2B.column($(this).data('column')).search($(this).val()).draw();
+});
+
+$(document).on('keyup search','.filter-input2C', function(){
+    table2C.column($(this).data('column')).search($(this).val()).draw();
+});
+
 $(document).on('keyup search','.filter-input2', function(){
     table2.column($(this).data('column')).search($(this).val()).draw();
 });
@@ -4619,6 +4794,14 @@ $(document).on('keyup search','.filter-input7', function(){
     table7.column($(this).data('column')).search($(this).val()).draw();
 });
 
+$(document).on('keyup search','.filter-inputQ', function(){
+    tableQ.column($(this).data('column')).search($(this).val()).draw();
+});
+
+$(document).on('keyup search','.filter-inputX', function(){
+    tableX.column($(this).data('column')).search($(this).val()).draw();
+});
+
 $(document).on('keyup search','.filter-inputY', function(){
     tableY.column($(this).data('column')).search($(this).val()).draw();
 });
@@ -4637,10 +4820,6 @@ $(document).on('keyup search','.filter-inputB', function(){
 
 $(document).on('keyup search','.filter-inputC', function(){
     tableC.column($(this).data('column')).search($(this).val()).draw();
-});
-
-$(document).on('keyup search','.filter-inputQ', function(){
-    tableQ.column($(this).data('column')).search($(this).val()).draw();
 });
 
 setInterval(() => {
