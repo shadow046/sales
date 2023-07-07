@@ -950,11 +950,9 @@ function loading_show(){
 }
 
 setInterval(() => {
-    $('.always-default').removeClass('dtfc-fixed-left');
-
     $('.sumamt').each(function(){
         if(!$(this).text().includes('.')){
-            var currentValue = $(this).text().replace(',','');
+            var currentValue = $(this).text().replace(/,/g,'');
             var formattedValue = formatNumber(parseFloat(currentValue).toFixed(2));
             $(this).text(formattedValue);
         }
@@ -966,5 +964,6 @@ $(document).ready(function(){
 });
 
 setInterval(() => {
+    $('.always-default').removeClass('dtfc-fixed-left');
     $('th.dtfc-fixed-left').not('.always-default').addClass('always-default');
 }, 0);
