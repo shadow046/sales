@@ -21,8 +21,7 @@
                 <th style="width: 120px;">COMBO ON/OFF</th>
             </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
     </table>
     <br>
 </div>

@@ -102,6 +102,7 @@
                     STATUS
                 </th>
             </tr>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
         </thead>
     </table>
     <br>

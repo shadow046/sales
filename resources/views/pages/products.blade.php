@@ -131,6 +131,7 @@
                 </th>
             </tr>
         </thead>
+        <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
     </table>
     <br>
 </div>

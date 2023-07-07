@@ -20,8 +20,7 @@
                 <th>PRODUCT SALES TYPE</th>
             </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
     </table>
     <br>
 </div>

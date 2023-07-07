@@ -20,8 +20,7 @@
                 <th>STORE AREA</th>
             </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
     </table>
     <br>
 </div>
