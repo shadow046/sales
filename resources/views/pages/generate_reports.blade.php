@@ -273,7 +273,6 @@
     </div>
     <div class="col-md-4"></div>
 </div>
-<div id="reportsTableQ"></div>
 <div id="reportsTypeA">
     <div class="reportsTable1" style="display: none;">
         <hr>

@@ -203,7 +203,6 @@ $('#btnReset').on('click', function(){
     $('#reportsTable5').empty();
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
-    $('#reportsTableQ').empty();
     $('#report_classification').val('');
     $('#bytransactiontype').val('');
     $('#bytransactiontype').trigger('chosen:updated');
@@ -270,10 +269,9 @@ $('#end_date').on('change', function(){
 });
 
 var table1, table2A, table2B, table2C, table2D, table2, table3, table4, table5, table6, table7,
-tableQ, tableX, tableY, tableZ, tableA, tableB, tableC, sumamt;
+tableX, tableY, tableZ, tableA, tableB, tableC, sumamt;
 $('#btnGenerate').on('click', function(){
     $('.req').hide();
-    $('#reportsTableQ').empty();
     $('#reportsTable1').empty();
     $('#reportsTable2A').empty();
     $('#reportsTable2B').empty();
@@ -5137,10 +5135,6 @@ $(document).on('keyup search','.filter-input7', function(){
     table7.column($(this).data('column')).search($(this).val()).draw();
 });
 
-$(document).on('keyup search','.filter-inputQ', function(){
-    tableQ.column($(this).data('column')).search($(this).val()).draw();
-});
-
 $(document).on('keyup search','.filter-inputX', function(){
     tableX.column($(this).data('column')).search($(this).val()).draw();
 });
@@ -5223,7 +5217,6 @@ function changeComparative(){
 }
 
 function emptyQuantitative(){
-    $('#reportsTableQ').empty();
     $('#reportsTableX').empty();
     $('#reportsTableY').empty();
     $('#reportsTableZ').empty();

@@ -602,16 +602,16 @@ function quantitative_report(reports_header){
     }
     else if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
         loading_show();
-        var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
-        $('#reportsTableQ').empty().append(`
+        var reports_headerX = reports_header +' - '+ $('#sales_type').val();
+        $('#reportsTableX').empty().append(`
             <hr>
             <div class="mb-2 align-content">
-                <h4 style="zoom:85%;">${reports_headerQ}</h4>
-                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsQ')"><i class="fas fa-file-export"></i> EXPORT</button>
-                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
+                <h4 style="zoom:85%;">${reports_headerX}</h4>
+                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button>
+                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsX" type="button"><span>PDF</span></button>
             </div>
-            <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
-                <thead class="bg-default" id="tblReportsHeadQ"></thead>
+            <table class="table table-striped table-hover table-bordered tblReportsX" id="tblReportsX" style="width:100%">
+                <thead class="bg-default" id="tblReportsHeadX"></thead>
             </table>
         `);
 
@@ -669,7 +669,7 @@ function quantitative_report(reports_header){
             });
         }
 
-        tableQ = $('#tblReportsQ').DataTable({
+        tableX = $('#tblReportsX').DataTable({
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
@@ -680,7 +680,7 @@ function quantitative_report(reports_header){
                 {
                     extend: 'excelHtml5',
                     text: 'Excel',
-                    title: reports_headerQ,
+                    title: reports_headerX,
                     exportOptions: {
                         modifier: {
                         order: 'index',
@@ -692,7 +692,7 @@ function quantitative_report(reports_header){
                 {
                     extend: 'pdfHtml5',
                     text: 'PDF',
-                    title: reports_headerQ,
+                    title: reports_headerX,
                     exportOptions: {
                         modifier: {
                         order: 'index',
@@ -715,9 +715,9 @@ function quantitative_report(reports_header){
             },
             columns: columns,
             initComplete: function(){
-                $('#tblReportsHeadQ').append(`<tr></tr>`);
+                $('#tblReportsHeadX').append(`<tr></tr>`);
                 for(var i = 0; i < total_col; i++){
-                    $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
+                    $(`#tblReportsHeadX tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputX mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
                 }
                 setInterval(() => {
                     for(var i = defcol_length; i < total_col; i++){
@@ -736,7 +736,7 @@ function quantitative_report(reports_header){
                     spanElement.html('<b>TOGGLE COLUMNS</b>');
                     loading_hide();
                     setTimeout(() => {
-                        window.location.href = '/sales/reports#tblReportsQ';
+                        window.location.href = '/sales/reports#tblReportsX';
                         $('html, body').animate({
                             scrollTop: $($.attr(this, 'href')).offset()
                         }, 1000);
@@ -1348,16 +1348,16 @@ function quantitative_report(reports_header){
     }
     else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
         loading_show();
-        var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
-        $('#reportsTableQ').empty().append(`
+        var reports_headerX = reports_header +' - '+ $('#sales_type').val();
+        $('#reportsTableX').empty().append(`
             <hr>
             <div class="mb-2 align-content">
-                <h4 style="zoom:85%;">${reports_headerQ}</h4>
-                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsQ')"><i class="fas fa-file-export"></i> EXPORT</button>
-                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
+                <h4 style="zoom:85%;">${reports_headerX}</h4>
+                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button>
+                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsX" type="button"><span>PDF</span></button>
             </div>
-            <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
-                <thead class="bg-default" id="tblReportsHeadQ"></thead>
+            <table class="table table-striped table-hover table-bordered" id="tblReportsX" style="width:100%">
+                <thead class="bg-default" id="tblReportsHeadX"></thead>
             </table>
         `);
 
@@ -1424,7 +1424,7 @@ function quantitative_report(reports_header){
             });
         }
 
-        tableQ = $('#tblReportsQ').DataTable({
+        tableX = $('#tblReportsX').DataTable({
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
@@ -1435,7 +1435,7 @@ function quantitative_report(reports_header){
                 {
                     extend: 'excelHtml5',
                     text: 'Excel',
-                    title: reports_headerQ,
+                    title: reports_headerX,
                     exportOptions: {
                         modifier: {
                         order: 'index',
@@ -1447,7 +1447,7 @@ function quantitative_report(reports_header){
                 {
                     extend: 'pdfHtml5',
                     text: 'PDF',
-                    title: reports_headerQ,
+                    title: reports_headerX,
                     exportOptions: {
                         modifier: {
                         order: 'index',
@@ -1470,9 +1470,9 @@ function quantitative_report(reports_header){
             },
             columns: columns,
             initComplete: function(){
-                $('#tblReportsHeadQ').append(`<tr></tr>`);
+                $('#tblReportsHeadX').append(`<tr></tr>`);
                 for(var i = 0; i < total_col; i++){
-                    $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
+                    $(`#tblReportsHeadX tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputX mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
                 }
                 setInterval(() => {
                     for(var i = defcol_length; i < total_col; i++){
@@ -1491,7 +1491,7 @@ function quantitative_report(reports_header){
                     spanElement.html('<b>TOGGLE COLUMNS</b>');
                     loading_hide();
                     setTimeout(() => {
-                        window.location.href = '/sales/reports#tblReportsQ';
+                        window.location.href = '/sales/reports#tblReportsX';
                         $('html, body').animate({
                             scrollTop: $($.attr(this, 'href')).offset()
                         }, 1000);
@@ -2692,16 +2692,16 @@ function quantitative_report(reports_header){
     }
     else if($('#report_filter').val() == 'DISCOUNT' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
         loading_show();
-        var reports_headerQ = reports_header +' - '+ $('#sales_type').val();
-        $('#reportsTableQ').empty().append(`
+        var reports_headerX = reports_header +' - '+ $('#sales_type').val();
+        $('#reportsTableX').empty().append(`
             <hr>
             <div class="mb-2 align-content">
-                <h4 style="zoom:85%;">${reports_headerQ}</h4>
-                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsQ')"><i class="fas fa-file-export"></i> EXPORT</button>
-                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsQ" type="button"><span>PDF</span></button>
+                <h4 style="zoom:85%;">${reports_headerX}</h4>
+                <button type="button" class="form-control btn btn-custom btn-default float-end" onclick="btnExportClick('tblReportsX')"><i class="fas fa-file-export"></i> EXPORT</button>
+                <button class="dt-button buttons-pdf buttons-html5 d-none" tabindex="0" aria-controls="tblReportsX" type="button"><span>PDF</span></button>
             </div>
-            <table class="table table-striped table-hover table-bordered" id="tblReportsQ" style="width:100%">
-                <thead class="bg-default" id="tblReportsHeadQ"></thead>
+            <table class="table table-striped table-hover table-bordered" id="tblReportsX" style="width:100%">
+                <thead class="bg-default" id="tblReportsHeadX"></thead>
             </table>
         `);
 
@@ -2728,7 +2728,7 @@ function quantitative_report(reports_header){
             });
         }
 
-        tableQ = $('#tblReportsQ').DataTable({
+        tableX = $('#tblReportsX').DataTable({
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns:{
@@ -2739,7 +2739,7 @@ function quantitative_report(reports_header){
                 {
                     extend: 'excelHtml5',
                     text: 'Excel',
-                    title: reports_headerQ,
+                    title: reports_headerX,
                     exportOptions: {
                         modifier: {
                         order: 'index',
@@ -2751,7 +2751,7 @@ function quantitative_report(reports_header){
                 {
                     extend: 'pdfHtml5',
                     text: 'PDF',
-                    title: reports_headerQ,
+                    title: reports_headerX,
                     exportOptions: {
                         modifier: {
                         order: 'index',
@@ -2773,13 +2773,13 @@ function quantitative_report(reports_header){
             },
             columns: columns,
             initComplete: function(){
-                $('#tblReportsHeadQ').append(`<tr></tr>`);
+                $('#tblReportsHeadX').append(`<tr></tr>`);
                 for(var i = 0; i < total_col; i++){
-                    $(`#tblReportsHeadQ tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputQ mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
+                    $(`#tblReportsHeadX tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputX mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
                 }
                 loading_hide();
                 setTimeout(() => {
-                    window.location.href = '/sales/reports#tblReportsQ';
+                    window.location.href = '/sales/reports#tblReportsX';
                     $('html, body').animate({
                         scrollTop: $($.attr(this, 'href')).offset()
                     }, 1000);
