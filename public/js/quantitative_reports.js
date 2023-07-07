@@ -20,6 +20,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right"></th>
@@ -243,6 +244,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right"></th>
@@ -764,6 +766,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right"></th>
@@ -987,6 +990,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right"></th>
@@ -1516,6 +1520,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
@@ -1736,6 +1741,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
@@ -2109,6 +2115,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
@@ -2329,6 +2336,7 @@ function quantitative_report(reports_header){
                         <th class="sum">TOTAL</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
@@ -2952,6 +2960,7 @@ function report_dates1(datacode, headername, urlName, colData){
                     <th class="sum">NET SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
@@ -3129,6 +3138,7 @@ function report_dates2(datacode, headername, urlName, colData){
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="3">TOTAL:</th>
@@ -3326,6 +3336,7 @@ function report_hoursX(headername, urlName, tblType, colData, selected_date){
                     <th class="sum">NET SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right">TOTAL:</th>
@@ -3496,6 +3507,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
@@ -4007,6 +4019,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
                     <th class="sum">NET SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>

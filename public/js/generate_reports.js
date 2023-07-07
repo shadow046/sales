@@ -362,6 +362,7 @@ $('#btnGenerate').on('click', function(){
                         </th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th></th>
@@ -610,6 +611,7 @@ $('#btnGenerate').on('click', function(){
                         <th class="sum">GROSS SALES</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right" colspan="5">TOTAL:</th>
@@ -768,6 +770,7 @@ $('#btnGenerate').on('click', function(){
                         <th class="sum">NET SALES</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
@@ -930,6 +933,7 @@ $('#btnGenerate').on('click', function(){
                         <th class="sum">GROSS SALES</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
@@ -1080,6 +1084,7 @@ $('#btnGenerate').on('click', function(){
                         <th class="sum">NET SALES</th>
                     </tr>
                 </thead>
+                <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
                 <tfoot style="font-size: 14px;">
                     <tr>
                         <th class="text-right">TOTAL:</th>
@@ -1855,6 +1860,7 @@ function report_datesA(datacode, headername, urlName, colData){
                     <th class="sum">NET SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
@@ -2052,6 +2058,7 @@ function report_datesB(datacode, headername, urlName, colData){
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="3">TOTAL:</th>
@@ -2228,6 +2235,7 @@ function report_datesC(datacode, headername, urlName, colData){
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
@@ -3239,6 +3247,7 @@ function report_hoursA(headername, urlName, tblType, colData, selected_date){
                     <th class="sum">NET SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right">TOTAL:</th>
@@ -3412,6 +3421,7 @@ function report_hoursB(headername, urlName, tblType, colData, selected_date){
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
@@ -3564,6 +3574,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
                     <th class="sum">GROSS SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right">TOTAL:</th>
@@ -3916,6 +3927,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
                     <th class="sum">NET SALES</th>
                 </tr>
             </thead>
+            <tbody title="CLICK TO SHOW MORE INFORMATION"></tbody>
             <tfoot style="font-size: 14px;">
                 <tr>
                     <th class="text-right" colspan="2">TOTAL:</th>
