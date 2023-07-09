@@ -39,7 +39,7 @@
                 <option value="STORE">STORE SALES</option>
                 <option value="PRODUCT">PRODUCT SALES</option>
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
-                <option value="TENDER TYPE" style="color:gray;">TENDER TYPE SALES</option>
+                {{-- <option value="TENDER TYPE">TENDER TYPE SALES</option> --}}
                 <option value="DISCOUNT">DISCOUNT SALES</option>
             </select>
             <label for="report_filter" class="formlabels form-label">SALES REPORT CATEGORY
