@@ -66,6 +66,27 @@
                 </table>
             </div>
         </div>
+        <div class="row col-md-12 pt-2 ml-2 mr-0 pb-1 responsive" id="category60TableDiv" style="border: 1px solid;display:none">
+            <div class="table-responsive">
+                <h4 id="catheader"></h4>
+                <table class="table table-hover table-bordered category60Table" id="category60Table" style="width:100%;display:none">
+                    <thead style="font-weight:bolder" class="bg-default">
+                        <tr>
+                            <th class="dt-head-center"><input type="search" class="column_search" style="width:85%"/></th>
+                            <th class="dt-head-center"><input type="search" class="column_search" style="width:85%"/></th>
+                            <th class="dt-head-center"></th>
+                            <th class="dt-head-center"></th>
+                        </tr>
+                        <tr>
+                            <th class="dt-head-center">PRODUCT CATEGORY</th>
+                            <th class="dt-head-center">PRODUCT DESCRIPTION</th>
+                            <th class="dt-head-center">QUANTITY</th>
+                            <th class="dt-head-center">SALES</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
         <div class="row col-md-12 pt-2 ml-2 mr-0 pb-1 responsive" id="categoryTableDiv" style="border: 1px solid;display:none">
             <div class="table-responsive">
                 <h4 id="catheader"></h4>

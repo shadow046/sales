@@ -263,7 +263,7 @@ Route::middleware(['session'])->group(function () {
         Route::get('/sales/daily_data', 'daily_data');
         Route::get('/sales/category_data', 'category_data');
         Route::get('/sales/pie_data', 'pie_data');
-        Route::get('/sales/daily_data', 'daily_data');
+        // Route::get('/sales/daily_data', 'daily_data');
         Route::get('/sales/tender_data', 'tender_data');
         Route::get('/sales/tender_pie_data', 'tender_pie_data');
         Route::get('/sales/discount_data', 'discount_data');
