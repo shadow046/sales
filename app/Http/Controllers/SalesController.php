@@ -183,9 +183,30 @@ class SalesController extends Controller
             ->where('refund', '0')
             ->where('void', '0')
             ->where('cancelled', '0')
+            ->whereRaw('STR_TO_DATE(tdate, "%m/%d/%Y") >= ?', [$request->dfrom])
+            ->whereRaw('STR_TO_DATE(tdate, "%m/%d/%Y") <= ?', [$request->dto])
             ->groupBy('tdate')
             ->get();
         return DataTables::of($sales)->make(true);
+    }
+
+    public function daily_category_data(Request $request)
+    {
+        $data = Dtl::query()
+            ->selectRaw('category.category, products.long_desc, sum(qty) as qty, sum(qty * unitprice) as totalsales')
+            // ->whereDate(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), $request->date)
+            ->whereRaw('STR_TO_DATE(tdate, "%m/%d/%Y") >= ?', [$request->dfrom])
+            ->whereRaw('STR_TO_DATE(tdate, "%m/%d/%Y") <= ?', [$request->dto])
+            ->where('storecode', $request->storecode)
+            ->where('refund', '!=', '1')
+            ->where('void', '!=', '1')
+            ->where('cancelled', '!=', '1')
+            ->join('products', 'item_code', 'itemcode')
+            ->join('category', 'category.id', 'products.category')
+            ->groupBy('category.category', 'products.long_desc')
+            ->get();
+        return DataTables::of($data)
+            ->make(true);
     }
 
     public function discount_data(Request $request)

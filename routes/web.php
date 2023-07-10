@@ -260,6 +260,7 @@ Route::middleware(['session'])->group(function () {
         Route::get('/sales/gcash', 'gcash');
         Route::get('/sales/debit', 'debit');
         Route::get('/sales/maya', 'maya');
+        Route::get('/sales/daily_category_data', 'daily_category_data');
         Route::get('/sales/daily_data', 'daily_data');
         Route::get('/sales/category_data', 'category_data');
         Route::get('/sales/pie_data', 'pie_data');

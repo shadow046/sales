@@ -311,8 +311,45 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
     setTimeout(() => {
         $('#dailyTableDiv').show();
         $('#dailyTable').show();
+        $('#category60TableDiv').show();
+        $('#category60Table').show();
         $('#dailyheader').text(data.branch_name+' SALES FOR THE LAST 60 DAYS');
+        $('#cat60header').text(data.branch_name+' SALES BY CATEGORY FOR THE LAST 60 DAYS');
         $('table.dailyTable').dataTable().fnDestroy();
+        $('table.category60Table').dataTable().fnDestroy();
+        category60Table = $('table.category60Table').DataTable({
+            processing: true,
+            serverSide: false,
+            "dom": 'lrtp',
+            async: false,
+            ajax: {
+                url:"/sales/daily_category_data",
+                type:"get",
+                data:{
+                    storecode: data.branch_code,
+                    dfrom: $('#from').val(),
+                    dto: $('#to').val()
+                }
+            },
+            columns: [
+                { data: 'category' },
+                { data: 'long_desc' },
+                { data: null,
+                    "render": function(data, type, row){
+                        return `<span class="float-end">${row.qty}</span>`;
+                    }
+                },
+                { data: null,
+                    "render": function(data, type, row){
+                        return `<span class="float-end">₱ ${formatNumber(parseFloat(row.totalsales).toFixed(2))}</span>`;
+                    }
+                }
+            ],
+            initComplete: function(){
+                loading_hide();
+            }
+        });
+
         dailyTable = $('table.dailyTable').DataTable({
             processing: true,
             serverSide: false,
@@ -322,7 +359,9 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
                 url:"/sales/daily_data",
                 type:"get",
                 data:{
-                    storecode: data.branch_code
+                    storecode: data.branch_code,
+                    dfrom: $('#from').val(),
+                    dto: $('#to').val()
                 }
             },
             columnDefs: [
@@ -356,13 +395,13 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
                 }
             ],
             initComplete: function(){
-                loading_hide();
+                // loading_hide();
             }
         });
+
         $.fn.dataTable.ext.search.push(
             function( settings, data, dataIndex ) {
                 if ( settings.nTable.id !== 'dailyTable' ) { 
-                    console.log(settings.nTable.id);
                     return true;
                 }
                 var min = new Date( $('#from').val() );
@@ -374,7 +413,6 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
                     ( min <= date   && max === null ) ||
                     ( min <= date   && date <= max )
                 ) {
-                    console.log(settings.nTable.id);
                     console.log('true');
                     return true;
                 }
