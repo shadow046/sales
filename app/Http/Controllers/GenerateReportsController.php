@@ -1382,7 +1382,6 @@ class GenerateReportsController extends Controller
     }
 
     public function bySubBranchB(Request $request){
-        // return 'error';
         $data = Dtl::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
                 ->select('store.id AS store_id', 'dtl.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
                     DB::raw('CONCAT(dtl.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
