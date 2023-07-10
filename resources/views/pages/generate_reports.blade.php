@@ -50,7 +50,7 @@
     <div class="row mb-3 classCustomBranch" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="custom_branch" name="custom_branch" class="forminput form-control form-select" style="color: black" data-placeholder="Select Branch/s" multiple>
+            <select id="custom_branch" name="custom_branch" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Branch/s" multiple>
                 <option value="ALL">ALL BRANCHES</option>
                 @foreach($stores as $store)
                     <option value="{{$store->fcode}}">{{$store->fcode}}: {{$store->desc1}}</option>
@@ -64,7 +64,7 @@
     <div class="row mb-3 classCustomProduct" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="custom_product" name="custom_product" class="forminput form-control form-select" style="color: black" data-placeholder="Select Product/s" multiple>
+            <select id="custom_product" name="custom_product" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
                 <option value="ALL">ALL PRODUCTS</option>
                 @foreach($products as $product)
                     <option value="{{$product->fcode}}">{{$product->fcode}}: {{$product->desc1}}</option>
@@ -78,7 +78,7 @@
     <div class="row mb-3 classCustomTransaction" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="custom_transaction" name="custom_transaction" class="forminput form-control form-select" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
+            <select id="custom_transaction" name="custom_transaction" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
                 <option value="ALL">ALL TRANSACTION TYPES</option>
                 @foreach($transactions as $transaction)
                     <option value="{{$transaction->trantype}}">{{$transaction->trantype}}</option>
@@ -92,7 +92,7 @@
     <div class="row mb-3 classCustomDiscount" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="custom_discount" name="custom_discount" class="forminput form-control form-select" style="color: black" data-placeholder="Select Discount Type/s" multiple>
+            <select id="custom_discount" name="custom_discount" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Discount Type/s" multiple>
                 <option value="ALL">ALL DISCOUNT TYPE</option>
                 @foreach($discounts as $discount)
                     <option value="{{$discount->discname}}">{{$discount->discname}}</option>
@@ -120,7 +120,7 @@
     <div class="row mb-3 classByTransactionType" style="display: none;">
         <div class="col-md-4"></div>
         <div class="col-md-4 f-outline">
-            <select id="bytransactiontype" name="bytransactiontype" class="forminput form-control form-select" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
+            <select id="bytransactiontype" name="bytransactiontype" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Transaction Type/s" multiple>
                 <option value="ALL">ALL TRANSACTION TYPES</option>
                 @foreach($transactions as $transaction)
                     <option value="{{$transaction->trantype}}">{{$transaction->trantype}}</option>

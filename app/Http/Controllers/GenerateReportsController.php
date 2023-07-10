@@ -2821,12 +2821,6 @@ class GenerateReportsController extends Controller
     }
 
     public function byTransProduct(Request $request){
-        if($request->sales_type == 'SALES QUANTITY'){
-            $sales = 'qty';
-        }
-        if($request->sales_type == 'SALES AMOUNT'){
-            $sales = 'unitprice * qty';
-        }
         $products = Dtl::selectRaw('itemcat, itemcode, desc1, desc2, SUM(qty) AS quantity, SUM(unitprice * qty) AS gross_sales')
             ->selectRaw('products.setup, products.area, products.store')
             ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
@@ -2865,7 +2859,8 @@ class GenerateReportsController extends Controller
             $products->groupBy('itemcat','itemcode','desc1','desc2','setup','area','store');
             foreach($request->tblcolumns as $column){
                 $columnKey = strtolower(preg_replace('/[^A-Za-z0-9_]/', '_', $column));
-                $products->selectRaw("SUM(CASE WHEN trantype = '".$column."' THEN ".$sales." ELSE 0 END) AS $columnKey");
+                $products->selectRaw("SUM(CASE WHEN trantype = '".$column."' THEN qty ELSE 0 END) AS $columnKey".'_qty'."");
+                $products->selectRaw("SUM(CASE WHEN trantype = '".$column."' THEN unitprice * qty ELSE 0 END) AS $columnKey".'_amt'."");
             }
             $products->orderBy('quantity', 'DESC');
             $products = $products->get();

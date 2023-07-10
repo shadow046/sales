@@ -828,28 +828,29 @@ function formatDate(dateString){
     return formattedDate;
 }
 
-$(document).on('change','.multiple_field', function(){
-    if($(this).val().length == 0 && $(this).hasClass('requiredField')){
-        $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
-    }
-    else{
-        $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
-        var spanClass = $(this).attr('id') + '_chosen';
-        $('.className' + spanClass).remove();
-    }
-});
+setInterval(() => {
+    $('.multiple_field').each(function(){
+        if($(this).val().length == 0 && $(this).hasClass('requiredField')){
+            $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
+        }
+        else{
+            $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
+            var spanClass = $(this).attr('id') + '_chosen';
+            $('.className' + spanClass).remove();
+        }
+    });
 
-$(document).on('change','.single_field', function(){
-    if(!$(this).val() && $(this).hasClass('requiredField')){
-        $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
-    }
-    else{
-        $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
-        var spanClass = $(this).attr('id') + '_chosen';
-        $('.className' + spanClass).remove();
-    }
-});
-
+    $('.single_field').each(function(){
+        if(!$(this).val() && $(this).hasClass('requiredField')){
+            $(this).next('.chosen-container').addClass('requiredField requiredInput redBorder');
+        }
+        else{
+            $(this).next('.chosen-container').removeClass('requiredField requiredInput redBorder');
+            var spanClass = $(this).attr('id') + '_chosen';
+            $('.className' + spanClass).remove();
+        }
+    });
+}, 0);
 
 $(document).on('focusout', '.requiredField', function(){
     if(!$(this).val()){

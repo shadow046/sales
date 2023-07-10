@@ -1354,7 +1354,7 @@ function quantitative_report(reports_header){
     }
     else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
         loading_show();
-        var reports_headerX = reports_header +' - '+ $('#sales_type').val();
+        var reports_headerX = reports_header;
         $('#reportsTableX').empty().append(`
             <hr>
             <div class="mb-2 align-content">
@@ -1376,7 +1376,7 @@ function quantitative_report(reports_header){
         }
         var trans_length = transaction_type.length;
         var defcol_length = 7;
-        var total_col = trans_length + defcol_length;
+        var total_col = (trans_length * 2) + defcol_length;
 
         var columns = [
             { title: 'CATEGORY', sTitle: 'CATEGORY', data: 'itemcat' },
@@ -1424,9 +1424,21 @@ function quantitative_report(reports_header){
 
         for(var i = 0; i < trans_length; i++){
             columns.push({
-                title: transaction_type[i],
-                sTitle: transaction_type[i],
-                data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase(),
+                title: transaction_type[i] + ' (QTY)',
+                sTitle: transaction_type[i] + ' (QTY)',
+                data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase()+'_qty',
+                "render": function(data, type, row, meta){
+                    if(type === "sort" || type === 'type'){
+                        return sortAmount(data);
+                    }
+                    return amountType(data);
+                }
+            });
+
+            columns.push({
+                title: transaction_type[i] + ' (AMT)',
+                sTitle: transaction_type[i] + ' (AMT)',
+                data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase()+'_amt',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
                         return sortAmount(data);
@@ -2813,6 +2825,12 @@ function quantitative_report(reports_header){
 setInterval(() => {
     if($('#report_type').val() == 'CUSTOM'){
         if(!$('#report_filter').val()){
+            $('.classSales').hide();
+            $('.salesStore').hide();
+            $('.salesProduct').hide();
+            $('#sales_type').val('');
+        }
+        else if($('#report_filter').val() == 'PRODUCT' && $('#report_classification').val() == 'BY TRANSACTION TYPE'){
             $('.classSales').hide();
             $('.salesStore').hide();
             $('.salesProduct').hide();
@@ -4400,15 +4418,4 @@ setInterval(() => {
     $('.form-control').on('click', function(e){
         e.stopPropagation();
     });
-}, 0);
-
-setInterval(() => {
-    if($('#bytransactiontype').val().length == 0){
-        $('#bytransactiontype_chosen').addClass('requiredField requiredInput redBorder');
-    }
-    else{
-        $('#bytransactiontype_chosen').removeClass('requiredField requiredInput redBorder');
-        var spanClass = $('#bytransactiontype').attr('id') + '_chosen';
-        $('.className' + spanClass).remove();
-    }
 }, 0);
