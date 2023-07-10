@@ -102,7 +102,7 @@ class GenerateReportsController extends Controller
         return view('pages.generate_reports', compact('stores','products','combos','promos','transactions','tenders','discounts'));
     }
 
-    public function byBranch(Request $request){
+    public function byBranch1(Request $request){
         $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
             ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
                 DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
@@ -183,6 +183,80 @@ class GenerateReportsController extends Controller
                 }
             })
             ->make(true);
+    }
+
+    public function byBranch(Request $request){
+        $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
+        ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
+            DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+            'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
+            'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
+            'network_setup.network_setup AS network_setup',
+            DB::raw('SUM(gross) AS gross_sales'),
+            DB::raw('SUM(totalsales) AS total_sales'),
+            DB::raw('SUM(netsales) AS net_sales'),
+            DB::raw('COUNT(DISTINCT tnumber) as tno'),
+            DB::raw('(SELECT users.name FROM users WHERE users.userlevel = "4" AND (
+                users.area = store_area.id OR
+                users.area LIKE CONCAT(store_area.id, "-%") OR
+                users.area LIKE CONCAT("%-", store_area.id) OR
+                users.area LIKE CONCAT("%-", store_area.id, "-%") OR
+                users.store = CONCAT(store_area.id, "-0") OR
+                users.store LIKE CONCAT(store_area.id, "-0|") OR
+                users.store LIKE CONCAT("|", store_area.id, "-0") OR
+                users.store LIKE CONCAT("|", store_area.id, "-0|") OR
+                users.store = store.id OR
+                users.store LIKE CONCAT(store_area.id, "|") OR
+                users.store LIKE CONCAT("|", store.id) OR
+                users.store LIKE CONCAT("|", store.id, "|")
+            ) LIMIT 1) AS area_manager')
+        )
+        ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+        ->where('refund', '=', '0')
+        ->where('cancelled', '=', '0')
+        ->where('void', '=', '0')
+        ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+        ->join('company', 'company.id', 'store.company_name')
+        ->join('store_area', 'store_area.id', 'store.store_area')
+        ->join('type', 'type.id', 'store.type')
+        ->join('group', 'group.id', 'store.group')
+        ->join('subgroup', 'subgroup.id', 'store.sub_group')
+        ->join('network_setup', 'network_setup.id', 'store.network')
+        ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
+            'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
+
+        if($request->included){
+            $data->whereIn('branch_code', $request->included);
+        }
+        else if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $store_codes = array();
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+            $data->whereIn('branch_code', $store_codes);
+        }
+
+        $data->orderBy('net_sales', 'DESC');
+
+        $results = $data->get();
+
+        return DataTables::of($results)->make(true);
     }
 
     public function byBranch_Date(Request $request){
@@ -1085,7 +1159,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function bySubBranchA(Request $request){
+    public function bySubBranchA1(Request $request){
         $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
             ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
                 DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
@@ -1163,7 +1237,75 @@ class GenerateReportsController extends Controller
             ->make(true);
     }
 
-    public function bySubBranchB(Request $request){
+    public function bySubBranchA(Request $request){
+        $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
+                ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
+                    DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                    'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
+                    'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
+                    'network_setup.network_setup AS network_setup', DB::raw('SUM(gross) AS gross_sales'),
+                    DB::raw('SUM(totalsales) AS total_sales'), DB::raw('SUM(netsales) AS net_sales'),
+                    DB::raw('COUNT(DISTINCT tnumber) as tno'),
+                    DB::raw('(SELECT users.name FROM users WHERE users.userlevel = "4" AND (
+                        users.area = store_area.id OR
+                        users.area LIKE CONCAT(store_area.id, "-%") OR
+                        users.area LIKE CONCAT("%-", store_area.id) OR
+                        users.area LIKE CONCAT("%-", store_area.id, "-%") OR
+                        users.store = CONCAT(store_area.id, "-0") OR
+                        users.store LIKE CONCAT(store_area.id, "-0|") OR
+                        users.store LIKE CONCAT("|", store_area.id, "-0") OR
+                        users.store LIKE CONCAT("|", store_area.id, "-0|") OR
+                        users.store = store.id OR
+                        users.store LIKE CONCAT(store_area.id, "|") OR
+                        users.store LIKE CONCAT("|", store.id) OR
+                        users.store LIKE CONCAT("|", store.id, "|")
+                    ) LIMIT 1) AS area_manager')
+                )
+                ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+                ->join('company', 'company.id', 'store.company_name')
+                ->join('store_area', 'store_area.id', 'store.store_area')
+                ->join('type', 'type.id', 'store.type')
+                ->join('group', 'group.id', 'store.group')
+                ->join('subgroup', 'subgroup.id', 'store.sub_group')
+                ->join('network_setup', 'network_setup.id', 'store.network')
+                ->where($request->tblType, $request->datacode)
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('refund', '=', '0')
+                ->where('cancelled', '=', '0')
+                ->where('void', '=', '0')
+                ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
+                    'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup')
+                ->orderBy('net_sales', 'DESC')
+                ->get();
+
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+
+        return DataTables::of($data)->make(true);
+    }
+
+    public function bySubBranchB1(Request $request){
         $data = Dtl::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
             ->select('store.id AS store_id', 'dtl.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
                 DB::raw('CONCAT(dtl.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
@@ -1237,6 +1379,72 @@ class GenerateReportsController extends Controller
                 }
             })
             ->make(true);
+    }
+
+    public function bySubBranchB(Request $request){
+        // return 'error';
+        $data = Dtl::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
+                ->select('store.id AS store_id', 'dtl.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
+                    DB::raw('CONCAT(dtl.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                    'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
+                    'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
+                    'network_setup.network_setup AS network_setup', DB::raw('SUM(qty) AS quantity'), DB::raw('SUM(unitprice * qty) AS gross_sales'),
+                    DB::raw('(SELECT users.name FROM users WHERE users.userlevel = "4" AND (
+                        users.area = store_area.id OR
+                        users.area LIKE CONCAT(store_area.id, "-%") OR
+                        users.area LIKE CONCAT("%-", store_area.id) OR
+                        users.area LIKE CONCAT("%-", store_area.id, "-%") OR
+                        users.store = CONCAT(store_area.id, "-0") OR
+                        users.store LIKE CONCAT(store_area.id, "-0|") OR
+                        users.store LIKE CONCAT("|", store_area.id, "-0") OR
+                        users.store LIKE CONCAT("|", store_area.id, "-0|") OR
+                        users.store = store.id OR
+                        users.store LIKE CONCAT(store_area.id, "|") OR
+                        users.store LIKE CONCAT("|", store.id) OR
+                        users.store LIKE CONCAT("|", store.id, "|")
+                    ) LIMIT 1) AS area_manager')
+                )
+                ->leftJoin('store', 'store.branch_code', 'dtl.storecode')
+                ->join('company', 'company.id', 'store.company_name')
+                ->join('store_area', 'store_area.id', 'store.store_area')
+                ->join('type', 'type.id', 'store.type')
+                ->join('group', 'group.id', 'store.group')
+                ->join('subgroup', 'subgroup.id', 'store.sub_group')
+                ->join('network_setup', 'network_setup.id', 'store.network')
+                ->where($request->tblType, $request->datacode)
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('refund', '=', '0')
+                ->where('cancelled', '=', '0')
+                ->where('void', '=', '0')
+                ->groupBy('store_id', 'dtl.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
+                    'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup')
+                ->orderBy('quantity', 'DESC')
+                ->get();
+            if(auth()->user()->store != 'X'){
+                if(auth()->user()->store == '0'){
+                    echo(null);
+                }
+                else{
+                    $store_codes = array();
+                    $array = explode("|", auth()->user()->store);
+                    foreach($array as $value){
+                        if(!str_contains($value, '-0')){
+                            $user = Store::where('id', $value)->first();
+                            array_push($store_codes, $user->branch_code);
+                        }
+                        else{
+                            $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                            $store_codes_add = array_map(function($item){
+                                return $item['branch_code'];
+                            }, $user_array);
+                            $store_codes = array_merge($store_codes, $store_codes_add);
+                        }
+                    }
+                }
+                $data->whereIn('storecode', $store_codes);
+            }
+
+        return DataTables::of($data)->make(true);
     }
 
     public function bySubProduct(Request $request){
@@ -2421,7 +2629,7 @@ class GenerateReportsController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function byTransBranch(Request $request){
+    public function byTransBranch1(Request $request){
         if($request->sales_type == 'NO. OF TRANSACTIONS'){
             $func = 'COUNT(DISTINCT ';
             $sales = 'tnumber';
@@ -2459,7 +2667,7 @@ class GenerateReportsController extends Controller
             ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
                 'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
 
-        if($request->included){
+        if($request->included != ['ALL']){
             $data->whereIn('branch_code', $request->included);
         }
         else if(auth()->user()->store != 'X'){
@@ -2523,6 +2731,96 @@ class GenerateReportsController extends Controller
             ->make(true);
     }
 
+    public function byTransBranch(Request $request){
+        if($request->sales_type == 'NO. OF TRANSACTIONS'){
+            $func = 'COUNT(DISTINCT ';
+            $sales = 'tnumber';
+        }
+        if($request->sales_type == 'GROSS SALES'){
+            $func = 'SUM(';
+            $sales = 'gross';
+        }
+        if($request->sales_type == 'TOTAL SALES'){
+            $func = 'SUM(';
+            $sales = 'totalsales';
+        }
+        if($request->sales_type == 'NET SALES'){
+            $func = 'SUM(';
+            $sales = 'netsales';
+        }
+        $data = Hdr::with('store', 'store.company', 'store.storeArea', 'store.type', 'store.group', 'store.subGroup', 'store.network')
+            ->select('store.id AS store_id', 'hdr.storecode AS branch_code', 'store.branch_name AS store_name', 'store.setup AS setup',
+                DB::raw('CONCAT(hdr.storecode, IFNULL(CONCAT(": ", store.branch_name), "")) AS branch_name'),
+                'company.company_name AS company_name', 'store_area.id AS store_area_id', 'store_area.store_area AS store_area',
+                'store.region AS region', 'type.type AS type', 'group.group AS store_group', 'subgroup.subgroup AS subgroup',
+                'network_setup.network_setup AS network_setup',
+                DB::raw('(SELECT users.name FROM users WHERE users.userlevel = "4" AND (
+                    users.area = store_area.id OR
+                    users.area LIKE CONCAT(store_area.id, "-%") OR
+                    users.area LIKE CONCAT("%-", store_area.id) OR
+                    users.area LIKE CONCAT("%-", store_area.id, "-%") OR
+                    users.store = CONCAT(store_area.id, "-0") OR
+                    users.store LIKE CONCAT(store_area.id, "-0|") OR
+                    users.store LIKE CONCAT("|", store_area.id, "-0") OR
+                    users.store LIKE CONCAT("|", store_area.id, "-0|") OR
+                    users.store = store.id OR
+                    users.store LIKE CONCAT(store_area.id, "|") OR
+                    users.store LIKE CONCAT("|", store.id) OR
+                    users.store LIKE CONCAT("|", store.id, "|")
+                ) LIMIT 1) AS area_manager'))
+                ->whereBetween(DB::raw("(STR_TO_DATE(tdate,'%m/%d/%Y'))"), [$request->start_date, $request->end_date])
+                ->where('refund', '=', '0')
+                ->where('cancelled', '=', '0')
+                ->where('void', '=', '0')
+                ->leftJoin('store', 'store.branch_code', 'hdr.storecode')
+                ->join('company', 'company.id', 'store.company_name')
+                ->join('store_area', 'store_area.id', 'store.store_area')
+                ->join('type', 'type.id', 'store.type')
+                ->join('group', 'group.id', 'store.group')
+                ->join('subgroup', 'subgroup.id', 'store.sub_group')
+                ->join('network_setup', 'network_setup.id', 'store.network')
+                ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
+                    'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
+
+        if($request->included != ['ALL']){
+            $data->whereIn('branch_code', $request->included);
+        }
+        else if(auth()->user()->store != 'X'){
+            if(auth()->user()->store == '0'){
+                echo(null);
+            }
+            else{
+                $store_codes = array();
+                $array = explode("|", auth()->user()->store);
+                foreach($array as $value){
+                    if(!str_contains($value, '-0')){
+                        $user = Store::where('id', $value)->first();
+                        array_push($store_codes, $user->branch_code);
+                    }
+                    else{
+                        $user_array = Store::where('store_area', substr($value, 0, -2))->get()->toArray();
+                        $store_codes_add = array_map(function($item){
+                            return $item['branch_code'];
+                        }, $user_array);
+                        $store_codes = array_merge($store_codes, $store_codes_add);
+                    }
+                }
+            }
+            $data->whereIn('branch_code', $store_codes);
+        }
+
+        foreach($request->tblcolumns as $column){
+            $columnKey = strtolower(preg_replace('/[^A-Za-z0-9_]/', '_', $column));
+            $data->selectRaw("".$func."CASE WHEN trantype = '".$column."' THEN ".$sales." ELSE 0 END) AS $columnKey");
+        }
+
+        $data->orderBy('store_name', 'ASC');
+
+        $results = $data->get();
+
+        return DataTables::of($results)->make(true);
+    }
+
     public function byTransProduct(Request $request){
         if($request->sales_type == 'SALES QUANTITY'){
             $sales = 'qty';
@@ -2539,7 +2837,7 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
-            if($request->included){
+            if($request->included != ['ALL']){
                 $products->whereIn('itemcode', $request->included);
             }
             if(auth()->user()->store != 'X'){
@@ -2672,7 +2970,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0');
-                if($request->included){
+                if($request->included != ['ALL']){
                     $data->whereIn('discname', $request->included);
                 }
                 if(auth()->user()->store != 'X'){

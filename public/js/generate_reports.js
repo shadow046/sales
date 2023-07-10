@@ -5238,3 +5238,10 @@ function emptyStandard(){
     $('#reportsTable6').empty();
     $('#reportsTable7').empty();
 }
+
+$(document).on('change', '#custom_branch, #custom_product, #custom_transaction, #custom_discount, #bytransactiontype', function(){
+    if($(this).val().includes('ALL')){
+        $(this).val(['ALL']);
+        $(this).trigger('chosen:updated');
+    }
+});

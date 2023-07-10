@@ -616,6 +616,12 @@ function quantitative_report(reports_header){
         `);
 
         var transaction_type = $('#bytransactiontype').val();
+        if($('#bytransactiontype option:selected').val() == ['ALL']){
+            transaction_type = [];
+            $('#bytransactiontype option:not(:first-child)').each(function() {
+                transaction_type.push($(this).val());
+            });
+        }
         var trans_length = transaction_type.length;
         var defcol_length = 11;
         var total_col = trans_length + defcol_length;
@@ -709,7 +715,7 @@ function quantitative_report(reports_header){
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
                     sales_type: $('#sales_type').val(),
-                    tblcolumns: $('#bytransactiontype').val(),
+                    tblcolumns: transaction_type,
                     included: $('#custom_branch').val()
                 }
             },
@@ -1362,6 +1368,12 @@ function quantitative_report(reports_header){
         `);
 
         var transaction_type = $('#bytransactiontype').val();
+        if($('#bytransactiontype option:selected').val() == ['ALL']){
+            transaction_type = [];
+            $('#bytransactiontype option:not(:first-child)').each(function() {
+                transaction_type.push($(this).val());
+            });
+        }
         var trans_length = transaction_type.length;
         var defcol_length = 7;
         var total_col = trans_length + defcol_length;
@@ -1464,7 +1476,7 @@ function quantitative_report(reports_header){
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
                     sales_type: $('#sales_type').val(),
-                    tblcolumns: $('#bytransactiontype').val(),
+                    tblcolumns: transaction_type,
                     included: $('#custom_product').val()
                 }
             },
@@ -2706,6 +2718,12 @@ function quantitative_report(reports_header){
         `);
 
         var transaction_type = $('#bytransactiontype').val();
+        if($('#bytransactiontype option:selected').val() == ['ALL']){
+            transaction_type = [];
+            $('#bytransactiontype option:not(:first-child)').each(function() {
+                transaction_type.push($(this).val());
+            });
+        }
         var trans_length = transaction_type.length;
         var defcol_length = 1;
         var total_col = trans_length + defcol_length;
@@ -2767,7 +2785,7 @@ function quantitative_report(reports_header){
                     start_date: $('#start_date').val(),
                     end_date: $('#end_date').val(),
                     sales_type: $('#sales_type').val(),
-                    tblcolumns: $('#bytransactiontype').val(),
+                    tblcolumns: transaction_type,
                     included: $('#custom_discount').val()
                 }
             },
