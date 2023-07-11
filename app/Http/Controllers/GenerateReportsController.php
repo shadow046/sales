@@ -126,7 +126,7 @@ class GenerateReportsController extends Controller
             ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
                 'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
 
-        if($request->included){
+        if($request->included != ['ALL']){
             $data->whereIn('branch_code', $request->included);
         }
         else if(auth()->user()->store != 'X'){
@@ -225,7 +225,7 @@ class GenerateReportsController extends Controller
         ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
             'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
 
-        if($request->included){
+        if($request->included != ['ALL']){
             $data->whereIn('branch_code', $request->included);
         }
         else if(auth()->user()->store != 'X'){
@@ -310,7 +310,7 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('itemcode', $request->included);
             }
             else if($request->byWhat == 'combo' || $request->byWhat == 'promo'){
@@ -424,7 +424,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0');
-                if($request->included){
+                if($request->included != ['ALL']){
                     $data->whereIn('trantype', $request->included);
                 }
                 if(auth()->user()->store != 'X'){
@@ -675,7 +675,7 @@ class GenerateReportsController extends Controller
                 );
             }, 'temp')
             ->groupBy('temp.tendname');
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('tendname', $request->included);
             }
             $data->get();
@@ -1052,7 +1052,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0');
-                if($request->included){
+                if($request->included != ['ALL']){
                     $data->whereIn('discname', $request->included);
                 }
                 if(auth()->user()->store != 'X'){
@@ -2106,7 +2106,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('branch_code', $request->included);
             }
             else if(auth()->user()->store != 'X'){
@@ -2159,7 +2159,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('itemcode', $request->included);
             }
 
@@ -2222,7 +2222,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('trantype', $request->included);
             }
 
@@ -2286,7 +2286,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('discname', $request->included);
             }
 
@@ -2367,7 +2367,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('branch_code', $request->included);
             }
             else if(auth()->user()->store != 'X'){
@@ -2437,7 +2437,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('itemcode', $request->included);
             }
 
@@ -2517,7 +2517,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('trantype', $request->included);
             }
             if(auth()->user()->store != 'X'){
@@ -2597,7 +2597,7 @@ class GenerateReportsController extends Controller
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
 
-            if($request->included){
+            if($request->included != ['ALL']){
                 $data->whereIn('discname', $request->included);
             }
             if(auth()->user()->store != 'X'){
