@@ -122,10 +122,15 @@ $(document).ready(function(){
                 {
                     data: 'intro_date', name: 'intro_date',
                     "render":function(data,type,row){
+                        if(type === "sort" || type === 'type'){
+                            return data;
+                        }
                         if(row.intro_date == '' || row.intro_date == null){
                             return '';
                         }
-                        return "<span class='d-none'>"+row.intro_date+"</span>"+moment(row.intro_date).format('MMM. DD, YYYY');
+                        else{
+                            return moment(row.intro_date).format('MMM. DD, YYYY');
+                        }
                     }
                 },
                 { data: 'setup_name', name: 'setup_name'},
