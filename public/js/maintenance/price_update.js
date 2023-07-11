@@ -42,7 +42,15 @@ $(document).ready(function(){
             {
                 data: 'effdate', name:'effdate',
                 "render":function(data,type,row){
-                    return "<span class='d-none'>"+row.effdate+"</span>"+moment(row.effdate).format('LL');
+                    if(type === "sort" || type === 'type'){
+                        return data;
+                    }
+                    if(data == '' || data == null){
+                        return '';
+                    }
+                    else{
+                        return moment(data).format('LL');
+                    }
                 },
             },
             {

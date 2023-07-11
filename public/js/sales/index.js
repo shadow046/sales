@@ -375,7 +375,15 @@ $(document).on("click", "#dashboardTable tbody tr", function () {
                 {
                     data: null,
                     "render": function(data, type, row){
-                        return "<span class='d-none'>"+row.tdate+"</span>"+moment(row.tdate, 'YYYY-MM-DD').format("MMMM DD, YYYY");
+                        if(type === "sort" || type === 'type'){
+                            return data;
+                        }
+                        if(data == '' || data == null){
+                            return '';
+                        }
+                        else{
+                            return moment(data, 'YYYY-MM-DD').format("MMMM DD, YYYY");
+                        }
                     }
                 },
                 { data: null,
