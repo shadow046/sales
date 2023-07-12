@@ -310,7 +310,7 @@ class GenerateReportsController extends Controller
             ->where('refund', '=', '0')
             ->where('cancelled', '=', '0')
             ->where('void', '=', '0');
-            if($request->included != ['ALL']){
+            if($request->included){
                 $data->whereIn('itemcode', $request->included);
             }
             else if($request->byWhat == 'combo' || $request->byWhat == 'promo'){
