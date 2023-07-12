@@ -424,7 +424,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0');
-                if($request->included != ['ALL']){
+                if($request->included){
                     $data->whereIn('trantype', $request->included);
                 }
                 if(auth()->user()->store != 'X'){
@@ -675,7 +675,7 @@ class GenerateReportsController extends Controller
                 );
             }, 'temp')
             ->groupBy('temp.tendname');
-            if($request->included != ['ALL']){
+            if($request->included){
                 $data->whereIn('tendname', $request->included);
             }
             $data->get();
@@ -1052,7 +1052,7 @@ class GenerateReportsController extends Controller
                 ->where('refund', '=', '0')
                 ->where('cancelled', '=', '0')
                 ->where('void', '=', '0');
-                if($request->included != ['ALL']){
+                if($request->included){
                     $data->whereIn('discname', $request->included);
                 }
                 if(auth()->user()->store != 'X'){
