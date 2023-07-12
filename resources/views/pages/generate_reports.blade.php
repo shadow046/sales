@@ -67,7 +67,7 @@
             <select id="custom_product" name="custom_product" class="forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
                 <option value="ALL">ALL PRODUCTS</option>
                 @foreach($products as $product)
-                    <option value="{{$product->fcode}}">{{$product->fcode}}: {{$product->desc1}}</option>
+                    <option value="{{$product->fcode}}">{{$product->desc1}}: {{$product->fcode}}</option>
                 @endforeach
             </select>
             <label for="custom_product" class="formlabels form-label">PRODUCT CODE / DESCRIPTION
