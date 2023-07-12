@@ -55,7 +55,7 @@ class GenerateReportsController extends Controller
         $products = Product::selectRaw('item_code AS fcode, short_desc AS desc1')
             ->where('status', 'ACTIVE')
             ->get()
-            ->sortBy('item_code');
+            ->sortBy('desc1');
         $combos = Product::selectRaw('item_code AS fcode, short_desc AS desc1')
             ->where('category.enable_combo', 'Y')
             ->where('category.category', '!=', 'PROMO')
@@ -225,7 +225,7 @@ class GenerateReportsController extends Controller
         ->groupBy('store_id', 'hdr.storecode', 'branch_code', 'store_name', 'branch_name', 'company_name',
             'store_area_id', 'store_area', 'region', 'type', 'setup', 'store_group', 'subgroup', 'network_setup');
 
-        if($request->included != ['ALL']){
+        if($request->included){
             $data->whereIn('branch_code', $request->included);
         }
         else if(auth()->user()->store != 'X'){

@@ -169,7 +169,7 @@
         <div class="col-md-4 f-outline">
             <select id="product" name="product" class="selectComparative forminput form-control form-select requiredField multiple_field" style="color: black" data-placeholder="Select Product/s" multiple>
                 @foreach($products as $product)
-                    <option value="{{$product->fcode}}" desc="{{$product->desc1}}">{{$product->fcode}}: {{$product->desc1}}</option>
+                    <option value="{{$product->fcode}}" desc="{{$product->desc1}}">{{$product->desc1}}: {{$product->fcode}}</option>
                 @endforeach
             </select>
             <label for="product" class="formlabels form-label">PRODUCT CODE / DESCRIPTION

@@ -4443,7 +4443,6 @@ $(document).on('click','.dt-button-collection button', function(){
 });
 
 $('#report_type').on('change',function(){
-    console.log('s');
     $('.classCustomBranch').hide();
     $('.classCustomProduct').hide();
     $('.classCustomTransaction').hide();
