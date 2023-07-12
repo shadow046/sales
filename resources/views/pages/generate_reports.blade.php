@@ -140,8 +140,8 @@
                 <option value="" class="text-dark" selected disabled>SELECT SALES REPORT CATEGORY</option>
                 <option value="STORE">STORE SALES</option>
                 <option value="PRODUCT">PRODUCT SALES</option>
-                <option value="COMBO MEAL">COMBO MEAL SALES</option>
-                <option value="PROMO">PROMO SALES</option>
+                {{-- <option value="COMBO MEAL">COMBO MEAL SALES</option> --}}
+                {{-- <option value="PROMO">PROMO SALES</option> --}}
                 <option value="TRANSACTION TYPE">TRANSACTION TYPE SALES</option>
                 <option value="TENDER TYPE">TENDER TYPE SALES</option>
                 <option value="DISCOUNT">DISCOUNT SALES</option>

@@ -1430,9 +1430,9 @@ function quantitative_report(reports_header){
                 data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase()+'_qty',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
-                        return sortAmount(data);
+                        return data;
                     }
-                    return amountType(data);
+                    return data;
                 }
             });
 
@@ -4432,7 +4432,7 @@ $(document).on('click','.dt-button-collection button', function(){
     var activeButtonCount = $('.dt-button-collection button.dt-button-active').length;
     var th = '';
     for(var i = 0; i < activeButtonCount; i++){
-        th += `<th></th>`;
+        th += `<th style="border-left: none !important;"></th>`;
     }
     $('#add_tr').remove();
     $('#tblReportsHeadX').prepend(default_th + th + add_th + end_th);
