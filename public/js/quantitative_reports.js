@@ -1,3 +1,4 @@
+var default_th, add_th, end_th;
 function quantitative_report(reports_header){
     if($('#report_filter').val() == 'STORE' && $('#report_classification').val() == 'BY DAY'){
         loading_show();
@@ -1424,8 +1425,8 @@ function quantitative_report(reports_header){
 
         for(var i = 0; i < trans_length; i++){
             columns.push({
-                title: transaction_type[i] + ' (QTY)',
-                sTitle: transaction_type[i] + ' (QTY)',
+                title: 'QTY',
+                sTitle: 'QTY',
                 data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase()+'_qty',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
@@ -1436,8 +1437,8 @@ function quantitative_report(reports_header){
             });
 
             columns.push({
-                title: transaction_type[i] + ' (AMT)',
-                sTitle: transaction_type[i] + ' (AMT)',
+                title: 'AMT',
+                sTitle: 'AMT',
                 data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase()+'_amt',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
@@ -1495,9 +1496,6 @@ function quantitative_report(reports_header){
             columns: columns,
             initComplete: function(){
                 $('#tblReportsHeadX').append(`<tr></tr>`);
-                for(var i = 0; i < total_col; i++){
-                    $(`#tblReportsHeadX tr:first-child th:contains("${columns[i].title}")`).append(`<br><input type="search" class="form-control filter-inputX mt-1" data-column="${i}" style="border:1px solid #808080"/>`);
-                }
                 setInterval(() => {
                     for(var i = defcol_length; i < total_col; i++){
                         $(`button[data-cv-idx="${i}"]`).remove();
@@ -1521,6 +1519,16 @@ function quantitative_report(reports_header){
                         }, 1000);
                     }, 200);
                 }, 500);
+                default_th = '<tr id="add_tr"><th colspan="3" id="default_th" style="background-color: #683817 !important; position: sticky !important; z-index: 1 !important; left:0 !important;"></th>';
+                add_th = '';
+                for(var i = 0; i < trans_length; i++){
+                    add_th +=
+                    `<th colspan="2">
+                        ${transaction_type[i]}
+                    </th>`;
+                }
+                end_th += '</tr>';
+                $('#tblReportsHeadX').prepend(default_th + add_th + end_th);
             }
         });
     }
@@ -4419,3 +4427,13 @@ setInterval(() => {
         e.stopPropagation();
     });
 }, 0);
+
+$(document).on('click','.dt-button-collection button', function(){
+    var activeButtonCount = $('.dt-button-collection button.dt-button-active').length;
+    var th = '';
+    for(var i = 0; i < activeButtonCount; i++){
+        th += `<th></th>`;
+    }
+    $('#add_tr').remove();
+    $('#tblReportsHeadX').prepend(default_th + th + add_th + end_th);
+});

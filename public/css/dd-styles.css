@@ -461,6 +461,13 @@ label{
     z-index: 999 !important;
 }
 
+#default_th{
+    background-color: #683817 !important;
+    position: sticky !important;
+    z-index:1;
+    left:0;
+}
+
 .dataTables_scrollBody {
     cursor: pointer;
 }
