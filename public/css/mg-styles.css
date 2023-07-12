@@ -461,6 +461,10 @@ label{
     z-index: 999 !important;
 }
 
+table#tblReportsX tbody td {
+    white-space: normal !important;
+}
+
 .dataTables_scrollBody {
     cursor: pointer;
 }

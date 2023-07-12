@@ -1430,9 +1430,9 @@ function quantitative_report(reports_header){
                 data: (transaction_type[i].replace(/[^\w\s]/g, "_").replace(/\s/g, "_")).toLowerCase()+'_qty',
                 "render": function(data, type, row, meta){
                     if(type === "sort" || type === 'type'){
-                        return data;
+                        return `<span class="float-end">${data}</span>`;
                     }
-                    return data;
+                    return `<span class="float-end">${data}</span>`;
                 }
             });
 
@@ -2915,6 +2915,7 @@ function amountType(data){
 }
 
 $(document).on('click','table.tblReportsX tbody tr',function(){
+    if(!tableX.data().any()){ return false; }
     var data = tableX.row(this).data();
     var report_filter = $('#report_filter').val();
     loading_show();
@@ -3311,6 +3312,7 @@ function report_dates2(datacode, headername, urlName, colData){
 }
 
 $(document).on('click','table.tblReportsY tbody tr',function(){
+    if(!tableY.data().any()){ return false; }
     var report_filter = $('#report_filter').val();
     var data = tableY.row(this).data();
     selected_date = data.date;
@@ -3675,6 +3677,7 @@ function report_hoursY(headername, urlName, tblType, colData, selected_date){
 }
 
 $(document).on('click','table.tblReportsZ tbody tr',function(){
+    if(!tableZ.data().any()){ return false; }
     var report_filter = $('#report_filter').val();
     var data = tableZ.row(this).data();
     var selected_time = data.time_range_24hr.split(' - ');
@@ -4213,6 +4216,7 @@ function report_transactionsX(headerA, urlName, tblType, colData, selected_date,
 
 
 $(document).on('click','table.tblReportsB tbody tr',function(){
+    if(!tableB.data().any()){ return false; }
     var data = tableB.row(this).data();
     loading_show();
     $('#reportsTableC').empty();
@@ -4436,4 +4440,20 @@ $(document).on('click','.dt-button-collection button', function(){
     }
     $('#add_tr').remove();
     $('#tblReportsHeadX').prepend(default_th + th + add_th + end_th);
+});
+
+$('#report_type').on('change',function(){
+    console.log('s');
+    $('.classCustomBranch').hide();
+    $('.classCustomProduct').hide();
+    $('.classCustomTransaction').hide();
+    $('.classCustomDiscount').hide();
+    $('#custom_branch').val('');
+    $('#custom_branch').trigger('chosen:updated');
+    $('#custom_product').val('');
+    $('#custom_product').trigger('chosen:updated');
+    $('#custom_transaction').val('');
+    $('#custom_transaction').trigger('chosen:updated');
+    $('#custom_discount').val('');
+    $('#custom_discount').trigger('chosen:updated');
 });

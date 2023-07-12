@@ -1240,6 +1240,7 @@ $('#btnGenerate').on('click', function(){
 
 var headername, datacode, selected_date;
 $(document).on('click','table.tblReports1 tbody tr',function(){
+    if(!table1.data().any()){ return false; }
     loading_show();
     $('#reportsTable2A').empty();
     $('#reportsTable2B').empty();
@@ -3214,6 +3215,7 @@ function subreport_transaction(report_category){
 }
 
 $(document).on('click','table.tblReports2 tbody tr',function(){
+    if(!table2.data().any()){ return false; }
     var report_category = $('#report_category').val();
     var data = table2.row(this).data();
     selected_date = data.date;
@@ -4538,6 +4540,7 @@ function report_hoursC(headername, urlName, tblType, colData, selected_date){
 }
 
 $(document).on('click','table.tblReports4 tbody tr',function(){
+    if(!table3.data().any()){ return false; }
     var report_category = $('#report_category').val();
     var data = table4.row(this).data();
     var selected_time = data.time_range_24hr.split(' - ');
@@ -4915,6 +4918,7 @@ function report_transactionsA(header6, urlName, tblType, colData, selected_date,
 }
 
 $(document).on('click','table.tblReports6 tbody tr',function(){
+    if(!table6.data().any()){ return false; }
     var data = table6.row(this).data();
     loading_show();
     $('#reportsTable7').empty();
